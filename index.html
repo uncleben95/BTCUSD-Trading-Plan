@@ -1925,7 +1925,158 @@ document.getElementById(
         return;
 
 
+/* =========================================================
+   TRADE PLAN
+   ========================================================= */
 
+const tradeSignal =
+    document.getElementById("tradeSignal");
+
+const entryZone =
+    document.getElementById("entryZone");
+
+const tradeSL =
+    document.getElementById("tradeSL");
+
+const tradeTP1 =
+    document.getElementById("tradeTP1");
+
+const tradeTP2 =
+    document.getElementById("tradeTP2");
+
+const tradeRR =
+    document.getElementById("tradeRR");
+
+
+const price =
+    primary.current;
+
+const atr =
+    primary.atr;
+
+
+/* Default */
+
+let entry = price;
+let sl = null;
+let tp1 = null;
+let tp2 = null;
+let rr = null;
+
+
+/* =========================================================
+   BUY PLAN
+   ========================================================= */
+
+if(finalSignal === "BUY"){
+
+    entry =
+        price;
+
+    sl =
+        Math.min(
+            primary.support,
+            entry - atr * 1.2
+        );
+
+    const risk =
+        entry - sl;
+
+    tp1 =
+        entry + risk * 1.5;
+
+    tp2 =
+        entry + risk * 2.5;
+
+    rr = "1 : 2.5";
+
+}
+
+
+/* =========================================================
+   SELL PLAN
+   ========================================================= */
+
+else if(finalSignal === "SELL"){
+
+    entry =
+        price;
+
+    sl =
+        Math.max(
+            primary.resistance,
+            entry + atr * 1.2
+        );
+
+    const risk =
+        sl - entry;
+
+    tp1 =
+        entry - risk * 1.5;
+
+    tp2 =
+        entry - risk * 2.5;
+
+    rr = "1 : 2.5";
+
+}
+
+
+/* =========================================================
+   WAIT
+   ========================================================= */
+
+else{
+
+    entry = null;
+    sl = null;
+    tp1 = null;
+    tp2 = null;
+    rr = null;
+
+}
+
+
+/* =========================================================
+   DISPLAY
+   ========================================================= */
+
+tradeSignal.textContent =
+    finalSignal;
+
+tradeSignal.className =
+    "metric-value " +
+    (
+        finalSignal === "BUY"
+        ? "green"
+        : finalSignal === "SELL"
+        ? "red"
+        : "yellow"
+    );
+
+
+entryZone.textContent =
+    entry !== null
+    ? formatPrice(entry)
+    : "--";
+
+tradeSL.textContent =
+    sl !== null
+    ? formatPrice(sl)
+    : "--";
+
+tradeTP1.textContent =
+    tp1 !== null
+    ? formatPrice(tp1)
+    : "--";
+
+tradeTP2.textContent =
+    tp2 !== null
+    ? formatPrice(tp2)
+    : "--";
+
+tradeRR.textContent =
+    rr || "--";
 
 
     /* INDICATORS */
