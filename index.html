@@ -1552,7 +1552,97 @@ function calculateATR(candles,period=14){
 /* =========================================================
    ANALYZE
    ========================================================= */
+/* =========================================================
+   MARKET STRUCTURE — BOS / CHOCH
+   ========================================================= */
 
+function detectStructure(candles){
+
+    if(candles.length < 20){
+
+        return {
+            bos:"--",
+            choch:"--"
+        };
+
+    }
+
+    const recent =
+        candles.slice(-20);
+
+    const previousHigh =
+        Math.max(
+            ...recent
+                .slice(0, -5)
+                .map(c => c.high)
+        );
+
+    const previousLow =
+        Math.min(
+            ...recent
+                .slice(0, -5)
+                .map(c => c.low)
+        );
+
+    const currentHigh =
+        Math.max(
+            ...recent
+                .slice(-5)
+                .map(c => c.high)
+        );
+
+    const currentLow =
+        Math.min(
+            ...recent
+                .slice(-5)
+                .map(c => c.low)
+        );
+
+    let bos = "NONE";
+    let choch = "NONE";
+
+    if(currentHigh > previousHigh){
+
+        bos = "BULLISH";
+
+    }
+
+    else if(currentLow < previousLow){
+
+        bos = "BEARISH";
+
+    }
+
+
+    /*
+       CHOCH = opposite break
+       against the previous directional structure
+    */
+
+    if(
+        currentHigh > previousHigh &&
+        currentLow > previousLow
+    ){
+
+        choch = "BULLISH";
+
+    }
+
+    else if(
+        currentLow < previousLow &&
+        currentHigh < previousHigh
+    ){
+
+        choch = "BEARISH";
+
+    }
+
+    return {
+        bos,
+        choch
+    };
+
+}
 function analyze(candles){
 
     const closes =
@@ -1744,6 +1834,8 @@ function analyze(candles){
 
     else
         volumeState = "NORMAL";
+    const structureSignal =
+    detectStructure(candles);
 
     return {
 
@@ -1761,6 +1853,8 @@ function analyze(candles){
         resistance,
         support,
         structure,
+        bos: structureSignal.bos,
+choch: structureSignal.choch,
         currentVolume,
         volumeState
 
