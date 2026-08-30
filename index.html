@@ -1329,7 +1329,8 @@ async function loadKlines(interval){
 
     const url =
         API +
-        "/klines?symbol=" +
+        "?path=klines" +
+        "&symbol=" +
         SYMBOL +
         "&interval=" +
         interval +
@@ -1340,17 +1341,17 @@ async function loadKlines(interval){
 
     return raw.map(c => ({
 
-        time:Number(c[0]),
+        time: Number(c[0]),
 
-        open:Number(c[1]),
+        open: Number(c[1]),
 
-        high:Number(c[2]),
+        high: Number(c[2]),
 
-        low:Number(c[3]),
+        low: Number(c[3]),
 
-        close:Number(c[4]),
+        close: Number(c[4]),
 
-        volume:Number(c[5])
+        volume: Number(c[5])
 
     }));
 
