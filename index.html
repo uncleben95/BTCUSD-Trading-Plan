@@ -1921,59 +1921,157 @@ if(!primary)
    MULTI-TIMEFRAME CONFIRMATION
    ========================================================= */
 
-const tfWeights = {
-    D1: 2,
-    H4: 3,
-    H1: 3,
-    M30: 2,
-    M15: 3,
-    M5: 2,
-    M1: 1
-};
+/* =========================================================
+   MTF HIERARCHY
+   ========================================================= */
 
-let bullPoints = 0;
-let bearPoints = 0;
-let totalPoints = 0;
+const d1 = timeframeData["D1"];
+const h4 = timeframeData["H4"];
+const h1 = timeframeData["H1"];
 
-TIMEFRAMES.forEach(tf => {
+const m30 = timeframeData["M30"];
+const m15 = timeframeData["M15"];
 
-    const data =
-        timeframeData[tf.label];
+const m5 = timeframeData["M5"];
+const m1 = timeframeData["M1"];
+
+
+/* =========================================================
+   HTF BIAS
+   ========================================================= */
+
+let trendBias = "NEUTRAL";
+
+let bullishHTF = 0;
+let bearishHTF = 0;
+
+[d1,h4,h1].forEach(data => {
 
     if(!data)
         return;
 
-    const weight =
-        tfWeights[tf.label] || 1;
-
-    totalPoints += weight;
-
     if(data.condition === "BULLISH")
-        bullPoints += weight;
+        bullishHTF++;
 
     else if(data.condition === "BEARISH")
-        bearPoints += weight;
+        bearishHTF++;
 
 });
 
+if(bullishHTF >= 2)
+    trendBias = "BULLISH";
+
+else if(bearishHTF >= 2)
+    trendBias = "BEARISH";
+
+
+/* =========================================================
+   SETUP BIAS
+   ========================================================= */
+
+let setupBias = "NEUTRAL";
+
+if(
+    m30 &&
+    m15 &&
+    m30.condition === "BULLISH" &&
+    m15.condition === "BULLISH"
+){
+
+    setupBias = "BULLISH";
+
+}
+
+else if(
+    m30 &&
+    m15 &&
+    m30.condition === "BEARISH" &&
+    m15.condition === "BEARISH"
+){
+
+    setupBias = "BEARISH";
+
+}
+
+
+/* =========================================================
+   TRIGGER BIAS
+   ========================================================= */
+
+let triggerBias = "NEUTRAL";
+
+if(
+    m5 &&
+    m1 &&
+    (
+        m5.condition === "BULLISH" ||
+        m1.condition === "BULLISH"
+    ) &&
+    (
+        m5.bos === "BULLISH" ||
+        m5.choch === "BULLISH" ||
+        m1.bos === "BULLISH" ||
+        m1.choch === "BULLISH"
+    )
+){
+
+    triggerBias = "BULLISH";
+
+}
+
+else if(
+    m5 &&
+    m1 &&
+    (
+        m5.condition === "BEARISH" ||
+        m1.condition === "BEARISH"
+    ) &&
+    (
+        m5.bos === "BEARISH" ||
+        m5.choch === "BEARISH" ||
+        m1.bos === "BEARISH" ||
+        m1.choch === "BEARISH"
+    )
+){
+
+    triggerBias = "BEARISH";
+
+}
+
+
+/* =========================================================
+   HIERARCHY SCORE
+   ========================================================= */
+
+let bullPoints = 0;
+let bearPoints = 0;
+
+if(trendBias === "BULLISH")
+    bullPoints += 40;
+
+else if(trendBias === "BEARISH")
+    bearPoints += 40;
+
+
+if(setupBias === "BULLISH")
+    bullPoints += 30;
+
+else if(setupBias === "BEARISH")
+    bearPoints += 30;
+
+
+if(triggerBias === "BULLISH")
+    bullPoints += 30;
+
+else if(triggerBias === "BEARISH")
+    bearPoints += 30;
+
 
 const bullPercent =
-    totalPoints
-    ? Math.round(
-        bullPoints /
-        totalPoints *
-        100
-    )
-    : 0;
+    bullPoints;
 
 const bearPercent =
-    totalPoints
-    ? Math.round(
-        bearPoints /
-        totalPoints *
-        100
-    )
-    : 0;
+    bearPoints;
 
 
 /* =========================================================
