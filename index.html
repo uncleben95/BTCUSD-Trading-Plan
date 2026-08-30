@@ -1921,8 +1921,7 @@ document.getElementById(
 ).style.width =
     finalScore + "%";
 
-    if(!primary)
-        return;
+
 
 
 /* =========================================================
@@ -1949,7 +1948,7 @@ const tradeRR =
 
 
 const price =
-    primary.current;
+    liveBTCPrice || primary.current;
 
 const atr =
     primary.atr;
