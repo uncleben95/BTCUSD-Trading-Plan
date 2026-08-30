@@ -1,680 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#f3f6fa">
 
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1.0"
->
-
-<meta
-  name="theme-color"
-  content="#f3f6fa"
->
-
-<link
-  rel="manifest"
-  href="/manifest.json"
->
+<link rel="manifest" href="/manifest.json">
 
 <title>BTCUSD Technical Monitor</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-
-  --bg:#f3f6fa;
-  --card:#fff;
-  --soft:#f8fafc;
-  --border:#e2e8f0;
-
-  --text:#172033;
-  --muted:#718096;
-
-  --green:#10a968;
-  --red:#e5485d;
-  --yellow:#d89b00;
-  --blue:#287fd4;
-  --orange:#f7931a
-
+--bg:#f3f6fa;
+--card:#fff;
+--soft:#f8fafc;
+--border:#e2e8f0;
+--text:#172033;
+--muted:#718096;
+--green:#10a968;
+--red:#e5485d;
+--yellow:#d89b00;
+--blue:#287fd4;
+--orange:#f7931a
 }
 
 body{
-
-  background:
-
-  radial-gradient(
-    circle at 10% 0%,
-    rgba(77,163,255,.08),
-    transparent 25%
-  ),
-
-  radial-gradient(
-    circle at 90% 10%,
-    rgba(247,147,26,.06),
-    transparent 25%
-  ),
-
-  var(--bg);
-
-  color:var(--text);
-
-  font-family:
-    Inter,
-    Arial,
-    sans-serif;
-
-  min-height:100vh
-
+background:
+radial-gradient(circle at 10% 0%,rgba(77,163,255,.08),transparent 25%),
+radial-gradient(circle at 90% 10%,rgba(247,147,26,.06),transparent 25%),
+var(--bg);
+color:var(--text);
+font-family:Inter,Arial,sans-serif;
+min-height:100vh
 }
 
 .container{
-
-  width:min(1450px,94%);
-  margin:auto;
-  padding:18px 0 40px
-
+width:min(1450px,94%);
+margin:auto;
+padding:18px 0 40px
 }
 
 .header{
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  margin-bottom:15px;
-  gap:15px
-
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+gap:15px
 }
 
 .brand{
-
-  display:flex;
-  align-items:center;
-  gap:12px
-
+display:flex;
+align-items:center;
+gap:12px
 }
 
 .logo{
-
-  width:46px;
-  height:46px;
-
-  border-radius:13px;
-
-  display:grid;
-  place-items:center;
-
-  font-size:21px;
-  font-weight:900;
-
-  background:
-    linear-gradient(
-      135deg,
-      #f7931a,
-      #ffb347
-    );
-
-  color:#111
-
+width:46px;
+height:46px;
+border-radius:13px;
+display:grid;
+place-items:center;
+font-size:21px;
+font-weight:900;
+background:linear-gradient(135deg,#f7931a,#ffb347);
+color:#111
 }
 
-.brand h1{
-
-  font-size:21px
-
-}
-
+.brand h1{font-size:21px}
 .brand p{
-
-  font-size:11px;
-  color:var(--muted);
-  margin-top:3px
-
+font-size:11px;
+color:var(--muted);
+margin-top:3px
 }
 
 .status{
-
-  background:#fff;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:10px;
-
-  padding:8px 11px;
-
-  display:flex;
-  align-items:center;
-
-  gap:7px;
-
-  font-size:10px;
-  color:var(--muted)
-
+background:#fff;
+border:1px solid var(--border);
+border-radius:10px;
+padding:8px 11px;
+display:flex;
+align-items:center;
+gap:7px;
+font-size:10px;
+color:var(--muted)
 }
 
 .dot{
-
-  width:7px;
-  height:7px;
-
-  border-radius:50%;
-
-  background:var(--yellow)
-
+width:7px;
+height:7px;
+border-radius:50%;
+background:var(--yellow)
 }
 
 .dot.live{
-
-  background:var(--green);
-
-  box-shadow:
-    0 0 8px
-    rgba(16,169,104,.5)
-
+background:var(--green);
+box-shadow:0 0 8px rgba(16,169,104,.5)
 }
 
-.dot.error{
-
-  background:var(--red)
-
-}
+.dot.error{background:var(--red)}
 
 .price-card{
-
-  background:#fff;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:17px;
-
-  padding:20px;
-
-  margin-bottom:15px
-
+background:#fff;
+border:1px solid var(--border);
+border-radius:17px;
+padding:20px;
+margin-bottom:15px
 }
 
 .price-top{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:flex-start
-
+display:flex;
+justify-content:space-between;
+align-items:flex-start
 }
 
 .symbol{
-
-  font-size:11px;
-  color:var(--muted)
-
+font-size:11px;
+color:var(--muted)
 }
 
 .price{
-
-  font-size:40px;
-  font-weight:900;
-
-  margin:4px 0
-
+font-size:40px;
+font-weight:900;
+margin:4px 0
 }
 
 .change{
-
-  font-size:12px;
-  font-weight:700
-
+font-size:12px;
+font-weight:700
 }
 
-.green{
-  color:var(--green)
-}
-
-.red{
-  color:var(--red)
-}
-
-.yellow{
-  color:var(--yellow)
-}
-
-.blue{
-  color:var(--blue)
-}
-
-.muted{
-  color:var(--muted)
-}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.yellow{color:var(--yellow)}
+.blue{color:var(--blue)}
+.muted{color:var(--muted)}
 
 .btn{
-
-  border:
-    1px solid
-    var(--border);
-
-  background:#f8fafc;
-
-  padding:9px 12px;
-
-  border-radius:9px;
-
-  font-size:10px;
-
-  cursor:pointer
-
+border:1px solid var(--border);
+background:#f8fafc;
+padding:9px 12px;
+border-radius:9px;
+font-size:10px;
+cursor:pointer
 }
 
-.btn:active{
-
-  transform:scale(.97)
-
+.btn:disabled{
+opacity:.5;
+cursor:not-allowed
 }
 
 .grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(12,1fr);
-
-  gap:14px
-
+display:grid;
+grid-template-columns:repeat(12,1fr);
+gap:14px
 }
 
 .card{
-
-  background:var(--card);
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:15px;
-
-  padding:16px
-
+background:var(--card);
+border:1px solid var(--border);
+border-radius:15px;
+padding:16px
 }
 
-.col-3{
-  grid-column:span 3
-}
-
-.col-4{
-  grid-column:span 4
-}
-
-.col-6{
-  grid-column:span 6
-}
-
-.col-8{
-  grid-column:span 8
-}
-
-.col-12{
-  grid-column:span 12
-}
+.col-3{grid-column:span 3}
+.col-4{grid-column:span 4}
+.col-6{grid-column:span 6}
+.col-8{grid-column:span 8}
+.col-12{grid-column:span 12}
 
 .card-title{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  margin-bottom:14px
-
+display:flex;
+justify-content:space-between;
+margin-bottom:14px
 }
 
-.card-title h2{
-
-  font-size:13px
-
-}
-
+.card-title h2{font-size:13px}
 .card-title span{
-
-  font-size:9px;
-  color:var(--muted)
-
+font-size:9px;
+color:var(--muted)
 }
 
 .signal-box{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center
-
+display:flex;
+justify-content:space-between;
+align-items:center
 }
 
 .signal-label{
-
-  font-size:9px;
-  color:var(--muted)
-
+font-size:9px;
+color:var(--muted)
 }
 
 .signal{
-
-  font-size:31px;
-  font-weight:900;
-  margin-top:4px
-
+font-size:31px;
+font-weight:900;
+margin-top:4px
 }
 
-.confidence{
-
-  text-align:right
-
-}
+.confidence{text-align:right}
 
 .confidence span{
-
-  font-size:9px;
-  color:var(--muted)
-
+font-size:9px;
+color:var(--muted)
 }
 
 .confidence strong{
-
-  display:block;
-  font-size:24px
-
+display:block;
+font-size:24px
 }
 
 .progress{
-
-  height:7px;
-
-  background:#e8edf3;
-
-  border-radius:10px;
-
-  overflow:hidden;
-
-  margin-top:13px
-
+height:7px;
+background:#e8edf3;
+border-radius:10px;
+overflow:hidden;
+margin-top:13px
 }
 
 .progress span{
-
-  display:block;
-
-  height:100%;
-
-  width:0;
-
-  background:var(--green);
-
-  transition:.3s
-
+display:block;
+height:100%;
+width:0;
+background:var(--green);
+transition:.3s
 }
 
 .metric-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:9px
-
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:9px
 }
 
 .metric{
-
-  background:#f8fafc;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:10px;
-
-  padding:11px
-
+background:#f8fafc;
+border:1px solid var(--border);
+border-radius:10px;
+padding:11px
 }
 
 .metric-name{
-
-  font-size:8px;
-  color:var(--muted);
-
-  margin-bottom:5px
-
+font-size:8px;
+color:var(--muted);
+margin-bottom:5px
 }
 
 .metric-value{
-
-  font-size:14px;
-  font-weight:800
-
+font-size:14px;
+font-weight:800
 }
 
 .metric-sub{
-
-  font-size:8px;
-  color:var(--muted);
-
-  margin-top:3px
-
+font-size:8px;
+color:var(--muted);
+margin-top:3px
 }
 
 .tf-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(6,1fr);
-
-  gap:7px
-
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:7px
 }
 
 .tf{
-
-  background:#f8fafc;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:9px;
-
-  padding:10px 5px;
-
-  text-align:center
-
+background:#f8fafc;
+border:1px solid var(--border);
+border-radius:9px;
+padding:10px 5px;
+text-align:center
 }
 
 .tf-name{
-
-  font-size:9px;
-  color:var(--muted)
-
+font-size:9px;
+color:var(--muted)
 }
 
 .tf-status{
-
-  font-size:10px;
-
-  font-weight:800;
-
-  margin-top:5px
-
+font-size:10px;
+font-weight:800;
+margin-top:5px
 }
 
 .tf-value{
-
-  font-size:8px;
-  color:var(--muted);
-
-  margin-top:3px
-
+font-size:8px;
+color:var(--muted);
+margin-top:3px
 }
 
 .flow-box{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:9px
-
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:9px
 }
 
 .flow{
-
-  background:#f8fafc;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:10px;
-
-  padding:11px
-
+background:#f8fafc;
+border:1px solid var(--border);
+border-radius:10px;
+padding:11px
 }
 
 .flow small{
-
-  display:block;
-
-  font-size:8px;
-  color:var(--muted)
-
+display:block;
+font-size:8px;
+color:var(--muted)
 }
 
 .flow strong{
-
-  display:block;
-
-  font-size:14px;
-
-  margin-top:5px
-
+display:block;
+font-size:14px;
+margin-top:5px
 }
 
-.info{
-
-  font-size:10px;
-
-  color:var(--muted);
-
-  line-height:1.6
-
+.system-note{
+font-size:10px;
+color:var(--muted);
+line-height:1.6
 }
 
 .footer{
-
-  text-align:center;
-
-  font-size:9px;
-
-  color:#94a3b8;
-
-  margin-top:18px
-
+text-align:center;
+font-size:9px;
+color:#94a3b8;
+margin-top:18px
 }
 
 @media(max-width:1000px){
-
-  .col-3,
-  .col-4,
-  .col-6,
-  .col-8{
-
-    grid-column:span 6
-
-  }
-
-  .col-12{
-
-    grid-column:span 12
-
-  }
-
-  .tf-grid{
-
-    grid-template-columns:
-      repeat(3,1fr)
-
-  }
-
+.col-3,.col-4,.col-6,.col-8{grid-column:span 6}
+.col-12{grid-column:span 12}
+.tf-grid{grid-template-columns:repeat(3,1fr)}
 }
 
 @media(max-width:650px){
-
-  .container{
-
-    width:94%;
-    padding-top:11px
-
-  }
-
-  .header{
-
-    align-items:flex-start
-
-  }
-
-  .brand h1{
-
-    font-size:17px
-
-  }
-
-  .price{
-
-    font-size:29px
-
-  }
-
-  .price-top{
-
-    flex-direction:column;
-    gap:10px
-
-  }
-
-  .col-3,
-  .col-4,
-  .col-6,
-  .col-8,
-  .col-12{
-
-    grid-column:span 12
-
-  }
-
-  .tf-grid{
-
-    grid-template-columns:
-      repeat(3,1fr)
-
-  }
-
+.container{
+width:94%;
+padding-top:11px
 }
 
-</style>
+.header{align-items:flex-start}
 
+.brand h1{font-size:17px}
+
+.price{font-size:29px}
+
+.price-top{
+flex-direction:column;
+gap:10px
+}
+
+.col-3,.col-4,.col-6,.col-8,.col-12{
+grid-column:span 12
+}
+
+.tf-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
 </head>
 
 <body>
@@ -683,76 +364,52 @@ body{
 
 <header class="header">
 
-  <div class="brand">
+<div class="brand">
 
-    <div class="logo">
-      ₿
-    </div>
+<div class="logo">₿</div>
 
-    <div>
+<div>
+<h1>BTCUSD Technical Monitor</h1>
+<p>Twelve Data · Cached Market Intelligence</p>
+</div>
 
-      <h1>
-        BTCUSD Technical Monitor
-      </h1>
+</div>
 
-      <p>
-        CoinGecko · Cached + Live Market Intelligence
-      </p>
-
-    </div>
-
-  </div>
-
-  <div class="status">
-
-    <span
-      class="dot"
-      id="statusDot"
-    ></span>
-
-    <span id="statusText">
-      STARTING
-    </span>
-
-  </div>
+<div class="status">
+<span class="dot" id="statusDot"></span>
+<span id="statusText">STARTING</span>
+</div>
 
 </header>
 
 
 <section class="price-card">
 
-  <div class="price-top">
+<div class="price-top">
 
-    <div>
+<div>
 
-      <div class="symbol">
-        BTCUSD · Public Market Data
-      </div>
+<div class="symbol">
+BTC/USD · Twelve Data · M15
+</div>
 
-      <div
-        class="price"
-        id="price"
-      >
-        --
-      </div>
+<div class="price" id="price">--</div>
 
-      <div
-        class="change"
-        id="change"
-      >
-        --
-      </div>
+<div class="change muted" id="change">
+Live candle data
+</div>
 
-    </div>
+</div>
 
-    <button
-      class="btn"
-      onclick="refreshAll(true)"
-    >
-      ↻ Refresh
-    </button>
+<button
+class="btn"
+id="refreshBtn"
+onclick="refresh(true)"
+>
+↻ Refresh
+</button>
 
-  </div>
+</div>
 
 </section>
 
@@ -764,54 +421,38 @@ body{
 
 <section class="card col-4">
 
-  <div class="card-title">
+<div class="card-title">
+<h2>Technical Condition</h2>
+<span>Calculated</span>
+</div>
 
-    <h2>
-      Technical Condition
-    </h2>
+<div class="signal-box">
 
-    <span>
-      Live Calculation
-    </span>
+<div>
 
-  </div>
+<div class="signal-label">
+CURRENT CONDITION
+</div>
 
-  <div class="signal-box">
+<div class="signal yellow" id="signal">
+WAIT
+</div>
 
-    <div>
+</div>
 
-      <div class="signal-label">
-        CURRENT CONDITION
-      </div>
+<div class="confidence">
 
-      <div
-        class="signal yellow"
-        id="signal"
-      >
-        WAIT
-      </div>
+<span>SCORE</span>
 
-    </div>
+<strong id="score">--</strong>
 
-    <div class="confidence">
+</div>
 
-      <span>
-        SCORE
-      </span>
+</div>
 
-      <strong id="score">
-        --
-      </strong>
-
-    </div>
-
-  </div>
-
-  <div class="progress">
-
-    <span id="scoreBar"></span>
-
-  </div>
+<div class="progress">
+<span id="scoreBar"></span>
+</div>
 
 </section>
 
@@ -820,129 +461,49 @@ body{
 
 <section class="card col-4">
 
-  <div class="card-title">
+<div class="card-title">
+<h2>Trade Plan</h2>
+<span>M15 + ATR</span>
+</div>
 
-    <h2>
-      Trade Plan
-    </h2>
+<div class="metric-grid">
 
-    <span>
-      M15 + ATR
-    </span>
+<div class="metric">
+<div class="metric-name">SIGNAL</div>
+<div class="metric-value yellow" id="tradeSignal">WAIT</div>
+</div>
 
-  </div>
+<div class="metric">
+<div class="metric-name">ENTRY</div>
+<div class="metric-value" id="entry">--</div>
+</div>
 
-  <div class="metric-grid">
+<div class="metric">
+<div class="metric-name">STOP LOSS</div>
+<div class="metric-value red" id="sl">--</div>
+</div>
 
-    <div class="metric">
+<div class="metric">
+<div class="metric-name">TP1</div>
+<div class="metric-value green" id="tp1">--</div>
+</div>
 
-      <div class="metric-name">
-        SIGNAL
-      </div>
+<div class="metric">
+<div class="metric-name">TP2</div>
+<div class="metric-value green" id="tp2">--</div>
+</div>
 
-      <div
-        class="metric-value yellow"
-        id="tradeSignal"
-      >
-        WAIT
-      </div>
+<div class="metric">
+<div class="metric-name">R:R</div>
+<div class="metric-value" id="rr">--</div>
+</div>
 
-    </div>
+<div class="metric" style="grid-column:1/-1">
+<div class="metric-name">MARKET PHASE</div>
+<div class="metric-value yellow" id="phase">--</div>
+</div>
 
-    <div class="metric">
-
-      <div class="metric-name">
-        ENTRY
-      </div>
-
-      <div
-        class="metric-value"
-        id="entry"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        STOP LOSS
-      </div>
-
-      <div
-        class="metric-value red"
-        id="sl"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        TAKE PROFIT 1
-      </div>
-
-      <div
-        class="metric-value green"
-        id="tp1"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        TAKE PROFIT 2
-      </div>
-
-      <div
-        class="metric-value green"
-        id="tp2"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        RISK / REWARD
-      </div>
-
-      <div
-        class="metric-value"
-        id="rr"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div
-      class="metric"
-      style="grid-column:1/-1"
-    >
-
-      <div class="metric-name">
-        MARKET PHASE
-      </div>
-
-      <div
-        class="metric-value yellow"
-        id="phase"
-      >
-        --
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
@@ -951,81 +512,34 @@ body{
 
 <section class="card col-4">
 
-  <div class="card-title">
+<div class="card-title">
+<h2>Market Information</h2>
+<span>From M15 candles</span>
+</div>
 
-    <h2>
-      Market Information
-    </h2>
+<div class="metric-grid">
 
-    <span>
-      Live
-    </span>
+<div class="metric">
+<div class="metric-name">CURRENT</div>
+<div class="metric-value" id="marketPrice">--</div>
+</div>
 
-  </div>
+<div class="metric">
+<div class="metric-name">CANDLE HIGH</div>
+<div class="metric-value" id="high">--</div>
+</div>
 
-  <div class="metric-grid">
+<div class="metric">
+<div class="metric-name">CANDLE LOW</div>
+<div class="metric-value" id="low">--</div>
+</div>
 
-    <div class="metric">
+<div class="metric">
+<div class="metric-name">24H DATA</div>
+<div class="metric-value muted">Not requested</div>
+</div>
 
-      <div class="metric-name">
-        24H HIGH
-      </div>
-
-      <div
-        class="metric-value"
-        id="high"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        24H LOW
-      </div>
-
-      <div
-        class="metric-value"
-        id="low"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        24H VOLUME
-      </div>
-
-      <div
-        class="metric-value"
-        id="volume24"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        CHANGE
-      </div>
-
-      <div
-        class="metric-value"
-        id="change24"
-      >
-        --
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
@@ -1034,23 +548,12 @@ body{
 
 <section class="card col-4">
 
-  <div class="card-title">
+<div class="card-title">
+<h2>Multi-Timeframe</h2>
+<span>M15 engine</span>
+</div>
 
-    <h2>
-      Multi-Timeframe
-    </h2>
-
-    <span>
-      D1 → M5
-    </span>
-
-  </div>
-
-  <div
-    class="tf-grid"
-    id="tfGrid"
-  >
-  </div>
+<div class="tf-grid" id="tfGrid"></div>
 
 </section>
 
@@ -1059,147 +562,50 @@ body{
 
 <section class="card col-8">
 
-  <div class="card-title">
+<div class="card-title">
+<h2>Technical Indicators</h2>
+<span>M15</span>
+</div>
 
-    <h2>
-      Technical Indicators
-    </h2>
+<div class="metric-grid">
 
-    <span>
-      M15
-    </span>
+<div class="metric">
+<div class="metric-name">EMA 20</div>
+<div class="metric-value" id="ema20">--</div>
+<div class="metric-sub" id="ema20State">--</div>
+</div>
 
-  </div>
+<div class="metric">
+<div class="metric-name">EMA 50</div>
+<div class="metric-value" id="ema50">--</div>
+<div class="metric-sub" id="ema50State">--</div>
+</div>
 
-  <div class="metric-grid">
+<div class="metric">
+<div class="metric-name">RSI 14</div>
+<div class="metric-value" id="rsi">--</div>
+<div class="metric-sub" id="rsiState">--</div>
+</div>
 
-    <div class="metric">
+<div class="metric">
+<div class="metric-name">ATR 14</div>
+<div class="metric-value" id="atr">--</div>
+<div class="metric-sub">Volatility</div>
+</div>
 
-      <div class="metric-name">
-        EMA 20
-      </div>
+<div class="metric">
+<div class="metric-name">VOLUME</div>
+<div class="metric-value" id="volume">--</div>
+<div class="metric-sub" id="volumeState">--</div>
+</div>
 
-      <div
-        class="metric-value"
-        id="ema20"
-      >
-        --
-      </div>
+<div class="metric">
+<div class="metric-name">VOLUME RATIO</div>
+<div class="metric-value" id="volumeRatio">--</div>
+<div class="metric-sub">vs 20 candle average</div>
+</div>
 
-      <div
-        class="metric-sub"
-        id="ema20State"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        EMA 50
-      </div>
-
-      <div
-        class="metric-value"
-        id="ema50"
-      >
-        --
-      </div>
-
-      <div
-        class="metric-sub"
-        id="ema50State"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        RSI 14
-      </div>
-
-      <div
-        class="metric-value"
-        id="rsi"
-      >
-        --
-      </div>
-
-      <div
-        class="metric-sub"
-        id="rsiState"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        ATR 14
-      </div>
-
-      <div
-        class="metric-value"
-        id="atr"
-      >
-        --
-      </div>
-
-      <div class="metric-sub">
-        Volatility
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        VOLUME
-      </div>
-
-      <div
-        class="metric-value"
-        id="volume"
-      >
-        --
-      </div>
-
-      <div
-        class="metric-sub"
-        id="volumeState"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        VOLUME RATIO
-      </div>
-
-      <div
-        class="metric-value"
-        id="volumeRatio"
-      >
-        --
-      </div>
-
-      <div class="metric-sub">
-        vs 20 candle average
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
@@ -1208,164 +614,70 @@ body{
 
 <section class="card col-4">
 
-  <div class="card-title">
+<div class="card-title">
+<h2>Bollinger Bands</h2>
+<span>20 / 2</span>
+</div>
 
-    <h2>
-      Bollinger Bands
-    </h2>
+<div class="metric-grid">
 
-    <span>
-      20 / 2
-    </span>
+<div class="metric">
+<div class="metric-name">UPPER</div>
+<div class="metric-value" id="bbUpper">--</div>
+</div>
 
-  </div>
+<div class="metric">
+<div class="metric-name">MIDDLE</div>
+<div class="metric-value" id="bbMiddle">--</div>
+</div>
 
-  <div class="metric-grid">
+<div class="metric">
+<div class="metric-name">LOWER</div>
+<div class="metric-value" id="bbLower">--</div>
+</div>
 
-    <div class="metric">
+<div class="metric">
+<div class="metric-name">POSITION</div>
+<div class="metric-value" id="bbPosition">--</div>
+</div>
 
-      <div class="metric-name">
-        UPPER
-      </div>
-
-      <div
-        class="metric-value"
-        id="bbUpper"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        MIDDLE
-      </div>
-
-      <div
-        class="metric-value"
-        id="bbMiddle"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        LOWER
-      </div>
-
-      <div
-        class="metric-value"
-        id="bbLower"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        POSITION
-      </div>
-
-      <div
-        class="metric-value"
-        id="bbPosition"
-      >
-        --
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
 
-<!-- SUPPORT RESISTANCE -->
+<!-- SR -->
 
 <section class="card col-4">
 
-  <div class="card-title">
+<div class="card-title">
+<h2>Support / Resistance</h2>
+<span>50 M15 candles</span>
+</div>
 
-    <h2>
-      Support / Resistance
-    </h2>
+<div class="metric-grid">
 
-    <span>
-      Structure
-    </span>
+<div class="metric">
+<div class="metric-name">RESISTANCE</div>
+<div class="metric-value red" id="resistance">--</div>
+</div>
 
-  </div>
+<div class="metric">
+<div class="metric-name">SUPPORT</div>
+<div class="metric-value green" id="support">--</div>
+</div>
 
-  <div class="metric-grid">
+<div class="metric">
+<div class="metric-name">DIST. RESISTANCE</div>
+<div class="metric-value" id="resistanceDistance">--</div>
+</div>
 
-    <div class="metric">
+<div class="metric">
+<div class="metric-name">DIST. SUPPORT</div>
+<div class="metric-value" id="supportDistance">--</div>
+</div>
 
-      <div class="metric-name">
-        RESISTANCE
-      </div>
-
-      <div
-        class="metric-value red"
-        id="resistance"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        SUPPORT
-      </div>
-
-      <div
-        class="metric-value green"
-        id="support"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        DIST. TO RESISTANCE
-      </div>
-
-      <div
-        class="metric-value"
-        id="resistanceDistance"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        DIST. TO SUPPORT
-      </div>
-
-      <div
-        class="metric-value"
-        id="supportDistance"
-      >
-        --
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
@@ -1374,278 +686,34 @@ body{
 
 <section class="card col-4">
 
-  <div class="card-title">
-
-    <h2>
-      Market Structure
-    </h2>
-
-    <span>
-      Price Action
-    </span>
-
-  </div>
-
-  <div class="metric-grid">
-
-    <div class="metric">
-
-      <div class="metric-name">
-        STRUCTURE
-      </div>
-
-      <div
-        class="metric-value"
-        id="structure"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        BOS
-      </div>
-
-      <div
-        class="metric-value"
-        id="bos"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        CHOCH
-      </div>
-
-      <div
-        class="metric-value"
-        id="choch"
-      >
-        --
-      </div>
-
-    </div>
-
-    <div class="metric">
-
-      <div class="metric-name">
-        VOLATILITY
-      </div>
-
-      <div
-        class="metric-value"
-        id="volatility"
-      >
-        --
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ORDER FLOW -->
-
-<section class="card col-6">
-
-  <div class="card-title">
-
-    <h2>
-      Order Flow
-    </h2>
-
-    <span>
-      Awaiting Order Book Source
-    </span>
-
-  </div>
-
-  <div class="flow-box">
-
-    <div class="flow">
-
-      <small>
-        BID VOLUME
-      </small>
-
-      <strong id="bidVolume">
-        --
-      </strong>
-
-    </div>
-
-    <div class="flow">
-
-      <small>
-        ASK VOLUME
-      </small>
-
-      <strong id="askVolume">
-        --
-      </strong>
-
-    </div>
-
-    <div class="flow">
-
-      <small>
-        IMBALANCE
-      </small>
-
-      <strong id="imbalance">
-        --
-      </strong>
-
-    </div>
-
-  </div>
-
-  <div
-    style="
-      margin-top:10px;
-      font-size:11px
-    "
-    id="pressure"
-  >
-    Order book source not connected
-  </div>
-
-</section>
-
-
-<!-- WHALE -->
-
-<section class="card col-6">
-
-  <div class="card-title">
-
-    <h2>
-      Large Trade / Whale Proxy
-    </h2>
-
-    <span>
-      Awaiting Trade Flow Source
-    </span>
-
-  </div>
-
-  <div class="flow-box">
-
-    <div class="flow">
-
-      <small>
-        LARGE TRADES
-      </small>
-
-      <strong id="largeTrades">
-        --
-      </strong>
-
-    </div>
-
-    <div class="flow">
-
-      <small>
-        BUY FLOW
-      </small>
-
-      <strong id="buyFlow">
-        --
-      </strong>
-
-    </div>
-
-    <div class="flow">
-
-      <small>
-        SELL FLOW
-      </small>
-
-      <strong id="sellFlow">
-        --
-      </strong>
-
-    </div>
-
-  </div>
-
-  <div
-    style="
-      margin-top:10px;
-      font-size:11px
-    "
-    id="whaleBias"
-  >
-    Whale data source not connected
-  </div>
-
-</section>
-
-
-<!-- FUTURES -->
-
-<section class="card col-12">
-
-  <div class="card-title">
-
-    <h2>
-      BTC Futures Intelligence
-    </h2>
-
-    <span>
-      Awaiting Futures Source
-    </span>
-
-  </div>
-
-  <div class="flow-box">
-
-    <div class="flow">
-
-      <small>
-        FUNDING RATE
-      </small>
-
-      <strong id="funding">
-        --
-      </strong>
-
-    </div>
-
-    <div class="flow">
-
-      <small>
-        OPEN INTEREST
-      </small>
-
-      <strong id="openInterest">
-        --
-      </strong>
-
-    </div>
-
-    <div class="flow">
-
-      <small>
-        MARK PRICE
-      </small>
-
-      <strong id="markPrice">
-        --
-      </strong>
-
-    </div>
-
-  </div>
+<div class="card-title">
+<h2>Market Structure</h2>
+<span>Price Action</span>
+</div>
+
+<div class="metric-grid">
+
+<div class="metric">
+<div class="metric-name">STRUCTURE</div>
+<div class="metric-value" id="structure">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">BOS</div>
+<div class="metric-value" id="bos">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">CHOCH</div>
+<div class="metric-value" id="choch">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">VOLATILITY</div>
+<div class="metric-value" id="volatility">--</div>
+</div>
+
+</div>
 
 </section>
 
@@ -1654,44 +722,25 @@ body{
 
 <section class="card col-12">
 
-  <div class="card-title">
+<div class="card-title">
 
-    <h2>
-      System
-    </h2>
+<h2>System</h2>
 
-    <span id="updated">
-      --
-    </span>
+<span id="updated">--</span>
 
-  </div>
+</div>
 
-  <div class="info">
-
-    Cached snapshot loads first.
-    Live CoinGecko market data updates in background.
-
-    <br>
-
-    Technical calculations:
-    EMA 20 · EMA 50 · RSI 14 · ATR 14 ·
-    Bollinger Bands · Volume Ratio ·
-    Support / Resistance · Market Structure.
-
-  </div>
+<div class="system-note" id="systemNote">
+Loading cached data...
+</div>
 
 </section>
-
 
 </main>
 
 
 <div class="footer">
-
-  BTCUSD Technical Monitor ·
-  Market data only ·
-  No order execution
-
+BTCUSD Technical Monitor · Market data only · No order execution
 </div>
 
 </div>
@@ -1701,165 +750,89 @@ body{
 
 /* =========================================================
    BTCUSD MONITOR
-   SINGLE API VERSION
+   Twelve Data + 5 MINUTE CLIENT CACHE
 ========================================================= */
 
-const CACHE_KEY =
-  "BTC_MONITOR_SNAPSHOT_V3";
+const API = "/api/btc";
 
-const API =
-  "/api/btc";
+const CACHE_KEY = "BTC_TWELVE_DATA_CACHE_V1";
 
-const TF = [
-  "D1",
-  "H4",
-  "H1",
-  "M30",
-  "M15",
-  "M5"
-];
+const CACHE_TIME = 5 * 60 * 1000;
+
+let refreshing = false;
 
 
 /* =========================================================
-   FORMATTERS
+   HELPERS
 ========================================================= */
+
+function set(id,value){
+
+const el =
+document.getElementById(id);
+
+if(el)
+el.textContent =
+value ?? "--";
+
+}
+
 
 function money(value){
 
-  const n =
-    Number(value);
+const n = Number(value);
 
-  if(!Number.isFinite(n))
-    return "--";
+if(!Number.isFinite(n))
+return "--";
 
-  return "$" +
-    n.toLocaleString(
-      "en-US",
-      {
-        minimumFractionDigits:2,
-        maximumFractionDigits:2
-      }
-    );
+return "$" +
+n.toLocaleString(
+"en-US",
+{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+}
+);
 
 }
 
 
 function number(value){
 
-  const n =
-    Number(value);
+const n = Number(value);
 
-  if(!Number.isFinite(n))
-    return "--";
+if(!Number.isFinite(n))
+return "--";
 
-  return n.toLocaleString(
-    "en-US",
-    {
-      maximumFractionDigits:2
-    }
-  );
+return n.toLocaleString(
+"en-US",
+{
+maximumFractionDigits:2
+}
+);
 
 }
 
 
-/* =========================================================
-   DOM
-========================================================= */
+function signalColour(el,value){
 
-function set(id,value){
+if(!el)
+return;
 
-  const el =
-    document.getElementById(id);
+el.classList.remove(
+"green",
+"red",
+"yellow"
+);
 
-  if(el)
-    el.textContent =
-      value;
+if(value === "BUY")
+el.classList.add("green");
 
-}
+else if(value === "SELL")
+el.classList.add("red");
 
-
-/* =========================================================
-   SIGNAL COLOUR
-========================================================= */
-
-function colourSignal(
-  el,
-  signal
-){
-
-  if(!el)
-    return;
-
-  el.classList.remove(
-    "green",
-    "red",
-    "yellow"
-  );
-
-  if(signal === "BUY"){
-
-    el.classList.add(
-      "green"
-    );
-
-  }
-
-  else if(signal === "SELL"){
-
-    el.classList.add(
-      "red"
-    );
-
-  }
-
-  else{
-
-    el.classList.add(
-      "yellow"
-    );
-
-  }
-
-}
-
-
-function showSignal(
-  signal
-){
-
-  const main =
-    document.getElementById(
-      "signal"
-    );
-
-  const trade =
-    document.getElementById(
-      "tradeSignal"
-    );
-
-  if(main){
-
-    main.textContent =
-      signal;
-
-    colourSignal(
-      main,
-      signal
-    );
-
-  }
-
-  if(trade){
-
-    trade.textContent =
-      signal;
-
-    colourSignal(
-      trade,
-      signal
-    );
-
-  }
+else
+el.classList.add("yellow");
 
 }
 
@@ -1868,914 +841,504 @@ function showSignal(
    CACHE
 ========================================================= */
 
-function saveCache(
-  data
-){
+function saveCache(data){
 
-  try{
+try{
 
-    localStorage.setItem(
-      CACHE_KEY,
-      JSON.stringify({
-        saved:Date.now(),
-        data:data
-      })
-    );
+localStorage.setItem(
+CACHE_KEY,
+JSON.stringify({
 
-  }
+timestamp:Date.now(),
 
-  catch(error){
+data:data
 
-    console.warn(
-      "Cache save failed",
-      error
-    );
+})
+);
 
-  }
+}catch(e){
+
+console.warn(
+"Cache save error",
+e
+);
+
+}
 
 }
 
 
 function loadCache(){
 
-  try{
+try{
 
-    const raw =
-      localStorage.getItem(
-        CACHE_KEY
-      );
+const raw =
+localStorage.getItem(
+CACHE_KEY
+);
 
-    if(!raw)
-      return null;
+if(!raw)
+return null;
 
-    const parsed =
-      JSON.parse(raw);
+const parsed =
+JSON.parse(raw);
 
-    if(!parsed?.data)
-      return null;
+if(!parsed.data)
+return null;
 
-    return parsed.data;
+return parsed;
 
-  }
+}catch(e){
 
-  catch(error){
+return null;
 
-    return null;
-
-  }
+}
 
 }
 
 
 /* =========================================================
-   BTC RENDER
+   RENDER
 ========================================================= */
 
-function renderBTC(
-  data
+function render(data){
+
+if(!data)
+return;
+
+
+/* PRICE */
+
+if(data.price){
+
+set(
+"price",
+money(data.price)
+);
+
+set(
+"marketPrice",
+money(data.price)
+);
+
+}
+
+
+/* SIGNAL */
+
+const signal =
+data.signal || "WAIT";
+
+set(
+"signal",
+signal
+);
+
+set(
+"tradeSignal",
+signal
+);
+
+signalColour(
+document.getElementById("signal"),
+signal
+);
+
+signalColour(
+document.getElementById("tradeSignal"),
+signal
+);
+
+
+/* SCORE */
+
+if(data.score !== undefined){
+
+set(
+"score",
+data.score + "/100"
+);
+
+document.getElementById(
+"scoreBar"
+).style.width =
+Math.max(
+0,
+Math.min(
+100,
+Number(data.score)
+)
+) + "%";
+
+}
+
+
+/* TRADE */
+
+const trade =
+data.trade || {};
+
+set(
+"entry",
+trade.entry
+? money(trade.entry)
+: "--"
+);
+
+set(
+"sl",
+trade.sl
+? money(trade.sl)
+: "--"
+);
+
+set(
+"tp1",
+trade.tp1
+? money(trade.tp1)
+: "--"
+);
+
+set(
+"tp2",
+trade.tp2
+? money(trade.tp2)
+: "--"
+);
+
+set(
+"rr",
+trade.rr
+? trade.rr
+: "--"
+);
+
+set(
+"phase",
+data.phase || "--"
+);
+
+
+/* M15 */
+
+const m15 =
+data.timeframes?.M15;
+
+if(!m15)
+return;
+
+
+/* EMA */
+
+set(
+"ema20",
+money(m15.ema20)
+);
+
+set(
+"ema50",
+money(m15.ema50)
+);
+
+if(Number.isFinite(Number(m15.price))){
+
+set(
+"ema20State",
+Number(m15.price) >
+Number(m15.ema20)
+? "Price above EMA20"
+: "Price below EMA20"
+);
+
+set(
+"ema50State",
+Number(m15.price) >
+Number(m15.ema50)
+? "Price above EMA50"
+: "Price below EMA50"
+);
+
+}
+
+
+/* RSI */
+
+if(Number.isFinite(Number(m15.rsi))){
+
+const r =
+Number(m15.rsi);
+
+set(
+"rsi",
+r.toFixed(2)
+);
+
+let state =
+"NEUTRAL";
+
+if(r >= 70)
+state = "OVERBOUGHT";
+
+else if(r <= 30)
+state = "OVERSOLD";
+
+else if(r > 50)
+state = "POSITIVE";
+
+else
+state = "WEAK";
+
+set(
+"rsiState",
+state
+);
+
+}
+
+
+/* ATR */
+
+set(
+"atr",
+money(m15.atr)
+);
+
+
+/* VOLUME */
+
+const v =
+m15.volume || {};
+
+set(
+"volume",
+number(v.current)
+);
+
+set(
+"volumeRatio",
+Number.isFinite(
+Number(v.ratio)
+)
+? Number(v.ratio).toFixed(2) + "x"
+: "--"
+);
+
+set(
+"volumeState",
+v.state || "--"
+);
+
+
+/* BOLLINGER */
+
+const bb =
+m15.bb || {};
+
+set(
+"bbUpper",
+money(bb.upper)
+);
+
+set(
+"bbMiddle",
+money(bb.middle)
+);
+
+set(
+"bbLower",
+money(bb.lower)
+);
+
+set(
+"bbPosition",
+bb.position || "--"
+);
+
+
+/* SUPPORT RESISTANCE */
+
+set(
+"resistance",
+money(m15.resistance)
+);
+
+set(
+"support",
+money(m15.support)
+);
+
+const price =
+Number(data.price);
+
+const resistance =
+Number(m15.resistance);
+
+const support =
+Number(m15.support);
+
+if(
+Number.isFinite(price) &&
+Number.isFinite(resistance)
 ){
 
-  if(!data)
-    return;
-
-  showSignal(
-    data.signal ||
-    "WAIT"
-  );
-
-
-  set(
-    "score",
-    data.score !== undefined
-      ? data.score + "/100"
-      : "--"
-  );
-
-
-  const bar =
-    document.getElementById(
-      "scoreBar"
-    );
-
-  if(bar){
-
-    const score =
-      Number(data.score) || 0;
-
-    bar.style.width =
-      Math.max(
-        0,
-        Math.min(
-          100,
-          score
-        )
-      ) + "%";
-
-  }
-
-
-  const trade =
-    data.trade || {};
-
-
-  set(
-    "entry",
-    trade.entry !== null &&
-    trade.entry !== undefined
-      ? money(trade.entry)
-      : "--"
-  );
-
-
-  set(
-    "sl",
-    trade.sl !== null &&
-    trade.sl !== undefined
-      ? money(trade.sl)
-      : "--"
-  );
-
-
-  set(
-    "tp1",
-    trade.tp1 !== null &&
-    trade.tp1 !== undefined
-      ? money(trade.tp1)
-      : "--"
-  );
-
-
-  set(
-    "tp2",
-    trade.tp2 !== null &&
-    trade.tp2 !== undefined
-      ? money(trade.tp2)
-      : "--"
-  );
-
-
-  set(
-    "rr",
-    trade.rr || "--"
-  );
-
-
-  set(
-    "phase",
-    data.phase || "--"
-  );
-
-
-  const m15 =
-    data.timeframes?.M15;
-
-
-  if(!m15)
-    return;
-
-
-  set(
-    "ema20",
-    money(m15.ema20)
-  );
-
-
-  set(
-    "ema50",
-    money(m15.ema50)
-  );
-
-
-  set(
-    "rsi",
-    Number.isFinite(
-      Number(m15.rsi)
-    )
-      ? Number(
-          m15.rsi
-        ).toFixed(2)
-      : "--"
-  );
-
-
-  set(
-    "atr",
-    money(m15.atr)
-  );
-
-
-  set(
-    "volume",
-    number(
-      m15.volume?.current
-    )
-  );
-
-
-  set(
-    "volumeRatio",
-    Number.isFinite(
-      Number(
-        m15.volume?.ratio
-      )
-    )
-      ? Number(
-          m15.volume.ratio
-        ).toFixed(2) + "x"
-      : "--"
-  );
-
-
-  set(
-    "volumeState",
-    m15.volume?.state ||
-    "--"
-  );
-
-
-  const price =
-    Number(data.price);
-
-
-  if(
-    Number.isFinite(price) &&
-    Number.isFinite(
-      Number(m15.ema20)
-    )
-  ){
-
-    set(
-      "ema20State",
-      price > Number(m15.ema20)
-        ? "Price above EMA20"
-        : "Price below EMA20"
-    );
-
-  }
-
-  else{
-
-    set(
-      "ema20State",
-      "--"
-    );
-
-  }
-
-
-  if(
-    Number.isFinite(price) &&
-    Number.isFinite(
-      Number(m15.ema50)
-    )
-  ){
-
-    set(
-      "ema50State",
-      price > Number(m15.ema50)
-        ? "Price above EMA50"
-        : "Price below EMA50"
-    );
-
-  }
-
-  else{
-
-    set(
-      "ema50State",
-      "--"
-    );
-
-  }
-
-
-  let rsiState =
-    "NEUTRAL";
-
-
-  const rsi =
-    Number(m15.rsi);
-
-
-  if(!Number.isFinite(rsi)){
-
-    rsiState =
-      "--";
-
-  }
-
-  else if(rsi >= 70){
-
-    rsiState =
-      "OVERBOUGHT";
-
-  }
-
-  else if(rsi <= 30){
-
-    rsiState =
-      "OVERSOLD";
-
-  }
-
-  else if(rsi > 50){
-
-    rsiState =
-      "POSITIVE";
-
-  }
-
-  else{
-
-    rsiState =
-      "WEAK";
-
-  }
-
-
-  set(
-    "rsiState",
-    rsiState
-  );
-
-
-  /* BOLLINGER */
-
-  set(
-    "bbUpper",
-    money(
-      m15.bb?.upper
-    )
-  );
-
-  set(
-    "bbMiddle",
-    money(
-      m15.bb?.middle
-    )
-  );
-
-  set(
-    "bbLower",
-    money(
-      m15.bb?.lower
-    )
-  );
-
-  set(
-    "bbPosition",
-    m15.bb?.position ||
-    "--"
-  );
-
-
-  /* SUPPORT RESISTANCE */
-
-  set(
-    "resistance",
-    money(
-      m15.resistance
-    )
-  );
-
-  set(
-    "support",
-    money(
-      m15.support
-    )
-  );
-
-
-  const resistance =
-    Number(
-      m15.resistance
-    );
-
-  const support =
-    Number(
-      m15.support
-    );
-
-
-  if(
-    Number.isFinite(price) &&
-    Number.isFinite(resistance)
-  ){
-
-    set(
-      "resistanceDistance",
-      (
-        (
-          resistance -
-          price
-        ) /
-        price *
-        100
-      ).toFixed(2) +
-      "%"
-    );
-
-  }
-
-  else{
-
-    set(
-      "resistanceDistance",
-      "--"
-    );
-
-  }
-
-
-  if(
-    Number.isFinite(price) &&
-    Number.isFinite(support)
-  ){
-
-    set(
-      "supportDistance",
-      (
-        (
-          price -
-          support
-        ) /
-        price *
-        100
-      ).toFixed(2) +
-      "%"
-    );
-
-  }
-
-  else{
-
-    set(
-      "supportDistance",
-      "--"
-    );
-
-  }
-
-
-  /* STRUCTURE */
-
-  set(
-    "structure",
-    m15.structure ||
-    "--"
-  );
-
-  set(
-    "bos",
-    m15.bos ||
-    "--"
-  );
-
-  set(
-    "choch",
-    m15.choch ||
-    "--"
-  );
-
-
-  /* VOLATILITY */
-
-  if(
-    Number.isFinite(
-      Number(m15.atr)
-    ) &&
-    Number.isFinite(price) &&
-    price > 0
-  ){
-
-    set(
-      "volatility",
-      (
-        Number(m15.atr) /
-        price *
-        100
-      ).toFixed(2) +
-      "%"
-    );
-
-  }
-
-  else{
-
-    set(
-      "volatility",
-      "--"
-    );
-
-  }
-
-
-  /* =======================================================
-     MULTI TIMEFRAME
-  ======================================================= */
-
-  const grid =
-    document.getElementById(
-      "tfGrid"
-    );
-
-
-  if(grid){
-
-    grid.innerHTML =
-      "";
-
-
-    TF.forEach(
-      tf => {
-
-        const d =
-          data.timeframes?.[tf];
-
-
-        if(!d)
-          return;
-
-
-        let colour =
-          "yellow";
-
-
-        if(
-          d.condition ===
-          "BULLISH"
-        ){
-
-          colour =
-            "green";
-
-        }
-
-        else if(
-          d.condition ===
-          "BEARISH"
-        ){
-
-          colour =
-            "red";
-
-        }
-
-
-        const div =
-          document.createElement(
-            "div"
-          );
-
-
-        div.className =
-          "tf";
-
-
-        div.innerHTML = `
-
-          <div class="tf-name">
-            ${tf}
-          </div>
-
-          <div
-            class="tf-status ${colour}"
-          >
-            ${d.condition || "WAIT"}
-          </div>
-
-          <div class="tf-value">
-            ${d.score ?? "--"}/100
-          </div>
-
-        `;
-
-
-        grid.appendChild(
-          div
-        );
-
-      }
-    );
-
-  }
+set(
+"resistanceDistance",
+(
+((resistance-price)/price)*100
+).toFixed(2)+"%"
+);
 
 }
 
-
-/* =========================================================
-   MARKET RENDER
-========================================================= */
-
-function renderMarket(
-  data
+if(
+Number.isFinite(price) &&
+Number.isFinite(support)
 ){
 
-  if(!data)
-    return;
+set(
+"supportDistance",
+(
+((price-support)/price)*100
+).toFixed(2)+"%"
+);
+
+}
 
 
-  set(
-    "price",
-    money(data.price)
-  );
+/* STRUCTURE */
+
+set(
+"structure",
+m15.structure || "--"
+);
+
+set(
+"bos",
+m15.bos || "--"
+);
+
+set(
+"choch",
+m15.choch || "--"
+);
+
+set(
+"volatility",
+m15.atr && price
+? (
+Number(m15.atr) /
+price *
+100
+).toFixed(2)+"%"
+: "--"
+);
 
 
-  const change =
-    Number(data.change);
+/* TIMEFRAME DISPLAY */
 
+const grid =
+document.getElementById(
+"tfGrid"
+);
 
-  const changeEl =
-    document.getElementById(
-      "change"
-    );
+if(grid){
 
+grid.innerHTML = "";
 
-  if(
-    changeEl &&
-    Number.isFinite(change)
-  ){
+const tfData =
+data.timeframes || {};
 
-    changeEl.textContent =
-      (
-        change >= 0
-          ? "+"
-          : ""
-      ) +
-      change.toFixed(2) +
-      "% · " +
-      (
-        Number(
-          data.changeAmount
-        ) >= 0
-          ? "+"
-          : ""
-      ) +
-      money(
-        data.changeAmount
-      );
+const list =
+["D1","H4","H1","M30","M15","M5"];
 
+list.forEach(tf => {
 
-    changeEl.className =
-      "change " +
-      (
-        change >= 0
-          ? "green"
-          : "red"
-      );
+const d =
+tfData[tf];
 
-  }
+const condition =
+d?.condition ||
+(tf === "M15"
+? m15.condition
+: "N/A");
 
+const score =
+d?.score ??
+(tf === "M15"
+? m15.score
+: "--");
 
-  set(
-    "high",
-    money(data.high)
-  );
+const colour =
+condition === "BULLISH"
+? "green"
+: condition === "BEARISH"
+? "red"
+: "yellow";
 
+const div =
+document.createElement(
+"div"
+);
 
-  set(
-    "low",
-    money(data.low)
-  );
+div.className = "tf";
 
+div.innerHTML = `
 
-  set(
-    "volume24",
-    number(data.volume) +
-    " BTC"
-  );
+<div class="tf-name">
+${tf}
+</div>
 
+<div class="tf-status ${colour}">
+${condition}
+</div>
 
-  set(
-    "change24",
-    Number.isFinite(change)
-      ? (
-          change >= 0
-            ? "+"
-            : ""
-        ) +
-        change.toFixed(2) +
-        "%"
-      : "--"
-  );
+<div class="tf-value">
+${score ?? "--"}
+</div>
 
+`;
 
-  /* ORDER BOOK */
+grid.appendChild(div);
 
-  const ob =
-    data.orderBook;
+});
 
-
-  if(ob){
-
-    set(
-      "bidVolume",
-      ob.bidVolume !== null &&
-      ob.bidVolume !== undefined
-        ? number(ob.bidVolume)
-        : "--"
-    );
-
-
-    set(
-      "askVolume",
-      ob.askVolume !== null &&
-      ob.askVolume !== undefined
-        ? number(ob.askVolume)
-        : "--"
-    );
-
-
-    set(
-      "imbalance",
-      ob.imbalance !== null &&
-      ob.imbalance !== undefined
-        ? Number(
-            ob.imbalance
-          ).toFixed(2) +
-          "%"
-        : "--"
-    );
-
-
-    set(
-      "pressure",
-      ob.pressure ||
-      "Order book source unavailable"
-    );
-
-  }
+}
 
 }
 
 
 /* =========================================================
-   WHALE / FUTURES RENDER
+   FETCH
 ========================================================= */
 
-function renderWhale(
-  data
-){
+async function fetchAPI(){
 
-  if(!data)
-    return;
+const response =
+await fetch(
+API,
+{
+method:"GET",
+cache:"no-store",
+headers:{
+"Accept":"application/json"
+}
+}
+);
 
+const data =
+await response.json();
 
-  const w =
-    data.whaleProxy;
+if(!response.ok || data.ok === false){
 
-
-  if(w){
-
-    set(
-      "largeTrades",
-      w.largeTrades ??
-      "--"
-    );
-
-
-    set(
-      "buyFlow",
-      w.buyValue !== null &&
-      w.buyValue !== undefined
-        ? money(w.buyValue)
-        : "--"
-    );
-
-
-    set(
-      "sellFlow",
-      w.sellValue !== null &&
-      w.sellValue !== undefined
-        ? money(w.sellValue)
-        : "--"
-    );
-
-
-    set(
-      "whaleBias",
-      w.bias ||
-      w.status ||
-      "Whale data unavailable"
-    );
-
-  }
-
-
-  const futures =
-    data.futures;
-
-
-  if(futures){
-
-    set(
-      "funding",
-      futures.fundingRate !== null &&
-      futures.fundingRate !== undefined
-        ? (
-            Number(
-              futures.fundingRate
-            ) *
-            100
-          ).toFixed(4) +
-          "%"
-        : "--"
-    );
-
-
-    set(
-      "openInterest",
-      futures.openInterest !== null &&
-      futures.openInterest !== undefined
-        ? number(
-            futures.openInterest
-          )
-        : "--"
-    );
-
-
-    set(
-      "markPrice",
-      futures.markPrice !== null &&
-      futures.markPrice !== undefined
-        ? money(
-            futures.markPrice
-          )
-        : "--"
-    );
-
-  }
+throw new Error(
+data.detail ||
+data.error ||
+"API unavailable"
+);
 
 }
 
-
-/* =========================================================
-   RENDER ALL
-========================================================= */
-
-function renderAll(
-  data
-){
-
-  if(!data)
-    return;
-
-
-  renderBTC(
-    data.btc
-  );
-
-
-  renderMarket(
-    data.market
-  );
-
-
-  renderWhale(
-    data.whale
-  );
-
-
-  set(
-    "updated",
-    data.updated
-      ? new Date(
-          data.updated
-        ).toLocaleTimeString()
-      : "--"
-  );
-
-}
-
-
-/* =========================================================
-   API
-========================================================= */
-
-async function fetchBTC(){
-
-  const response =
-    await fetch(
-      API +
-      "?t=" +
-      Date.now(),
-      {
-        cache:"no-store"
-      }
-    );
-
-
-  if(!response.ok){
-
-    throw new Error(
-      "HTTP " +
-      response.status
-    );
-
-  }
-
-
-  return response.json();
+return data;
 
 }
 
@@ -2784,159 +1347,261 @@ async function fetchBTC(){
    REFRESH
 ========================================================= */
 
-async function refreshAll(
-  manual = false
-){
+async function refresh(manual=false){
 
-  const dot =
-    document.getElementById(
-      "statusDot"
-    );
+if(refreshing)
+return;
 
+refreshing = true;
 
-  const status =
-    document.getElementById(
-      "statusText"
-    );
+const button =
+document.getElementById(
+"refreshBtn"
+);
 
+const dot =
+document.getElementById(
+"statusDot"
+);
 
-  if(status)
-    status.textContent =
-      "UPDATING";
+const status =
+document.getElementById(
+"statusText"
+);
 
-
-  if(dot)
-    dot.className =
-      "dot";
-
-
-  try{
-
-    const data =
-      await fetchBTC();
+if(button)
+button.disabled = true;
 
 
-    if(!data.ok){
-
-      throw new Error(
-        data.error ||
-        "API error"
-      );
-
-    }
-
-
-    renderAll(
-      data
-    );
-
-
-    saveCache(
-      data
-    );
-
-
-    if(status)
-      status.textContent =
-        "LIVE";
-
-
-    if(dot)
-      dot.className =
-        "dot live";
-
-  }
-
-
-  catch(error){
-
-    console.error(
-      "BTC refresh error:",
-      error
-    );
-
-
-    if(status)
-      status.textContent =
-        "CACHED";
-
-
-    if(dot)
-      dot.className =
-        "dot error";
-
-  }
-
-}
-
-
-/* =========================================================
-   INSTANT CACHE FIRST
-========================================================= */
+/* CHECK CACHE */
 
 const cached =
-  loadCache();
+loadCache();
+
+const now =
+Date.now();
+
+if(
+cached &&
+cached.timestamp &&
+(now - cached.timestamp) <
+CACHE_TIME
+){
+
+render(cached.data);
+
+if(status)
+status.textContent =
+"CACHED";
+
+if(dot)
+dot.className =
+"dot live";
+
+set(
+"updated",
+"Cached " +
+new Date(
+cached.timestamp
+).toLocaleTimeString()
+);
+
+set(
+"systemNote",
+"Cached data displayed. API will be checked after the 5-minute cache expires."
+);
+
+refreshing = false;
+
+if(button)
+button.disabled = false;
+
+return;
+
+}
 
 
-if(cached){
+/* API */
 
-  renderAll(
-    cached
-  );
+if(status)
+status.textContent =
+"UPDATING";
 
-
-  const status =
-    document.getElementById(
-      "statusText"
-    );
+if(dot)
+dot.className =
+"dot";
 
 
-  if(status)
-    status.textContent =
-      "CACHED";
+try{
+
+const data =
+await fetchAPI();
+
+render(data);
+
+saveCache(data);
+
+if(status)
+status.textContent =
+"LIVE";
+
+if(dot)
+dot.className =
+"dot live";
+
+set(
+"updated",
+"Updated " +
+new Date(
+data.updated ||
+Date.now()
+).toLocaleTimeString()
+);
+
+set(
+"systemNote",
+"Twelve Data connected. Data cached locally for 5 minutes."
+);
+
+}catch(error){
+
+console.error(error);
+
+const fallback =
+loadCache();
+
+if(fallback){
+
+render(fallback.data);
+
+if(status)
+status.textContent =
+"CACHED";
+
+if(dot)
+dot.className =
+"dot error";
+
+set(
+"updated",
+"Last successful update " +
+new Date(
+fallback.timestamp
+).toLocaleTimeString()
+);
+
+set(
+"systemNote",
+"Live API unavailable/rate limited. Showing last successful data."
+);
+
+}else{
+
+if(status)
+status.textContent =
+"OFFLINE";
+
+if(dot)
+dot.className =
+"dot error";
+
+set(
+"systemNote",
+"Live data unavailable. Waiting for Twelve Data quota/API."
+);
+
+}
+
+}finally{
+
+refreshing = false;
+
+if(button)
+button.disabled = false;
+
+}
 
 }
 
 
 /* =========================================================
-   LIVE API
+   START
 ========================================================= */
 
-refreshAll();
+/*
+  IMPORTANT:
+  This runs only once when page opens.
+  No 15-second polling.
+*/
+
+const initial =
+loadCache();
+
+if(initial){
+
+render(initial.data);
+
+document.getElementById(
+"statusText"
+).textContent =
+"CACHED";
+
+document.getElementById(
+"statusDot"
+).className =
+"dot live";
+
+set(
+"updated",
+"Cached " +
+new Date(
+initial.timestamp
+).toLocaleTimeString()
+);
+
+}
 
 
-/* =========================================================
-   UPDATE EVERY 15 SECONDS
-========================================================= */
+/*
+  Only call API if cache expired.
+*/
+
+refresh(false);
+
+
+/*
+  Check every 60 seconds.
+  Client cache prevents actual API call
+  until 5 minutes have passed.
+*/
 
 setInterval(
-  () => refreshAll(),
-  15000
+() => refresh(false),
+60000
 );
 
 
-/* =========================================================
-   PWA
-========================================================= */
+/* PWA */
 
 if(
-  "serviceWorker" in navigator
+"serviceWorker" in navigator
 ){
 
-  window.addEventListener(
-    "load",
-    () => {
+window.addEventListener(
+"load",
+() => {
 
-      navigator.serviceWorker
-        .register(
-          "/sw.js"
-        )
-        .catch(
-          console.warn
-        );
+navigator.serviceWorker
+.register("/sw.js")
+.catch(
+err =>
+console.warn(
+"SW error",
+err
+)
+);
 
-    }
-  );
+});
 
 }
 
