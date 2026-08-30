@@ -1208,62 +1208,41 @@ async function getJSON(url){
 
 async function loadTicker(){
 
-    const data =
-        await getJSON(
-            API +
-            "/ticker/24hr?symbol=" +
-            SYMBOL
-        );
+    const data = await getJSON(
+        API + "/ticker/24hr?symbol=" + SYMBOL
+    );
 
-    const price =
-        Number(data.lastPrice);
+    const price = Number(data.lastPrice);
+    const change = Number(data.priceChangePercent);
 
-    const change =
-        Number(data.priceChangePercent);
-
-    document.getElementById(
-        "livePrice"
-    ).textContent =
+    document.getElementById("livePrice").textContent =
         formatPrice(price);
 
     const changeEl =
-        document.getElementById(
-            "priceChange"
-        );
+        document.getElementById("priceChange");
 
     changeEl.textContent =
         (change >= 0 ? "+" : "") +
         change.toFixed(2) +
         "% · " +
         (change >= 0 ? "+" : "") +
-        formatPrice(
-            Number(data.priceChange)
-        );
+        formatPrice(Number(data.priceChange));
 
     changeEl.className =
         "change " +
         (change >= 0 ? "green" : "red");
 
-    document.getElementById(
-        "high24"
-    ).textContent =
+    document.getElementById("high24").textContent =
         formatPrice(data.highPrice);
 
-    document.getElementById(
-        "low24"
-    ).textContent =
+    document.getElementById("low24").textContent =
         formatPrice(data.lowPrice);
 
-    document.getElementById(
-        "volume24"
-    ).textContent =
-        formatNumber(
-            Number(data.volume)
-        ) + " BTC";
+    document.getElementById("volume24").textContent =
+        formatNumber(Number(data.volume)) + " BTC";
 
-    document.getElementById(
-        "change24"
-    ).textContent =
+    document.getElementById("change24").textContent =
+        (change >= 0 ? "+" : "") +
         change.toFixed(2) + "%";
 }
 
