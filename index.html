@@ -3328,18 +3328,21 @@ async function loadAllData(){
 }
 
 /* =========================================================
-   REAL-TIME BTC PRICE — BINANCE WEBSOCKET
-   ========================================================= */
-
-let priceSocket = null;
+   LIVE PRICE WEBSOCKET
+========================================================= */
 
 function connectPriceWebSocket(){
 
-    if(priceSocket){
-        try{
+    try{
+        if(priceSocket){
             priceSocket.close();
-        }catch(e){}
-    }
+        }
+    }catch(e){}
+
+    setConnection(
+        "CONNECTING LIVE PRICE...",
+        ""
+    );
 
     priceSocket = new WebSocket(
         "wss://fstream.binance.com/ws/btcusdt@ticker"
@@ -3347,7 +3350,7 @@ function connectPriceWebSocket(){
 
     priceSocket.onopen = function(){
 
-        console.log("BTC WebSocket connected");
+        console.log("Binance WebSocket CONNECTED");
 
         setConnection(
             "LIVE MARKET DATA",
@@ -3362,41 +3365,51 @@ function connectPriceWebSocket(){
 
             const data = JSON.parse(event.data);
 
-            const price =
-    Number(data.c);
+            const price = Number(data.c);
 
-liveBTCPrice = price;
+            if(!Number.isFinite(price))
+                return;
 
-            const change =
-                Number(data.P);
+            liveBTCPrice = price;
 
-            document.getElementById(
-                "livePrice"
-            ).textContent =
-                formatPrice(price);
+            setText(
+                "livePrice",
+                formatPrice(price)
+            );
+
+            const change = Number(data.P);
 
             const changeEl =
-                document.getElementById(
-                    "priceChange"
-                );
+                document.getElementById("priceChange");
 
-            changeEl.textContent =
-                (change >= 0 ? "+" : "") +
-                change.toFixed(2) +
-                "%";
+            if(changeEl){
 
-            changeEl.className =
-                "change " +
-                (
-                    change >= 0
-                    ? "green"
-                    : "red"
-                );
+                changeEl.textContent =
+                    (change >= 0 ? "+" : "") +
+                    change.toFixed(2) +
+                    "%";
 
-        }catch(error){
+                changeEl.className =
+                    "change " +
+                    (
+                        change >= 0
+                        ? "green"
+                        : "red"
+                    );
+
+            }
+
+            setConnection(
+                "LIVE MARKET DATA",
+                "live"
+            );
+
+        }
+
+        catch(error){
 
             console.error(
-                "WebSocket data error:",
+                "WebSocket parse error:",
                 error
             );
 
@@ -3404,14 +3417,15 @@ liveBTCPrice = price;
 
     };
 
-    priceSocket.onerror = function(){
+    priceSocket.onerror = function(error){
 
         console.error(
-            "BTC WebSocket error"
+            "Binance WebSocket ERROR:",
+            error
         );
 
         setConnection(
-            "WEBSOCKET ERROR",
+            "API CONNECTION ERROR",
             "error"
         );
 
@@ -3419,8 +3433,8 @@ liveBTCPrice = price;
 
     priceSocket.onclose = function(){
 
-        console.log(
-            "BTC WebSocket disconnected"
+        console.warn(
+            "Binance WebSocket CLOSED"
         );
 
         setConnection(
