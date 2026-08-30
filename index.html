@@ -2091,7 +2091,12 @@ else if(
 if(
     trendBias === "BULLISH" &&
     setupBias === "BULLISH" &&
-    triggerBias === "BULLISH"
+    triggerBias === "BULLISH" &&
+    m15 &&
+    (
+        m15.bos === "BULLISH" ||
+        m15.choch === "BULLISH"
+    )
 ){
 
     finalSignal = "BUY";
@@ -2103,7 +2108,12 @@ if(
 else if(
     trendBias === "BEARISH" &&
     setupBias === "BEARISH" &&
-    triggerBias === "BEARISH"
+    triggerBias === "BEARISH" &&
+    m15 &&
+    (
+        m15.bos === "BEARISH" ||
+        m15.choch === "BEARISH"
+    )
 ){
 
     finalSignal = "SELL";
