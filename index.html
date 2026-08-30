@@ -6,18 +6,18 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width,initial-scale=1.0"
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
 >
 
 <meta
-name="theme-color"
-content="#f3f6fa"
+  name="theme-color"
+  content="#f3f6fa"
 >
 
 <link
-rel="manifest"
-href="/manifest.json"
+  rel="manifest"
+  href="/manifest.json"
 >
 
 <title>BTCUSD Technical Monitor</title>
@@ -25,597 +25,651 @@ href="/manifest.json"
 <style>
 
 *{
-box-sizing:border-box;
-margin:0;
-padding:0
+  box-sizing:border-box;
+  margin:0;
+  padding:0
 }
 
 :root{
 
---bg:#f3f6fa;
---card:#fff;
---soft:#f8fafc;
---border:#e2e8f0;
+  --bg:#f3f6fa;
+  --card:#fff;
+  --soft:#f8fafc;
+  --border:#e2e8f0;
 
---text:#172033;
---muted:#718096;
+  --text:#172033;
+  --muted:#718096;
 
---green:#10a968;
---red:#e5485d;
---yellow:#d89b00;
---blue:#287fd4;
---orange:#f7931a
+  --green:#10a968;
+  --red:#e5485d;
+  --yellow:#d89b00;
+  --blue:#287fd4;
+  --orange:#f7931a
 
 }
 
 body{
 
-background:
+  background:
 
-radial-gradient(
-circle at 10% 0%,
-rgba(77,163,255,.08),
-transparent 25%
-),
+  radial-gradient(
+    circle at 10% 0%,
+    rgba(77,163,255,.08),
+    transparent 25%
+  ),
 
-radial-gradient(
-circle at 90% 10%,
-rgba(247,147,26,.06),
-transparent 25%
-),
+  radial-gradient(
+    circle at 90% 10%,
+    rgba(247,147,26,.06),
+    transparent 25%
+  ),
 
-var(--bg);
+  var(--bg);
 
-color:var(--text);
+  color:var(--text);
 
-font-family:
-Inter,
-Arial,
-sans-serif;
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
 
-min-height:100vh
+  min-height:100vh
 
 }
 
 .container{
 
-width:min(1450px,94%);
-margin:auto;
-padding:18px 0 40px
+  width:min(1450px,94%);
+  margin:auto;
+  padding:18px 0 40px
 
 }
 
 .header{
 
-display:flex;
-justify-content:space-between;
-align-items:center;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 
-margin-bottom:15px;
-gap:15px
+  margin-bottom:15px;
+  gap:15px
 
 }
 
 .brand{
 
-display:flex;
-align-items:center;
-gap:12px
+  display:flex;
+  align-items:center;
+  gap:12px
 
 }
 
 .logo{
 
-width:46px;
-height:46px;
+  width:46px;
+  height:46px;
 
-border-radius:13px;
+  border-radius:13px;
 
-display:grid;
-place-items:center;
+  display:grid;
+  place-items:center;
 
-font-size:21px;
-font-weight:900;
+  font-size:21px;
+  font-weight:900;
 
-background:
-linear-gradient(
-135deg,
-#f7931a,
-#ffb347
-);
+  background:
+    linear-gradient(
+      135deg,
+      #f7931a,
+      #ffb347
+    );
 
-color:#111
+  color:#111
 
 }
 
 .brand h1{
 
-font-size:21px
+  font-size:21px
 
 }
 
 .brand p{
 
-font-size:11px;
-color:var(--muted);
-margin-top:3px
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px
 
 }
 
 .status{
 
-background:#fff;
-border:1px solid var(--border);
+  background:#fff;
 
-border-radius:10px;
+  border:
+    1px solid
+    var(--border);
 
-padding:8px 11px;
+  border-radius:10px;
 
-display:flex;
-align-items:center;
+  padding:8px 11px;
 
-gap:7px;
+  display:flex;
+  align-items:center;
 
-font-size:10px;
-color:var(--muted)
+  gap:7px;
+
+  font-size:10px;
+  color:var(--muted)
 
 }
 
 .dot{
 
-width:7px;
-height:7px;
+  width:7px;
+  height:7px;
 
-border-radius:50%;
+  border-radius:50%;
 
-background:var(--yellow)
+  background:var(--yellow)
 
 }
 
 .dot.live{
 
-background:var(--green);
+  background:var(--green);
 
-box-shadow:
-0 0 8px
-rgba(16,169,104,.5)
+  box-shadow:
+    0 0 8px
+    rgba(16,169,104,.5)
 
 }
 
 .dot.error{
 
-background:var(--red)
+  background:var(--red)
 
 }
 
 .price-card{
 
-background:#fff;
+  background:#fff;
 
-border:1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
 
-border-radius:17px;
+  border-radius:17px;
 
-padding:20px;
+  padding:20px;
 
-margin-bottom:15px
+  margin-bottom:15px
 
 }
 
 .price-top{
 
-display:flex;
+  display:flex;
 
-justify-content:space-between;
+  justify-content:space-between;
 
-align-items:flex-start
+  align-items:flex-start
 
 }
 
 .symbol{
 
-font-size:11px;
-color:var(--muted)
+  font-size:11px;
+  color:var(--muted)
 
 }
 
 .price{
 
-font-size:40px;
-font-weight:900;
+  font-size:40px;
+  font-weight:900;
 
-margin:4px 0
+  margin:4px 0
 
 }
 
 .change{
 
-font-size:12px;
-font-weight:700
+  font-size:12px;
+  font-weight:700
 
 }
 
-.green{color:var(--green)}
-.red{color:var(--red)}
-.yellow{color:var(--yellow)}
-.blue{color:var(--blue)}
-.muted{color:var(--muted)}
+.green{
+  color:var(--green)
+}
+
+.red{
+  color:var(--red)
+}
+
+.yellow{
+  color:var(--yellow)
+}
+
+.blue{
+  color:var(--blue)
+}
+
+.muted{
+  color:var(--muted)
+}
 
 .btn{
 
-border:
-1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
 
-background:#f8fafc;
+  background:#f8fafc;
 
-padding:9px 12px;
+  padding:9px 12px;
 
-border-radius:9px;
+  border-radius:9px;
 
-font-size:10px;
+  font-size:10px;
 
-cursor:pointer
+  cursor:pointer
+
+}
+
+.btn:active{
+
+  transform:scale(.97)
 
 }
 
 .grid{
 
-display:grid;
+  display:grid;
 
-grid-template-columns:
-repeat(12,1fr);
+  grid-template-columns:
+    repeat(12,1fr);
 
-gap:14px
+  gap:14px
 
 }
 
 .card{
 
-background:var(--card);
+  background:var(--card);
 
-border:
-1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
 
-border-radius:15px;
+  border-radius:15px;
 
-padding:16px
+  padding:16px
 
 }
 
-.col-3{grid-column:span 3}
-.col-4{grid-column:span 4}
-.col-6{grid-column:span 6}
-.col-8{grid-column:span 8}
-.col-12{grid-column:span 12}
+.col-3{
+  grid-column:span 3
+}
+
+.col-4{
+  grid-column:span 4
+}
+
+.col-6{
+  grid-column:span 6
+}
+
+.col-8{
+  grid-column:span 8
+}
+
+.col-12{
+  grid-column:span 12
+}
 
 .card-title{
 
-display:flex;
+  display:flex;
 
-justify-content:space-between;
+  justify-content:space-between;
 
-margin-bottom:14px
+  margin-bottom:14px
 
 }
 
 .card-title h2{
 
-font-size:13px
+  font-size:13px
 
 }
 
 .card-title span{
 
-font-size:9px;
-color:var(--muted)
+  font-size:9px;
+  color:var(--muted)
 
 }
 
 .signal-box{
 
-display:flex;
+  display:flex;
 
-justify-content:space-between;
+  justify-content:space-between;
 
-align-items:center
+  align-items:center
 
 }
 
 .signal-label{
 
-font-size:9px;
-color:var(--muted)
+  font-size:9px;
+  color:var(--muted)
 
 }
 
 .signal{
 
-font-size:31px;
-font-weight:900;
-margin-top:4px
+  font-size:31px;
+  font-weight:900;
+  margin-top:4px
 
 }
 
 .confidence{
 
-text-align:right
+  text-align:right
 
 }
 
 .confidence span{
 
-font-size:9px;
-color:var(--muted)
+  font-size:9px;
+  color:var(--muted)
 
 }
 
 .confidence strong{
 
-display:block;
-font-size:24px
+  display:block;
+  font-size:24px
 
 }
 
 .progress{
 
-height:7px;
+  height:7px;
 
-background:#e8edf3;
+  background:#e8edf3;
 
-border-radius:10px;
+  border-radius:10px;
 
-overflow:hidden;
+  overflow:hidden;
 
-margin-top:13px
+  margin-top:13px
 
 }
 
 .progress span{
 
-display:block;
+  display:block;
 
-height:100%;
+  height:100%;
 
-width:0;
+  width:0;
 
-background:var(--green);
+  background:var(--green);
 
-transition:.3s
+  transition:.3s
 
 }
 
 .metric-grid{
 
-display:grid;
+  display:grid;
 
-grid-template-columns:
-repeat(2,1fr);
+  grid-template-columns:
+    repeat(2,1fr);
 
-gap:9px
+  gap:9px
 
 }
 
 .metric{
 
-background:#f8fafc;
+  background:#f8fafc;
 
-border:
-1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
 
-border-radius:10px;
+  border-radius:10px;
 
-padding:11px
+  padding:11px
 
 }
 
 .metric-name{
 
-font-size:8px;
-color:var(--muted);
+  font-size:8px;
+  color:var(--muted);
 
-margin-bottom:5px
+  margin-bottom:5px
 
 }
 
 .metric-value{
 
-font-size:14px;
-font-weight:800
+  font-size:14px;
+  font-weight:800
 
 }
 
 .metric-sub{
 
-font-size:8px;
-color:var(--muted);
+  font-size:8px;
+  color:var(--muted);
 
-margin-top:3px
+  margin-top:3px
 
 }
 
 .tf-grid{
 
-display:grid;
+  display:grid;
 
-grid-template-columns:
-repeat(6,1fr);
+  grid-template-columns:
+    repeat(6,1fr);
 
-gap:7px
+  gap:7px
 
 }
 
 .tf{
 
-background:#f8fafc;
+  background:#f8fafc;
 
-border:
-1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
 
-border-radius:9px;
+  border-radius:9px;
 
-padding:10px 5px;
+  padding:10px 5px;
 
-text-align:center
+  text-align:center
 
 }
 
 .tf-name{
 
-font-size:9px;
-color:var(--muted)
+  font-size:9px;
+  color:var(--muted)
 
 }
 
 .tf-status{
 
-font-size:10px;
+  font-size:10px;
 
-font-weight:800;
+  font-weight:800;
 
-margin-top:5px
+  margin-top:5px
 
 }
 
 .tf-value{
 
-font-size:8px;
-color:var(--muted);
+  font-size:8px;
+  color:var(--muted);
 
-margin-top:3px
+  margin-top:3px
 
 }
 
 .flow-box{
 
-display:grid;
+  display:grid;
 
-grid-template-columns:
-repeat(3,1fr);
+  grid-template-columns:
+    repeat(3,1fr);
 
-gap:9px
+  gap:9px
 
 }
 
 .flow{
 
-background:#f8fafc;
+  background:#f8fafc;
 
-border:
-1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
 
-border-radius:10px;
+  border-radius:10px;
 
-padding:11px
+  padding:11px
 
 }
 
 .flow small{
 
-display:block;
+  display:block;
 
-font-size:8px;
-color:var(--muted)
+  font-size:8px;
+  color:var(--muted)
 
 }
 
 .flow strong{
 
-display:block;
+  display:block;
 
-font-size:14px;
+  font-size:14px;
 
-margin-top:5px
+  margin-top:5px
+
+}
+
+.info{
+
+  font-size:10px;
+
+  color:var(--muted);
+
+  line-height:1.6
 
 }
 
 .footer{
 
-text-align:center;
+  text-align:center;
 
-font-size:9px;
+  font-size:9px;
 
-color:#94a3b8;
+  color:#94a3b8;
 
-margin-top:18px
+  margin-top:18px
 
 }
 
 @media(max-width:1000px){
 
-.col-3,
-.col-4,
-.col-6,
-.col-8{
+  .col-3,
+  .col-4,
+  .col-6,
+  .col-8{
 
-grid-column:span 6
+    grid-column:span 6
 
-}
+  }
 
-.col-12{
+  .col-12{
 
-grid-column:span 12
+    grid-column:span 12
 
-}
+  }
 
-.tf-grid{
+  .tf-grid{
 
-grid-template-columns:
-repeat(3,1fr)
+    grid-template-columns:
+      repeat(3,1fr)
 
-}
+  }
 
 }
 
 @media(max-width:650px){
 
-.container{
+  .container{
 
-width:94%;
-padding-top:11px
+    width:94%;
+    padding-top:11px
 
-}
+  }
 
-.header{
+  .header{
 
-align-items:flex-start
+    align-items:flex-start
 
-}
+  }
 
-.brand h1{
+  .brand h1{
 
-font-size:17px
+    font-size:17px
 
-}
+  }
 
-.price{
+  .price{
 
-font-size:29px
+    font-size:29px
 
-}
+  }
 
-.price-top{
+  .price-top{
 
-flex-direction:column;
-gap:10px
+    flex-direction:column;
+    gap:10px
 
-}
+  }
 
-.col-3,
-.col-4,
-.col-6,
-.col-8,
-.col-12{
+  .col-3,
+  .col-4,
+  .col-6,
+  .col-8,
+  .col-12{
 
-grid-column:span 12
+    grid-column:span 12
 
-}
+  }
 
-.tf-grid{
+  .tf-grid{
 
-grid-template-columns:
-repeat(3,1fr)
+    grid-template-columns:
+      repeat(3,1fr)
 
-}
+  }
 
 }
 
@@ -629,1830 +683,2264 @@ repeat(3,1fr)
 
 <header class="header">
 
-<div class="brand">
+  <div class="brand">
 
-<div class="logo">₿</div>
+    <div class="logo">
+      ₿
+    </div>
 
-<div>
+    <div>
 
-<h1>BTCUSD Technical Monitor</h1>
+      <h1>
+        BTCUSD Technical Monitor
+      </h1>
 
-<p>Cached + Live Market Intelligence</p>
+      <p>
+        CoinGecko · Cached + Live Market Intelligence
+      </p>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
-<div class="status">
+  <div class="status">
 
-<span
-class="dot"
-id="statusDot"
-></span>
+    <span
+      class="dot"
+      id="statusDot"
+    ></span>
 
-<span id="statusText">
-STARTING
-</span>
+    <span id="statusText">
+      STARTING
+    </span>
 
-</div>
+  </div>
 
 </header>
 
+
 <section class="price-card">
 
-<div class="price-top">
+  <div class="price-top">
 
-<div>
+    <div>
 
-<div class="symbol">
-BTCUSD · Binance Public Market Data
-</div>
+      <div class="symbol">
+        BTCUSD · Public Market Data
+      </div>
 
-<div
-class="price"
-id="price"
->
---
-</div>
+      <div
+        class="price"
+        id="price"
+      >
+        --
+      </div>
 
-<div
-class="change"
-id="change"
->
---
-</div>
+      <div
+        class="change"
+        id="change"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<button
-class="btn"
-onclick="refreshAll(true)"
->
-↻ Refresh
-</button>
+    <button
+      class="btn"
+      onclick="refreshAll(true)"
+    >
+      ↻ Refresh
+    </button>
 
-</div>
+  </div>
 
 </section>
 
+
 <main class="grid">
+
 
 <!-- SIGNAL -->
 
 <section class="card col-4">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>Technical Condition</h2>
+    <h2>
+      Technical Condition
+    </h2>
 
-<span>Engine</span>
+    <span>
+      Live Calculation
+    </span>
 
-</div>
+  </div>
 
-<div class="signal-box">
+  <div class="signal-box">
 
-<div>
+    <div>
 
-<div class="signal-label">
-CURRENT CONDITION
-</div>
+      <div class="signal-label">
+        CURRENT CONDITION
+      </div>
 
-<div
-class="signal yellow"
-id="signal"
->
-WAIT
-</div>
+      <div
+        class="signal yellow"
+        id="signal"
+      >
+        WAIT
+      </div>
 
-</div>
+    </div>
 
-<div class="confidence">
+    <div class="confidence">
 
-<span>SCORE</span>
+      <span>
+        SCORE
+      </span>
 
-<strong id="score">
---
-</strong>
+      <strong id="score">
+        --
+      </strong>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
-<div class="progress">
+  <div class="progress">
 
-<span id="scoreBar"></span>
+    <span id="scoreBar"></span>
 
-</div>
+  </div>
 
 </section>
+
 
 <!-- TRADE -->
 
 <section class="card col-4">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>Trade Plan</h2>
+    <h2>
+      Trade Plan
+    </h2>
 
-<span>M15 + ATR</span>
+    <span>
+      M15 + ATR
+    </span>
 
-</div>
+  </div>
 
-<div class="metric-grid">
+  <div class="metric-grid">
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-SIGNAL
-</div>
+      <div class="metric-name">
+        SIGNAL
+      </div>
 
-<div
-class="metric-value yellow"
-id="tradeSignal"
->
-WAIT
-</div>
+      <div
+        class="metric-value yellow"
+        id="tradeSignal"
+      >
+        WAIT
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-ENTRY
-</div>
+      <div class="metric-name">
+        ENTRY
+      </div>
 
-<div
-class="metric-value"
-id="entry"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="entry"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-STOP LOSS
-</div>
+      <div class="metric-name">
+        STOP LOSS
+      </div>
 
-<div
-class="metric-value red"
-id="sl"
->
---
-</div>
+      <div
+        class="metric-value red"
+        id="sl"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-TP1
-</div>
+      <div class="metric-name">
+        TAKE PROFIT 1
+      </div>
 
-<div
-class="metric-value green"
-id="tp1"
->
---
-</div>
+      <div
+        class="metric-value green"
+        id="tp1"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-TP2
-</div>
+      <div class="metric-name">
+        TAKE PROFIT 2
+      </div>
 
-<div
-class="metric-value green"
-id="tp2"
->
---
-</div>
+      <div
+        class="metric-value green"
+        id="tp2"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-R:R
-</div>
+      <div class="metric-name">
+        RISK / REWARD
+      </div>
 
-<div
-class="metric-value"
-id="rr"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="rr"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div
-class="metric"
-style="grid-column:1/-1"
->
+    <div
+      class="metric"
+      style="grid-column:1/-1"
+    >
 
-<div class="metric-name">
-MARKET PHASE
-</div>
+      <div class="metric-name">
+        MARKET PHASE
+      </div>
 
-<div
-class="metric-value yellow"
-id="phase"
->
---
-</div>
+      <div
+        class="metric-value yellow"
+        id="phase"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
+
 
 <!-- MARKET -->
 
 <section class="card col-4">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>Market Information</h2>
+    <h2>
+      Market Information
+    </h2>
 
-<span>Live</span>
+    <span>
+      Live
+    </span>
 
-</div>
+  </div>
 
-<div class="metric-grid">
+  <div class="metric-grid">
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-24H HIGH
-</div>
+      <div class="metric-name">
+        24H HIGH
+      </div>
 
-<div
-class="metric-value"
-id="high"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="high"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-24H LOW
-</div>
+      <div class="metric-name">
+        24H LOW
+      </div>
 
-<div
-class="metric-value"
-id="low"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="low"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-24H VOLUME
-</div>
+      <div class="metric-name">
+        24H VOLUME
+      </div>
 
-<div
-class="metric-value"
-id="volume24"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="volume24"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-24H CHANGE
-</div>
+      <div class="metric-name">
+        CHANGE
+      </div>
 
-<div
-class="metric-value"
-id="change24"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="change24"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
+
 
 <!-- TIMEFRAMES -->
 
 <section class="card col-4">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>Multi-Timeframe</h2>
+    <h2>
+      Multi-Timeframe
+    </h2>
 
-<span>D1 → M5</span>
+    <span>
+      D1 → M5
+    </span>
 
-</div>
+  </div>
 
-<div
-class="tf-grid"
-id="tfGrid"
->
-</div>
+  <div
+    class="tf-grid"
+    id="tfGrid"
+  >
+  </div>
 
 </section>
+
 
 <!-- INDICATORS -->
 
 <section class="card col-8">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>Technical Indicators</h2>
+    <h2>
+      Technical Indicators
+    </h2>
 
-<span>M15</span>
+    <span>
+      M15
+    </span>
 
-</div>
+  </div>
 
-<div class="metric-grid">
+  <div class="metric-grid">
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-EMA 20
-</div>
+      <div class="metric-name">
+        EMA 20
+      </div>
 
-<div
-class="metric-value"
-id="ema20"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="ema20"
+      >
+        --
+      </div>
 
-<div
-class="metric-sub"
-id="ema20State"
->
---
-</div>
+      <div
+        class="metric-sub"
+        id="ema20State"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-EMA 50
-</div>
+      <div class="metric-name">
+        EMA 50
+      </div>
 
-<div
-class="metric-value"
-id="ema50"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="ema50"
+      >
+        --
+      </div>
 
-<div
-class="metric-sub"
-id="ema50State"
->
---
-</div>
+      <div
+        class="metric-sub"
+        id="ema50State"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-RSI 14
-</div>
+      <div class="metric-name">
+        RSI 14
+      </div>
 
-<div
-class="metric-value"
-id="rsi"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="rsi"
+      >
+        --
+      </div>
 
-<div
-class="metric-sub"
-id="rsiState"
->
---
-</div>
+      <div
+        class="metric-sub"
+        id="rsiState"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-ATR 14
-</div>
+      <div class="metric-name">
+        ATR 14
+      </div>
 
-<div
-class="metric-value"
-id="atr"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="atr"
+      >
+        --
+      </div>
 
-<div class="metric-sub">
-Volatility
-</div>
+      <div class="metric-sub">
+        Volatility
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-VOLUME
-</div>
+      <div class="metric-name">
+        VOLUME
+      </div>
 
-<div
-class="metric-value"
-id="volume"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="volume"
+      >
+        --
+      </div>
 
-<div
-class="metric-sub"
-id="volumeState"
->
---
-</div>
+      <div
+        class="metric-sub"
+        id="volumeState"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-VOLUME RATIO
-</div>
+      <div class="metric-name">
+        VOLUME RATIO
+      </div>
 
-<div
-class="metric-value"
-id="volumeRatio"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="volumeRatio"
+      >
+        --
+      </div>
 
-<div class="metric-sub">
-vs 20 candle average
-</div>
+      <div class="metric-sub">
+        vs 20 candle average
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
+
 
 <!-- BB -->
 
 <section class="card col-4">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>Bollinger Bands</h2>
+    <h2>
+      Bollinger Bands
+    </h2>
 
-<span>20 / 2</span>
+    <span>
+      20 / 2
+    </span>
 
-</div>
+  </div>
 
-<div class="metric-grid">
+  <div class="metric-grid">
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-UPPER
-</div>
+      <div class="metric-name">
+        UPPER
+      </div>
 
-<div
-class="metric-value"
-id="bbUpper"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="bbUpper"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-MIDDLE
-</div>
+      <div class="metric-name">
+        MIDDLE
+      </div>
 
-<div
-class="metric-value"
-id="bbMiddle"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="bbMiddle"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-LOWER
-</div>
+      <div class="metric-name">
+        LOWER
+      </div>
 
-<div
-class="metric-value"
-id="bbLower"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="bbLower"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-POSITION
-</div>
+      <div class="metric-name">
+        POSITION
+      </div>
 
-<div
-class="metric-value"
-id="bbPosition"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="bbPosition"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
 
-<!-- SR -->
+
+<!-- SUPPORT RESISTANCE -->
 
 <section class="card col-4">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>Support / Resistance</h2>
+    <h2>
+      Support / Resistance
+    </h2>
 
-<span>Structure</span>
+    <span>
+      Structure
+    </span>
 
-</div>
+  </div>
 
-<div class="metric-grid">
+  <div class="metric-grid">
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-RESISTANCE
-</div>
+      <div class="metric-name">
+        RESISTANCE
+      </div>
 
-<div
-class="metric-value red"
-id="resistance"
->
---
-</div>
+      <div
+        class="metric-value red"
+        id="resistance"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-SUPPORT
-</div>
+      <div class="metric-name">
+        SUPPORT
+      </div>
 
-<div
-class="metric-value green"
-id="support"
->
---
-</div>
+      <div
+        class="metric-value green"
+        id="support"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-DIST. RESISTANCE
-</div>
+      <div class="metric-name">
+        DIST. TO RESISTANCE
+      </div>
 
-<div
-class="metric-value"
-id="resistanceDistance"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="resistanceDistance"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-DIST. SUPPORT
-</div>
+      <div class="metric-name">
+        DIST. TO SUPPORT
+      </div>
 
-<div
-class="metric-value"
-id="supportDistance"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="supportDistance"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
+
 
 <!-- STRUCTURE -->
 
 <section class="card col-4">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>Market Structure</h2>
+    <h2>
+      Market Structure
+    </h2>
 
-<span>Price Action</span>
+    <span>
+      Price Action
+    </span>
 
-</div>
+  </div>
 
-<div class="metric-grid">
+  <div class="metric-grid">
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-STRUCTURE
-</div>
+      <div class="metric-name">
+        STRUCTURE
+      </div>
 
-<div
-class="metric-value"
-id="structure"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="structure"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-BOS
-</div>
+      <div class="metric-name">
+        BOS
+      </div>
 
-<div
-class="metric-value"
-id="bos"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="bos"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-CHOCH
-</div>
+      <div class="metric-name">
+        CHOCH
+      </div>
 
-<div
-class="metric-value"
-id="choch"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="choch"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-<div class="metric">
+    <div class="metric">
 
-<div class="metric-name">
-VOLATILITY
-</div>
+      <div class="metric-name">
+        VOLATILITY
+      </div>
 
-<div
-class="metric-value"
-id="volatility"
->
---
-</div>
+      <div
+        class="metric-value"
+        id="volatility"
+      >
+        --
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
+
 
 <!-- ORDER FLOW -->
 
 <section class="card col-6">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>Order Flow</h2>
+    <h2>
+      Order Flow
+    </h2>
 
-<span>Binance Order Book</span>
+    <span>
+      Awaiting Order Book Source
+    </span>
 
-</div>
+  </div>
 
-<div class="flow-box">
+  <div class="flow-box">
 
-<div class="flow">
+    <div class="flow">
 
-<small>
-BID VOLUME
-</small>
+      <small>
+        BID VOLUME
+      </small>
 
-<strong id="bidVolume">
---
-</strong>
+      <strong id="bidVolume">
+        --
+      </strong>
 
-</div>
+    </div>
 
-<div class="flow">
+    <div class="flow">
 
-<small>
-ASK VOLUME
-</small>
+      <small>
+        ASK VOLUME
+      </small>
 
-<strong id="askVolume">
---
-</strong>
+      <strong id="askVolume">
+        --
+      </strong>
 
-</div>
+    </div>
 
-<div class="flow">
+    <div class="flow">
 
-<small>
-IMBALANCE
-</small>
+      <small>
+        IMBALANCE
+      </small>
 
-<strong id="imbalance">
---
-</strong>
+      <strong id="imbalance">
+        --
+      </strong>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
-<div
-style="
-margin-top:10px;
-font-size:11px
-"
-id="pressure"
->
---
-</div>
+  <div
+    style="
+      margin-top:10px;
+      font-size:11px
+    "
+    id="pressure"
+  >
+    Order book source not connected
+  </div>
 
 </section>
+
 
 <!-- WHALE -->
 
 <section class="card col-6">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>Large Trade / Whale Proxy</h2>
+    <h2>
+      Large Trade / Whale Proxy
+    </h2>
 
-<span>Market Flow</span>
+    <span>
+      Awaiting Trade Flow Source
+    </span>
 
-</div>
+  </div>
 
-<div class="flow-box">
+  <div class="flow-box">
 
-<div class="flow">
+    <div class="flow">
 
-<small>
-LARGE TRADES
-</small>
+      <small>
+        LARGE TRADES
+      </small>
 
-<strong id="largeTrades">
---
-</strong>
+      <strong id="largeTrades">
+        --
+      </strong>
 
-</div>
+    </div>
 
-<div class="flow">
+    <div class="flow">
 
-<small>
-BUY FLOW
-</small>
+      <small>
+        BUY FLOW
+      </small>
 
-<strong id="buyFlow">
---
-</strong>
+      <strong id="buyFlow">
+        --
+      </strong>
 
-</div>
+    </div>
 
-<div class="flow">
+    <div class="flow">
 
-<small>
-SELL FLOW
-</small>
+      <small>
+        SELL FLOW
+      </small>
 
-<strong id="sellFlow">
---
-</strong>
+      <strong id="sellFlow">
+        --
+      </strong>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
-<div
-style="
-margin-top:10px;
-font-size:11px
-"
-id="whaleBias"
->
---
-</div>
+  <div
+    style="
+      margin-top:10px;
+      font-size:11px
+    "
+    id="whaleBias"
+  >
+    Whale data source not connected
+  </div>
 
 </section>
+
 
 <!-- FUTURES -->
 
 <section class="card col-12">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>BTC Futures Intelligence</h2>
+    <h2>
+      BTC Futures Intelligence
+    </h2>
 
-<span>Public Binance Data</span>
+    <span>
+      Awaiting Futures Source
+    </span>
 
-</div>
+  </div>
 
-<div class="flow-box">
+  <div class="flow-box">
 
-<div class="flow">
+    <div class="flow">
 
-<small>
-FUNDING RATE
-</small>
+      <small>
+        FUNDING RATE
+      </small>
 
-<strong id="funding">
---
-</strong>
+      <strong id="funding">
+        --
+      </strong>
 
-</div>
+    </div>
 
-<div class="flow">
+    <div class="flow">
 
-<small>
-OPEN INTEREST
-</small>
+      <small>
+        OPEN INTEREST
+      </small>
 
-<strong id="openInterest">
---
-</strong>
+      <strong id="openInterest">
+        --
+      </strong>
 
-</div>
+    </div>
 
-<div class="flow">
+    <div class="flow">
 
-<small>
-MARK PRICE
-</small>
+      <small>
+        MARK PRICE
+      </small>
 
-<strong id="markPrice">
---
-</strong>
+      <strong id="markPrice">
+        --
+      </strong>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </section>
 
-<!-- UPDATE -->
+
+<!-- SYSTEM -->
 
 <section class="card col-12">
 
-<div class="card-title">
+  <div class="card-title">
 
-<h2>System</h2>
+    <h2>
+      System
+    </h2>
 
-<span id="updated">
---
-</span>
+    <span id="updated">
+      --
+    </span>
 
-</div>
+  </div>
 
-<div
-style="
-font-size:10px;
-color:#718096
-"
->
+  <div class="info">
 
-Cached snapshot loads first.
-Live market data updates in background.
+    Cached snapshot loads first.
+    Live CoinGecko market data updates in background.
 
-</div>
+    <br>
+
+    Technical calculations:
+    EMA 20 · EMA 50 · RSI 14 · ATR 14 ·
+    Bollinger Bands · Volume Ratio ·
+    Support / Resistance · Market Structure.
+
+  </div>
 
 </section>
 
+
 </main>
+
 
 <div class="footer">
 
-BTCUSD Technical Monitor ·
-Market data only ·
-No order execution
+  BTCUSD Technical Monitor ·
+  Market data only ·
+  No order execution
 
 </div>
 
 </div>
+
 
 <script>
 
 /* =========================================================
-   BTC MONITOR FRONTEND
+   BTCUSD MONITOR
+   SINGLE API VERSION
 ========================================================= */
 
 const CACHE_KEY =
-"BTC_MONITOR_SNAPSHOT_V2";
+  "BTC_MONITOR_SNAPSHOT_V3";
 
-const API_BTC =
-"/api/btc";
-
-const API_MARKET =
-"/api/market";
-
-const API_WHALE =
-"/api/whale";
+const API =
+  "/api/btc";
 
 const TF = [
-"D1",
-"H4",
-"H1",
-"M30",
-"M15",
-"M5"
+  "D1",
+  "H4",
+  "H1",
+  "M30",
+  "M15",
+  "M5"
 ];
+
+
+/* =========================================================
+   FORMATTERS
+========================================================= */
 
 function money(value){
 
-const n =
-Number(value);
+  const n =
+    Number(value);
 
-if(!Number.isFinite(n))
-return "--";
+  if(!Number.isFinite(n))
+    return "--";
 
-return "$" +
-n.toLocaleString(
-"en-US",
-{
-minimumFractionDigits:2,
-maximumFractionDigits:2
+  return "$" +
+    n.toLocaleString(
+      "en-US",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
 }
-);
 
-}
 
 function number(value){
 
-const n =
-Number(value);
+  const n =
+    Number(value);
 
-if(!Number.isFinite(n))
-return "--";
+  if(!Number.isFinite(n))
+    return "--";
 
-return n.toLocaleString(
-"en-US",
-{
-maximumFractionDigits:2
+  return n.toLocaleString(
+    "en-US",
+    {
+      maximumFractionDigits:2
+    }
+  );
+
 }
-);
 
-}
+
+/* =========================================================
+   DOM
+========================================================= */
 
 function set(id,value){
 
-const el =
-document.getElementById(id);
+  const el =
+    document.getElementById(id);
 
-if(el)
-el.textContent =
-value;
+  if(el)
+    el.textContent =
+      value;
 
 }
+
+
+/* =========================================================
+   SIGNAL COLOUR
+========================================================= */
 
 function colourSignal(
-element,
-value
+  el,
+  signal
 ){
 
-if(!element)
-return;
+  if(!el)
+    return;
 
-element.className =
-element.className
-.replace(
-/\bgreen\b|\bred\b|\byellow\b/g,
-""
-);
+  el.classList.remove(
+    "green",
+    "red",
+    "yellow"
+  );
 
-if(value === "BUY")
-element.classList.add("green");
+  if(signal === "BUY"){
 
-else if(value === "SELL")
-element.classList.add("red");
+    el.classList.add(
+      "green"
+    );
 
-else
-element.classList.add("yellow");
+  }
+
+  else if(signal === "SELL"){
+
+    el.classList.add(
+      "red"
+    );
+
+  }
+
+  else{
+
+    el.classList.add(
+      "yellow"
+    );
+
+  }
 
 }
+
 
 function showSignal(
-signal
+  signal
 ){
 
-const el =
-document.getElementById(
-"signal"
-);
+  const main =
+    document.getElementById(
+      "signal"
+    );
 
-const trade =
-document.getElementById(
-"tradeSignal"
-);
+  const trade =
+    document.getElementById(
+      "tradeSignal"
+    );
 
-if(el){
+  if(main){
 
-el.textContent =
-signal;
+    main.textContent =
+      signal;
 
-colourSignal(
-el,
-signal
-);
+    colourSignal(
+      main,
+      signal
+    );
 
-}
+  }
 
-if(trade){
+  if(trade){
 
-trade.textContent =
-signal;
+    trade.textContent =
+      signal;
 
-colourSignal(
-trade,
-signal
-);
+    colourSignal(
+      trade,
+      signal
+    );
 
-}
-
-}
-
-function saveCache(data){
-
-try{
-
-localStorage.setItem(
-CACHE_KEY,
-JSON.stringify({
-saved:
-Date.now(),
-data
-})
-);
-
-}catch(error){
-
-console.warn(
-"Cache save failed",
-error
-);
+  }
 
 }
 
+
+/* =========================================================
+   CACHE
+========================================================= */
+
+function saveCache(
+  data
+){
+
+  try{
+
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({
+        saved:Date.now(),
+        data:data
+      })
+    );
+
+  }
+
+  catch(error){
+
+    console.warn(
+      "Cache save failed",
+      error
+    );
+
+  }
+
 }
+
 
 function loadCache(){
 
-try{
+  try{
 
-const raw =
-localStorage.getItem(
-CACHE_KEY
-);
+    const raw =
+      localStorage.getItem(
+        CACHE_KEY
+      );
 
-if(!raw)
-return null;
+    if(!raw)
+      return null;
 
-const parsed =
-JSON.parse(raw);
+    const parsed =
+      JSON.parse(raw);
 
-if(!parsed?.data)
-return null;
+    if(!parsed?.data)
+      return null;
 
-return parsed.data;
+    return parsed.data;
 
-}catch(error){
+  }
 
-return null;
+  catch(error){
 
-}
+    return null;
 
-}
-
-function renderBTC(data){
-
-if(!data)
-return;
-
-showSignal(
-data.signal ||
-"WAIT"
-);
-
-set(
-"score",
-(data.score ?? "--") +
-(data.score !== undefined
-? "/100"
-: "")
-);
-
-const bar =
-document.getElementById(
-"scoreBar"
-);
-
-if(bar){
-
-bar.style.width =
-`${data.score || 0}%`;
+  }
 
 }
 
-set(
-"entry",
-data.trade?.entry
-? money(data.trade.entry)
-: "--"
-);
 
-set(
-"sl",
-data.trade?.sl
-? money(data.trade.sl)
-: "--"
-);
+/* =========================================================
+   BTC RENDER
+========================================================= */
 
-set(
-"tp1",
-data.trade?.tp1
-? money(data.trade.tp1)
-: "--"
-);
-
-set(
-"tp2",
-data.trade?.tp2
-? money(data.trade.tp2)
-: "--"
-);
-
-set(
-"rr",
-data.trade?.rr || "--"
-);
-
-set(
-"phase",
-data.phase || "--"
-);
-
-const m15 =
-data.timeframes?.M15;
-
-if(!m15)
-return;
-
-set(
-"ema20",
-money(m15.ema20)
-);
-
-set(
-"ema50",
-money(m15.ema50)
-);
-
-set(
-"rsi",
-Number.isFinite(
-Number(m15.rsi)
-)
-? Number(m15.rsi).toFixed(2)
-: "--"
-);
-
-set(
-"atr",
-money(m15.atr)
-);
-
-set(
-"volume",
-number(m15.volume?.current)
-);
-
-set(
-"volumeRatio",
-m15.volume?.ratio
-? Number(
-m15.volume.ratio
-).toFixed(2) + "x"
-: "--"
-);
-
-set(
-"volumeState",
-m15.volume?.state ||
-"--"
-);
-
-set(
-"ema20State",
-m15.price > m15.ema20
-? "Price above EMA20"
-: "Price below EMA20"
-);
-
-set(
-"ema50State",
-m15.price > m15.ema50
-? "Price above EMA50"
-: "Price below EMA50"
-);
-
-let rsiState =
-"NEUTRAL";
-
-if(m15.rsi >= 70)
-rsiState =
-"OVERBOUGHT";
-
-else if(m15.rsi <= 30)
-rsiState =
-"OVERSOLD";
-
-else if(m15.rsi > 50)
-rsiState =
-"POSITIVE";
-
-else
-rsiState =
-"WEAK";
-
-set(
-"rsiState",
-rsiState
-);
-
-set(
-"bbUpper",
-money(m15.bb?.upper)
-);
-
-set(
-"bbMiddle",
-money(m15.bb?.middle)
-);
-
-set(
-"bbLower",
-money(m15.bb?.lower)
-);
-
-set(
-"bbPosition",
-m15.bb?.position ||
-"--"
-);
-
-set(
-"resistance",
-money(m15.resistance)
-);
-
-set(
-"support",
-money(m15.support)
-);
-
-const price =
-Number(data.price);
-
-const resistance =
-Number(m15.resistance);
-
-const support =
-Number(m15.support);
-
-if(
-Number.isFinite(price) &&
-Number.isFinite(resistance)
+function renderBTC(
+  data
 ){
 
-set(
-"resistanceDistance",
-(
-((resistance-price)/price)*100
-).toFixed(2)+"%"
-);
+  if(!data)
+    return;
+
+  showSignal(
+    data.signal ||
+    "WAIT"
+  );
+
+
+  set(
+    "score",
+    data.score !== undefined
+      ? data.score + "/100"
+      : "--"
+  );
+
+
+  const bar =
+    document.getElementById(
+      "scoreBar"
+    );
+
+  if(bar){
+
+    const score =
+      Number(data.score) || 0;
+
+    bar.style.width =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          score
+        )
+      ) + "%";
+
+  }
+
+
+  const trade =
+    data.trade || {};
+
+
+  set(
+    "entry",
+    trade.entry !== null &&
+    trade.entry !== undefined
+      ? money(trade.entry)
+      : "--"
+  );
+
+
+  set(
+    "sl",
+    trade.sl !== null &&
+    trade.sl !== undefined
+      ? money(trade.sl)
+      : "--"
+  );
+
+
+  set(
+    "tp1",
+    trade.tp1 !== null &&
+    trade.tp1 !== undefined
+      ? money(trade.tp1)
+      : "--"
+  );
+
+
+  set(
+    "tp2",
+    trade.tp2 !== null &&
+    trade.tp2 !== undefined
+      ? money(trade.tp2)
+      : "--"
+  );
+
+
+  set(
+    "rr",
+    trade.rr || "--"
+  );
+
+
+  set(
+    "phase",
+    data.phase || "--"
+  );
+
+
+  const m15 =
+    data.timeframes?.M15;
+
+
+  if(!m15)
+    return;
+
+
+  set(
+    "ema20",
+    money(m15.ema20)
+  );
+
+
+  set(
+    "ema50",
+    money(m15.ema50)
+  );
+
+
+  set(
+    "rsi",
+    Number.isFinite(
+      Number(m15.rsi)
+    )
+      ? Number(
+          m15.rsi
+        ).toFixed(2)
+      : "--"
+  );
+
+
+  set(
+    "atr",
+    money(m15.atr)
+  );
+
+
+  set(
+    "volume",
+    number(
+      m15.volume?.current
+    )
+  );
+
+
+  set(
+    "volumeRatio",
+    Number.isFinite(
+      Number(
+        m15.volume?.ratio
+      )
+    )
+      ? Number(
+          m15.volume.ratio
+        ).toFixed(2) + "x"
+      : "--"
+  );
+
+
+  set(
+    "volumeState",
+    m15.volume?.state ||
+    "--"
+  );
+
+
+  const price =
+    Number(data.price);
+
+
+  if(
+    Number.isFinite(price) &&
+    Number.isFinite(
+      Number(m15.ema20)
+    )
+  ){
+
+    set(
+      "ema20State",
+      price > Number(m15.ema20)
+        ? "Price above EMA20"
+        : "Price below EMA20"
+    );
+
+  }
+
+  else{
+
+    set(
+      "ema20State",
+      "--"
+    );
+
+  }
+
+
+  if(
+    Number.isFinite(price) &&
+    Number.isFinite(
+      Number(m15.ema50)
+    )
+  ){
+
+    set(
+      "ema50State",
+      price > Number(m15.ema50)
+        ? "Price above EMA50"
+        : "Price below EMA50"
+    );
+
+  }
+
+  else{
+
+    set(
+      "ema50State",
+      "--"
+    );
+
+  }
+
+
+  let rsiState =
+    "NEUTRAL";
+
+
+  const rsi =
+    Number(m15.rsi);
+
+
+  if(!Number.isFinite(rsi)){
+
+    rsiState =
+      "--";
+
+  }
+
+  else if(rsi >= 70){
+
+    rsiState =
+      "OVERBOUGHT";
+
+  }
+
+  else if(rsi <= 30){
+
+    rsiState =
+      "OVERSOLD";
+
+  }
+
+  else if(rsi > 50){
+
+    rsiState =
+      "POSITIVE";
+
+  }
+
+  else{
+
+    rsiState =
+      "WEAK";
+
+  }
+
+
+  set(
+    "rsiState",
+    rsiState
+  );
+
+
+  /* BOLLINGER */
+
+  set(
+    "bbUpper",
+    money(
+      m15.bb?.upper
+    )
+  );
+
+  set(
+    "bbMiddle",
+    money(
+      m15.bb?.middle
+    )
+  );
+
+  set(
+    "bbLower",
+    money(
+      m15.bb?.lower
+    )
+  );
+
+  set(
+    "bbPosition",
+    m15.bb?.position ||
+    "--"
+  );
+
+
+  /* SUPPORT RESISTANCE */
+
+  set(
+    "resistance",
+    money(
+      m15.resistance
+    )
+  );
+
+  set(
+    "support",
+    money(
+      m15.support
+    )
+  );
+
+
+  const resistance =
+    Number(
+      m15.resistance
+    );
+
+  const support =
+    Number(
+      m15.support
+    );
+
+
+  if(
+    Number.isFinite(price) &&
+    Number.isFinite(resistance)
+  ){
+
+    set(
+      "resistanceDistance",
+      (
+        (
+          resistance -
+          price
+        ) /
+        price *
+        100
+      ).toFixed(2) +
+      "%"
+    );
+
+  }
+
+  else{
+
+    set(
+      "resistanceDistance",
+      "--"
+    );
+
+  }
+
+
+  if(
+    Number.isFinite(price) &&
+    Number.isFinite(support)
+  ){
+
+    set(
+      "supportDistance",
+      (
+        (
+          price -
+          support
+        ) /
+        price *
+        100
+      ).toFixed(2) +
+      "%"
+    );
+
+  }
+
+  else{
+
+    set(
+      "supportDistance",
+      "--"
+    );
+
+  }
+
+
+  /* STRUCTURE */
+
+  set(
+    "structure",
+    m15.structure ||
+    "--"
+  );
+
+  set(
+    "bos",
+    m15.bos ||
+    "--"
+  );
+
+  set(
+    "choch",
+    m15.choch ||
+    "--"
+  );
+
+
+  /* VOLATILITY */
+
+  if(
+    Number.isFinite(
+      Number(m15.atr)
+    ) &&
+    Number.isFinite(price) &&
+    price > 0
+  ){
+
+    set(
+      "volatility",
+      (
+        Number(m15.atr) /
+        price *
+        100
+      ).toFixed(2) +
+      "%"
+    );
+
+  }
+
+  else{
+
+    set(
+      "volatility",
+      "--"
+    );
+
+  }
+
+
+  /* =======================================================
+     MULTI TIMEFRAME
+  ======================================================= */
+
+  const grid =
+    document.getElementById(
+      "tfGrid"
+    );
+
+
+  if(grid){
+
+    grid.innerHTML =
+      "";
+
+
+    TF.forEach(
+      tf => {
+
+        const d =
+          data.timeframes?.[tf];
+
+
+        if(!d)
+          return;
+
+
+        let colour =
+          "yellow";
+
+
+        if(
+          d.condition ===
+          "BULLISH"
+        ){
+
+          colour =
+            "green";
+
+        }
+
+        else if(
+          d.condition ===
+          "BEARISH"
+        ){
+
+          colour =
+            "red";
+
+        }
+
+
+        const div =
+          document.createElement(
+            "div"
+          );
+
+
+        div.className =
+          "tf";
+
+
+        div.innerHTML = `
+
+          <div class="tf-name">
+            ${tf}
+          </div>
+
+          <div
+            class="tf-status ${colour}"
+          >
+            ${d.condition || "WAIT"}
+          </div>
+
+          <div class="tf-value">
+            ${d.score ?? "--"}/100
+          </div>
+
+        `;
+
+
+        grid.appendChild(
+          div
+        );
+
+      }
+    );
+
+  }
 
 }
 
-if(
-Number.isFinite(price) &&
-Number.isFinite(support)
+
+/* =========================================================
+   MARKET RENDER
+========================================================= */
+
+function renderMarket(
+  data
 ){
 
-set(
-"supportDistance",
-(
-((price-support)/price)*100
-).toFixed(2)+"%"
-);
+  if(!data)
+    return;
+
+
+  set(
+    "price",
+    money(data.price)
+  );
+
+
+  const change =
+    Number(data.change);
+
+
+  const changeEl =
+    document.getElementById(
+      "change"
+    );
+
+
+  if(
+    changeEl &&
+    Number.isFinite(change)
+  ){
+
+    changeEl.textContent =
+      (
+        change >= 0
+          ? "+"
+          : ""
+      ) +
+      change.toFixed(2) +
+      "% · " +
+      (
+        Number(
+          data.changeAmount
+        ) >= 0
+          ? "+"
+          : ""
+      ) +
+      money(
+        data.changeAmount
+      );
+
+
+    changeEl.className =
+      "change " +
+      (
+        change >= 0
+          ? "green"
+          : "red"
+      );
+
+  }
+
+
+  set(
+    "high",
+    money(data.high)
+  );
+
+
+  set(
+    "low",
+    money(data.low)
+  );
+
+
+  set(
+    "volume24",
+    number(data.volume) +
+    " BTC"
+  );
+
+
+  set(
+    "change24",
+    Number.isFinite(change)
+      ? (
+          change >= 0
+            ? "+"
+            : ""
+        ) +
+        change.toFixed(2) +
+        "%"
+      : "--"
+  );
+
+
+  /* ORDER BOOK */
+
+  const ob =
+    data.orderBook;
+
+
+  if(ob){
+
+    set(
+      "bidVolume",
+      ob.bidVolume !== null &&
+      ob.bidVolume !== undefined
+        ? number(ob.bidVolume)
+        : "--"
+    );
+
+
+    set(
+      "askVolume",
+      ob.askVolume !== null &&
+      ob.askVolume !== undefined
+        ? number(ob.askVolume)
+        : "--"
+    );
+
+
+    set(
+      "imbalance",
+      ob.imbalance !== null &&
+      ob.imbalance !== undefined
+        ? Number(
+            ob.imbalance
+          ).toFixed(2) +
+          "%"
+        : "--"
+    );
+
+
+    set(
+      "pressure",
+      ob.pressure ||
+      "Order book source unavailable"
+    );
+
+  }
 
 }
 
-set(
-"structure",
-m15.structure ||
-"--"
-);
 
-set(
-"bos",
-m15.bos ||
-"--"
-);
+/* =========================================================
+   WHALE / FUTURES RENDER
+========================================================= */
 
-set(
-"choch",
-m15.choch ||
-"--"
-);
+function renderWhale(
+  data
+){
 
-set(
-"volatility",
-m15.atr && price
-? (
-m15.atr /
-price *
-100
-).toFixed(2)+"%"
-: "--"
-);
+  if(!data)
+    return;
 
-const grid =
-document.getElementById(
-"tfGrid"
-);
 
-if(grid){
+  const w =
+    data.whaleProxy;
 
-grid.innerHTML = "";
 
-TF.forEach(tf => {
+  if(w){
 
-const d =
-data.timeframes?.[tf];
+    set(
+      "largeTrades",
+      w.largeTrades ??
+      "--"
+    );
 
-if(!d)
-return;
 
-const div =
-document.createElement(
-"div"
-);
+    set(
+      "buyFlow",
+      w.buyValue !== null &&
+      w.buyValue !== undefined
+        ? money(w.buyValue)
+        : "--"
+    );
 
-div.className =
-"tf";
 
-const colour =
-d.condition === "BULLISH"
-? "green"
-: d.condition === "BEARISH"
-? "red"
-: "yellow";
+    set(
+      "sellFlow",
+      w.sellValue !== null &&
+      w.sellValue !== undefined
+        ? money(w.sellValue)
+        : "--"
+    );
 
-div.innerHTML = `
 
-<div class="tf-name">
-${tf}
-</div>
+    set(
+      "whaleBias",
+      w.bias ||
+      w.status ||
+      "Whale data unavailable"
+    );
 
-<div
-class="tf-status ${colour}"
->
-${d.condition}
-</div>
+  }
 
-<div class="tf-value">
-${d.score}/100
-</div>
 
-`;
+  const futures =
+    data.futures;
 
-grid.appendChild(
-div
-);
 
-});
+  if(futures){
 
-}
+    set(
+      "funding",
+      futures.fundingRate !== null &&
+      futures.fundingRate !== undefined
+        ? (
+            Number(
+              futures.fundingRate
+            ) *
+            100
+          ).toFixed(4) +
+          "%"
+        : "--"
+    );
 
-}
 
-function renderMarket(data){
+    set(
+      "openInterest",
+      futures.openInterest !== null &&
+      futures.openInterest !== undefined
+        ? number(
+            futures.openInterest
+          )
+        : "--"
+    );
 
-if(!data)
-return;
 
-set(
-"price",
-money(data.price)
-);
+    set(
+      "markPrice",
+      futures.markPrice !== null &&
+      futures.markPrice !== undefined
+        ? money(
+            futures.markPrice
+          )
+        : "--"
+    );
 
-const change =
-Number(data.change);
-
-const changeEl =
-document.getElementById(
-"change"
-);
-
-if(changeEl){
-
-changeEl.textContent =
-(
-change >= 0
-? "+"
-: ""
-) +
-change.toFixed(2) +
-"% · " +
-(
-Number(data.changeAmount) >= 0
-? "+"
-: ""
-) +
-money(data.changeAmount);
-
-changeEl.className =
-"change " +
-(
-change >= 0
-? "green"
-: "red"
-);
+  }
 
 }
 
-set(
-"high",
-money(data.high)
-);
 
-set(
-"low",
-money(data.low)
-);
+/* =========================================================
+   RENDER ALL
+========================================================= */
 
-set(
-"volume24",
-number(data.volume) +
-" BTC"
-);
+function renderAll(
+  data
+){
 
-set(
-"change24",
-(
-change >= 0
-? "+"
-: ""
-) +
-change.toFixed(2) +
-"%"
-);
+  if(!data)
+    return;
 
-const ob =
-data.orderBook;
 
-if(ob){
+  renderBTC(
+    data.btc
+  );
 
-set(
-"bidVolume",
-number(ob.bidVolume)
-);
 
-set(
-"askVolume",
-number(ob.askVolume)
-);
+  renderMarket(
+    data.market
+  );
 
-set(
-"imbalance",
-(
-ob.imbalance >= 0
-? "+"
-: ""
-) +
-Number(
-ob.imbalance
-).toFixed(2) +
-"%"
-);
 
-set(
-"pressure",
-ob.pressure
-);
+  renderWhale(
+    data.whale
+  );
+
+
+  set(
+    "updated",
+    data.updated
+      ? new Date(
+          data.updated
+        ).toLocaleTimeString()
+      : "--"
+  );
 
 }
 
-}
 
-function renderWhale(data){
+/* =========================================================
+   API
+========================================================= */
 
-if(!data)
-return;
+async function fetchBTC(){
 
-const w =
-data.whaleProxy;
+  const response =
+    await fetch(
+      API +
+      "?t=" +
+      Date.now(),
+      {
+        cache:"no-store"
+      }
+    );
 
-if(w){
 
-set(
-"largeTrades",
-w.largeTrades ?? "--"
-);
+  if(!response.ok){
 
-set(
-"buyFlow",
-money(w.buyValue)
-);
+    throw new Error(
+      "HTTP " +
+      response.status
+    );
 
-set(
-"sellFlow",
-money(w.sellValue)
-);
+  }
 
-set(
-"whaleBias",
-w.bias ||
-w.status ||
-"UNAVAILABLE"
-);
+
+  return response.json();
 
 }
 
-const f =
-data.futures;
 
-if(f){
-
-set(
-"funding",
-Number.isFinite(
-Number(f.fundingRate)
-)
-? (
-Number(
-f.fundingRate
-) * 100
-).toFixed(4) + "%"
-: "--"
-);
-
-set(
-"openInterest",
-number(
-f.openInterest
-)
-);
-
-set(
-"markPrice",
-money(
-f.markPrice
-)
-);
-
-}
-
-}
-
-function renderAll(data){
-
-if(!data)
-return;
-
-renderBTC(data.btc);
-renderMarket(data.market);
-renderWhale(data.whale);
-
-set(
-"updated",
-data.updated
-? new Date(
-data.updated
-).toLocaleTimeString()
-: "--"
-);
-
-}
-
-async function fetchJSON(url){
-
-const response =
-await fetch(
-url +
-"?t=" +
-Date.now(),
-{
-cache:"no-store"
-}
-);
-
-if(!response.ok){
-
-throw new Error(
-"HTTP " +
-response.status
-);
-
-}
-
-return response.json();
-
-}
+/* =========================================================
+   REFRESH
+========================================================= */
 
 async function refreshAll(
-manual=false
+  manual = false
 ){
 
-const dot =
-document.getElementById(
-"statusDot"
-);
+  const dot =
+    document.getElementById(
+      "statusDot"
+    );
 
-const status =
-document.getElementById(
-"statusText"
-);
 
-if(status)
-status.textContent =
-"UPDATING";
+  const status =
+    document.getElementById(
+      "statusText"
+    );
 
-if(dot)
-dot.className =
-"dot";
 
-try{
+  if(status)
+    status.textContent =
+      "UPDATING";
 
-/*
-  Run APIs in parallel.
-  This is much faster than
-  waiting one by one.
-*/
 
-const [
-btc,
-market,
-whale
-] = await Promise.all([
+  if(dot)
+    dot.className =
+      "dot";
 
-fetchJSON(API_BTC),
 
-fetchJSON(API_MARKET),
+  try{
 
-fetchJSON(API_WHALE)
+    const data =
+      await fetchBTC();
 
-]);
 
-const combined = {
+    if(!data.ok){
 
-btc,
-market,
-whale,
+      throw new Error(
+        data.error ||
+        "API error"
+      );
 
-updated:
-new Date().toISOString()
+    }
 
-};
 
-renderAll(
-combined
-);
+    renderAll(
+      data
+    );
 
-saveCache(
-combined
-);
 
-if(status)
-status.textContent =
-"LIVE";
+    saveCache(
+      data
+    );
 
-if(dot)
-dot.className =
-"dot live";
 
-}catch(error){
+    if(status)
+      status.textContent =
+        "LIVE";
 
-console.error(
-"Refresh error",
-error
-);
 
-if(status)
-status.textContent =
-"CACHED";
+    if(dot)
+      dot.className =
+        "dot live";
 
-if(dot)
-dot.className =
-"dot error";
+  }
+
+
+  catch(error){
+
+    console.error(
+      "BTC refresh error:",
+      error
+    );
+
+
+    if(status)
+      status.textContent =
+        "CACHED";
+
+
+    if(dot)
+      dot.className =
+        "dot error";
+
+  }
 
 }
 
-}
 
 /* =========================================================
    INSTANT CACHE FIRST
 ========================================================= */
 
 const cached =
-loadCache();
+  loadCache();
+
 
 if(cached){
 
-renderAll(
-cached
-);
+  renderAll(
+    cached
+  );
 
-const status =
-document.getElementById(
-"statusText"
-);
 
-if(status)
-status.textContent =
-"CACHED";
+  const status =
+    document.getElementById(
+      "statusText"
+    );
+
+
+  if(status)
+    status.textContent =
+      "CACHED";
 
 }
 
-/*
-  Do NOT wait for cache.
-  API runs in background.
-*/
+
+/* =========================================================
+   LIVE API
+========================================================= */
 
 refreshAll();
 
-/*
-  Update every 15 seconds.
-*/
+
+/* =========================================================
+   UPDATE EVERY 15 SECONDS
+========================================================= */
 
 setInterval(
-() => refreshAll(),
-15000
+  () => refreshAll(),
+  15000
 );
 
-/*
-  PWA
-*/
+
+/* =========================================================
+   PWA
+========================================================= */
 
 if(
-"serviceWorker" in navigator
+  "serviceWorker" in navigator
 ){
 
-window.addEventListener(
-"load",
-() => {
+  window.addEventListener(
+    "load",
+    () => {
 
-navigator.serviceWorker
-.register("/sw.js")
-.catch(
-console.warn
-);
+      navigator.serviceWorker
+        .register(
+          "/sw.js"
+        )
+        .catch(
+          console.warn
+        );
 
-});
+    }
+  );
 
 }
 
 </script>
 
 </body>
-
 </html>
