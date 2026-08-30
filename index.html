@@ -2,135 +2,149 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f3f6fa">
+
 <title>BTCUSD Technical Monitor</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 :root{
---bg:#f3f6fa;
---card:#fff;
---soft:#f7f9fc;
---border:#e2e8f0;
---text:#172033;
---muted:#718096;
---green:#10a968;
---red:#e5485d;
---yellow:#d89b00;
---blue:#287fd4;
---orange:#f7931a;
+    --bg:#f3f6fa;
+    --card:#ffffff;
+    --soft:#f7f9fc;
+    --border:#e2e8f0;
+    --text:#172033;
+    --muted:#718096;
+    --green:#10a968;
+    --red:#e5485d;
+    --yellow:#d89b00;
+    --blue:#287fd4;
+    --orange:#f7931a;
 }
 
 body{
-background:
-radial-gradient(circle at 10% 0%,rgba(77,163,255,.08),transparent 25%),
-radial-gradient(circle at 90% 10%,rgba(247,147,26,.06),transparent 25%),
-var(--bg);
-color:var(--text);
-font-family:Inter,Arial,sans-serif;
-min-height:100vh
+    background:
+        radial-gradient(circle at 10% 0%,rgba(77,163,255,.08),transparent 25%),
+        radial-gradient(circle at 90% 10%,rgba(247,147,26,.06),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    font-family:Inter,Arial,sans-serif;
+    min-height:100vh;
 }
 
 .container{
-width:min(1450px,94%);
-margin:auto;
-padding:20px 0 40px
+    width:min(1450px,94%);
+    margin:auto;
+    padding:20px 0 40px;
 }
 
+/* HEADER */
+
 .header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:20px;
-margin-bottom:18px
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin-bottom:18px;
 }
 
 .brand{
-display:flex;
-align-items:center;
-gap:13px
+    display:flex;
+    align-items:center;
+    gap:13px;
 }
 
 .logo{
-width:48px;
-height:48px;
-border-radius:14px;
-display:grid;
-place-items:center;
-font-weight:900;
-font-size:22px;
-background:linear-gradient(135deg,#f7931a,#ffb347);
-color:#111;
-box-shadow:0 8px 20px rgba(247,147,26,.18)
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    display:grid;
+    place-items:center;
+    font-weight:900;
+    font-size:22px;
+    background:linear-gradient(135deg,#f7931a,#ffb347);
+    color:#111;
+    box-shadow:0 8px 20px rgba(247,147,26,.18);
 }
 
-.brand h1{font-size:22px}
+.brand h1{
+    font-size:22px;
+}
+
 .brand p{
-color:var(--muted);
-font-size:12px;
-margin-top:3px
+    color:var(--muted);
+    font-size:12px;
+    margin-top:3px;
 }
 
 .status{
-display:flex;
-align-items:center;
-gap:8px;
-background:#fff;
-border:1px solid var(--border);
-padding:9px 13px;
-border-radius:12px;
-font-size:11px;
-color:var(--muted);
-box-shadow:0 3px 12px rgba(30,50,80,.04)
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#fff;
+    border:1px solid var(--border);
+    padding:9px 13px;
+    border-radius:12px;
+    font-size:11px;
+    color:var(--muted);
+    box-shadow:0 3px 12px rgba(30,50,80,.04);
 }
 
 .dot{
-width:8px;
-height:8px;
-border-radius:50%;
-background:var(--yellow)
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--yellow);
 }
 
 .dot.live{
-background:var(--green);
-box-shadow:0 0 8px rgba(16,169,104,.5)
+    background:var(--green);
+    box-shadow:0 0 8px rgba(16,169,104,.5);
 }
 
-.dot.error{background:var(--red)}
+.dot.error{
+    background:var(--red);
+}
+
+/* PRICE */
 
 .price-card{
-background:#fff;
-border:1px solid var(--border);
-border-radius:18px;
-padding:22px;
-margin-bottom:15px;
-box-shadow:0 5px 20px rgba(30,50,80,.05)
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(30,50,80,.05);
 }
 
 .price-top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:20px
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
 }
 
 .symbol{
-color:var(--muted);
-font-size:12px
+    color:var(--muted);
+    font-size:12px;
 }
 
 .price{
-font-size:42px;
-font-weight:850;
-margin:5px 0;
-letter-spacing:-1px
+    font-size:42px;
+    font-weight:850;
+    margin:5px 0;
+    letter-spacing:-1px;
 }
 
 .change{
-font-size:13px;
-font-weight:700
+    font-size:13px;
+    font-weight:700;
 }
 
 .green{color:var(--green)}
@@ -140,48 +154,55 @@ font-weight:700
 .muted{color:var(--muted)}
 
 .price-actions{
-display:flex;
-gap:8px
+    display:flex;
+    gap:8px;
 }
 
 .btn{
-border:1px solid var(--border);
-background:#f8fafc;
-color:#334155;
-padding:9px 13px;
-border-radius:9px;
-cursor:pointer;
-font-size:11px
+    border:1px solid var(--border);
+    background:#f8fafc;
+    color:#334155;
+    padding:9px 13px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:11px;
 }
 
-.btn:hover{background:#eef3f8}
+.btn:hover{
+    background:#eef3f8;
+}
+
+/* GRID */
 
 .grid{
-display:grid;
-grid-template-columns:repeat(12,1fr);
-gap:15px
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:15px;
 }
 
 .card{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:16px;
-padding:17px;
-min-width:0;
-box-shadow:0 4px 16px rgba(30,50,80,.035)
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:17px;
+    min-width:0;
+    box-shadow:0 4px 16px rgba(30,50,80,.035);
 }
 
 .card-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
 }
 
-.card-title h2{font-size:14px}
+.card-title h2{
+    font-size:14px;
+}
+
 .card-title span{
-color:var(--muted);
-font-size:10px
+    color:var(--muted);
+    font-size:10px;
 }
 
 .col-3{grid-column:span 3}
@@ -190,232 +211,282 @@ font-size:10px
 .col-8{grid-column:span 8}
 .col-12{grid-column:span 12}
 
+/* TIMEFRAME */
+
 .tf-grid{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:8px
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:8px;
 }
 
 .tf{
-background:#f8fafc;
-border:1px solid var(--border);
-padding:12px 5px;
-border-radius:10px;
-text-align:center
+    background:#f8fafc;
+    border:1px solid var(--border);
+    padding:12px 5px;
+    border-radius:10px;
+    text-align:center;
 }
 
 .tf-name{
-font-size:10px;
-color:var(--muted)
+    font-size:10px;
+    color:var(--muted);
 }
 
 .tf-status{
-font-size:12px;
-font-weight:800;
-margin-top:6px
+    font-size:12px;
+    font-weight:800;
+    margin-top:6px;
 }
 
 .tf-value{
-font-size:9px;
-color:var(--muted);
-margin-top:4px
+    font-size:9px;
+    color:var(--muted);
+    margin-top:4px;
 }
 
+/* METRICS */
+
 .metric-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
 }
 
 .metric{
-background:#f8fafc;
-border:1px solid var(--border);
-padding:12px;
-border-radius:11px
+    background:#f8fafc;
+    border:1px solid var(--border);
+    padding:12px;
+    border-radius:11px;
 }
 
 .metric-name{
-color:var(--muted);
-font-size:9px;
-margin-bottom:6px
+    color:var(--muted);
+    font-size:9px;
+    margin-bottom:6px;
 }
 
 .metric-value{
-font-size:16px;
-font-weight:800
+    font-size:16px;
+    font-weight:800;
 }
 
 .metric-sub{
-font-size:9px;
-margin-top:4px
+    font-size:9px;
+    margin-top:4px;
 }
 
+/* SIGNAL */
+
 .signal-box{
-display:flex;
-justify-content:space-between;
-align-items:center
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .signal-label{
-color:var(--muted);
-font-size:10px
+    color:var(--muted);
+    font-size:10px;
 }
 
 .signal{
-font-size:34px;
-font-weight:900;
-margin-top:4px
+    font-size:34px;
+    font-weight:900;
+    margin-top:4px;
 }
 
-.confidence{text-align:right}
+.confidence{
+    text-align:right;
+}
 
 .confidence span{
-color:var(--muted);
-font-size:10px
+    color:var(--muted);
+    font-size:10px;
 }
 
 .confidence strong{
-display:block;
-font-size:26px
+    display:block;
+    font-size:26px;
 }
 
 .progress{
-height:7px;
-background:#e8edf3;
-border-radius:10px;
-overflow:hidden;
-margin-top:14px
+    height:7px;
+    background:#e8edf3;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:14px;
 }
 
 .progress span{
-display:block;
-height:100%;
-width:0;
-background:var(--green);
-transition:.3s
+    display:block;
+    height:100%;
+    width:0;
+    background:var(--green);
+    transition:.3s;
 }
 
-.table-wrap{overflow-x:auto}
+/* TABLE */
+
+.table-wrap{
+    overflow-x:auto;
+}
 
 table{
-width:100%;
-border-collapse:collapse;
-font-size:11px
+    width:100%;
+    border-collapse:collapse;
+    font-size:11px;
 }
 
 th{
-color:var(--muted);
-font-weight:600;
-text-align:left;
-padding:9px;
-border-bottom:1px solid var(--border)
+    color:var(--muted);
+    font-weight:600;
+    text-align:left;
+    padding:9px;
+    border-bottom:1px solid var(--border);
 }
 
 td{
-padding:10px 9px;
-border-bottom:1px solid #edf1f5
+    padding:10px 9px;
+    border-bottom:1px solid #edf1f5;
 }
 
-tr:last-child td{border-bottom:0}
+tr:last-child td{
+    border-bottom:0;
+}
+
+/* BOLLINGER */
 
 .bb-box{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
 }
 
 .bb-item{
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:10px;
-padding:12px
+    background:#f8fafc;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px;
 }
 
 .bb-name{
-font-size:9px;
-color:var(--muted)
+    font-size:9px;
+    color:var(--muted);
 }
 
 .bb-value{
-font-size:14px;
-font-weight:800;
-margin-top:5px
+    font-size:14px;
+    font-weight:800;
+    margin-top:5px;
 }
 
+/* STRUCTURE */
+
 .structure{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
 }
 
 .structure-box{
-padding:13px;
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:10px;
-text-align:center
+    padding:13px;
+    background:#f8fafc;
+    border:1px solid var(--border);
+    border-radius:10px;
+    text-align:center;
 }
 
 .structure-box strong{
-display:block;
-font-size:17px;
-margin-top:5px
+    display:block;
+    font-size:17px;
+    margin-top:5px;
 }
 
-.phase{
-font-size:13px!important;
-line-height:1.35
-}
+/* FOOTER */
 
 .footer{
-text-align:center;
-color:#94a3b8;
-font-size:9px;
-margin-top:18px
+    text-align:center;
+    color:#94a3b8;
+    font-size:9px;
+    margin-top:18px;
 }
 
+/* RESPONSIVE */
+
 @media(max-width:1000px){
-.col-3,.col-4,.col-6,.col-8{grid-column:span 6}
-.col-12{grid-column:span 12}
-.tf-grid{grid-template-columns:repeat(4,1fr)}
+
+    .col-3,
+    .col-4,
+    .col-6,
+    .col-8{
+        grid-column:span 6;
+    }
+
+    .col-12{
+        grid-column:span 12;
+    }
+
+    .tf-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
 }
 
 @media(max-width:650px){
-.container{
-width:94%;
-padding-top:12px
-}
 
-.header{align-items:flex-start}
+    .container{
+        width:94%;
+        padding-top:12px;
+    }
 
-.brand h1{font-size:18px}
+    .header{
+        align-items:flex-start;
+    }
 
-.status{
-font-size:9px;
-padding:7px 9px
-}
+    .brand h1{
+        font-size:18px;
+    }
 
-.logo{
-width:42px;
-height:42px;
-font-size:18px
-}
+    .status{
+        font-size:9px;
+        padding:7px 9px;
+    }
 
-.price{font-size:30px}
+    .logo{
+        width:42px;
+        height:42px;
+        font-size:18px;
+    }
 
-.price-top{flex-direction:column}
+    .price{
+        font-size:30px;
+    }
 
-.price-actions{width:100%}
+    .price-top{
+        flex-direction:column;
+    }
 
-.price-actions .btn{flex:1}
+    .price-actions{
+        width:100%;
+    }
 
-.col-3,.col-4,.col-6,.col-8,.col-12{
-grid-column:span 12
-}
+    .price-actions .btn{
+        flex:1;
+    }
 
-.tf-grid{grid-template-columns:repeat(4,1fr)}
+    .col-3,
+    .col-4,
+    .col-6,
+    .col-8,
+    .col-12{
+        grid-column:span 12;
+    }
 
-.structure{grid-template-columns:repeat(2,1fr)}
+    .tf-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .structure{
+        grid-template-columns:repeat(2,1fr);
+    }
 }
 </style>
 </head>
@@ -426,54 +497,56 @@ grid-column:span 12
 
 <header class="header">
 
-<div class="brand">
+    <div class="brand">
 
-<div class="logo">₿</div>
+        <div class="logo">₿</div>
 
-<div>
-<h1>BTCUSD Technical Monitor</h1>
-<p>Live Technical Market Data</p>
-</div>
+        <div>
+            <h1>BTCUSD Technical Monitor</h1>
+            <p>Live Technical Market Data</p>
+        </div>
 
-</div>
+    </div>
 
-<div class="status">
-<span class="dot" id="statusDot"></span>
-<span id="connectionStatus">CONNECTING...</span>
-</div>
+    <div class="status">
+        <span class="dot" id="statusDot"></span>
+        <span id="connectionStatus">CONNECTING...</span>
+    </div>
 
 </header>
 
 
+<!-- PRICE -->
+
 <section class="price-card">
 
-<div class="price-top">
+    <div class="price-top">
 
-<div>
+        <div>
 
-<div class="symbol">
-BTCUSD · Binance BTCUSDT Market Data
-</div>
+            <div class="symbol">
+                BTCUSD · Binance BTCUSDT Market Data
+            </div>
 
-<div class="price" id="livePrice">
-Loading...
-</div>
+            <div class="price" id="livePrice">
+                Loading...
+            </div>
 
-<div class="change" id="priceChange">
-Loading...
-</div>
+            <div class="change" id="priceChange">
+                Loading...
+            </div>
 
-</div>
+        </div>
 
-<div class="price-actions">
+        <div class="price-actions">
 
-<button class="btn" onclick="loadAllData()">
-↻ Refresh
-</button>
+            <button class="btn" onclick="loadAllData()">
+                ↻ Refresh
+            </button>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
 </section>
 
@@ -481,380 +554,411 @@ Loading...
 <main class="grid">
 
 
+<!-- OVERALL -->
+
 <section class="card col-4">
 
-<div class="card-title">
-<h2>Technical Condition</h2>
-<span>Live Calculation</span>
-</div>
+    <div class="card-title">
+        <h2>Technical Condition</h2>
+        <span>Live Calculation</span>
+    </div>
 
-<div class="signal-box">
+    <div class="signal-box">
 
-<div>
+        <div>
+            <div class="signal-label">CURRENT CONDITION</div>
 
-<div class="signal-label">
-CURRENT CONDITION
-</div>
+            <div class="signal yellow" id="overallSignal">
+                SCANNING
+            </div>
+        </div>
 
-<div class="signal" id="overallSignal">
-SCANNING
-</div>
+        <div class="confidence">
 
-</div>
+            <span>SCORE</span>
 
-<div class="confidence">
+            <strong id="overallScore">
+                --
+            </strong>
 
-<span>SCORE</span>
+        </div>
 
-<strong id="overallScore">
---
-</strong>
+    </div>
 
-</div>
-
-</div>
-
-<div class="progress">
-<span id="scoreBar"></span>
-</div>
+    <div class="progress">
+        <span id="scoreBar"></span>
+    </div>
 
 </section>
 
 
+<!-- TRADE PLAN -->
+
 <section class="card col-4">
 
-<div class="card-title">
-<h2>Trade Plan</h2>
-<span>M15 + ATR</span>
-</div>
+    <div class="card-title">
+        <h2>Trade Plan</h2>
+        <span>M15 + ATR</span>
+    </div>
 
-<div class="metric-grid">
+    <div class="metric-grid">
 
-<div class="metric">
-<div class="metric-name">SIGNAL</div>
-<div class="metric-value" id="tradeSignal">WAIT</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">SIGNAL</div>
+            <div class="metric-value yellow" id="tradeSignal">WAIT</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">ENTRY ZONE</div>
-<div class="metric-value" id="entryZone">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">ENTRY ZONE</div>
+            <div class="metric-value" id="entryZone">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">STOP LOSS</div>
-<div class="metric-value red" id="tradeSL">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">STOP LOSS</div>
+            <div class="metric-value red" id="tradeSL">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">TAKE PROFIT 1</div>
-<div class="metric-value green" id="tradeTP1">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">TAKE PROFIT 1</div>
+            <div class="metric-value green" id="tradeTP1">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">TAKE PROFIT 2</div>
-<div class="metric-value green" id="tradeTP2">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">TAKE PROFIT 2</div>
+            <div class="metric-value green" id="tradeTP2">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">RISK / REWARD</div>
-<div class="metric-value" id="tradeRR">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">RISK / REWARD</div>
+            <div class="metric-value" id="tradeRR">--</div>
+        </div>
 
-<div class="metric" style="grid-column:1/-1">
-<div class="metric-name">MARKET PHASE</div>
-<div class="metric-value phase" id="marketPhase">--</div>
-</div>
+        <div class="metric" style="grid-column:1/-1">
+            <div class="metric-name">MARKET PHASE</div>
+            <div class="metric-value yellow" id="marketPhase">--</div>
+        </div>
 
-</div>
+    </div>
 
 </section>
 
 
+<!-- MARKET INFO -->
+
 <section class="card col-4">
 
-<div class="card-title">
-<h2>Market Information</h2>
-<span>Live</span>
-</div>
+    <div class="card-title">
+        <h2>Market Information</h2>
+        <span>Live</span>
+    </div>
 
-<div class="metric-grid">
+    <div class="metric-grid">
 
-<div class="metric">
-<div class="metric-name">24H HIGH</div>
-<div class="metric-value" id="high24">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">24H HIGH</div>
+            <div class="metric-value" id="high24">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">24H LOW</div>
-<div class="metric-value" id="low24">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">24H LOW</div>
+            <div class="metric-value" id="low24">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">24H VOLUME</div>
-<div class="metric-value" id="volume24">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">24H VOLUME</div>
+            <div class="metric-value" id="volume24">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">24H CHANGE</div>
-<div class="metric-value" id="change24">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">24H CHANGE</div>
+            <div class="metric-value" id="change24">--</div>
+        </div>
 
-</div>
+    </div>
 
 </section>
 
 
+<!-- TIMEFRAME -->
+
 <section class="card col-4">
 
-<div class="card-title">
-<h2>Multi-Timeframe</h2>
-<span>Technical</span>
-</div>
+    <div class="card-title">
+        <h2>Multi-Timeframe</h2>
+        <span>Technical</span>
+    </div>
 
-<div class="tf-grid" id="timeframeGrid"></div>
+    <div class="tf-grid" id="timeframeGrid">
+
+        <div class="tf"><div class="tf-name">D1</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">H4</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">H1</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">M30</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">M15</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">M5</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">M1</div><div class="tf-status muted">--</div></div>
+
+    </div>
 
 </section>
 
+
+<!-- INDICATORS -->
 
 <section class="card col-8">
 
-<div class="card-title">
-<h2>Technical Indicators</h2>
-<span>M15</span>
-</div>
+    <div class="card-title">
+        <h2>Technical Indicators</h2>
+        <span>M15</span>
+    </div>
 
-<div class="metric-grid">
+    <div class="metric-grid">
 
-<div class="metric">
-<div class="metric-name">EMA 20</div>
-<div class="metric-value" id="ema20">--</div>
-<div class="metric-sub" id="ema20State">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">EMA 20</div>
+            <div class="metric-value" id="ema20">--</div>
+            <div class="metric-sub" id="ema20State">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">EMA 50</div>
-<div class="metric-value" id="ema50">--</div>
-<div class="metric-sub" id="ema50State">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">EMA 50</div>
+            <div class="metric-value" id="ema50">--</div>
+            <div class="metric-sub" id="ema50State">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">RSI 14</div>
-<div class="metric-value" id="rsi">--</div>
-<div class="metric-sub" id="rsiState">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">RSI 14</div>
+            <div class="metric-value" id="rsi">--</div>
+            <div class="metric-sub" id="rsiState">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">ATR 14</div>
-<div class="metric-value" id="atr">--</div>
-<div class="metric-sub">Volatility</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">ATR 14</div>
+            <div class="metric-value" id="atr">--</div>
+            <div class="metric-sub">Volatility</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">VOLUME</div>
-<div class="metric-value" id="volume">--</div>
-<div class="metric-sub" id="volumeState">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">VOLUME</div>
+            <div class="metric-value" id="volume">--</div>
+            <div class="metric-sub" id="volumeState">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">TREND</div>
-<div class="metric-value" id="trend">--</div>
-<div class="metric-sub" id="trendState">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">TREND</div>
+            <div class="metric-value" id="trend">--</div>
+            <div class="metric-sub" id="trendState">--</div>
+        </div>
 
-</div>
+    </div>
 
 </section>
 
+
+<!-- BOLLINGER -->
 
 <section class="card col-4">
 
-<div class="card-title">
-<h2>Bollinger Bands</h2>
-<span>20 / 2</span>
-</div>
+    <div class="card-title">
+        <h2>Bollinger Bands</h2>
+        <span>20 / 2</span>
+    </div>
 
-<div class="bb-box">
+    <div class="bb-box">
 
-<div class="bb-item">
-<div class="bb-name">UPPER</div>
-<div class="bb-value" id="bbUpper">--</div>
-</div>
+        <div class="bb-item">
+            <div class="bb-name">UPPER</div>
+            <div class="bb-value" id="bbUpper">--</div>
+        </div>
 
-<div class="bb-item">
-<div class="bb-name">MIDDLE</div>
-<div class="bb-value" id="bbMiddle">--</div>
-</div>
+        <div class="bb-item">
+            <div class="bb-name">MIDDLE</div>
+            <div class="bb-value" id="bbMiddle">--</div>
+        </div>
 
-<div class="bb-item">
-<div class="bb-name">LOWER</div>
-<div class="bb-value" id="bbLower">--</div>
-</div>
+        <div class="bb-item">
+            <div class="bb-name">LOWER</div>
+            <div class="bb-value" id="bbLower">--</div>
+        </div>
 
-</div>
+    </div>
 
-<div style="margin-top:12px;font-size:11px;color:#718096">
-Position:
-<strong id="bbPosition">--</strong>
-</div>
+    <div style="margin-top:12px;font-size:11px;color:#718096">
+        Position:
+        <strong id="bbPosition">--</strong>
+    </div>
 
 </section>
 
+
+<!-- SUPPORT RESISTANCE -->
 
 <section class="card col-4">
 
-<div class="card-title">
-<h2>Support / Resistance</h2>
-<span>Recent Structure</span>
-</div>
+    <div class="card-title">
+        <h2>Support / Resistance</h2>
+        <span>Recent Structure</span>
+    </div>
 
-<div class="metric-grid">
+    <div class="metric-grid">
 
-<div class="metric">
-<div class="metric-name">RESISTANCE</div>
-<div class="metric-value red" id="resistance">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">RESISTANCE</div>
+            <div class="metric-value red" id="resistance">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">SUPPORT</div>
-<div class="metric-value green" id="support">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">SUPPORT</div>
+            <div class="metric-value green" id="support">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">DIST. TO RESISTANCE</div>
-<div class="metric-value" id="resistanceDistance">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">DIST. TO RESISTANCE</div>
+            <div class="metric-value" id="resistanceDistance">--</div>
+        </div>
 
-<div class="metric">
-<div class="metric-name">DIST. TO SUPPORT</div>
-<div class="metric-value" id="supportDistance">--</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">DIST. TO SUPPORT</div>
+            <div class="metric-value" id="supportDistance">--</div>
+        </div>
 
-</div>
+    </div>
 
 </section>
 
+
+<!-- STRUCTURE -->
 
 <section class="card col-4">
 
-<div class="card-title">
-<h2>Market Structure</h2>
-<span>Price Action</span>
-</div>
+    <div class="card-title">
+        <h2>Market Structure</h2>
+        <span>Price Action</span>
+    </div>
 
-<div class="structure">
+    <div class="structure">
 
-<div class="structure-box">
-<span class="muted" style="font-size:9px">LAST HIGH</span>
-<strong id="lastHigh">--</strong>
-</div>
+        <div class="structure-box">
+            <span class="muted" style="font-size:9px">LAST HIGH</span>
+            <strong id="lastHigh">--</strong>
+        </div>
 
-<div class="structure-box">
-<span class="muted" style="font-size:9px">LAST LOW</span>
-<strong id="lastLow">--</strong>
-</div>
+        <div class="structure-box">
+            <span class="muted" style="font-size:9px">LAST LOW</span>
+            <strong id="lastLow">--</strong>
+        </div>
 
-<div class="structure-box">
-<span class="muted" style="font-size:9px">STRUCTURE</span>
-<strong id="structure">--</strong>
-</div>
+        <div class="structure-box">
+            <span class="muted" style="font-size:9px">STRUCTURE</span>
+            <strong id="structure">--</strong>
+        </div>
 
-<div class="structure-box">
-<span class="muted" style="font-size:9px">VOLATILITY</span>
-<strong id="volatility">--</strong>
-</div>
+        <div class="structure-box">
+            <span class="muted" style="font-size:9px">VOLATILITY</span>
+            <strong id="volatility">--</strong>
+        </div>
 
-<div class="structure-box">
-<span class="muted" style="font-size:9px">BOS</span>
-<strong id="bos">--</strong>
-</div>
+        <div class="structure-box">
+            <span class="muted" style="font-size:9px">BOS</span>
+            <strong id="bos">--</strong>
+        </div>
 
-<div class="structure-box">
-<span class="muted" style="font-size:9px">CHOCH</span>
-<strong id="choch">--</strong>
-</div>
+        <div class="structure-box">
+            <span class="muted" style="font-size:9px">CHOCH</span>
+            <strong id="choch">--</strong>
+        </div>
 
-</div>
+    </div>
 
 </section>
 
+
+<!-- TIMEFRAME TABLE -->
 
 <section class="card col-12">
 
-<div class="card-title">
-<h2>Technical Timeframe Analysis</h2>
-<span>Live Binance Data</span>
-</div>
+    <div class="card-title">
+        <h2>Technical Timeframe Analysis</h2>
+        <span>Live Binance Data</span>
+    </div>
 
-<div class="table-wrap">
+    <div class="table-wrap">
 
-<table>
+        <table>
 
-<thead>
-<tr>
-<th>TF</th>
-<th>Price</th>
-<th>EMA20</th>
-<th>EMA50</th>
-<th>RSI</th>
-<th>ATR</th>
-<th>BB Position</th>
-<th>Condition</th>
-</tr>
-</thead>
+            <thead>
+                <tr>
+                    <th>TF</th>
+                    <th>Price</th>
+                    <th>EMA20</th>
+                    <th>EMA50</th>
+                    <th>RSI</th>
+                    <th>ATR</th>
+                    <th>BB Position</th>
+                    <th>Condition</th>
+                </tr>
+            </thead>
 
-<tbody id="analysisTable">
-<tr>
-<td colspan="8" style="text-align:center;color:#718096">
-Loading market data...
-</td>
-</tr>
-</tbody>
+            <tbody id="analysisTable">
 
-</table>
+                <tr>
+                    <td colspan="8" style="text-align:center;color:#718096">
+                        Loading market data...
+                    </td>
+                </tr>
 
-</div>
+            </tbody>
+
+        </table>
+
+    </div>
 
 </section>
 
 
+<!-- SYSTEM -->
+
 <section class="card col-12">
 
-<div class="card-title">
-<h2>Data Connection</h2>
-<span id="lastUpdate">--</span>
-</div>
+    <div class="card-title">
 
-<div class="metric-grid"
-style="grid-template-columns:repeat(4,1fr)">
+        <h2>Data Connection</h2>
 
-<div class="metric">
-<div class="metric-name">MARKET DATA</div>
-<div class="metric-value green">PUBLIC</div>
-</div>
+        <span id="lastUpdate">--</span>
 
-<div class="metric">
-<div class="metric-name">API KEY</div>
-<div class="metric-value green">NOT REQUIRED</div>
-</div>
+    </div>
 
-<div class="metric">
-<div class="metric-name">SOURCE</div>
-<div class="metric-value">Binance</div>
-</div>
+    <div class="metric-grid"
+         style="grid-template-columns:repeat(4,1fr)">
 
-<div class="metric">
-<div class="metric-name">UPDATE</div>
-<div class="metric-value">10s</div>
-</div>
+        <div class="metric">
+            <div class="metric-name">MARKET DATA</div>
+            <div class="metric-value green">PUBLIC</div>
+        </div>
 
-</div>
+        <div class="metric">
+            <div class="metric-name">API KEY</div>
+            <div class="metric-value green">NOT REQUIRED</div>
+        </div>
+
+        <div class="metric">
+            <div class="metric-name">SOURCE</div>
+            <div class="metric-value">Binance</div>
+        </div>
+
+        <div class="metric">
+            <div class="metric-name">UPDATE</div>
+            <div class="metric-value">10s</div>
+        </div>
+
+    </div>
 
 </section>
 
 </main>
 
 <div class="footer">
-BTCUSD Technical Monitor · Market data only · No order execution
+    BTCUSD Technical Monitor · Market data only · No order execution
 </div>
 
 </div>
@@ -862,1456 +966,2143 @@ BTCUSD Technical Monitor · Market data only · No order execution
 
 <script>
 
-const API="https://fapi.binance.com/fapi/v1";
-const SYMBOL="BTCUSDT";
+/* =========================================================
+   BTCUSD TECHNICAL MONITOR
+   STABLE VERSION
+========================================================= */
 
-const TIMEFRAMES=[
-{label:"D1",api:"1d"},
-{label:"H4",api:"4h"},
-{label:"H1",api:"1h"},
-{label:"M30",api:"30m"},
-{label:"M15",api:"15m"},
-{label:"M5",api:"5m"},
-{label:"M1",api:"1m"}
+const API = "https://fapi.binance.com/fapi/v1";
+const SYMBOL = "BTCUSDT";
+
+const TIMEFRAMES = [
+    {label:"D1",  api:"1d"},
+    {label:"H4",  api:"4h"},
+    {label:"H1",  api:"1h"},
+    {label:"M30", api:"30m"},
+    {label:"M15", api:"15m"},
+    {label:"M5",  api:"5m"},
+    {label:"M1",  api:"1m"}
 ];
 
-let timeframeData={};
-let liveBTCPrice=null;
-let priceSocket=null;
+let timeframeData = {};
+let liveBTCPrice = null;
+let priceSocket = null;
 
 
 /* =========================================================
-HELPERS
+   HELPERS
 ========================================================= */
 
 function formatPrice(value){
 
-if(value===null||value===undefined||!isFinite(value))
-return "--";
+    if(value === null || value === undefined || !Number.isFinite(Number(value)))
+        return "--";
 
-return "$"+Number(value).toLocaleString("en-US",{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-});
-
+    return "$" + Number(value).toLocaleString("en-US",{
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+    });
 }
 
 
 function formatNumber(value){
 
-if(value===null||value===undefined||!isFinite(value))
-return "--";
+    if(value === null || value === undefined || !Number.isFinite(Number(value)))
+        return "--";
 
-return Number(value).toLocaleString("en-US",{
-maximumFractionDigits:2
-});
-
+    return Number(value).toLocaleString("en-US",{
+        maximumFractionDigits:2
+    });
 }
 
 
-function setConnection(status,type){
+function setConnection(status,type=""){
 
-document.getElementById("connectionStatus").textContent=status;
+    const text =
+        document.getElementById("connectionStatus");
 
-const dot=document.getElementById("statusDot");
+    const dot =
+        document.getElementById("statusDot");
 
-dot.className="dot "+(type||"");
+    if(text)
+        text.textContent = status;
 
+    if(dot)
+        dot.className = "dot " + type;
+}
+
+
+function setText(id,value){
+
+    const el = document.getElementById(id);
+
+    if(el)
+        el.textContent = value;
+}
+
+
+function colorClass(condition){
+
+    if(condition === "BULLISH")
+        return "green";
+
+    if(condition === "BEARISH")
+        return "red";
+
+    return "yellow";
 }
 
 
 /* =========================================================
-BINANCE
+   BINANCE REQUEST
 ========================================================= */
 
 async function getJSON(url){
 
-const response=await fetch(url,{cache:"no-store"});
+    const controller = new AbortController();
 
-if(!response.ok)
-throw new Error("HTTP "+response.status);
+    const timeout =
+        setTimeout(
+            () => controller.abort(),
+            12000
+        );
 
-return response.json();
+    try{
 
-}
+        const response =
+            await fetch(
+                url,
+                {
+                    cache:"no-store",
+                    signal:controller.signal
+                }
+            );
 
+        if(!response.ok)
+            throw new Error(
+                "HTTP " + response.status
+            );
 
-async function loadTicker(){
+        return await response.json();
 
-const data=await getJSON(
-API+"/ticker/24hr?symbol="+SYMBOL
-);
+    }finally{
 
-const price=Number(data.lastPrice);
-const change=Number(data.priceChangePercent);
+        clearTimeout(timeout);
 
-liveBTCPrice=price;
-
-document.getElementById("livePrice").textContent=
-formatPrice(price);
-
-const changeEl=document.getElementById("priceChange");
-
-changeEl.textContent=
-(change>=0?"+":"")+
-change.toFixed(2)+
-"% · "+
-(change>=0?"+":"")+
-formatPrice(Number(data.priceChange));
-
-changeEl.className=
-"change "+(change>=0?"green":"red");
-
-document.getElementById("high24").textContent=
-formatPrice(data.highPrice);
-
-document.getElementById("low24").textContent=
-formatPrice(data.lowPrice);
-
-document.getElementById("volume24").textContent=
-formatNumber(Number(data.volume))+" BTC";
-
-document.getElementById("change24").textContent=
-(change>=0?"+":"")+change.toFixed(2)+"%";
-
-}
-
-
-async function loadKlines(interval){
-
-const url=
-API+
-"/klines?symbol="+
-SYMBOL+
-"&interval="+
-interval+
-"&limit=200";
-
-const raw=await getJSON(url);
-
-return raw.map(c=>({
-
-time:Number(c[0]),
-open:Number(c[1]),
-high:Number(c[2]),
-low:Number(c[3]),
-close:Number(c[4]),
-volume:Number(c[5])
-
-}));
+    }
 
 }
 
 
 /* =========================================================
-INDICATORS
+   24H TICKER
+========================================================= */
+
+async function loadTicker(){
+
+    const data =
+        await getJSON(
+            API +
+            "/ticker/24hr?symbol=" +
+            SYMBOL
+        );
+
+    const price =
+        Number(data.lastPrice);
+
+    const change =
+        Number(data.priceChangePercent);
+
+    liveBTCPrice = price;
+
+    setText(
+        "livePrice",
+        formatPrice(price)
+    );
+
+    const changeEl =
+        document.getElementById("priceChange");
+
+    if(changeEl){
+
+        changeEl.textContent =
+            (change >= 0 ? "+" : "") +
+            change.toFixed(2) +
+            "% · " +
+            (change >= 0 ? "+" : "") +
+            formatPrice(
+                Number(data.priceChange)
+            );
+
+        changeEl.className =
+            "change " +
+            (change >= 0 ? "green" : "red");
+
+    }
+
+    setText(
+        "high24",
+        formatPrice(data.highPrice)
+    );
+
+    setText(
+        "low24",
+        formatPrice(data.lowPrice)
+    );
+
+    setText(
+        "volume24",
+        formatNumber(data.volume) +
+        " BTC"
+    );
+
+    const change24 =
+        document.getElementById("change24");
+
+    if(change24){
+
+        change24.textContent =
+            (change >= 0 ? "+" : "") +
+            change.toFixed(2) +
+            "%";
+
+        change24.className =
+            "metric-value " +
+            (change >= 0 ? "green" : "red");
+
+    }
+
+}
+
+
+/* =========================================================
+   KLINES
+========================================================= */
+
+async function loadKlines(interval){
+
+    const url =
+        API +
+        "/klines?symbol=" +
+        SYMBOL +
+        "&interval=" +
+        interval +
+        "&limit=200";
+
+    const raw =
+        await getJSON(url);
+
+    if(!Array.isArray(raw))
+        throw new Error("Invalid kline data");
+
+    return raw.map(c => ({
+
+        time:Number(c[0]),
+        open:Number(c[1]),
+        high:Number(c[2]),
+        low:Number(c[3]),
+        close:Number(c[4]),
+        volume:Number(c[5])
+
+    }));
+
+}
+
+
+/* =========================================================
+   EMA
 ========================================================= */
 
 function calculateEMA(values,period){
 
-if(values.length<period)return null;
+    if(!values || values.length < period)
+        return null;
 
-const multiplier=2/(period+1);
+    const multiplier =
+        2 / (period + 1);
 
-let ema=0;
+    let ema = 0;
 
-for(let i=0;i<period;i++)
-ema+=values[i];
+    for(let i=0;i<period;i++)
+        ema += values[i];
 
-ema/=period;
+    ema /= period;
 
-for(let i=period;i<values.length;i++){
+    for(let i=period;i<values.length;i++){
 
-ema=
-(values[i]-ema)*multiplier+ema;
+        ema =
+            (
+                values[i] - ema
+            ) *
+            multiplier +
+            ema;
 
-}
+    }
 
-return ema;
-
-}
-
-
-function calculateSMA(values,period){
-
-if(values.length<period)return null;
-
-const slice=values.slice(-period);
-
-return slice.reduce((a,b)=>a+b,0)/period;
-
-}
-
-
-function calculateStd(values,period){
-
-if(values.length<period)return null;
-
-const slice=values.slice(-period);
-
-const mean=
-slice.reduce((a,b)=>a+b,0)/period;
-
-const variance=
-slice.reduce(
-(sum,value)=>sum+Math.pow(value-mean,2),
-0
-)/period;
-
-return Math.sqrt(variance);
-
-}
-
-
-function calculateRSI(values,period=14){
-
-if(values.length<period+1)return null;
-
-let gains=0;
-let losses=0;
-
-const start=values.length-period;
-
-for(let i=start;i<values.length;i++){
-
-const diff=values[i]-values[i-1];
-
-if(diff>0)
-gains+=diff;
-else
-losses+=Math.abs(diff);
-
-}
-
-const avgGain=gains/period;
-const avgLoss=losses/period;
-
-if(avgLoss===0)return 100;
-
-const rs=avgGain/avgLoss;
-
-return 100-(100/(1+rs));
-
-}
-
-
-function calculateATR(candles,period=14){
-
-if(candles.length<period+1)return null;
-
-const trs=[];
-
-for(let i=1;i<candles.length;i++){
-
-const current=candles[i];
-const previous=candles[i-1];
-
-trs.push(
-Math.max(
-current.high-current.low,
-Math.abs(current.high-previous.close),
-Math.abs(current.low-previous.close)
-)
-);
-
-}
-
-return calculateSMA(trs,period);
+    return ema;
 
 }
 
 
 /* =========================================================
-SWING STRUCTURE
+   SMA
+========================================================= */
+
+function calculateSMA(values,period){
+
+    if(!values || values.length < period)
+        return null;
+
+    const slice =
+        values.slice(-period);
+
+    return slice.reduce(
+        (a,b)=>a+b,
+        0
+    ) / period;
+
+}
+
+
+/* =========================================================
+   STANDARD DEVIATION
+========================================================= */
+
+function calculateStd(values,period){
+
+    if(!values || values.length < period)
+        return null;
+
+    const slice =
+        values.slice(-period);
+
+    const mean =
+        slice.reduce(
+            (a,b)=>a+b,
+            0
+        ) / period;
+
+    const variance =
+        slice.reduce(
+            (sum,value)=>
+                sum +
+                Math.pow(
+                    value - mean,
+                    2
+                ),
+            0
+        ) / period;
+
+    return Math.sqrt(variance);
+
+}
+
+
+/* =========================================================
+   RSI — WILDER STYLE
+========================================================= */
+
+function calculateRSI(values,period=14){
+
+    if(!values || values.length < period + 1)
+        return null;
+
+    let gain = 0;
+    let loss = 0;
+
+    for(let i=1;i<=period;i++){
+
+        const diff =
+            values[i] -
+            values[i-1];
+
+        if(diff >= 0)
+            gain += diff;
+        else
+            loss += Math.abs(diff);
+
+    }
+
+    let avgGain =
+        gain / period;
+
+    let avgLoss =
+        loss / period;
+
+    for(
+        let i=period+1;
+        i<values.length;
+        i++
+    ){
+
+        const diff =
+            values[i] -
+            values[i-1];
+
+        const currentGain =
+            diff > 0 ? diff : 0;
+
+        const currentLoss =
+            diff < 0 ? Math.abs(diff) : 0;
+
+        avgGain =
+            (
+                avgGain * (period - 1) +
+                currentGain
+            ) / period;
+
+        avgLoss =
+            (
+                avgLoss * (period - 1) +
+                currentLoss
+            ) / period;
+
+    }
+
+    if(avgLoss === 0)
+        return 100;
+
+    const rs =
+        avgGain / avgLoss;
+
+    return 100 -
+        (
+            100 /
+            (1 + rs)
+        );
+
+}
+
+
+/* =========================================================
+   ATR
+========================================================= */
+
+function calculateATR(candles,period=14){
+
+    if(!candles || candles.length < period + 1)
+        return null;
+
+    const trs = [];
+
+    for(let i=1;i<candles.length;i++){
+
+        const current =
+            candles[i];
+
+        const previous =
+            candles[i-1];
+
+        const tr =
+            Math.max(
+                current.high - current.low,
+                Math.abs(
+                    current.high -
+                    previous.close
+                ),
+                Math.abs(
+                    current.low -
+                    previous.close
+                )
+            );
+
+        trs.push(tr);
+
+    }
+
+    return calculateSMA(
+        trs,
+        period
+    );
+
+}
+
+
+/* =========================================================
+   SWING POINTS
+========================================================= */
+
+function getSwingPoints(candles){
+
+    const highs = [];
+    const lows = [];
+
+    if(!candles || candles.length < 10)
+        return {highs,lows};
+
+    const start =
+        Math.max(
+            2,
+            candles.length - 60
+        );
+
+    for(
+        let i=start;
+        i<candles.length-2;
+        i++
+    ){
+
+        const c =
+            candles[i];
+
+        const swingHigh =
+            c.high > candles[i-1].high &&
+            c.high > candles[i-2].high &&
+            c.high >= candles[i+1].high &&
+            c.high >= candles[i+2].high;
+
+        const swingLow =
+            c.low < candles[i-1].low &&
+            c.low < candles[i-2].low &&
+            c.low <= candles[i+1].low &&
+            c.low <= candles[i+2].low;
+
+        if(swingHigh){
+
+            highs.push({
+                price:c.high,
+                index:i
+            });
+
+        }
+
+        if(swingLow){
+
+            lows.push({
+                price:c.low,
+                index:i
+            });
+
+        }
+
+    }
+
+    return {
+        highs,
+        lows
+    };
+
+}
+
+
+/* =========================================================
+   MARKET STRUCTURE
 ========================================================= */
 
 function detectStructure(candles){
 
-if(!candles||candles.length<25){
+    const swings =
+        getSwingPoints(candles);
 
-return{
-bos:"NONE",
-choch:"NONE",
-lastSwingHigh:null,
-lastSwingLow:null
-};
+    const highs =
+        swings.highs;
 
-}
+    const lows =
+        swings.lows;
 
-const data=candles.slice(-60);
+    if(
+        highs.length < 2 ||
+        lows.length < 2
+    ){
 
-const highs=[];
-const lows=[];
+        return {
+            structure:"NEUTRAL",
+            bos:"NONE",
+            choch:"NONE",
+            lastHigh:null,
+            lastLow:null
+        };
 
-for(let i=2;i<data.length-2;i++){
+    }
 
-const c=data[i];
+    const prevHigh =
+        highs[highs.length-2];
 
-if(
-c.high>data[i-1].high &&
-c.high>data[i-2].high &&
-c.high>=data[i+1].high &&
-c.high>=data[i+2].high
-)
-highs.push({
-price:c.high,
-index:i
-});
+    const lastHigh =
+        highs[highs.length-1];
 
-if(
-c.low<data[i-1].low &&
-c.low<data[i-2].low &&
-c.low<=data[i+1].low &&
-c.low<=data[i+2].low
-)
-lows.push({
-price:c.low,
-index:i
-});
+    const prevLow =
+        lows[lows.length-2];
 
-}
+    const lastLow =
+        lows[lows.length-1];
 
-if(highs.length<2||lows.length<2){
+    const current =
+        candles[candles.length-1].close;
 
-return{
-bos:"NONE",
-choch:"NONE",
-lastSwingHigh:highs.length?highs.at(-1).price:null,
-lastSwingLow:lows.length?lows.at(-1).price:null
-};
+    let structure =
+        "NEUTRAL";
 
-}
+    if(
+        lastHigh.price > prevHigh.price &&
+        lastLow.price > prevLow.price
+    ){
 
-const previousHigh=highs.at(-2).price;
-const latestHigh=highs.at(-1).price;
+        structure = "HH / HL";
 
-const previousLow=lows.at(-2).price;
-const latestLow=lows.at(-1).price;
+    }
 
-const current=candles.at(-1).close;
+    else if(
+        lastHigh.price < prevHigh.price &&
+        lastLow.price < prevLow.price
+    ){
 
-let bos="NONE";
-let choch="NONE";
+        structure = "LH / LL";
 
-if(current>latestHigh)
-bos="BULLISH";
+    }
 
-else if(current<latestLow)
-bos="BEARISH";
+    else if(
+        lastHigh.price > prevHigh.price
+    ){
 
-const bullishStructure=
-latestHigh>previousHigh &&
-latestLow>previousLow;
+        structure = "HH";
 
-const bearishStructure=
-latestHigh<previousHigh &&
-latestLow<previousLow;
+    }
 
-if(
-bearishStructure &&
-current>latestHigh
-)
-choch="BULLISH";
+    else if(
+        lastLow.price < prevLow.price
+    ){
 
-else if(
-bullishStructure &&
-current<latestLow
-)
-choch="BEARISH";
+        structure = "LL";
 
-return{
-bos,
-choch,
-lastSwingHigh:latestHigh,
-lastSwingLow:latestLow
-};
+    }
+
+
+    let bos = "NONE";
+
+    if(current > lastHigh.price)
+        bos = "BULLISH";
+
+    else if(current < lastLow.price)
+        bos = "BEARISH";
+
+
+    let choch = "NONE";
+
+    const priorBull =
+        lastHigh.price > prevHigh.price &&
+        lastLow.price > prevLow.price;
+
+    const priorBear =
+        lastHigh.price < prevHigh.price &&
+        lastLow.price < prevLow.price;
+
+    if(
+        priorBear &&
+        current > lastHigh.price
+    ){
+
+        choch = "BULLISH";
+
+    }
+
+    else if(
+        priorBull &&
+        current < lastLow.price
+    ){
+
+        choch = "BEARISH";
+
+    }
+
+
+    return {
+
+        structure,
+        bos,
+        choch,
+
+        lastHigh:lastHigh.price,
+        lastLow:lastLow.price
+
+    };
 
 }
 
 
 /* =========================================================
-ANALYSIS
+   ANALYZE TIMEFRAME
 ========================================================= */
 
 function analyze(candles){
 
-const closes=candles.map(c=>c.close);
-const current=closes.at(-1);
+    if(!candles || candles.length < 60)
+        return null;
 
-const ema20=calculateEMA(closes,20);
-const ema50=calculateEMA(closes,50);
+    const closes =
+        candles.map(c=>c.close);
 
-const rsi=calculateRSI(closes,14);
-const atr=calculateATR(candles,14);
+    const current =
+        closes[closes.length-1];
 
-const middle=calculateSMA(closes,20);
-const std=calculateStd(closes,20);
+    const ema20 =
+        calculateEMA(
+            closes,
+            20
+        );
 
-const upper=middle+std*2;
-const lower=middle-std*2;
+    const ema50 =
+        calculateEMA(
+            closes,
+            50
+        );
 
-let score=50;
+    const rsi =
+        calculateRSI(
+            closes,
+            14
+        );
 
-if(current>ema20)
-score+=10;
-else
-score-=10;
+    const atr =
+        calculateATR(
+            candles,
+            14
+        );
 
-if(ema20>ema50)
-score+=15;
-else
-score-=15;
+    const middle =
+        calculateSMA(
+            closes,
+            20
+        );
 
-if(rsi>50&&rsi<70)
-score+=10;
+    const std =
+        calculateStd(
+            closes,
+            20
+        );
 
-if(rsi<30)
-score+=5;
+    if(
+        ema20 === null ||
+        ema50 === null ||
+        rsi === null ||
+        atr === null ||
+        middle === null ||
+        std === null
+    ){
 
-if(rsi>=70&&rsi<75)
-score+=2;
+        return null;
 
-if(rsi>=75)
-score-=5;
+    }
 
-if(current>middle)
-score+=5;
-else
-score-=5;
 
-score=Math.max(0,Math.min(100,score));
+    const upper =
+        middle +
+        std * 2;
 
-let condition="NEUTRAL";
+    const lower =
+        middle -
+        std * 2;
 
-if(score>=65)
-condition="BULLISH";
-else if(score<=35)
-condition="BEARISH";
 
-let bbPosition="MIDDLE";
+    /* =====================================================
+       SCORE
+    ===================================================== */
 
-if(current>=upper)
-bbPosition="UPPER BAND";
-else if(current<=lower)
-bbPosition="LOWER BAND";
-else if(current>middle)
-bbPosition="ABOVE MID";
-else
-bbPosition="BELOW MID";
+    let score = 50;
 
-const recent=candles.slice(-40);
+    if(current > ema20)
+        score += 10;
+    else
+        score -= 10;
 
-const resistance=Math.max(...recent.map(c=>c.high));
-const support=Math.min(...recent.map(c=>c.low));
+    if(ema20 > ema50)
+        score += 15;
+    else
+        score -= 15;
 
-const avgVolume=calculateSMA(
-candles.map(c=>c.volume),
-20
-);
+    if(rsi >= 50 && rsi < 70)
+        score += 10;
 
-const currentVolume=candles.at(-1).volume;
+    else if(rsi > 30 && rsi < 50)
+        score -= 5;
 
-let volumeState="NORMAL";
+    if(rsi >= 70)
+        score -= 10;
 
-if(currentVolume>avgVolume*1.5)
-volumeState="HIGH";
-else if(currentVolume>avgVolume)
-volumeState="ABOVE AVG";
+    if(rsi <= 30)
+        score += 5;
 
-const structureSignal=
-detectStructure(candles);
+    if(current > middle)
+        score += 5;
+    else
+        score -= 5;
 
-let structure="NEUTRAL";
 
-if(
-structureSignal.lastSwingHigh &&
-structureSignal.lastSwingLow
-){
+    score =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                score
+            )
+        );
 
-if(
-structureSignal.lastSwingHigh>resistance*0.995 &&
-current>=structureSignal.lastSwingHigh*0.998
-)
-structure="HH";
 
-else if(
-current<=structureSignal.lastSwingLow*1.002
-)
-structure="LL";
+    let condition =
+        "NEUTRAL";
 
-else if(current>ema20)
-structure="HL";
+    if(score >= 65)
+        condition = "BULLISH";
 
-else
-structure="LH";
+    else if(score <= 35)
+        condition = "BEARISH";
 
-}
 
-return{
+    /* =====================================================
+       BB POSITION
+    ===================================================== */
 
-current,
-ema20,
-ema50,
-rsi,
-atr,
-middle,
-upper,
-lower,
-score,
-condition,
-bbPosition,
-resistance,
-support,
-currentVolume,
-volumeState,
-structure,
-bos:structureSignal.bos,
-choch:structureSignal.choch,
-lastSwingHigh:structureSignal.lastSwingHigh,
-lastSwingLow:structureSignal.lastSwingLow
+    let bbPosition =
+        "MIDDLE";
 
-};
+    if(current >= upper)
+        bbPosition = "UPPER BAND";
+
+    else if(current >= middle)
+        bbPosition = "ABOVE MID";
+
+    else if(current <= lower)
+        bbPosition = "LOWER BAND";
+
+    else
+        bbPosition = "BELOW MID";
+
+
+    /* =====================================================
+       S/R — EXCLUDE CURRENT CANDLE
+       This fixes impossible breakout calculation.
+    ===================================================== */
+
+    const historical =
+        candles.slice(
+            Math.max(
+                0,
+                candles.length - 31
+            ),
+            candles.length - 1
+        );
+
+    const resistance =
+        Math.max(
+            ...historical.map(c=>c.high)
+        );
+
+    const support =
+        Math.min(
+            ...historical.map(c=>c.low)
+        );
+
+
+    /* =====================================================
+       VOLUME
+    ===================================================== */
+
+    const volumes =
+        candles.map(c=>c.volume);
+
+    const avgVolume =
+        calculateSMA(
+            volumes,
+            20
+        );
+
+    const currentVolume =
+        candles[
+            candles.length-1
+        ].volume;
+
+    let volumeState =
+        "NORMAL";
+
+    if(
+        avgVolume &&
+        currentVolume >= avgVolume * 1.5
+    ){
+
+        volumeState = "HIGH";
+
+    }
+
+    else if(
+        avgVolume &&
+        currentVolume > avgVolume
+    ){
+
+        volumeState = "ABOVE AVG";
+
+    }
+
+
+    /* =====================================================
+       STRUCTURE
+    ===================================================== */
+
+    const structureData =
+        detectStructure(candles);
+
+
+    return {
+
+        current,
+
+        ema20,
+        ema50,
+
+        rsi,
+        atr,
+
+        middle,
+        upper,
+        lower,
+
+        score,
+        condition,
+        bbPosition,
+
+        resistance,
+        support,
+
+        currentVolume,
+        volumeState,
+
+        structure:
+            structureData.structure,
+
+        bos:
+            structureData.bos,
+
+        choch:
+            structureData.choch,
+
+        lastHigh:
+            structureData.lastHigh,
+
+        lastLow:
+            structureData.lastLow
+
+    };
 
 }
 
 
 /* =========================================================
-LOAD DATA
+   LOAD ALL TIMEFRAMES
 ========================================================= */
 
 async function loadTechnicalData(){
 
-const results={};
+    const results = {};
 
-const requests=TIMEFRAMES.map(async tf=>{
+    const requests =
+        TIMEFRAMES.map(
+            async tf => {
 
-try{
+                try{
 
-const candles=await loadKlines(tf.api);
+                    const candles =
+                        await loadKlines(
+                            tf.api
+                        );
 
-results[tf.label]=analyze(candles);
+                    const analysis =
+                        analyze(candles);
 
-}catch(error){
+                    if(analysis)
+                        results[tf.label] =
+                            analysis;
 
-console.error(tf.label,error);
+                }catch(error){
 
-}
+                    console.error(
+                        "TF ERROR:",
+                        tf.label,
+                        error
+                    );
 
-});
+                }
 
-await Promise.all(requests);
+            }
+        );
 
-timeframeData=results;
+    await Promise.all(requests);
 
-updateDashboard();
+    timeframeData =
+        results;
+
+    updateDashboard();
 
 }
 
 
 /* =========================================================
-SIGNAL ENGINE V4
+   FINAL SIGNAL ENGINE
 ========================================================= */
 
 function calculateSignal(){
 
-const d1=timeframeData.D1;
-const h4=timeframeData.H4;
-const h1=timeframeData.H1;
-const m30=timeframeData.M30;
-const m15=timeframeData.M15;
-const m5=timeframeData.M5;
-const m1=timeframeData.M1;
+    const d1 =
+        timeframeData.D1;
 
-if(!d1||!h4||!h1||!m30||!m15||!m5||!m1)
-return{
-signal:"WAIT",
-score:50,
-phase:"WAIT — SCANNING"
-};
+    const h4 =
+        timeframeData.H4;
 
-let bull=0;
-let bear=0;
+    const h1 =
+        timeframeData.H1;
 
+    const m30 =
+        timeframeData.M30;
 
-/* D1 MAIN BIAS */
+    const m15 =
+        timeframeData.M15;
 
-if(d1.condition==="BULLISH")bull+=20;
-if(d1.condition==="BEARISH")bear+=20;
+    const m5 =
+        timeframeData.M5;
 
+    const m1 =
+        timeframeData.M1;
 
-/* H4 FILTER */
 
-if(h4.condition==="BULLISH")bull+=10;
-if(h4.condition==="BEARISH")bear+=10;
+    if(!m15){
 
+        return {
+            signal:"WAIT",
+            score:50,
+            phase:"WAIT — DATA SCANNING"
+        };
 
-/* H1 FILTER */
+    }
 
-if(h1.condition==="BULLISH")bull+=5;
-if(h1.condition==="BEARISH")bear+=5;
 
+    /* =====================================================
+       SCORE
+    ===================================================== */
 
-/* M30 SETUP */
+    let bull = 0;
+    let bear = 0;
 
-if(m30.condition==="BULLISH")bull+=20;
-if(m30.condition==="BEARISH")bear+=20;
 
+    if(d1?.condition === "BULLISH")
+        bull += 20;
 
-/* M15 CONFIRMATION */
+    if(d1?.condition === "BEARISH")
+        bear += 20;
 
-if(m15.condition==="BULLISH")bull+=20;
-if(m15.condition==="BEARISH")bear+=20;
 
+    if(h4?.condition === "BULLISH")
+        bull += 10;
 
-/* M5 TRIGGER */
+    if(h4?.condition === "BEARISH")
+        bear += 10;
 
-if(m5.condition==="BULLISH")bull+=10;
-if(m5.condition==="BEARISH")bear+=10;
 
+    if(h1?.condition === "BULLISH")
+        bull += 10;
 
-/* M1 PRECISION */
+    if(h1?.condition === "BEARISH")
+        bear += 10;
 
-if(m1.condition==="BULLISH")bull+=5;
-if(m1.condition==="BEARISH")bear+=5;
 
+    if(m30?.condition === "BULLISH")
+        bull += 15;
 
-/* M15 EMA */
+    if(m30?.condition === "BEARISH")
+        bear += 15;
 
-if(
-m15.current>m15.ema20 &&
-m15.ema20>m15.ema50
-)
-bull+=5;
 
-if(
-m15.current<m15.ema20 &&
-m15.ema20<m15.ema50
-)
-bear+=5;
+    if(m15?.condition === "BULLISH")
+        bull += 20;
 
+    if(m15?.condition === "BEARISH")
+        bear += 20;
 
-/* STRUCTURE */
 
-const bullishStructure=
-m15.bos==="BULLISH"||
-m15.choch==="BULLISH"||
-m5.bos==="BULLISH"||
-m5.choch==="BULLISH";
+    if(m5?.condition === "BULLISH")
+        bull += 10;
 
-const bearishStructure=
-m15.bos==="BEARISH"||
-m15.choch==="BEARISH"||
-m5.bos==="BEARISH"||
-m5.choch==="BEARISH";
+    if(m5?.condition === "BEARISH")
+        bear += 10;
 
 
-/* PRICE LOCATION */
+    if(m1?.condition === "BULLISH")
+        bull += 5;
 
-const price=m15.current;
-const atr=m15.atr;
+    if(m1?.condition === "BEARISH")
+        bear += 5;
 
-const resistance=m15.resistance;
-const support=m15.support;
 
-const resistanceDistance=
-((resistance-price)/price)*100;
+    /* =====================================================
+       M15 MOMENTUM
+    ===================================================== */
 
-const supportDistance=
-((price-support)/price)*100;
+    if(
+        m15.rsi >= 50 &&
+        m15.rsi < 70
+    ){
 
+        bull += 5;
 
-/*
-=========================================================
-IMPORTANT:
+    }
 
-Don't automatically reject bullish market
-just because RSI > 70.
+    if(
+        m15.rsi > 30 &&
+        m15.rsi < 50
+    ){
 
-Instead:
+        bear += 5;
 
-RSI 70-78 =
-momentum / extended
+    }
 
-RSI >= 78 =
-strong overbought
 
-Trade requires pullback/retest.
-=========================================================
-*/
+    /* =====================================================
+       EMA
+    ===================================================== */
 
+    if(
+        m15.current >
+        m15.ema20 &&
+        m15.ema20 >
+        m15.ema50
+    ){
 
-const stronglyOverbought=m15.rsi>=78;
-const overbought=m15.rsi>=70;
+        bull += 5;
 
-const oversold=m15.rsi<=30;
+    }
 
+    if(
+        m15.current <
+        m15.ema20 &&
+        m15.ema20 <
+        m15.ema50
+    ){
 
-/* RETEST ZONES */
+        bear += 5;
 
-const buyRetestLow=
-resistance-atr*0.45;
+    }
 
-const buyRetestHigh=
-resistance+atr*0.15;
 
-const sellRetestLow=
-support-atr*0.15;
+    /* =====================================================
+       DISTANCE
+    ===================================================== */
 
-const sellRetestHigh=
-support+atr*0.45;
+    const resistanceDistance =
+        (
+            m15.resistance -
+            m15.current
+        ) /
+        m15.current *
+        100;
 
-const bullishRetest=
-price>=buyRetestLow &&
-price<=buyRetestHigh;
+    const supportDistance =
+        (
+            m15.current -
+            m15.support
+        ) /
+        m15.current *
+        100;
 
-const bearishRetest=
-price>=sellRetestLow &&
-price<=sellRetestHigh;
 
+    /* =====================================================
+       STRUCTURE
+    ===================================================== */
 
-/* BREAKOUT */
+    const bullishStructure =
+        m15.bos === "BULLISH" ||
+        m15.choch === "BULLISH" ||
+        m5?.bos === "BULLISH" ||
+        m5?.choch === "BULLISH";
 
-const bullishBreak=
-price>resistance;
+    const bearishStructure =
+        m15.bos === "BEARISH" ||
+        m15.choch === "BEARISH" ||
+        m5?.bos === "BEARISH" ||
+        m5?.choch === "BEARISH";
 
-const bearishBreak=
-price<support;
 
+    /* =====================================================
+       BREAKOUT
+    ===================================================== */
 
-/*
-=========================================================
-BUY CONFIRMATION
+    const resistanceBroken =
+        m15.current >
+        m15.resistance;
 
-Need:
+    const supportBroken =
+        m15.current <
+        m15.support;
 
-D1 bullish
-M30 bullish
-M15 bullish
-M5 bullish
-structure bullish
-AND:
 
-1. breakout + retest
-OR
-2. RSI healthy
-=========================================================
-*/
+    /* =====================================================
+       OVERBOUGHT / OVERSOLD
+    ===================================================== */
 
-const buyCore=
-d1.condition==="BULLISH" &&
-m30.condition==="BULLISH" &&
-m15.condition==="BULLISH" &&
-m5.condition==="BULLISH" &&
-bull>bear &&
-bullishStructure;
+    const overbought =
+        m15.rsi >= 72;
 
-const buyMomentumOK=
-m15.rsi>=50 &&
-m15.rsi<70;
+    const oversold =
+        m15.rsi <= 28;
 
-const buyRetestConfirmed=
-bullishBreak &&
-bullishRetest &&
-m5.condition==="BULLISH";
 
+    /* =====================================================
+       BUY CONFIRMATION
+    ===================================================== */
 
-/*
-=========================================================
-SELL
-=========================================================
-*/
+    const buyConfirmed =
 
-const sellCore=
-d1.condition==="BEARISH" &&
-m30.condition==="BEARISH" &&
-m15.condition==="BEARISH" &&
-m5.condition==="BEARISH" &&
-bear>bull &&
-bearishStructure;
+        d1?.condition === "BULLISH" &&
 
-const sellMomentumOK=
-m15.rsi>30 &&
-m15.rsi<=50;
+        m30?.condition === "BULLISH" &&
 
-const sellRetestConfirmed=
-bearishBreak &&
-bearishRetest &&
-m5.condition==="BEARISH";
+        m15?.condition === "BULLISH" &&
 
+        m5?.condition === "BULLISH" &&
 
-let signal="WAIT";
-let phase="WAIT — MARKET NOT ALIGNED";
+        bullishStructure &&
 
+        (
+            resistanceBroken ||
+            m15.bos === "BULLISH" ||
+            m15.choch === "BULLISH"
+        ) &&
 
-/* ========================================================
-BUY
-======================================================== */
+        !overbought &&
 
-if(
-buyCore &&
-(
-buyMomentumOK||
-buyRetestConfirmed
-) &&
-!stronglyOverbought
-){
+        resistanceDistance > 0.10 &&
 
-signal="BUY";
+        bull > bear;
 
-phase=
-buyRetestConfirmed
-?"BUY — BREAKOUT RETEST CONFIRMED"
-:"BUY — FULL CONFIRMATION";
 
-}
+    /* =====================================================
+       SELL CONFIRMATION
+    ===================================================== */
 
+    const sellConfirmed =
 
-/* ========================================================
-SELL
-======================================================== */
+        d1?.condition === "BEARISH" &&
 
-else if(
-sellCore &&
-(
-sellMomentumOK||
-sellRetestConfirmed
-) &&
-!oversold
-){
+        m30?.condition === "BEARISH" &&
 
-signal="SELL";
+        m15?.condition === "BEARISH" &&
 
-phase=
-sellRetestConfirmed
-?"SELL — BREAKDOWN RETEST CONFIRMED"
-:"SELL — FULL CONFIRMATION";
+        m5?.condition === "BEARISH" &&
 
-}
+        bearishStructure &&
 
+        (
+            supportBroken ||
+            m15.bos === "BEARISH" ||
+            m15.choch === "BEARISH"
+        ) &&
 
-/* ========================================================
-WAIT STATES
-======================================================== */
+        !oversold &&
 
-else if(
-d1.condition==="BULLISH" &&
-m30.condition==="BULLISH" &&
-m15.condition==="BULLISH"
-){
+        supportDistance > 0.10 &&
 
-if(stronglyOverbought){
+        bear > bull;
 
-phase=
-"WAIT — EXTENDED / WAIT PULLBACK";
 
-}
+    /* =====================================================
+       FINAL
+    ===================================================== */
 
-else if(overbought){
+    let signal =
+        "WAIT";
 
-phase=
-"WAIT — BULLISH MOMENTUM / WAIT RETEST";
+    let score =
+        Math.max(
+            50,
+            Math.min(
+                79,
+                Math.max(
+                    bull,
+                    bear
+                )
+            )
+        );
 
-}
+    let phase =
+        "WAIT — MARKET NOT ALIGNED";
 
-else if(
-m5.condition!=="BULLISH"
-){
 
-phase=
-"WAIT — BULLISH SETUP / M5 TRIGGER";
+    if(buyConfirmed){
 
-}
+        signal =
+            "BUY";
 
-else if(!bullishStructure){
+        score =
+            Math.max(
+                80,
+                Math.min(
+                    100,
+                    bull
+                )
+            );
 
-phase=
-"WAIT — BULLISH / STRUCTURE CONFIRMATION";
+        phase =
+            "BUY — FULL CONFIRMATION";
 
-}
+    }
 
-else{
+    else if(sellConfirmed){
 
-phase=
-"WAIT — BULLISH SETUP";
+        signal =
+            "SELL";
 
-}
+        score =
+            Math.max(
+                80,
+                Math.min(
+                    100,
+                    bear
+                )
+            );
 
-}
+        phase =
+            "SELL — FULL CONFIRMATION";
 
-else if(
-d1.condition==="BEARISH" &&
-m30.condition==="BEARISH" &&
-m15.condition==="BEARISH"
-){
+    }
 
-if(oversold){
+    else if(
+        m15.rsi >= 72
+    ){
 
-phase=
-"WAIT — EXTENDED / WAIT BOUNCE";
+        phase =
+            "WAIT — BUY BLOCKED: OVERBOUGHT";
 
-}
+    }
 
-else if(
-m5.condition!=="BEARISH"
-){
+    else if(
+        m15.rsi <= 28
+    ){
 
-phase=
-"WAIT — BEARISH SETUP / M5 TRIGGER";
+        phase =
+            "WAIT — SELL BLOCKED: OVERSOLD";
 
-}
+    }
 
-else if(!bearishStructure){
+    else if(
+        d1?.condition === "BULLISH" &&
+        m30?.condition === "BULLISH" &&
+        m15?.condition === "BULLISH"
+    ){
 
-phase=
-"WAIT — BEARISH / STRUCTURE CONFIRMATION";
+        phase =
+            "WAIT — BULLISH SETUP / TRIGGER NOT READY";
 
-}
+    }
 
-else{
+    else if(
+        d1?.condition === "BEARISH" &&
+        m30?.condition === "BEARISH" &&
+        m15?.condition === "BEARISH"
+    ){
 
-phase=
-"WAIT — BEARISH SETUP";
+        phase =
+            "WAIT — BEARISH SETUP / TRIGGER NOT READY";
 
-}
+    }
 
-}
+    else if(
+        resistanceDistance <= 0.10
+    ){
 
-else if(
-resistanceDistance<=0.15 &&
-m15.rsi>=70
-){
+        phase =
+            "WAIT — NEAR RESISTANCE";
 
-phase=
-"WAIT — RESISTANCE + OVERBOUGHT";
+    }
 
-}
+    else if(
+        supportDistance <= 0.10
+    ){
 
-else if(
-supportDistance<=0.15 &&
-m15.rsi<=30
-){
+        phase =
+            "WAIT — NEAR SUPPORT";
 
-phase=
-"WAIT — SUPPORT + OVERSOLD";
+    }
 
-}
 
-else if(
-h1.condition==="NEUTRAL"
-){
-
-phase=
-"WAIT — H1 NEUTRAL / MONITOR";
-
-}
-
-const alignment=
-Math.max(bull,bear);
-
-let score=Math.max(
-50,
-Math.min(79,alignment)
-);
-
-if(signal==="BUY")
-score=Math.max(80,Math.min(100,bull));
-
-if(signal==="SELL")
-score=Math.max(80,Math.min(100,bear));
-
-return{
-signal,
-score,
-phase,
-bull,
-bear,
-resistanceDistance,
-supportDistance,
-bullishRetest,
-bearishRetest,
-bullishBreak,
-bearishBreak
-};
+    return {
+        signal,
+        score,
+        phase,
+        resistanceDistance,
+        supportDistance,
+        bull,
+        bear
+    };
 
 }
 
 
 /* =========================================================
-UPDATE DASHBOARD
+   TRADE PLAN
+========================================================= */
+
+function updateTradePlan(signalData){
+
+    const m15 =
+        timeframeData.M15;
+
+    if(!m15)
+        return;
+
+
+    const signal =
+        signalData.signal;
+
+    const price =
+        liveBTCPrice ||
+        m15.current;
+
+    const atr =
+        m15.atr;
+
+
+    let entry = null;
+    let sl = null;
+    let tp1 = null;
+    let tp2 = null;
+
+
+    if(signal === "BUY"){
+
+        entry =
+            price;
+
+        sl =
+            Math.min(
+                m15.support,
+                entry - atr * 1.2
+            );
+
+        const risk =
+            entry - sl;
+
+        tp1 =
+            entry +
+            risk * 1.5;
+
+        tp2 =
+            entry +
+            risk * 2.5;
+
+    }
+
+
+    else if(signal === "SELL"){
+
+        entry =
+            price;
+
+        sl =
+            Math.max(
+                m15.resistance,
+                entry + atr * 1.2
+            );
+
+        const risk =
+            sl - entry;
+
+        tp1 =
+            entry -
+            risk * 1.5;
+
+        tp2 =
+            entry -
+            risk * 2.5;
+
+    }
+
+
+    setText(
+        "tradeSignal",
+        signal
+    );
+
+
+    const signalEl =
+        document.getElementById("tradeSignal");
+
+    if(signalEl){
+
+        signalEl.className =
+            "metric-value " +
+            colorClass(signal);
+
+    }
+
+
+    setText(
+        "entryZone",
+        entry !== null
+        ? formatPrice(entry)
+        : "--"
+    );
+
+    setText(
+        "tradeSL",
+        sl !== null
+        ? formatPrice(sl)
+        : "--"
+    );
+
+    setText(
+        "tradeTP1",
+        tp1 !== null
+        ? formatPrice(tp1)
+        : "--"
+    );
+
+    setText(
+        "tradeTP2",
+        tp2 !== null
+        ? formatPrice(tp2)
+        : "--"
+    );
+
+    setText(
+        "tradeRR",
+        signal !== "WAIT"
+        ? "1 : 2.5"
+        : "--"
+    );
+
+
+    setText(
+        "marketPhase",
+        signalData.phase
+    );
+
+
+    const phaseEl =
+        document.getElementById("marketPhase");
+
+    if(phaseEl){
+
+        phaseEl.className =
+            "metric-value " +
+            (
+                signal === "BUY"
+                ? "green"
+                : signal === "SELL"
+                ? "red"
+                : "yellow"
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE DASHBOARD
 ========================================================= */
 
 function updateDashboard(){
 
-const m15=timeframeData.M15;
+    const m15 =
+        timeframeData.M15;
 
-if(!m15)return;
+    if(!m15){
 
-const result=calculateSignal();
+        setConnection(
+            "DATA ERROR",
+            "error"
+        );
 
-const signalEl=
-document.getElementById("overallSignal");
+        return;
 
-signalEl.textContent=result.signal;
+    }
 
-signalEl.className=
-"signal "+
-(
-result.signal==="BUY"
-?"green"
-:result.signal==="SELL"
-?"red"
-:"yellow"
-);
 
-document.getElementById("overallScore").textContent=
-result.score+"/100";
+    const signalData =
+        calculateSignal();
 
-document.getElementById("scoreBar").style.width=
-result.score+"%";
 
+    /* =====================================================
+       MAIN SIGNAL
+    ===================================================== */
 
-/* TRADE PLAN */
+    setText(
+        "overallSignal",
+        signalData.signal
+    );
 
-const tradeSignal=
-document.getElementById("tradeSignal");
+    setText(
+        "overallScore",
+        signalData.score +
+        "/100"
+    );
 
-tradeSignal.textContent=result.signal;
 
-tradeSignal.className=
-"metric-value "+
-(
-result.signal==="BUY"
-?"green"
-:result.signal==="SELL"
-?"red"
-:"yellow"
-);
+    const signalEl =
+        document.getElementById("overallSignal");
 
+    if(signalEl){
 
-let entry=null;
-let sl=null;
-let tp1=null;
-let tp2=null;
-let rr=null;
+        signalEl.className =
+            "signal " +
+            colorClass(
+                signalData.signal
+            );
 
-const price=
-liveBTCPrice||m15.current;
+    }
 
-const atr=m15.atr;
 
+    const bar =
+        document.getElementById("scoreBar");
 
-/* BUY */
+    if(bar){
 
-if(result.signal==="BUY"){
+        bar.style.width =
+            signalData.score + "%";
 
-entry=price;
+    }
 
-sl=Math.min(
-m15.support,
-entry-atr*1.2
-);
 
-const risk=entry-sl;
+    /* =====================================================
+       TRADE PLAN
+    ===================================================== */
 
-tp1=entry+risk*1.5;
-tp2=entry+risk*2.5;
+    updateTradePlan(
+        signalData
+    );
 
-rr="1 : 2.5";
 
-}
+    /* =====================================================
+       INDICATORS
+    ===================================================== */
 
+    setText(
+        "ema20",
+        formatPrice(m15.ema20)
+    );
 
-/* SELL */
+    setText(
+        "ema50",
+        formatPrice(m15.ema50)
+    );
 
-if(result.signal==="SELL"){
+    setText(
+        "rsi",
+        m15.rsi.toFixed(2)
+    );
 
-entry=price;
+    setText(
+        "atr",
+        formatPrice(m15.atr)
+    );
 
-sl=Math.max(
-m15.resistance,
-entry+atr*1.2
-);
+    setText(
+        "volume",
+        formatNumber(m15.currentVolume)
+    );
 
-const risk=sl-entry;
+    setText(
+        "volumeState",
+        m15.volumeState
+    );
 
-tp1=entry-risk*1.5;
-tp2=entry-risk*2.5;
 
-rr="1 : 2.5";
+    const uptrend =
+        m15.ema20 >
+        m15.ema50;
 
-}
 
+    setText(
+        "trend",
+        uptrend
+        ? "UPTREND"
+        : "DOWNTREND"
+    );
 
-document.getElementById("entryZone").textContent=
-entry!==null?formatPrice(entry):"--";
+    setText(
+        "trendState",
+        uptrend
+        ? "EMA20 > EMA50"
+        : "EMA20 < EMA50"
+    );
 
-document.getElementById("tradeSL").textContent=
-sl!==null?formatPrice(sl):"--";
 
-document.getElementById("tradeTP1").textContent=
-tp1!==null?formatPrice(tp1):"--";
+    /* =====================================================
+       RSI
+    ===================================================== */
 
-document.getElementById("tradeTP2").textContent=
-tp2!==null?formatPrice(tp2):"--";
+    let rsiState =
+        "NEUTRAL";
 
-document.getElementById("tradeRR").textContent=
-rr||"--";
+    if(m15.rsi >= 70)
+        rsiState = "OVERBOUGHT";
 
+    else if(m15.rsi <= 30)
+        rsiState = "OVERSOLD";
 
-/* MARKET PHASE */
+    else if(m15.rsi >= 50)
+        rsiState = "POSITIVE";
+
+    else
+        rsiState = "WEAK";
+
+
+    setText(
+        "rsiState",
+        rsiState
+    );
+
+
+    /* =====================================================
+       EMA STATES
+    ===================================================== */
+
+    setText(
+        "ema20State",
+        m15.current > m15.ema20
+        ? "Price above EMA20"
+        : "Price below EMA20"
+    );
+
+    setText(
+        "ema50State",
+        m15.current > m15.ema50
+        ? "Price above EMA50"
+        : "Price below EMA50"
+    );
+
+
+    /* =====================================================
+       BOLLINGER
+    ===================================================== */
+
+    setText(
+        "bbUpper",
+        formatPrice(m15.upper)
+    );
+
+    setText(
+        "bbMiddle",
+        formatPrice(m15.middle)
+    );
+
+    setText(
+        "bbLower",
+        formatPrice(m15.lower)
+    );
+
+    setText(
+        "bbPosition",
+        m15.bbPosition
+    );
 
-const phaseEl=
-document.getElementById("marketPhase");
 
-phaseEl.textContent=result.phase;
+    /* =====================================================
+       S/R
+    ===================================================== */
+
+    setText(
+        "resistance",
+        formatPrice(m15.resistance)
+    );
 
-phaseEl.className=
-"metric-value phase "+
-(
-result.signal==="BUY"
-?"green"
-:result.signal==="SELL"
-?"red"
-:"yellow"
-);
+    setText(
+        "support",
+        formatPrice(m15.support)
+    );
 
+    setText(
+        "resistanceDistance",
+        signalData.resistanceDistance.toFixed(2) +
+        "%"
+    );
 
-/* INDICATORS */
+    setText(
+        "supportDistance",
+        signalData.supportDistance.toFixed(2) +
+        "%"
+    );
 
-document.getElementById("ema20").textContent=
-formatPrice(m15.ema20);
 
-document.getElementById("ema50").textContent=
-formatPrice(m15.ema50);
+    /* =====================================================
+       STRUCTURE
+    ===================================================== */
 
-document.getElementById("rsi").textContent=
-m15.rsi.toFixed(2);
+    setText(
+        "lastHigh",
+        formatPrice(
+            m15.lastHigh ||
+            m15.resistance
+        )
+    );
 
-document.getElementById("atr").textContent=
-formatPrice(m15.atr);
+    setText(
+        "lastLow",
+        formatPrice(
+            m15.lastLow ||
+            m15.support
+        )
+    );
 
-document.getElementById("volume").textContent=
-formatNumber(m15.currentVolume);
+    setText(
+        "structure",
+        m15.structure
+    );
 
-document.getElementById("volumeState").textContent=
-m15.volumeState;
+    setText(
+        "bos",
+        m15.bos
+    );
 
-document.getElementById("rsiState").textContent=
-m15.rsi>=78
-?"EXTREME OVERBOUGHT"
-:m15.rsi>=70
-?"OVERBOUGHT"
-:m15.rsi<=30
-?"OVERSOLD"
-:m15.rsi>50
-?"POSITIVE"
-:"WEAK";
+    setText(
+        "choch",
+        m15.choch
+    );
 
-document.getElementById("ema20State").textContent=
-m15.current>m15.ema20
-?"Price above EMA20"
-:"Price below EMA20";
+    setText(
+        "volatility",
+        (
+            m15.atr /
+            m15.current *
+            100
+        ).toFixed(2) +
+        "%"
+    );
 
-document.getElementById("ema50State").textContent=
-m15.current>m15.ema50
-?"Price above EMA50"
-:"Price below EMA50";
 
+    /* =====================================================
+       TIMEFRAME CARDS
+    ===================================================== */
 
-const uptrend=
-m15.ema20>m15.ema50;
+    const tfGrid =
+        document.getElementById(
+            "timeframeGrid"
+        );
 
-document.getElementById("trend").textContent=
-uptrend?"UPTREND":"DOWNTREND";
+    if(tfGrid){
 
-document.getElementById("trendState").textContent=
-uptrend?"EMA20 > EMA50":"EMA20 < EMA50";
+        tfGrid.innerHTML = "";
 
+        TIMEFRAMES.forEach(tf => {
 
-/* BB */
+            const data =
+                timeframeData[tf.label];
 
-document.getElementById("bbUpper").textContent=
-formatPrice(m15.upper);
+            const div =
+                document.createElement("div");
 
-document.getElementById("bbMiddle").textContent=
-formatPrice(m15.middle);
+            div.className =
+                "tf";
 
-document.getElementById("bbLower").textContent=
-formatPrice(m15.lower);
+            if(!data){
 
-document.getElementById("bbPosition").textContent=
-m15.bbPosition;
+                div.innerHTML = `
+                    <div class="tf-name">
+                        ${tf.label}
+                    </div>
 
+                    <div class="tf-status muted">
+                        --
+                    </div>
 
-/* S/R */
+                    <div class="tf-value">
+                        --
+                    </div>
+                `;
 
-document.getElementById("resistance").textContent=
-formatPrice(m15.resistance);
+            }
 
-document.getElementById("support").textContent=
-formatPrice(m15.support);
+            else{
 
-document.getElementById("resistanceDistance").textContent=
-result.resistanceDistance.toFixed(2)+"%";
+                div.innerHTML = `
+                    <div class="tf-name">
+                        ${tf.label}
+                    </div>
 
-document.getElementById("supportDistance").textContent=
-result.supportDistance.toFixed(2)+"%";
+                    <div class="tf-status ${colorClass(data.condition)}">
+                        ${data.condition}
+                    </div>
 
+                    <div class="tf-value">
+                        ${data.score}/100
+                    </div>
+                `;
 
-/* STRUCTURE */
+            }
 
-document.getElementById("lastHigh").textContent=
-formatPrice(m15.lastSwingHigh||m15.resistance);
+            tfGrid.appendChild(div);
 
-document.getElementById("lastLow").textContent=
-formatPrice(m15.lastSwingLow||m15.support);
+        });
 
-document.getElementById("structure").textContent=
-m15.structure;
+    }
 
-document.getElementById("bos").textContent=
-m15.bos;
 
-document.getElementById("choch").textContent=
-m15.choch;
+    /* =====================================================
+       TABLE
+    ===================================================== */
 
-document.getElementById("volatility").textContent=
-((m15.atr/m15.current)*100).toFixed(2)+"%";
+    const table =
+        document.getElementById(
+            "analysisTable"
+        );
 
+    if(table){
 
-/* TIMEFRAME */
+        table.innerHTML = "";
 
-const tfGrid=
-document.getElementById("timeframeGrid");
+        TIMEFRAMES.forEach(tf => {
 
-tfGrid.innerHTML="";
+            const data =
+                timeframeData[tf.label];
 
-TIMEFRAMES.forEach(tf=>{
+            if(!data)
+                return;
 
-const data=timeframeData[tf.label];
+            const row =
+                document.createElement("tr");
 
-if(!data)return;
+            row.innerHTML = `
 
-const color=
-data.condition==="BULLISH"
-?"green"
-:data.condition==="BEARISH"
-?"red"
-:"yellow";
+                <td>
+                    <strong>
+                        ${tf.label}
+                    </strong>
+                </td>
 
-const div=document.createElement("div");
+                <td>
+                    ${formatPrice(data.current)}
+                </td>
 
-div.className="tf";
+                <td>
+                    ${formatPrice(data.ema20)}
+                </td>
 
-div.innerHTML=`
-<div class="tf-name">${tf.label}</div>
-<div class="tf-status ${color}">
-${data.condition}
-</div>
-<div class="tf-value">
-${data.score}/100
-</div>
-`;
+                <td>
+                    ${formatPrice(data.ema50)}
+                </td>
 
-tfGrid.appendChild(div);
+                <td>
+                    ${data.rsi.toFixed(1)}
+                </td>
 
-});
+                <td>
+                    ${formatPrice(data.atr)}
+                </td>
 
+                <td>
+                    ${data.bbPosition}
+                </td>
 
-/* TABLE */
+                <td class="${colorClass(data.condition)}">
+                    <strong>
+                        ${data.condition}
+                    </strong>
+                </td>
 
-const table=
-document.getElementById("analysisTable");
+            `;
 
-table.innerHTML="";
+            table.appendChild(row);
 
-TIMEFRAMES.forEach(tf=>{
+        });
 
-const data=timeframeData[tf.label];
-
-if(!data)return;
-
-const color=
-data.condition==="BULLISH"
-?"green"
-:data.condition==="BEARISH"
-?"red"
-:"yellow";
-
-const row=document.createElement("tr");
-
-row.innerHTML=`
-
-<td><strong>${tf.label}</strong></td>
-
-<td>${formatPrice(data.current)}</td>
-
-<td>${formatPrice(data.ema20)}</td>
-
-<td>${formatPrice(data.ema50)}</td>
-
-<td>${data.rsi.toFixed(1)}</td>
-
-<td>${formatPrice(data.atr)}</td>
-
-<td>${data.bbPosition}</td>
-
-<td class="${color}">
-<strong>${data.condition}</strong>
-</td>
-
-`;
-
-table.appendChild(row);
-
-});
+    }
 
 }
 
 
 /* =========================================================
-MAIN LOAD
+   LOAD EVERYTHING
 ========================================================= */
 
 async function loadAllData(){
 
-try{
+    try{
 
-setConnection(
-"LOADING DATA...",
-""
-);
+        setConnection(
+            "LOADING DATA...",
+            ""
+        );
 
-await loadTicker();
+        await loadTicker();
 
-await loadTechnicalData();
+        await loadTechnicalData();
 
-setConnection(
-"LIVE MARKET DATA",
-"live"
-);
+        setConnection(
+            "LIVE MARKET DATA",
+            "live"
+        );
 
-document.getElementById("lastUpdate").textContent=
-"Updated: "+
-new Date().toLocaleTimeString();
+        setText(
+            "lastUpdate",
+            "Updated: " +
+            new Date().toLocaleTimeString()
+        );
 
-}catch(error){
+    }
 
-console.error(error);
+    catch(error){
 
-setConnection(
-"CONNECTION ERROR",
-"error"
-);
+        console.error(
+            "LOAD ERROR:",
+            error
+        );
 
-document.getElementById("lastUpdate").textContent=
-"Unable to load data";
+        setConnection(
+            "CONNECTION ERROR",
+            "error"
+        );
 
-}
+        setText(
+            "lastUpdate",
+            "Unable to load Binance data"
+        );
+
+    }
 
 }
 
 
 /* =========================================================
-WEBSOCKET
+   LIVE PRICE WEBSOCKET
 ========================================================= */
 
 function connectPriceWebSocket(){
 
-if(priceSocket){
+    try{
 
-try{
-priceSocket.close();
-}catch(e){}
+        if(priceSocket){
 
-}
+            priceSocket.close();
 
-priceSocket=
-new WebSocket(
-"wss://fstream.binance.com/ws/btcusdt@ticker"
-);
+        }
 
-priceSocket.onopen=function(){
-
-setConnection(
-"LIVE MARKET DATA",
-"live"
-);
-
-};
+    }catch(e){}
 
 
-priceSocket.onmessage=function(event){
-
-try{
-
-const data=JSON.parse(event.data);
-
-liveBTCPrice=Number(data.c);
-
-document.getElementById("livePrice").textContent=
-formatPrice(liveBTCPrice);
-
-const change=Number(data.P);
-
-const changeEl=
-document.getElementById("priceChange");
-
-changeEl.textContent=
-(change>=0?"+":"")+
-change.toFixed(2)+"%";
-
-changeEl.className=
-"change "+
-(change>=0?"green":"red");
-
-}catch(error){
-
-console.error(error);
-
-}
-
-};
+    priceSocket =
+        new WebSocket(
+            "wss://fstream.binance.com/ws/btcusdt@ticker"
+        );
 
 
-priceSocket.onerror=function(){
+    priceSocket.onopen =
+        function(){
 
-setConnection(
-"WEBSOCKET ERROR",
-"error"
-);
+            setConnection(
+                "LIVE MARKET DATA",
+                "live"
+            );
 
-};
+        };
 
 
-priceSocket.onclose=function(){
+    priceSocket.onmessage =
+        function(event){
 
-setConnection(
-"RECONNECTING...",
-""
-);
+            try{
 
-setTimeout(
-connectPriceWebSocket,
-3000
-);
+                const data =
+                    JSON.parse(
+                        event.data
+                    );
 
-};
+                const price =
+                    Number(data.c);
+
+                if(!Number.isFinite(price))
+                    return;
+
+                liveBTCPrice =
+                    price;
+
+
+                setText(
+                    "livePrice",
+                    formatPrice(price)
+                );
+
+
+                const change =
+                    Number(data.P);
+
+
+                const changeEl =
+                    document.getElementById(
+                        "priceChange"
+                    );
+
+
+                if(changeEl){
+
+                    changeEl.textContent =
+                        (change >= 0 ? "+" : "") +
+                        change.toFixed(2) +
+                        "%";
+
+                    changeEl.className =
+                        "change " +
+                        (
+                            change >= 0
+                            ? "green"
+                            : "red"
+                        );
+
+                }
+
+
+            }catch(error){
+
+                console.error(
+                    "WebSocket parse error",
+                    error
+                );
+
+            }
+
+        };
+
+
+    priceSocket.onerror =
+        function(){
+
+            setConnection(
+                "WEBSOCKET ERROR",
+                "error"
+            );
+
+        };
+
+
+    priceSocket.onclose =
+        function(){
+
+            setConnection(
+                "RECONNECTING...",
+                ""
+            );
+
+            setTimeout(
+                connectPriceWebSocket,
+                3000
+            );
+
+        };
 
 }
 
 
 /* =========================================================
-START
+   START
 ========================================================= */
 
 loadAllData();
 
 connectPriceWebSocket();
 
+
+/* =========================================================
+   REFRESH TECHNICAL DATA EVERY 10 SECONDS
+========================================================= */
+
 setInterval(
-loadAllData,
-10000
+    loadAllData,
+    10000
 );
 
 </script>
