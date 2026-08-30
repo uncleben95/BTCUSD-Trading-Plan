@@ -3345,7 +3345,7 @@ function connectPriceWebSocket(){
     );
 
     priceSocket = new WebSocket(
-        "wss://fstream.binance.com/ws/btcusdt@ticker"
+        "wss://stream.binance.com:9443/ws/btcusdt@ticker"
     );
 
     priceSocket.onopen = function(){
