@@ -26,34 +26,18 @@ font-family:Inter,Arial,sans-serif;
 min-height:100vh
 }
 
-.container{
-width:min(1450px,94%);
-margin:auto;
-padding:20px 0 40px
-}
+.container{width:min(1450px,94%);margin:auto;padding:20px 0 40px}
 
 .header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:20px;
-margin-bottom:18px
+display:flex;justify-content:space-between;align-items:center;
+gap:20px;margin-bottom:18px
 }
 
-.brand{
-display:flex;
-align-items:center;
-gap:13px
-}
+.brand{display:flex;align-items:center;gap:13px}
 
 .logo{
-width:48px;
-height:48px;
-border-radius:14px;
-display:grid;
-place-items:center;
-font-weight:900;
-font-size:22px;
+width:48px;height:48px;border-radius:14px;display:grid;
+place-items:center;font-weight:900;font-size:22px;
 background:linear-gradient(135deg,#f7931a,#ffb347);
 color:#111;
 box-shadow:0 8px 20px rgba(247,147,26,.18)
@@ -63,61 +47,27 @@ box-shadow:0 8px 20px rgba(247,147,26,.18)
 .brand p{color:var(--muted);font-size:12px;margin-top:3px}
 
 .status{
-display:flex;
-align-items:center;
-gap:8px;
-background:#fff;
-border:1px solid var(--border);
-padding:9px 13px;
-border-radius:12px;
-font-size:11px;
-color:var(--muted);
-box-shadow:0 3px 12px rgba(30,50,80,.04)
+display:flex;align-items:center;gap:8px;background:#fff;
+border:1px solid var(--border);padding:9px 13px;border-radius:12px;
+font-size:11px;color:var(--muted);box-shadow:0 3px 12px rgba(30,50,80,.04)
 }
 
-.dot{
-width:8px;
-height:8px;
-border-radius:50%;
-background:var(--yellow)
-}
-
-.dot.live{
-background:var(--green);
-box-shadow:0 0 8px rgba(16,169,104,.5)
-}
-
+.dot{width:8px;height:8px;border-radius:50%;background:var(--yellow)}
+.dot.live{background:var(--green);box-shadow:0 0 8px rgba(16,169,104,.5)}
 .dot.error{background:var(--red)}
 
 .price-card{
-background:#fff;
-border:1px solid var(--border);
-border-radius:18px;
-padding:22px;
-margin-bottom:15px;
-box-shadow:0 5px 20px rgba(30,50,80,.05)
+background:#fff;border:1px solid var(--border);border-radius:18px;
+padding:22px;margin-bottom:15px;box-shadow:0 5px 20px rgba(30,50,80,.05)
 }
 
 .price-top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:20px
+display:flex;justify-content:space-between;align-items:flex-start;gap:20px
 }
 
 .symbol{color:var(--muted);font-size:12px}
-
-.price{
-font-size:42px;
-font-weight:850;
-margin:5px 0;
-letter-spacing:-1px
-}
-
-.change{
-font-size:13px;
-font-weight:700
-}
+.price{font-size:42px;font-weight:850;margin:5px 0;letter-spacing:-1px}
+.change{font-size:13px;font-weight:700}
 
 .green{color:var(--green)}
 .red{color:var(--red)}
@@ -125,43 +75,26 @@ font-weight:700
 .blue{color:var(--blue)}
 .muted{color:var(--muted)}
 
-.price-actions{
-display:flex;
-gap:8px
-}
+.price-actions{display:flex;gap:8px}
 
 .btn{
-border:1px solid var(--border);
-background:#f8fafc;
-color:#334155;
-padding:9px 13px;
-border-radius:9px;
-cursor:pointer;
-font-size:11px
+border:1px solid var(--border);background:#f8fafc;color:#334155;
+padding:9px 13px;border-radius:9px;cursor:pointer;font-size:11px
 }
 
 .btn:hover{background:#eef3f8}
 
 .grid{
-display:grid;
-grid-template-columns:repeat(12,1fr);
-gap:15px
+display:grid;grid-template-columns:repeat(12,1fr);gap:15px
 }
 
 .card{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:16px;
-padding:17px;
-min-width:0;
-box-shadow:0 4px 16px rgba(30,50,80,.035)
+background:var(--card);border:1px solid var(--border);border-radius:16px;
+padding:17px;min-width:0;box-shadow:0 4px 16px rgba(30,50,80,.035)
 }
 
 .card-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px
+display:flex;justify-content:space-between;align-items:center;margin-bottom:15px
 }
 
 .card-title h2{font-size:14px}
@@ -174,183 +107,89 @@ margin-bottom:15px
 .col-12{grid-column:span 12}
 
 .tf-grid{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:8px
+display:grid;grid-template-columns:repeat(7,1fr);gap:8px
 }
 
 .tf{
-background:#f8fafc;
-border:1px solid var(--border);
-padding:12px 5px;
-border-radius:10px;
-text-align:center
+background:#f8fafc;border:1px solid var(--border);
+padding:12px 5px;border-radius:10px;text-align:center
 }
 
-.tf-name{
-font-size:10px;
-color:var(--muted)
-}
-
-.tf-status{
-font-size:12px;
-font-weight:800;
-margin-top:6px
-}
-
-.tf-value{
-font-size:9px;
-color:var(--muted);
-margin-top:4px
-}
+.tf-name{font-size:10px;color:var(--muted)}
+.tf-status{font-size:12px;font-weight:800;margin-top:6px}
+.tf-value{font-size:9px;color:var(--muted);margin-top:4px}
 
 .metric-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px
+display:grid;grid-template-columns:repeat(2,1fr);gap:10px
 }
 
 .metric{
-background:#f8fafc;
-border:1px solid var(--border);
-padding:12px;
-border-radius:11px
+background:#f8fafc;border:1px solid var(--border);
+padding:12px;border-radius:11px
 }
 
-.metric-name{
-color:var(--muted);
-font-size:9px;
-margin-bottom:6px
-}
-
-.metric-value{
-font-size:16px;
-font-weight:800
-}
-
-.metric-sub{
-font-size:9px;
-margin-top:4px
-}
+.metric-name{color:var(--muted);font-size:9px;margin-bottom:6px}
+.metric-value{font-size:16px;font-weight:800}
+.metric-sub{font-size:9px;margin-top:4px}
 
 .signal-box{
-display:flex;
-justify-content:space-between;
-align-items:center
+display:flex;justify-content:space-between;align-items:center
 }
 
-.signal-label{
-color:var(--muted);
-font-size:10px
-}
-
-.signal{
-font-size:34px;
-font-weight:900;
-margin-top:4px
-}
+.signal-label{color:var(--muted);font-size:10px}
+.signal{font-size:34px;font-weight:900;margin-top:4px}
 
 .confidence{text-align:right}
-
-.confidence span{
-color:var(--muted);
-font-size:10px
-}
-
-.confidence strong{
-display:block;
-font-size:26px
-}
+.confidence span{color:var(--muted);font-size:10px}
+.confidence strong{display:block;font-size:26px}
 
 .progress{
-height:7px;
-background:#e8edf3;
-border-radius:10px;
-overflow:hidden;
-margin-top:14px
+height:7px;background:#e8edf3;border-radius:10px;
+overflow:hidden;margin-top:14px
 }
 
 .progress span{
-display:block;
-height:100%;
-width:0;
-background:var(--green);
-transition:.3s
+display:block;height:100%;width:0;background:var(--green);transition:.3s
 }
 
 .table-wrap{overflow-x:auto}
 
-table{
-width:100%;
-border-collapse:collapse;
-font-size:11px
-}
+table{width:100%;border-collapse:collapse;font-size:11px}
 
 th{
-color:var(--muted);
-font-weight:600;
-text-align:left;
-padding:9px;
+color:var(--muted);font-weight:600;text-align:left;padding:9px;
 border-bottom:1px solid var(--border)
 }
 
-td{
-padding:10px 9px;
-border-bottom:1px solid #edf1f5
-}
-
+td{padding:10px 9px;border-bottom:1px solid #edf1f5}
 tr:last-child td{border-bottom:0}
 
 .bb-box{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px
+display:grid;grid-template-columns:repeat(3,1fr);gap:10px
 }
 
 .bb-item{
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:10px;
-padding:12px
+background:#f8fafc;border:1px solid var(--border);
+border-radius:10px;padding:12px
 }
 
-.bb-name{
-font-size:9px;
-color:var(--muted)
-}
-
-.bb-value{
-font-size:14px;
-font-weight:800;
-margin-top:5px
-}
+.bb-name{font-size:9px;color:var(--muted)}
+.bb-value{font-size:14px;font-weight:800;margin-top:5px}
 
 .structure{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px
+display:grid;grid-template-columns:repeat(3,1fr);gap:10px
 }
 
 .structure-box{
-padding:13px;
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:10px;
-text-align:center
+padding:13px;background:#f8fafc;border:1px solid var(--border);
+border-radius:10px;text-align:center
 }
 
 .structure-box strong{
-display:block;
-font-size:17px;
-margin-top:5px
+display:block;font-size:17px;margin-top:5px
 }
 
-.footer{
-text-align:center;
-color:#94a3b8;
-font-size:9px;
-margin-top:18px
-}
+.footer{text-align:center;color:#94a3b8;font-size:9px;margin-top:18px}
 
 @media(max-width:1000px){
 .col-3,.col-4,.col-6,.col-8{grid-column:span 6}
@@ -359,51 +198,18 @@ margin-top:18px
 }
 
 @media(max-width:650px){
-.container{
-width:94%;
-padding-top:12px
-}
-
-.header{
-align-items:flex-start
-}
-
+.container{width:94%;padding-top:12px}
+.header{align-items:flex-start}
 .brand h1{font-size:18px}
-
-.status{
-font-size:9px;
-padding:7px 9px
-}
-
-.logo{
-width:42px;
-height:42px;
-font-size:18px
-}
-
+.status{font-size:9px;padding:7px 9px}
+.logo{width:42px;height:42px;font-size:18px}
 .price{font-size:30px}
-
-.price-top{
-flex-direction:column
-}
-
-.price-actions{
-width:100%
-}
-
+.price-top{flex-direction:column}
+.price-actions{width:100%}
 .price-actions .btn{flex:1}
-
-.col-3,.col-4,.col-6,.col-8,.col-12{
-grid-column:span 12
-}
-
-.tf-grid{
-grid-template-columns:repeat(4,1fr)
-}
-
-.structure{
-grid-template-columns:repeat(2,1fr)
-}
+.col-3,.col-4,.col-6,.col-8,.col-12{grid-column:span 12}
+.tf-grid{grid-template-columns:repeat(4,1fr)}
+.structure{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -415,19 +221,17 @@ grid-template-columns:repeat(2,1fr)
 <header class="header">
 
 <div class="brand">
-
 <div class="logo">₿</div>
 
 <div>
 <h1>BTCUSD Technical Monitor</h1>
 <p>Live Technical Market Data</p>
 </div>
-
 </div>
 
 <div class="status">
 <span class="dot" id="statusDot"></span>
-<span id="connectionStatus">READY</span>
+<span id="connectionStatus">STARTING</span>
 </div>
 
 </header>
@@ -443,7 +247,7 @@ grid-template-columns:repeat(2,1fr)
 </div>
 
 <div class="price-actions">
-<button class="btn" onclick="loadAllData()">↻ Refresh</button>
+<button class="btn" onclick="loadAllData(true)">↻ Refresh</button>
 </div>
 
 </div>
@@ -478,6 +282,7 @@ grid-template-columns:repeat(2,1fr)
 </div>
 
 </section>
+
 
 <section class="card col-4">
 
@@ -520,12 +325,13 @@ grid-template-columns:repeat(2,1fr)
 
 <div class="metric" style="grid-column:1/-1">
 <div class="metric-name">MARKET PHASE</div>
-<div class="metric-value yellow" id="marketPhase">--</div>
+<div class="metric-value yellow" id="marketPhase">WAIT</div>
 </div>
 
 </div>
 
 </section>
+
 
 <section class="card col-4">
 
@@ -560,6 +366,7 @@ grid-template-columns:repeat(2,1fr)
 
 </section>
 
+
 <section class="card col-4">
 
 <div class="card-title">
@@ -570,6 +377,7 @@ grid-template-columns:repeat(2,1fr)
 <div class="tf-grid" id="timeframeGrid"></div>
 
 </section>
+
 
 <section class="card col-8">
 
@@ -620,6 +428,7 @@ grid-template-columns:repeat(2,1fr)
 
 </section>
 
+
 <section class="card col-4">
 
 <div class="card-title">
@@ -651,6 +460,7 @@ Position: <strong id="bbPosition">--</strong>
 </div>
 
 </section>
+
 
 <section class="card col-4">
 
@@ -684,6 +494,7 @@ Position: <strong id="bbPosition">--</strong>
 </div>
 
 </section>
+
 
 <section class="card col-4">
 
@@ -728,11 +539,12 @@ Position: <strong id="bbPosition">--</strong>
 
 </section>
 
+
 <section class="card col-12">
 
 <div class="card-title">
 <h2>Technical Timeframe Analysis</h2>
-<span>Public Market Data</span>
+<span>Historical + Live</span>
 </div>
 
 <div class="table-wrap">
@@ -756,7 +568,7 @@ Position: <strong id="bbPosition">--</strong>
 
 <tr>
 <td colspan="8" style="text-align:center;color:#718096">
-Loading...
+Waiting for historical data...
 </td>
 </tr>
 
@@ -767,6 +579,7 @@ Loading...
 </div>
 
 </section>
+
 
 <section class="card col-12">
 
@@ -789,12 +602,12 @@ Loading...
 
 <div class="metric">
 <div class="metric-name">SOURCE</div>
-<div class="metric-value" id="dataSource">--</div>
+<div class="metric-value" id="dataSource">CACHE</div>
 </div>
 
 <div class="metric">
 <div class="metric-name">UPDATE</div>
-<div class="metric-value">10s</div>
+<div class="metric-value">BACKGROUND</div>
 </div>
 
 </div>
@@ -809,34 +622,28 @@ BTCUSD Technical Monitor · Market data only · No order execution
 
 </div>
 
+
 <script>
 
 /* =========================================================
    BTCUSD TECHNICAL MONITOR
-   SIGNAL ENGINE v2
+   HISTORY CACHE ENGINE
 
-   FLOW:
+   IMPORTANT:
 
-   HTF BIAS
-      ↓
-   M30 + M15 SETUP
-      ↓
-   RESISTANCE / SUPPORT
-      ↓
-   BREAKOUT
-      ↓
-   RETEST
-      ↓
-   M5 TRIGGER
-      ↓
-   BUY / SELL
-
-   PUBLIC DATA ONLY
+   1. Historical candles are stored locally.
+   2. Cached candles calculate immediately.
+   3. API refresh runs in parallel.
+   4. Each timeframe updates independently.
+   5. No sequential 7-timeframe blocking.
 ========================================================= */
 
 const BINANCE_API="https://api.binance.com/api/v3";
 const COINBASE_API="https://api.exchange.coinbase.com";
+
 const SYMBOL="BTCUSDT";
+
+const CACHE_PREFIX="BTCUSD_HISTORY_V2_";
 
 const TIMEFRAMES=[
 {label:"D1",api:"1d"},
@@ -849,8 +656,11 @@ const TIMEFRAMES=[
 ];
 
 let timeframeData={};
+
 let liveBTCPrice=null;
-let activeSource="--";
+
+let activeSource="CACHE";
+
 let loading=false;
 
 
@@ -862,7 +672,8 @@ function setText(id,value){
 
 const el=document.getElementById(id);
 
-if(el)el.textContent=value;
+if(el)
+el.textContent=value;
 
 }
 
@@ -871,7 +682,8 @@ function formatPrice(value){
 
 const n=Number(value);
 
-if(!Number.isFinite(n))return"--";
+if(!Number.isFinite(n))
+return"--";
 
 return"$"+n.toLocaleString("en-US",{
 minimumFractionDigits:2,
@@ -885,7 +697,8 @@ function formatNumber(value){
 
 const n=Number(value);
 
-if(!Number.isFinite(n))return"--";
+if(!Number.isFinite(n))
+return"--";
 
 return n.toLocaleString("en-US",{
 maximumFractionDigits:2
@@ -896,9 +709,15 @@ maximumFractionDigits:2
 
 function setConnection(text,type=""){
 
-setText("connectionStatus",text);
+setText(
+"connectionStatus",
+text
+);
 
-const dot=document.getElementById("statusDot");
+const dot=
+document.getElementById(
+"statusDot"
+);
 
 if(dot)
 dot.className="dot "+type;
@@ -906,11 +725,139 @@ dot.className="dot "+type;
 }
 
 
-function safeNumber(value){
+function cacheKey(tf){
 
-const n=Number(value);
+return CACHE_PREFIX+tf;
 
-return Number.isFinite(n)?n:null;
+}
+
+
+/* =========================================================
+   SAVE HISTORY
+========================================================= */
+
+function saveHistory(tf,candles){
+
+try{
+
+/*
+Keep last 220 candles.
+Enough for EMA50 / ATR / BB / structure.
+*/
+
+const trimmed=
+candles.slice(-220);
+
+localStorage.setItem(
+cacheKey(tf),
+JSON.stringify({
+saved:Date.now(),
+candles:trimmed
+})
+);
+
+}catch(error){
+
+console.warn(
+"Cache save failed:",
+tf,
+error
+);
+
+}
+
+}
+
+
+/* =========================================================
+   LOAD HISTORY
+========================================================= */
+
+function loadHistory(tf){
+
+try{
+
+const raw=
+localStorage.getItem(
+cacheKey(tf)
+);
+
+if(!raw)
+return null;
+
+const obj=
+JSON.parse(raw);
+
+if(
+!obj||
+!Array.isArray(obj.candles)||
+obj.candles.length<60
+)
+return null;
+
+return obj.candles;
+
+}catch(error){
+
+console.warn(
+"Cache read failed:",
+tf,
+error
+);
+
+return null;
+
+}
+
+}
+
+
+/* =========================================================
+   RENDER CACHE IMMEDIATELY
+========================================================= */
+
+function loadCachedHistory(){
+
+let count=0;
+
+TIMEFRAMES.forEach(tf=>{
+
+const candles=
+loadHistory(tf.label);
+
+if(
+candles&&
+candles.length>=60
+){
+
+timeframeData[tf.label]=
+analyze(candles);
+
+count++;
+
+}
+
+});
+
+if(count>0){
+
+activeSource="CACHE";
+
+setText(
+"dataSource",
+"CACHED HISTORY"
+);
+
+updateDashboard();
+
+setConnection(
+"CACHED DATA",
+"live"
+);
+
+}
+
+return count;
 
 }
 
@@ -919,18 +866,24 @@ return Number.isFinite(n)?n:null;
    FETCH
 ========================================================= */
 
-async function fetchJSON(url,timeout=9000){
+async function fetchJSON(
+url,
+timeout=7000
+){
 
-const controller=new AbortController();
+const controller=
+new AbortController();
 
-const timer=setTimeout(
+const timer=
+setTimeout(
 ()=>controller.abort(),
 timeout
 );
 
 try{
 
-const response=await fetch(url,{
+const response=
+await fetch(url,{
 method:"GET",
 cache:"no-store",
 signal:controller.signal,
@@ -940,7 +893,9 @@ headers:{
 });
 
 if(!response.ok)
-throw new Error("HTTP "+response.status);
+throw new Error(
+"HTTP "+response.status
+);
 
 return await response.json();
 
@@ -954,63 +909,78 @@ clearTimeout(timer);
 
 
 /* =========================================================
-   BINANCE TICKER
+   TICKER
 ========================================================= */
 
 async function loadBinanceTicker(){
 
-const data=await fetchJSON(
-BINANCE_API+"/ticker/24hr?symbol="+SYMBOL
+const data=
+await fetchJSON(
+BINANCE_API+
+"/ticker/24hr?symbol="+
+SYMBOL
 );
 
-const price=Number(data.lastPrice);
+const price=
+Number(data.lastPrice);
 
 if(!Number.isFinite(price))
-throw new Error("Invalid Binance price");
-
-activeSource="Binance";
+throw new Error(
+"Invalid price"
+);
 
 return{
 
 price,
 
-change:Number(data.priceChangePercent),
+change:Number(
+data.priceChangePercent
+),
 
-changeAmount:Number(data.priceChange),
+changeAmount:Number(
+data.priceChange
+),
 
-high:Number(data.highPrice),
+high:Number(
+data.highPrice
+),
 
-low:Number(data.lowPrice),
+low:Number(
+data.lowPrice
+),
 
-volume:Number(data.volume)
+volume:Number(
+data.volume
+)
 
 };
 
 }
 
 
-/* =========================================================
-   COINBASE TICKER
-========================================================= */
-
 async function loadCoinbaseTicker(){
 
-const data=await fetchJSON(
-COINBASE_API+"/products/BTC-USD/stats"
+const data=
+await fetchJSON(
+COINBASE_API+
+"/products/BTC-USD/stats"
 );
 
-const last=Number(data.last);
-const open=Number(data.open);
+const last=
+Number(data.last);
+
+const open=
+Number(data.open);
 
 if(!Number.isFinite(last))
-throw new Error("Invalid Coinbase price");
+throw new Error(
+"Invalid Coinbase price"
+);
 
 const change=
-Number.isFinite(open)&&open!==0
+open
 ?((last-open)/open)*100
 :0;
-
-activeSource="Coinbase";
 
 return{
 
@@ -1031,30 +1001,40 @@ volume:Number(data.volume)
 }
 
 
-/* =========================================================
-   TICKER
-========================================================= */
-
 async function loadTicker(){
 
 let data;
 
 try{
 
-data=await loadBinanceTicker();
+data=
+await loadBinanceTicker();
+
+activeSource="Binance";
 
 }catch(error){
 
+try{
+
+data=
+await loadCoinbaseTicker();
+
+activeSource="Coinbase";
+
+}catch(error2){
+
 console.warn(
-"Binance ticker failed. Coinbase fallback.",
-error
+"Ticker unavailable"
 );
 
-data=await loadCoinbaseTicker();
+return;
 
 }
 
-liveBTCPrice=data.price;
+}
+
+liveBTCPrice=
+data.price;
 
 setText(
 "livePrice",
@@ -1062,7 +1042,9 @@ formatPrice(data.price)
 );
 
 const changeEl=
-document.getElementById("priceChange");
+document.getElementById(
+"priceChange"
+);
 
 if(changeEl){
 
@@ -1071,11 +1053,17 @@ changeEl.textContent=
 data.change.toFixed(2)+
 "% · "+
 (data.changeAmount>=0?"+":"")+
-formatPrice(data.changeAmount);
+formatPrice(
+data.changeAmount
+);
 
 changeEl.className=
 "change "+
-(data.change>=0?"green":"red");
+(
+data.change>=0
+?"green"
+:"red"
+);
 
 }
 
@@ -1091,13 +1079,15 @@ formatPrice(data.low)
 
 setText(
 "volume24",
-formatNumber(data.volume)+" BTC"
+formatNumber(data.volume)+
+" BTC"
 );
 
 setText(
 "change24",
 (data.change>=0?"+":"")+
-data.change.toFixed(2)+"%"
+data.change.toFixed(2)+
+"%"
 );
 
 setText(
@@ -1109,7 +1099,7 @@ activeSource
 
 
 /* =========================================================
-   BINANCE KLINES
+   BINANCE CANDLES
 ========================================================= */
 
 async function loadBinanceKlines(interval){
@@ -1122,10 +1112,16 @@ SYMBOL+
 interval+
 "&limit=200";
 
-const raw=await fetchJSON(url);
+const raw=
+await fetchJSON(url);
 
-if(!Array.isArray(raw)||raw.length<60)
-throw new Error("Invalid Binance klines");
+if(
+!Array.isArray(raw)||
+raw.length<60
+)
+throw new Error(
+"Invalid candles"
+);
 
 return raw.map(c=>({
 
@@ -1147,23 +1143,17 @@ volume:Number(c[5])
 
 
 /* =========================================================
-   COINBASE GRANULARITY
+   COINBASE CANDLES
 ========================================================= */
 
 const COINBASE_GRANULARITY={
 
 "1m":60,
-
 "5m":300,
-
 "15m":900,
-
 "30m":1800,
-
 "1h":3600,
-
 "4h":14400,
-
 "1d":86400
 
 };
@@ -1172,31 +1162,43 @@ const COINBASE_GRANULARITY={
 async function loadCoinbaseKlines(interval){
 
 const granularity=
-COINBASE_GRANULARITY[interval];
+COINBASE_GRANULARITY[
+interval
+];
 
-if(!granularity)
-throw new Error("Unsupported interval");
+const end=
+new Date();
 
-const end=new Date();
-
-const start=new Date(
+const start=
+new Date(
 end.getTime()-
 granularity*200*1000
 );
 
 const url=
 COINBASE_API+
-"/products/BTC-USD/candles?granularity="+
+"/products/BTC-USD/candles"+
+"?granularity="+
 granularity+
 "&start="+
-encodeURIComponent(start.toISOString())+
+encodeURIComponent(
+start.toISOString()
+)+
 "&end="+
-encodeURIComponent(end.toISOString());
+encodeURIComponent(
+end.toISOString()
+);
 
-const raw=await fetchJSON(url);
+const raw=
+await fetchJSON(url);
 
-if(!Array.isArray(raw)||raw.length<60)
-throw new Error("Invalid Coinbase candles");
+if(
+!Array.isArray(raw)||
+raw.length<60
+)
+throw new Error(
+"Invalid Coinbase candles"
+);
 
 return raw
 .sort((a,b)=>a[0]-b[0])
@@ -1220,28 +1222,91 @@ volume:Number(c[5])
 
 
 /* =========================================================
-   KLINE FALLBACK
+   UPDATE HISTORY
 ========================================================= */
 
-async function loadKlines(interval){
+async function refreshTimeframe(tf){
+
+const label=tf.label;
 
 try{
 
-return await loadBinanceKlines(interval);
+let candles;
+
+try{
+
+candles=
+await loadBinanceKlines(
+tf.api
+);
+
+activeSource="Binance";
+
+}catch(error){
+
+candles=
+await loadCoinbaseKlines(
+tf.api
+);
+
+activeSource="Coinbase";
+
+}
+
+
+/*
+Merge new API candles with local history.
+*/
+
+const old=
+loadHistory(label)||[];
+
+const map=
+new Map();
+
+old.forEach(c=>{
+map.set(
+Number(c.time),
+c
+);
+});
+
+candles.forEach(c=>{
+map.set(
+Number(c.time),
+c
+);
+});
+
+const merged=
+Array.from(map.values())
+.sort(
+(a,b)=>a.time-b.time
+)
+.slice(-220);
+
+saveHistory(
+label,
+merged
+);
+
+
+/*
+Update this timeframe immediately.
+*/
+
+timeframeData[label]=
+analyze(merged);
+
+updateDashboard();
 
 }catch(error){
 
 console.warn(
-"Binance candles unavailable:",
-interval
+"Refresh failed:",
+label,
+error
 );
-
-const data=
-await loadCoinbaseKlines(interval);
-
-activeSource="Coinbase";
-
-return data;
 
 }
 
@@ -1252,21 +1317,39 @@ return data;
    EMA
 ========================================================= */
 
-function calculateEMA(values,period){
+function calculateEMA(
+values,
+period
+){
 
-if(!Array.isArray(values)||values.length<period)
+if(
+!values||
+values.length<period
+)
 return null;
 
-const multiplier=2/(period+1);
+const multiplier=
+2/(period+1);
 
 let ema=0;
 
-for(let i=0;i<period;i++)
+for(
+let i=0;
+i<period;
+i++
+){
+
 ema+=values[i];
+
+}
 
 ema/=period;
 
-for(let i=period;i<values.length;i++){
+for(
+let i=period;
+i<values.length;
+i++
+){
 
 ema=
 (values[i]-ema)*
@@ -1284,12 +1367,19 @@ return ema;
    SMA
 ========================================================= */
 
-function calculateSMA(values,period){
+function calculateSMA(
+values,
+period
+){
 
-if(!Array.isArray(values)||values.length<period)
+if(
+!values||
+values.length<period
+)
 return null;
 
-const slice=values.slice(-period);
+const slice=
+values.slice(-period);
 
 return slice.reduce(
 (a,b)=>a+b,
@@ -1303,25 +1393,40 @@ return slice.reduce(
    STD
 ========================================================= */
 
-function calculateStd(values,period){
+function calculateStd(
+values,
+period
+){
 
-if(!Array.isArray(values)||values.length<period)
+if(
+!values||
+values.length<period
+)
 return null;
 
-const slice=values.slice(-period);
+const slice=
+values.slice(-period);
 
 const mean=
-slice.reduce((a,b)=>a+b,0)/
-slice.length;
+slice.reduce(
+(a,b)=>a+b,
+0
+)/slice.length;
 
 const variance=
 slice.reduce(
 (sum,value)=>
-sum+Math.pow(value-mean,2),
+sum+
+Math.pow(
+value-mean,
+2
+),
 0
 )/slice.length;
 
-return Math.sqrt(variance);
+return Math.sqrt(
+variance
+);
 
 }
 
@@ -1330,9 +1435,16 @@ return Math.sqrt(variance);
    RSI
 ========================================================= */
 
-function calculateRSI(values,period=14){
+function calculateRSI(
+values,
+period=14
+){
 
-if(values.length<period+1)
+if(
+!values||
+values.length<
+period+1
+)
 return null;
 
 let gains=0;
@@ -1341,7 +1453,11 @@ let losses=0;
 const start=
 values.length-period;
 
-for(let i=start;i<values.length;i++){
+for(
+let i=start;
+i<values.length;
+i++
+){
 
 const diff=
 values[i]-values[i-1];
@@ -1349,12 +1465,16 @@ values[i]-values[i-1];
 if(diff>0)
 gains+=diff;
 else
-losses+=Math.abs(diff);
+losses+=
+Math.abs(diff);
 
 }
 
-const avgGain=gains/period;
-const avgLoss=losses/period;
+const avgGain=
+gains/period;
+
+const avgLoss=
+losses/period;
 
 if(avgLoss===0)
 return 100;
@@ -1362,7 +1482,8 @@ return 100;
 const rs=
 avgGain/avgLoss;
 
-return 100-(100/(1+rs));
+return 100-
+(100/(1+rs));
 
 }
 
@@ -1371,19 +1492,34 @@ return 100-(100/(1+rs));
    ATR
 ========================================================= */
 
-function calculateATR(candles,period=14){
+function calculateATR(
+candles,
+period=14
+){
 
-if(candles.length<period+1)
+if(
+!candles||
+candles.length<
+period+1
+)
 return null;
 
 const trs=[];
 
-for(let i=1;i<candles.length;i++){
+for(
+let i=1;
+i<candles.length;
+i++
+){
 
-const c=candles[i];
-const p=candles[i-1];
+const c=
+candles[i];
 
-const tr=Math.max(
+const p=
+candles[i-1];
+
+const tr=
+Math.max(
 
 c.high-c.low,
 
@@ -1413,10 +1549,10 @@ return slice.reduce(
 
 
 /* =========================================================
-   SWING LEVELS
+   STRUCTURE
 ========================================================= */
 
-function getSwingLevels(candles){
+function getSwings(candles){
 
 const data=
 candles.slice(-80);
@@ -1424,9 +1560,14 @@ candles.slice(-80);
 const highs=[];
 const lows=[];
 
-for(let i=2;i<data.length-2;i++){
+for(
+let i=2;
+i<data.length-2;
+i++
+){
 
-const c=data[i];
+const c=
+data[i];
 
 const swingHigh=
 c.high>data[i-1].high&&
@@ -1440,23 +1581,17 @@ c.low<data[i-2].low&&
 c.low<=data[i+1].low&&
 c.low<=data[i+2].low;
 
-if(swingHigh){
-
+if(swingHigh)
 highs.push({
 price:c.high,
 index:i
 });
 
-}
-
-if(swingLow){
-
+if(swingLow)
 lows.push({
 price:c.low,
 index:i
 });
-
-}
 
 }
 
@@ -1468,101 +1603,101 @@ lows
 }
 
 
-/* =========================================================
-   MARKET STRUCTURE
-========================================================= */
-
 function detectStructure(candles){
 
-const levels=
-getSwingLevels(candles);
+const swings=
+getSwings(candles);
 
 if(
-levels.highs.length<2||
-levels.lows.length<2
+swings.highs.length<2||
+swings.lows.length<2
 ){
 
 return{
-
 bos:"NONE",
 choch:"NONE",
 lastHigh:null,
 lastLow:null,
 previousHigh:null,
 previousLow:null
-
 };
 
 }
 
-const latestHigh=
-levels.highs.at(-1);
+const lastHigh=
+swings.highs.at(-1);
 
 const previousHigh=
-levels.highs.at(-2);
+swings.highs.at(-2);
 
-const latestLow=
-levels.lows.at(-1);
+const lastLow=
+swings.lows.at(-1);
 
 const previousLow=
-levels.lows.at(-2);
+swings.lows.at(-2);
 
-const lastClosed=
-candles[candles.length-2];
+const current=
+candles.at(-1).close;
 
 let bos="NONE";
 let choch="NONE";
 
-if(lastClosed.close>latestHigh.price){
-
+if(
+current>
+lastHigh.price
+)
 bos="BULLISH";
 
-}
-
-else if(lastClosed.close<latestLow.price){
-
+else if(
+current<
+lastLow.price
+)
 bos="BEARISH";
 
-}
 
 const bullishStructure=
-latestHigh.price>previousHigh.price&&
-latestLow.price>previousLow.price;
+lastHigh.price>
+previousHigh.price&&
+lastLow.price>
+previousLow.price;
 
 const bearishStructure=
-latestHigh.price<previousHigh.price&&
-latestLow.price<previousLow.price;
+lastHigh.price<
+previousHigh.price&&
+lastLow.price<
+previousLow.price;
 
 if(
 bearishStructure&&
-lastClosed.close>latestHigh.price
-){
-
+current>
+lastHigh.price
+)
 choch="BULLISH";
-
-}
 
 else if(
 bullishStructure&&
-lastClosed.close<latestLow.price
-){
-
+current<
+lastLow.price
+)
 choch="BEARISH";
-
-}
 
 return{
 
 bos,
+
 choch,
 
-lastHigh:latestHigh.price,
+lastHigh:
+lastHigh.price,
 
-lastLow:latestLow.price,
+lastLow:
+lastLow.price,
 
-previousHigh:previousHigh.price,
+previousHigh:
+previousHigh.price,
 
-previousLow:previousLow.price
+previousLow:
+previousLow.price
 
 };
 
@@ -1575,32 +1710,63 @@ previousLow:previousLow.price
 
 function analyze(candles){
 
-const closedCandles=
+if(
+!candles||
+candles.length<60
+)
+return null;
+
+
+/*
+Ignore current unfinished candle.
+*/
+
+const closed=
 candles.slice(0,-1);
 
 const closes=
-closedCandles.map(c=>c.close);
+closed.map(
+c=>c.close
+);
 
 const current=
-closedCandles.at(-1).close;
+closed.at(-1).close;
 
 const ema20=
-calculateEMA(closes,20);
+calculateEMA(
+closes,
+20
+);
 
 const ema50=
-calculateEMA(closes,50);
+calculateEMA(
+closes,
+50
+);
 
 const rsi=
-calculateRSI(closes,14);
+calculateRSI(
+closes,
+14
+);
 
 const atr=
-calculateATR(closedCandles,14);
+calculateATR(
+closed,
+14
+);
 
 const middle=
-calculateSMA(closes,20);
+calculateSMA(
+closes,
+20
+);
 
 const std=
-calculateStd(closes,20);
+calculateStd(
+closes,
+20
+);
 
 const upper=
 middle+std*2;
@@ -1609,7 +1775,7 @@ const lower=
 middle-std*2;
 
 
-/* TREND SCORE */
+/* SCORE */
 
 let score=50;
 
@@ -1623,10 +1789,16 @@ score+=15;
 else
 score-=15;
 
-if(rsi>50&&rsi<70)
+if(
+rsi>50&&
+rsi<70
+)
 score+=10;
 
-else if(rsi<50&&rsi>30)
+else if(
+rsi<50&&
+rsi>30
+)
 score-=5;
 
 if(rsi>75)
@@ -1640,10 +1812,14 @@ score-=5;
 score=
 Math.max(
 0,
-Math.min(100,score)
+Math.min(
+100,
+score
+)
 );
 
-let condition="NEUTRAL";
+let condition=
+"NEUTRAL";
 
 if(score>=65)
 condition="BULLISH";
@@ -1654,7 +1830,8 @@ condition="BEARISH";
 
 /* BB */
 
-let bbPosition="BELOW MID";
+let bbPosition=
+"BELOW MID";
 
 if(current>=upper)
 bbPosition="UPPER BAND";
@@ -1669,76 +1846,90 @@ bbPosition="ABOVE MID";
 /* VOLUME */
 
 const volumes=
-closedCandles.map(c=>c.volume);
+closed.map(
+c=>c.volume
+);
 
 const avgVolume=
-calculateSMA(volumes,20);
+calculateSMA(
+volumes,
+20
+);
 
 const currentVolume=
 volumes.at(-1);
 
-let volumeState="NORMAL";
+let volumeState=
+"NORMAL";
 
-if(currentVolume>avgVolume*1.5)
+if(
+currentVolume>
+avgVolume*1.5
+)
 volumeState="HIGH";
 
-else if(currentVolume>avgVolume)
+else if(
+currentVolume>
+avgVolume
+)
 volumeState="ABOVE AVG";
 
 
 /* STRUCTURE */
 
-const structureData=
-detectStructure(closedCandles);
-
-let structure="NEUTRAL";
-
-if(
-structureData.lastHigh&&
-structureData.previousHigh&&
-structureData.lastLow&&
-structureData.previousLow
-){
-
-if(
-structureData.lastHigh>
-structureData.previousHigh&&
-structureData.lastLow>
-structureData.previousLow
-){
-
-structure="HH / HL";
-
-}
-
-else if(
-structureData.lastHigh<
-structureData.previousHigh&&
-structureData.lastLow<
-structureData.previousLow
-){
-
-structure="LH / LL";
-
-}
-
-}
+const s=
+detectStructure(
+closed
+);
 
 
-/* LOCAL SR */
+/* LOCAL S/R */
 
 const local=
-closedCandles.slice(-40);
+closed.slice(-40);
 
 const resistance=
 Math.max(
-...local.map(c=>c.high)
+...local.map(
+c=>c.high
+)
 );
 
 const support=
 Math.min(
-...local.map(c=>c.low)
+...local.map(
+c=>c.low
+)
 );
+
+
+let structure=
+"NEUTRAL";
+
+if(
+s.lastHigh&&
+s.previousHigh&&
+s.lastLow&&
+s.previousLow
+){
+
+if(
+s.lastHigh>
+s.previousHigh&&
+s.lastLow>
+s.previousLow
+)
+structure="HH / HL";
+
+else if(
+s.lastHigh<
+s.previousHigh&&
+s.lastLow<
+s.previousLow
+)
+structure="LH / LL";
+
+}
 
 
 return{
@@ -1771,27 +1962,27 @@ support,
 
 structure,
 
-bos:structureData.bos,
+bos:s.bos,
 
-choch:structureData.choch,
+choch:s.choch,
 
 lastHigh:
-structureData.lastHigh||resistance,
+s.lastHigh||resistance,
 
 lastLow:
-structureData.lastLow||support,
+s.lastLow||support,
 
 previousHigh:
-structureData.previousHigh,
+s.previousHigh,
 
 previousLow:
-structureData.previousLow,
+s.previousLow,
 
 currentVolume,
 
 volumeState,
 
-candles:closedCandles
+candles:closed
 
 };
 
@@ -1799,93 +1990,62 @@ candles:closedCandles
 
 
 /* =========================================================
-   LOAD TIMEFRAMES
+   BREAKOUT
 ========================================================= */
 
-async function loadTechnicalData(){
+function detectBreakout(
+data,
+direction
+){
 
-const results={};
-
-for(const tf of TIMEFRAMES){
-
-try{
+if(
+!data||
+!data.candles||
+data.candles.length<10
+)
+return false;
 
 const candles=
-await loadKlines(tf.api);
-
-results[tf.label]=
-analyze(candles);
-
-}catch(error){
-
-console.error(
-"TIMEFRAME ERROR:",
-tf.label,
-error
-);
-
-}
-
-}
-
-timeframeData=results;
-
-if(Object.keys(results).length)
-updateDashboard();
-
-}
-
-
-/* =========================================================
-   BREAKOUT DETECTION
-========================================================= */
-
-function detectBreakout(data,direction){
-
-if(!data||!data.candles)
-return false;
-
-const candles=data.candles;
-
-if(candles.length<10)
-return false;
-
-
-/*
-Use a resistance/support level BEFORE
-the latest closed candle.
-*/
-
-const previous=
-candles.slice(-8,-1);
+data.candles;
 
 const last=
 candles.at(-1);
 
+const previous=
+candles.slice(-9,-1);
+
 if(direction==="BULLISH"){
 
-const resistance=
+const level=
 Math.max(
-...previous.map(c=>c.high)
+...previous.map(
+c=>c.high
+)
 );
 
 return(
-last.close>resistance&&
-last.close>last.open
+last.close>
+level&&
+last.close>
+last.open
 );
 
 }
 
 if(direction==="BEARISH"){
 
-const support=
+const level=
 Math.min(
-...previous.map(c=>c.low)
+...previous.map(
+c=>c.low
+)
 );
 
 return(
-last.close<support&&
-last.close<last.open
+last.close<
+level&&
+last.close<
+last.open
 );
 
 }
@@ -1896,64 +2056,71 @@ return false;
 
 
 /* =========================================================
-   RETEST DETECTION
+   RETEST
 ========================================================= */
 
-function detectRetest(data,direction){
+function detectRetest(
+data,
+direction
+){
 
-if(!data||!data.candles)
+if(
+!data||
+!data.candles
+)
 return false;
 
-const candles=data.candles;
+const candles=
+data.candles;
 
 if(candles.length<12)
 return false;
 
-const last=candles.at(-1);
+const last=
+candles.at(-1);
 
-const previous=candles.slice(-8,-1);
+const previous=
+candles.slice(-9,-1);
 
 if(direction==="BULLISH"){
 
-const breakoutLevel=
+const level=
 Math.max(
-...previous.map(c=>c.high)
+...previous.map(
+c=>c.high
+)
 );
 
 const tolerance=
 data.atr*0.35;
 
-const touched=
+return(
 last.low<=
-breakoutLevel+tolerance;
-
-const held=
+level+tolerance&&
 last.close>
-breakoutLevel;
-
-return touched&&held;
+level
+);
 
 }
 
 if(direction==="BEARISH"){
 
-const breakoutLevel=
+const level=
 Math.min(
-...previous.map(c=>c.low)
+...previous.map(
+c=>c.low
+)
 );
 
 const tolerance=
 data.atr*0.35;
 
-const touched=
+return(
 last.high>=
-breakoutLevel-tolerance;
-
-const held=
+level-tolerance&&
 last.close<
-breakoutLevel;
-
-return touched&&held;
+level
+);
 
 }
 
@@ -1963,19 +2130,16 @@ return false;
 
 
 /* =========================================================
-   MOMENTUM TRIGGER
+   M5 TRIGGER
 ========================================================= */
 
-function momentumTrigger(data,direction){
+function momentumTrigger(
+data,
+direction
+){
 
 if(!data)
 return false;
-
-const bullish=
-data.condition==="BULLISH";
-
-const bearish=
-data.condition==="BEARISH";
 
 const volumeOK=
 data.volumeState==="HIGH"||
@@ -1984,11 +2148,13 @@ data.volumeState==="ABOVE AVG";
 if(direction==="BULLISH"){
 
 return(
-bullish&&
-data.current>data.ema20&&
-data.ema20>data.ema50&&
+data.condition==="BULLISH"&&
+data.current>
+data.ema20&&
+data.ema20>
+data.ema50&&
 data.rsi>=52&&
-data.rsi<75&&
+data.rsi<76&&
 volumeOK
 );
 
@@ -1997,11 +2163,13 @@ volumeOK
 if(direction==="BEARISH"){
 
 return(
-bearish&&
-data.current<data.ema20&&
-data.ema20<data.ema50&&
+data.condition==="BEARISH"&&
+data.current<
+data.ema20&&
+data.ema20<
+data.ema50&&
 data.rsi<=48&&
-data.rsi>25&&
+data.rsi>24&&
 volumeOK
 );
 
@@ -2018,33 +2186,45 @@ return false;
 
 function calculateSignal(){
 
-const d1=timeframeData.D1;
-const h4=timeframeData.H4;
-const h1=timeframeData.H1;
-const m30=timeframeData.M30;
-const m15=timeframeData.M15;
-const m5=timeframeData.M5;
-const m1=timeframeData.M1;
+const d1=
+timeframeData.D1;
+
+const h4=
+timeframeData.H4;
+
+const h1=
+timeframeData.H1;
+
+const m30=
+timeframeData.M30;
+
+const m15=
+timeframeData.M15;
+
+const m5=
+timeframeData.M5;
+
+const m1=
+timeframeData.M1;
 
 if(!m15){
 
 return{
 signal:"WAIT",
 score:50,
-reason:"WAIT — DATA INCOMPLETE"
+reason:"WAIT — LOADING HISTORY"
 };
 
 }
 
 
-/* ==========================================
-   HTF BIAS
-========================================== */
+/* HTF */
 
 let bullHTF=0;
 let bearHTF=0;
 
-[d1,h4,h1].forEach(d=>{
+[d1,h4,h1].forEach(
+d=>{
 
 if(!d)return;
 
@@ -2056,6 +2236,7 @@ bearHTF++;
 
 });
 
+
 const htfBull=
 bullHTF>=2;
 
@@ -2063,9 +2244,7 @@ const htfBear=
 bearHTF>=2;
 
 
-/* ==========================================
-   SETUP
-========================================== */
+/* SETUP */
 
 const bullishSetup=
 htfBull&&
@@ -2078,160 +2257,66 @@ m30?.condition==="BEARISH"&&
 m15.condition==="BEARISH";
 
 
-/* ==========================================
-   BREAKOUT
-========================================== */
+/* BREAKOUT */
 
-const bullishBreakout=
+const bullBreak=
 detectBreakout(
 m15,
 "BULLISH"
 );
 
-const bearishBreakout=
+const bearBreak=
 detectBreakout(
 m15,
 "BEARISH"
 );
 
 
-/* ==========================================
-   RETEST
-========================================== */
+/* RETEST */
 
-const bullishRetest=
+const bullRetest=
 detectRetest(
 m15,
 "BULLISH"
 );
 
-const bearishRetest=
+const bearRetest=
 detectRetest(
 m15,
 "BEARISH"
 );
 
 
-/* ==========================================
-   M5 TRIGGER
-========================================== */
+/* M5 */
 
-const bullishM5=
+const bullM5=
 momentumTrigger(
 m5,
 "BULLISH"
 );
 
-const bearishM5=
+const bearM5=
 momentumTrigger(
 m5,
 "BEARISH"
 );
 
 
-/* ==========================================
-   M1 CONFIRMATION
-========================================== */
+/* M1 */
 
-const bullishM1=
+const bullM1=
 m1?.condition==="BULLISH";
 
-const bearishM1=
+const bearM1=
 m1?.condition==="BEARISH";
 
 
-/* ==========================================
-   RSI FILTER
-========================================== */
-
-const buyRSIOK=
-m15.rsi>=50&&
-m15.rsi<76;
-
-const sellRSIOK=
-m15.rsi<=50&&
-m15.rsi>24;
-
-
-/* ==========================================
-   DISTANCE FILTER
-========================================== */
-
-const price=
-liveBTCPrice||m15.current;
-
-const resistanceDistance=
-((m15.resistance-price)/price)*100;
-
-const supportDistance=
-((price-m15.support)/price)*100;
-
-
-/*
-Don't enter directly into extreme resistance.
-But after actual breakout this restriction
-is removed.
-*/
-
-const buyTooClose=
-resistanceDistance<=0.08&&
-!bullishBreakout;
-
-const sellTooClose=
-supportDistance<=0.08&&
-!bearishBreakout;
-
-
-/* ==========================================
-   FINAL CONFIRMATION
-========================================== */
-
-const buyConfirmed=
-bullishSetup&&
-buyRSIOK&&
-!buyTooClose&&
-(
-(
-bullishBreakout&&
-bullishRetest&&
-bullishM5
-)
-||
-(
-bullishBreakout&&
-bullishM5&&
-bullishM1
-)
-);
-
-
-const sellConfirmed=
-bearishSetup&&
-sellRSIOK&&
-!sellTooClose&&
-(
-(
-bearishBreakout&&
-bearishRetest&&
-bearishM5
-)
-||
-(
-bearishBreakout&&
-bearishM5&&
-bearishM1
-)
-);
-
-
-/* ==========================================
-   SCORE
-========================================== */
+/* SCORE */
 
 let bullScore=0;
 let bearScore=0;
 
-const scoreWeights={
+const weights={
 D1:15,
 H4:15,
 H1:10,
@@ -2241,19 +2326,24 @@ M5:15,
 M1:5
 };
 
-for(const tf of Object.keys(scoreWeights)){
+Object.keys(weights)
+.forEach(
+tf=>{
 
-const d=timeframeData[tf];
+const d=
+timeframeData[tf];
 
-if(!d)continue;
+if(!d)return;
 
 if(d.condition==="BULLISH")
-bullScore+=scoreWeights[tf];
+bullScore+=
+weights[tf];
 
 if(d.condition==="BEARISH")
-bearScore+=scoreWeights[tf];
+bearScore+=
+weights[tf];
 
-}
+});
 
 
 if(
@@ -2268,64 +2358,129 @@ m15.ema50
 )
 bearScore+=5;
 
-
-if(
-bullishBreakout
-)
+if(bullBreak)
 bullScore+=10;
 
-if(
-bearishBreakout
-)
+if(bearBreak)
 bearScore+=10;
 
-
-if(
-bullishRetest
-)
+if(bullRetest)
 bullScore+=5;
 
-if(
-bearishRetest
-)
+if(bearRetest)
 bearScore+=5;
 
-
-if(
-bullishM5
-)
+if(bullM5)
 bullScore+=5;
 
-if(
-bearishM5
-)
+if(bearM5)
 bearScore+=5;
-
 
 bullScore=
-Math.min(100,bullScore);
+Math.min(
+100,
+bullScore
+);
 
 bearScore=
-Math.min(100,bearScore);
+Math.min(
+100,
+bearScore
+);
 
 
-/* ==========================================
-   RESULT
-========================================== */
+/* PRICE DISTANCE */
+
+const price=
+liveBTCPrice||
+m15.current;
+
+const resistanceDistance=
+(
+(m15.resistance-price)/
+price
+)*100;
+
+const supportDistance=
+(
+(price-m15.support)/
+price
+)*100;
+
+
+/* RSI FILTER */
+
+const buyRSIOK=
+m15.rsi>=50&&
+m15.rsi<76;
+
+const sellRSIOK=
+m15.rsi<=50&&
+m15.rsi>24;
+
+
+/*
+Do not buy immediately under resistance.
+After actual breakout, this block disappears.
+*/
+
+const buyBlocked=
+resistanceDistance<=0.08&&
+!bullBreak;
+
+const sellBlocked=
+supportDistance<=0.08&&
+!bearBreak;
+
+
+/* CONFIRMATION */
+
+const buyConfirmed=
+bullishSetup&&
+buyRSIOK&&
+!buyBlocked&&
+bullBreak&&
+(
+(
+bullRetest&&
+bullM5
+)
+||
+(
+bullM5&&
+bullM1
+)
+);
+
+
+const sellConfirmed=
+bearishSetup&&
+sellRSIOK&&
+!sellBlocked&&
+bearBreak&&
+(
+(
+bearRetest&&
+bearM5
+)
+||
+(
+bearM5&&
+bearM1
+)
+);
+
 
 if(buyConfirmed){
 
 return{
-
 signal:"BUY",
-
 score:Math.max(
 80,
 bullScore
 ),
-
-reason:"BUY — BREAKOUT + RETEST + M5 CONFIRMATION"
-
+reason:
+"BUY — BREAKOUT + RETEST + M5 CONFIRMATION"
 };
 
 }
@@ -2334,39 +2489,37 @@ reason:"BUY — BREAKOUT + RETEST + M5 CONFIRMATION"
 if(sellConfirmed){
 
 return{
-
 signal:"SELL",
-
 score:Math.max(
 80,
 bearScore
 ),
-
-reason:"SELL — BREAKOUT + RETEST + M5 CONFIRMATION"
-
+reason:
+"SELL — BREAKOUT + RETEST + M5 CONFIRMATION"
 };
 
 }
 
 
-/* ==========================================
-   WAIT REASON
-========================================== */
+/* WAIT REASON */
 
 let reason=
 "WAIT — TRIGGER NOT READY";
 
 if(bullishSetup){
 
-if(!bullishBreakout)
+if(!bullBreak)
 reason=
 "WAIT — BULLISH SETUP / BREAKOUT NOT READY";
 
-else if(!bullishRetest&&!bullishM1)
+else if(
+!bullRetest&&
+!bullM1
+)
 reason=
 "WAIT — BREAKOUT / RETEST NOT CONFIRMED";
 
-else if(!bullishM5)
+else if(!bullM5)
 reason=
 "WAIT — M5 BUY TRIGGER NOT READY";
 
@@ -2374,15 +2527,18 @@ reason=
 
 else if(bearishSetup){
 
-if(!bearishBreakout)
+if(!bearBreak)
 reason=
 "WAIT — BEARISH SETUP / BREAKOUT NOT READY";
 
-else if(!bearishRetest&&!bearishM1)
+else if(
+!bearRetest&&
+!bearM1
+)
 reason=
 "WAIT — BREAKOUT / RETEST NOT CONFIRMED";
 
-else if(!bearishM5)
+else if(!bearM5)
 reason=
 "WAIT — M5 SELL TRIGGER NOT READY";
 
@@ -2429,27 +2585,31 @@ reason
    TRADE PLAN
 ========================================================= */
 
-function buildTradePlan(signal){
+function buildTradePlan(
+signal
+){
 
 const m15=
 timeframeData.M15;
 
-if(!m15||signal.signal==="WAIT"){
+if(
+!m15||
+signal.signal==="WAIT"
+){
 
 return{
-
 entry:null,
 sl:null,
 tp1:null,
 tp2:null,
 rr:null
-
 };
 
 }
 
-const price=
-liveBTCPrice||m15.current;
+const entry=
+liveBTCPrice||
+m15.current;
 
 const atr=
 m15.atr;
@@ -2459,37 +2619,22 @@ m15.atr;
 
 if(signal.signal==="BUY"){
 
-const entry=price;
-
-
-/*
-Use ATR protection but respect
-recent structure.
-*/
-
-const structuralSL=
-m15.lastLow||
-m15.support;
-
-const atrSL=
-entry-atr*1.2;
-
 let sl=
 Math.min(
-structuralSL,
-atrSL
+m15.lastLow||
+m15.support,
+entry-atr*1.2
 );
 
-
-/*
-Prevent absurdly wide SL.
-*/
-
 const maxRisk=
-atr*2.0;
+atr*2;
 
-if(entry-sl>maxRisk)
-sl=entry-maxRisk;
+if(
+entry-sl>
+maxRisk
+)
+sl=
+entry-maxRisk;
 
 const risk=
 entry-sl;
@@ -2503,21 +2648,17 @@ tp2:null,
 rr:null
 };
 
-const tp1=
-entry+risk*1.5;
-
-const tp2=
-entry+risk*2.5;
-
 return{
 
 entry,
 
 sl,
 
-tp1,
+tp1:
+entry+risk*1.5,
 
-tp2,
+tp2:
+entry+risk*2.5,
 
 rr:"1 : 2.5"
 
@@ -2530,26 +2671,22 @@ rr:"1 : 2.5"
 
 if(signal.signal==="SELL"){
 
-const entry=price;
-
-const structuralSL=
-m15.lastHigh||
-m15.resistance;
-
-const atrSL=
-entry+atr*1.2;
-
 let sl=
 Math.max(
-structuralSL,
-atrSL
+m15.lastHigh||
+m15.resistance,
+entry+atr*1.2
 );
 
 const maxRisk=
-atr*2.0;
+atr*2;
 
-if(sl-entry>maxRisk)
-sl=entry+maxRisk;
+if(
+sl-entry>
+maxRisk
+)
+sl=
+entry+maxRisk;
 
 const risk=
 sl-entry;
@@ -2563,21 +2700,17 @@ tp2:null,
 rr:null
 };
 
-const tp1=
-entry-risk*1.5;
-
-const tp2=
-entry-risk*2.5;
-
 return{
 
 entry,
 
 sl,
 
-tp1,
+tp1:
+entry-risk*1.5,
 
-tp2,
+tp2:
+entry-risk*2.5,
 
 rr:"1 : 2.5"
 
@@ -2586,13 +2719,11 @@ rr:"1 : 2.5"
 }
 
 return{
-
 entry:null,
 sl:null,
 tp1:null,
 tp2:null,
 rr:null
-
 };
 
 }
@@ -2607,17 +2738,8 @@ function updateDashboard(){
 const m15=
 timeframeData.M15;
 
-if(!m15)return;
-
-const d1=timeframeData.D1;
-const h4=timeframeData.H4;
-const h1=timeframeData.H1;
-const m30=timeframeData.M30;
-const m5=timeframeData.M5;
-const m1=timeframeData.M1;
-
-
-/* SIGNAL */
+if(!m15)
+return;
 
 const signal=
 calculateSignal();
@@ -2629,7 +2751,7 @@ const finalScore=
 signal.score;
 
 
-/* OVERALL */
+/* SIGNAL */
 
 const overall=
 document.getElementById(
@@ -2671,7 +2793,9 @@ finalScore+"%";
 /* TRADE */
 
 const trade=
-buildTradePlan(signal);
+buildTradePlan(
+signal
+);
 
 const tradeSignal=
 document.getElementById(
@@ -2729,21 +2853,21 @@ trade.rr||"--"
 );
 
 
-/* MARKET PHASE */
+/* PHASE */
 
 setText(
 "marketPhase",
 signal.reason
 );
 
-const phaseEl=
+const phase=
 document.getElementById(
 "marketPhase"
 );
 
-if(phaseEl){
+if(phase){
 
-phaseEl.className=
+phase.className=
 "metric-value "+
 (
 finalSignal==="BUY"
@@ -2760,12 +2884,16 @@ finalSignal==="BUY"
 
 setText(
 "ema20",
-formatPrice(m15.ema20)
+formatPrice(
+m15.ema20
+)
 );
 
 setText(
 "ema50",
-formatPrice(m15.ema50)
+formatPrice(
+m15.ema50
+)
 );
 
 setText(
@@ -2775,12 +2903,16 @@ m15.rsi.toFixed(2)
 
 setText(
 "atr",
-formatPrice(m15.atr)
+formatPrice(
+m15.atr
+)
 );
 
 setText(
 "volume",
-formatNumber(m15.currentVolume)
+formatNumber(
+m15.currentVolume
+)
 );
 
 setText(
@@ -2811,17 +2943,20 @@ let rsiState=
 "NEUTRAL";
 
 if(m15.rsi>=70)
-rsiState="OVERBOUGHT";
+rsiState=
+"OVERBOUGHT";
 
 else if(m15.rsi<=30)
-rsiState="OVERSOLD";
+rsiState=
+"OVERSOLD";
 
 else if(m15.rsi>50)
-rsiState="POSITIVE";
+rsiState=
+"POSITIVE";
 
 else
-rsiState="WEAK";
-
+rsiState=
+"WEAK";
 
 setText(
 "rsiState",
@@ -2830,14 +2965,16 @@ rsiState
 
 setText(
 "ema20State",
-m15.current>m15.ema20
+m15.current>
+m15.ema20
 ?"Price above EMA20"
 :"Price below EMA20"
 );
 
 setText(
 "ema50State",
-m15.current>m15.ema50
+m15.current>
+m15.ema50
 ?"Price above EMA50"
 :"Price below EMA50"
 );
@@ -2873,19 +3010,29 @@ liveBTCPrice||
 m15.current;
 
 const resistanceDistance=
-((m15.resistance-price)/price)*100;
+(
+(m15.resistance-price)/
+price
+)*100;
 
 const supportDistance=
-((price-m15.support)/price)*100;
+(
+(price-m15.support)/
+price
+)*100;
 
 setText(
 "resistance",
-formatPrice(m15.resistance)
+formatPrice(
+m15.resistance
+)
 );
 
 setText(
 "support",
-formatPrice(m15.support)
+formatPrice(
+m15.support
+)
 );
 
 setText(
@@ -2904,14 +3051,16 @@ supportDistance.toFixed(2)+"%"
 setText(
 "lastHigh",
 formatPrice(
-m15.lastHigh||m15.resistance
+m15.lastHigh||
+m15.resistance
 )
 );
 
 setText(
 "lastLow",
 formatPrice(
-m15.lastLow||m15.support
+m15.lastLow||
+m15.support
 )
 );
 
@@ -2940,23 +3089,27 @@ m15.current*
 );
 
 
-/* TIMEFRAME */
+/* TIMEFRAMES */
 
-const tfGrid=
+const grid=
 document.getElementById(
 "timeframeGrid"
 );
 
-if(tfGrid){
+if(grid){
 
-tfGrid.innerHTML="";
+grid.innerHTML="";
 
-TIMEFRAMES.forEach(tf=>{
+TIMEFRAMES.forEach(
+tf=>{
 
 const data=
-timeframeData[tf.label];
+timeframeData[
+tf.label
+];
 
-if(!data)return;
+if(!data)
+return;
 
 const color=
 data.condition==="BULLISH"
@@ -2966,7 +3119,9 @@ data.condition==="BULLISH"
 :"yellow";
 
 const div=
-document.createElement("div");
+document.createElement(
+"div"
+);
 
 div.className="tf";
 
@@ -2986,7 +3141,7 @@ ${data.score}/100
 
 `;
 
-tfGrid.appendChild(div);
+grid.appendChild(div);
 
 });
 
@@ -3004,12 +3159,16 @@ if(table){
 
 table.innerHTML="";
 
-TIMEFRAMES.forEach(tf=>{
+TIMEFRAMES.forEach(
+tf=>{
 
 const data=
-timeframeData[tf.label];
+timeframeData[
+tf.label
+];
 
-if(!data)return;
+if(!data)
+return;
 
 const color=
 data.condition==="BULLISH"
@@ -3019,7 +3178,9 @@ data.condition==="BULLISH"
 :"yellow";
 
 const row=
-document.createElement("tr");
+document.createElement(
+"tr"
+);
 
 row.innerHTML=`
 
@@ -3067,28 +3228,65 @@ table.appendChild(row);
 
 
 /* =========================================================
-   MAIN
+   LOAD ALL
 ========================================================= */
 
-async function loadAllData(){
+async function loadAllData(force=false){
 
-if(loading)return;
+if(loading&&!force)
+return;
 
 loading=true;
 
+
+/*
+FIRST:
+Render local history immediately.
+*/
+
+const cached=
+loadCachedHistory();
+
+if(cached>0){
+
 setConnection(
-"UPDATING DATA",
-""
+"CACHE + UPDATING",
+"live"
 );
 
-try{
+}
 
-await loadTicker();
 
-await loadTechnicalData();
+/*
+Ticker can run independently.
+*/
+
+loadTicker()
+.catch(
+error=>
+console.warn(
+"Ticker error",
+error
+)
+);
+
+
+/*
+ALL TIMEFRAMES IN PARALLEL.
+*/
+
+await Promise.allSettled(
+
+TIMEFRAMES.map(
+tf=>
+refreshTimeframe(tf)
+)
+
+);
+
 
 if(
-Object.keys(timeframeData).length>0
+Object.keys(timeframeData).length
 ){
 
 setConnection(
@@ -3104,34 +3302,14 @@ new Date().toLocaleTimeString()
 
 }else{
 
-throw new Error(
-"No timeframe data"
-);
-
-}
-
-}catch(error){
-
-console.error(
-"MARKET DATA ERROR:",
-error
-);
-
 setConnection(
 "DATA UNAVAILABLE",
 "error"
 );
 
-setText(
-"lastUpdate",
-"Retrying automatically..."
-);
-
-}finally{
+}
 
 loading=false;
-
-}
 
 }
 
@@ -3140,11 +3318,29 @@ loading=false;
    START
 ========================================================= */
 
+/*
+IMPORTANT:
+Cache is rendered BEFORE network request.
+*/
+
+loadCachedHistory();
+
+
+/*
+Background API refresh.
+*/
+
 loadAllData();
 
+
+/*
+Refresh every 30 seconds.
+No aggressive 10-second full-history requests.
+*/
+
 setInterval(
-loadAllData,
-10000
+()=>loadAllData(),
+30000
 );
 
 </script>
