@@ -1911,793 +1911,721 @@ async function loadTechnicalData(){
 function updateDashboard(){
 
     const primary =
-    timeframeData["M15"];
+        timeframeData["M15"];
 
-if(!primary)
-    return;
-
-
-/* =========================================================
-   MULTI-TIMEFRAME CONFIRMATION
-   ========================================================= */
-
-/* =========================================================
-   MTF HIERARCHY
-   ========================================================= */
-
-const d1 = timeframeData["D1"];
-const h4 = timeframeData["H4"];
-const h1 = timeframeData["H1"];
-
-const m30 = timeframeData["M30"];
-const m15 = timeframeData["M15"];
-
-const m5 = timeframeData["M5"];
-const m1 = timeframeData["M1"];
-
-
-/* =========================================================
-   HTF BIAS
-   ========================================================= */
-
-let trendBias = "NEUTRAL";
-
-let bullishHTF = 0;
-let bearishHTF = 0;
-
-[d1,h4,h1].forEach(data => {
-
-    if(!data)
+    if(!primary)
         return;
 
-    if(data.condition === "BULLISH")
-        bullishHTF++;
 
-    else if(data.condition === "BEARISH")
-        bearishHTF++;
+/* =========================================================
+   TIMEFRAME REFERENCES
+   ========================================================= */
 
-});
+    const d1 =
+        timeframeData["D1"];
 
-if(bullishHTF >= 2)
-    trendBias = "BULLISH";
+    const h4 =
+        timeframeData["H4"];
 
-else if(bearishHTF >= 2)
-    trendBias = "BEARISH";
+    const h1 =
+        timeframeData["H1"];
+
+    const m30 =
+        timeframeData["M30"];
+
+    const m15 =
+        timeframeData["M15"];
+
+    const m5 =
+        timeframeData["M5"];
+
+    const m1 =
+        timeframeData["M1"];
 
 
 /* =========================================================
-   SETUP BIAS
+   HTF TREND
+   D1 + H4 + H1
    ========================================================= */
 
-let setupBias = "NEUTRAL";
+    let bullishTrend = 0;
+    let bearishTrend = 0;
 
-if(
-    m30 &&
-    m15 &&
-    m30.condition === "BULLISH" &&
-    m15.condition === "BULLISH"
-){
+    [d1,h4,h1].forEach(data => {
 
-    setupBias = "BULLISH";
+        if(!data)
+            return;
 
-}
+        if(data.condition === "BULLISH")
+            bullishTrend++;
 
-else if(
-    m30 &&
-    m15 &&
-    m30.condition === "BEARISH" &&
-    m15.condition === "BEARISH"
-){
+        else if(data.condition === "BEARISH")
+            bearishTrend++;
 
-    setupBias = "BEARISH";
+    });
 
-}
+    let trendBias = "NEUTRAL";
+
+    if(bullishTrend >= 2)
+        trendBias = "BULLISH";
+
+    else if(bearishTrend >= 2)
+        trendBias = "BEARISH";
 
 
 /* =========================================================
-   TRIGGER BIAS
+   SETUP
+   M30 + M15
    ========================================================= */
 
-let triggerBias = "NEUTRAL";
+    let bullishSetup = 0;
+    let bearishSetup = 0;
 
-if(
-    m5 &&
-    m1 &&
-    (
-        m5.condition === "BULLISH" ||
-        m1.condition === "BULLISH"
-    ) &&
-    (
-        m5.bos === "BULLISH" ||
-        m5.choch === "BULLISH" ||
-        m1.bos === "BULLISH" ||
-        m1.choch === "BULLISH"
-    )
-){
+    [m30,m15].forEach(data => {
 
-    triggerBias = "BULLISH";
+        if(!data)
+            return;
 
-}
+        if(data.condition === "BULLISH")
+            bullishSetup++;
 
-else if(
-    m5 &&
-    m1 &&
-    (
-        m5.condition === "BEARISH" ||
-        m1.condition === "BEARISH"
-    ) &&
-    (
-        m5.bos === "BEARISH" ||
-        m5.choch === "BEARISH" ||
-        m1.bos === "BEARISH" ||
-        m1.choch === "BEARISH"
-    )
-){
+        else if(data.condition === "BEARISH")
+            bearishSetup++;
 
-    triggerBias = "BEARISH";
+    });
 
-}
+    let setupBias = "NEUTRAL";
+
+    if(bullishSetup >= 2)
+        setupBias = "BULLISH";
+
+    else if(bearishSetup >= 2)
+        setupBias = "BEARISH";
+
+
+/* =========================================================
+   TRIGGER
+   M5 + M1
+   ========================================================= */
+
+    let triggerBias = "NEUTRAL";
+
+    if(
+        m5 &&
+        m1 &&
+        (
+            m5.condition === "BULLISH" ||
+            m1.condition === "BULLISH"
+        ) &&
+        (
+            m5.bos === "BULLISH" ||
+            m5.choch === "BULLISH" ||
+            m1.bos === "BULLISH" ||
+            m1.choch === "BULLISH"
+        )
+    ){
+
+        triggerBias = "BULLISH";
+
+    }
+
+    else if(
+        m5 &&
+        m1 &&
+        (
+            m5.condition === "BEARISH" ||
+            m1.condition === "BEARISH"
+        ) &&
+        (
+            m5.bos === "BEARISH" ||
+            m5.choch === "BEARISH" ||
+            m1.bos === "BEARISH" ||
+            m1.choch === "BEARISH"
+        )
+    ){
+
+        triggerBias = "BEARISH";
+
+    }
 
 
 /* =========================================================
    HIERARCHY SCORE
    ========================================================= */
 
-let bullPoints = 0;
-let bearPoints = 0;
+    let bullPoints = 0;
+    let bearPoints = 0;
 
-if(trendBias === "BULLISH")
-    bullPoints += 40;
+    if(trendBias === "BULLISH")
+        bullPoints += 40;
 
-else if(trendBias === "BEARISH")
-    bearPoints += 40;
-
-
-if(setupBias === "BULLISH")
-    bullPoints += 30;
-
-else if(setupBias === "BEARISH")
-    bearPoints += 30;
+    else if(trendBias === "BEARISH")
+        bearPoints += 40;
 
 
-if(triggerBias === "BULLISH")
-    bullPoints += 30;
+    if(setupBias === "BULLISH")
+        bullPoints += 30;
 
-else if(triggerBias === "BEARISH")
-    bearPoints += 30;
-
-
-const bullPercent =
-    bullPoints;
-
-const bearPercent =
-    bearPoints;
+    else if(setupBias === "BEARISH")
+        bearPoints += 30;
 
 
-/* =========================================================
-   FINAL MTF SIGNAL
-   D1/H4/H1 = TREND
-   M30/M15 = SETUP
-   M5/M1 = TRIGGER
-   ========================================================= */
+    if(triggerBias === "BULLISH")
+        bullPoints += 30;
 
-const d1  = timeframeData["D1"];
-const h4  = timeframeData["H4"];
-const h1  = timeframeData["H1"];
-const m30 = timeframeData["M30"];
-const m15 = timeframeData["M15"];
-const m5  = timeframeData["M5"];
-const m1  = timeframeData["M1"];
-
-let finalSignal = "WAIT";
-let finalScore = 50;
+    else if(triggerBias === "BEARISH")
+        bearPoints += 30;
 
 
-/* =========================================================
-   TREND BIAS
-   ========================================================= */
+    const bullPercent =
+        bullPoints;
 
-let bullishTrend = 0;
-let bearishTrend = 0;
-
-[d1, h4, h1].forEach(data => {
-
-    if(!data)
-        return;
-
-    if(data.condition === "BULLISH")
-        bullishTrend++;
-
-    if(data.condition === "BEARISH")
-        bearishTrend++;
-
-});
+    const bearPercent =
+        bearPoints;
 
 
-let trendBias = "NEUTRAL";
-
-if(bullishTrend >= 2)
-    trendBias = "BULLISH";
-
-else if(bearishTrend >= 2)
-    trendBias = "BEARISH";
-
-
-/* =========================================================
-   SETUP
-   ========================================================= */
-
-let bullishSetup = 0;
-let bearishSetup = 0;
-
-[m30, m15].forEach(data => {
-
-    if(!data)
-        return;
-
-    if(data.condition === "BULLISH")
-        bullishSetup++;
-
-    if(data.condition === "BEARISH")
-        bearishSetup++;
-
-});
-
-
-let setupBias = "NEUTRAL";
-
-if(bullishSetup >= 2)
-    setupBias = "BULLISH";
-
-else if(bearishSetup >= 2)
-    setupBias = "BEARISH";
-
-
-/* =========================================================
-   TRIGGER
-   ========================================================= */
-
-let triggerBias = "NEUTRAL";
-
-if(
-    m5 &&
-    m1 &&
-    m5.condition === "BULLISH" &&
-    m1.condition === "BULLISH"
-){
-
-    triggerBias = "BULLISH";
-
-}
-
-else if(
-    m5 &&
-    m1 &&
-    m5.condition === "BEARISH" &&
-    m1.condition === "BEARISH"
-){
-
-    triggerBias = "BEARISH";
-
-}
-
-
-/* =========================================================
-   FINAL DECISION
-   ========================================================= */
 /* =========================================================
    ENTRY SAFETY FILTER
    ========================================================= */
 
-let buyBlocked = false;
-let sellBlocked = false;
+    let buyBlocked = false;
+    let sellBlocked = false;
 
-if(m15){
+    if(m15){
 
-    const currentPrice =
-        m15.current;
+        const currentPrice =
+            m15.current;
 
-    const atrValue =
-        m15.atr;
 
-    /* BUY FILTER */
+        /* BUY FILTER */
 
-    const resistanceDistance =
-        (
-            m15.resistance -
-            currentPrice
-        ) / currentPrice * 100;
+        const resistanceDistance =
+            (
+                m15.resistance -
+                currentPrice
+            ) /
+            currentPrice *
+            100;
 
-    if(
-        m15.rsi >= 72 ||
-        resistanceDistance <= 0.10
-    ){
+        if(
+            m15.rsi >= 72 ||
+            resistanceDistance <= 0.10
+        ){
 
-        buyBlocked = true;
+            buyBlocked = true;
+
+        }
+
+
+        /* SELL FILTER */
+
+        const supportDistance =
+            (
+                currentPrice -
+                m15.support
+            ) /
+            currentPrice *
+            100;
+
+        if(
+            m15.rsi <= 28 ||
+            supportDistance <= 0.10
+        ){
+
+            sellBlocked = true;
+
+        }
 
     }
 
 
-    /* SELL FILTER */
+/* =========================================================
+   FINAL SIGNAL
+   ========================================================= */
 
-    const supportDistance =
-        (
-            currentPrice -
-            m15.support
-        ) / currentPrice * 100;
+    let finalSignal = "WAIT";
+    let finalScore = 50;
+
 
     if(
-        m15.rsi <= 28 ||
-        supportDistance <= 0.10
+        trendBias === "BULLISH" &&
+        setupBias === "BULLISH" &&
+        triggerBias === "BULLISH" &&
+        m15 &&
+        (
+            m15.bos === "BULLISH" ||
+            m15.choch === "BULLISH"
+        ) &&
+        !buyBlocked
     ){
 
-        sellBlocked = true;
+        finalSignal = "BUY";
+
+        finalScore = 90;
 
     }
 
-}
-    
-if(
-    trendBias === "BULLISH" &&
-    setupBias === "BULLISH" &&
-    triggerBias === "BULLISH" &&
-    m15 &&
-    (
-        m15.bos === "BULLISH" ||
-        m15.choch === "BULLISH"
-    ) && !buyBlocked
-){
+    else if(
+        trendBias === "BEARISH" &&
+        setupBias === "BEARISH" &&
+        triggerBias === "BEARISH" &&
+        m15 &&
+        (
+            m15.bos === "BEARISH" ||
+            m15.choch === "BEARISH"
+        ) &&
+        !sellBlocked
+    ){
 
-    finalSignal = "BUY";
+        finalSignal = "SELL";
 
-    finalScore = 90;
+        finalScore = 90;
 
-}
+    }
 
-else if(
-    trendBias === "BEARISH" &&
-    setupBias === "BEARISH" &&
-    triggerBias === "BEARISH" &&
-    m15 &&
-    (
-        m15.bos === "BEARISH" ||
-        m15.choch === "BEARISH"
-    ) && !sellBlocked
-){
+    else if(
+        trendBias === "BULLISH" &&
+        setupBias === "BULLISH"
+    ){
 
-    finalSignal = "SELL";
+        finalSignal = "WAIT";
 
-    finalScore = 90;
+        finalScore = 70;
 
-}
+    }
 
-else if(
-    trendBias === "BULLISH" &&
-    setupBias === "BULLISH"
-){
+    else if(
+        trendBias === "BEARISH" &&
+        setupBias === "BEARISH"
+    ){
 
-    finalSignal = "WAIT";
+        finalSignal = "WAIT";
 
-    finalScore = 70;
+        finalScore = 70;
 
-}
+    }
 
-else if(
-    trendBias === "BEARISH" &&
-    setupBias === "BEARISH"
-){
+    else{
 
-    finalSignal = "WAIT";
+        finalSignal = "WAIT";
 
-    finalScore = 70;
+        finalScore = 50;
 
-}
-
-else{
-
-    finalSignal = "WAIT";
-
-    finalScore = 50;
-
-}
+    }
 
 
 /* =========================================================
    EXTRA SCORE ADJUSTMENT
    ========================================================= */
 
-if(finalSignal === "BUY"){
+    if(finalSignal === "BUY"){
 
-    if(m15 && m15.rsi > 50 && m15.rsi < 70)
-        finalScore += 3;
+        if(
+            m15 &&
+            m15.rsi > 50 &&
+            m15.rsi < 70
+        ){
 
-    if(m15 && m15.current > m15.ema20)
-        finalScore += 2;
+            finalScore += 3;
 
-}
+        }
 
-else if(finalSignal === "SELL"){
+        if(
+            m15 &&
+            m15.current > m15.ema20
+        ){
 
-    if(m15 && m15.rsi < 50 && m15.rsi > 30)
-        finalScore += 3;
+            finalScore += 2;
 
-    if(m15 && m15.current < m15.ema20)
-        finalScore += 2;
+        }
 
-}
+    }
 
+    else if(finalSignal === "SELL"){
 
-finalScore =
-    Math.min(
-        100,
-        finalScore
-    );
-    /* =========================================================
-   MARKET PHASE / SIGNAL REASON
-   ========================================================= */
+        if(
+            m15 &&
+            m15.rsi < 50 &&
+            m15.rsi > 30
+        ){
 
-/* =========================================================
-   MARKET PHASE / SIGNAL REASON ENGINE
-   ========================================================= */
+            finalScore += 3;
 
-const phaseEl =
-    document.getElementById("marketPhase");
+        }
 
-let marketPhase =
-    "WAIT — MARKET NOT ALIGNED";
+        if(
+            m15 &&
+            m15.current < m15.ema20
+        ){
 
+            finalScore += 2;
 
-/* =========================================================
-   SAFETY REASONS
-   ========================================================= */
+        }
 
-if(finalSignal === "BUY"){
-
-    marketPhase =
-        "BUY — FULL CONFIRMATION";
-
-}
-
-else if(finalSignal === "SELL"){
-
-    marketPhase =
-        "SELL — FULL CONFIRMATION";
-
-}
-
-else if(
-    sellBlocked &&
-    m15 &&
-    m15.rsi <= 28
-){
-
-    marketPhase =
-        "WAIT — SELL BLOCKED: OVERSOLD";
-
-}
-
-else if(
-    sellBlocked &&
-    m15 &&
-    (
-        (
-            m15.current -
-            m15.support
-        ) /
-        m15.current *
-        100
-    ) <= 0.10
-){
-
-    marketPhase =
-        "WAIT — SELL BLOCKED: NEAR SUPPORT";
-
-}
-
-else if(
-    buyBlocked &&
-    m15 &&
-    m15.rsi >= 72
-){
-
-    marketPhase =
-        "WAIT — BUY BLOCKED: OVERBOUGHT";
-
-}
-
-else if(
-    buyBlocked &&
-    m15 &&
-    (
-        (
-            m15.resistance -
-            m15.current
-        ) /
-        m15.current *
-        100
-    ) <= 0.10
-){
-
-    marketPhase =
-        "WAIT — BUY BLOCKED: NEAR RESISTANCE";
-
-}
-
-else if(
-    trendBias === "BULLISH" &&
-    triggerBias !== "BULLISH"
-){
-
-    marketPhase =
-        "WAIT — BULLISH TREND / TRIGGER NOT READY";
-
-}
-
-else if(
-    trendBias === "BEARISH" &&
-    triggerBias !== "BEARISH"
-){
-
-    marketPhase =
-        "WAIT — BEARISH TREND / TRIGGER NOT READY";
-
-}
-
-else if(
-    trendBias !== setupBias
-){
-
-    marketPhase =
-        "WAIT — HTF CONFLICT";
-
-}
-
-else{
-
-    marketPhase =
-        "WAIT — MARKET NOT ALIGNED";
-
-}
+    }
 
 
-phaseEl.textContent =
-    marketPhase;
-
-phaseEl.className =
-    "metric-value " +
-    (
-        marketPhase.startsWith("BUY")
-        ? "green"
-        : marketPhase.startsWith("SELL")
-        ? "red"
-        : "yellow"
-    );
+    finalScore =
+        Math.min(
+            100,
+            finalScore
+        );
 
 
-phaseEl.textContent =
-    marketPhase;
-
-phaseEl.className =
-    "metric-value " +
-    (
-        marketPhase.startsWith("BUY")
-        ? "green"
-        : marketPhase.startsWith("SELL")
-        ? "red"
-        : "yellow"
-    );
 /* =========================================================
    MAIN SIGNAL DISPLAY
    ========================================================= */
 
-const signalEl =
+    const signalEl =
+        document.getElementById(
+            "overallSignal"
+        );
+
+    signalEl.textContent =
+        finalSignal;
+
+    signalEl.className =
+        "signal " +
+        (
+            finalSignal === "BUY"
+            ? "green"
+            : finalSignal === "SELL"
+            ? "red"
+            : "yellow"
+        );
+
+
     document.getElementById(
-        "overallSignal"
-    );
-
-signalEl.textContent =
-    finalSignal;
-
-signalEl.className =
-    "signal " +
-    (
-        finalSignal === "BUY"
-        ? "green"
-        : finalSignal === "SELL"
-        ? "red"
-        : "yellow"
-    );
+        "overallScore"
+    ).textContent =
+        finalScore + "/100";
 
 
-document.getElementById(
-    "overallScore"
-).textContent =
-    finalScore + "/100";
-
-
-document.getElementById(
-    "scoreBar"
-).style.width =
-    finalScore + "%";
-
-
+    document.getElementById(
+        "scoreBar"
+    ).style.width =
+        finalScore + "%";
 
 
 /* =========================================================
    TRADE PLAN
    ========================================================= */
 
-const tradeSignal =
-    document.getElementById("tradeSignal");
-
-const entryZone =
-    document.getElementById("entryZone");
-
-const tradeSL =
-    document.getElementById("tradeSL");
-
-const tradeTP1 =
-    document.getElementById("tradeTP1");
-
-const tradeTP2 =
-    document.getElementById("tradeTP2");
-
-const tradeRR =
-    document.getElementById("tradeRR");
-
-
-const price =
-    liveBTCPrice || primary.current;
-
-const atr =
-    primary.atr;
-
-
-/* Default */
-
-let entry = price;
-let sl = null;
-let tp1 = null;
-let tp2 = null;
-let rr = null;
-
-
-/* =========================================================
-   BUY PLAN
-   ========================================================= */
-
-if(finalSignal === "BUY"){
-
-    entry =
-        price;
-
-    sl =
-        Math.min(
-            primary.support,
-            entry - atr * 1.2
+    const tradeSignal =
+        document.getElementById(
+            "tradeSignal"
         );
 
-    const risk =
-        entry - sl;
-
-    tp1 =
-        entry + risk * 1.5;
-
-    tp2 =
-        entry + risk * 2.5;
-
-    rr = "1 : 2.5";
-
-}
-
-
-/* =========================================================
-   SELL PLAN
-   ========================================================= */
-
-else if(finalSignal === "SELL"){
-
-    entry =
-        price;
-
-    sl =
-        Math.max(
-            primary.resistance,
-            entry + atr * 1.2
+    const entryZone =
+        document.getElementById(
+            "entryZone"
         );
 
-    const risk =
-        sl - entry;
+    const tradeSL =
+        document.getElementById(
+            "tradeSL"
+        );
 
-    tp1 =
-        entry - risk * 1.5;
+    const tradeTP1 =
+        document.getElementById(
+            "tradeTP1"
+        );
 
-    tp2 =
-        entry - risk * 2.5;
+    const tradeTP2 =
+        document.getElementById(
+            "tradeTP2"
+        );
 
-    rr = "1 : 2.5";
+    const tradeRR =
+        document.getElementById(
+            "tradeRR"
+        );
 
-}
+
+    const price =
+        typeof liveBTCPrice !== "undefined" &&
+        liveBTCPrice
+        ? liveBTCPrice
+        : primary.current;
+
+    const atr =
+        primary.atr;
+
+
+    let entry = null;
+    let sl = null;
+    let tp1 = null;
+    let tp2 = null;
+    let rr = null;
+
+
+    /* BUY */
+
+    if(finalSignal === "BUY"){
+
+        entry =
+            price;
+
+        sl =
+            Math.min(
+                primary.support,
+                entry - atr * 1.2
+            );
+
+        const risk =
+            entry - sl;
+
+        tp1 =
+            entry + risk * 1.5;
+
+        tp2 =
+            entry + risk * 2.5;
+
+        rr =
+            "1 : 2.5";
+
+    }
+
+
+    /* SELL */
+
+    else if(finalSignal === "SELL"){
+
+        entry =
+            price;
+
+        sl =
+            Math.max(
+                primary.resistance,
+                entry + atr * 1.2
+            );
+
+        const risk =
+            sl - entry;
+
+        tp1 =
+            entry - risk * 1.5;
+
+        tp2 =
+            entry - risk * 2.5;
+
+        rr =
+            "1 : 2.5";
+
+    }
+
+
+    tradeSignal.textContent =
+        finalSignal;
+
+    tradeSignal.className =
+        "metric-value " +
+        (
+            finalSignal === "BUY"
+            ? "green"
+            : finalSignal === "SELL"
+            ? "red"
+            : "yellow"
+        );
+
+
+    entryZone.textContent =
+        entry !== null
+        ? formatPrice(entry)
+        : "--";
+
+
+    tradeSL.textContent =
+        sl !== null
+        ? formatPrice(sl)
+        : "--";
+
+
+    tradeTP1.textContent =
+        tp1 !== null
+        ? formatPrice(tp1)
+        : "--";
+
+
+    tradeTP2.textContent =
+        tp2 !== null
+        ? formatPrice(tp2)
+        : "--";
+
+
+    tradeRR.textContent =
+        rr || "--";
 
 
 /* =========================================================
-   WAIT
+   MARKET PHASE / REASON ENGINE
    ========================================================= */
 
-else{
+    const phaseEl =
+        document.getElementById(
+            "marketPhase"
+        );
 
-    entry = null;
-    sl = null;
-    tp1 = null;
-    tp2 = null;
-    rr = null;
+    let marketPhase =
+        "WAIT — MARKET NOT ALIGNED";
 
-}
+
+    if(finalSignal === "BUY"){
+
+        marketPhase =
+            "BUY — FULL CONFIRMATION";
+
+    }
+
+    else if(finalSignal === "SELL"){
+
+        marketPhase =
+            "SELL — FULL CONFIRMATION";
+
+    }
+
+    else if(
+        sellBlocked &&
+        m15 &&
+        m15.rsi <= 28
+    ){
+
+        marketPhase =
+            "WAIT — SELL BLOCKED: OVERSOLD";
+
+    }
+
+    else if(
+        sellBlocked &&
+        m15 &&
+        (
+            (
+                m15.current -
+                m15.support
+            ) /
+            m15.current *
+            100
+        ) <= 0.10
+    ){
+
+        marketPhase =
+            "WAIT — SELL BLOCKED: NEAR SUPPORT";
+
+    }
+
+    else if(
+        buyBlocked &&
+        m15 &&
+        m15.rsi >= 72
+    ){
+
+        marketPhase =
+            "WAIT — BUY BLOCKED: OVERBOUGHT";
+
+    }
+
+    else if(
+        buyBlocked &&
+        m15 &&
+        (
+            (
+                m15.resistance -
+                m15.current
+            ) /
+            m15.current *
+            100
+        ) <= 0.10
+    ){
+
+        marketPhase =
+            "WAIT — BUY BLOCKED: NEAR RESISTANCE";
+
+    }
+
+    else if(
+        trendBias === "BULLISH" &&
+        triggerBias !== "BULLISH"
+    ){
+
+        marketPhase =
+            "WAIT — BULLISH TREND / TRIGGER NOT READY";
+
+    }
+
+    else if(
+        trendBias === "BEARISH" &&
+        triggerBias !== "BEARISH"
+    ){
+
+        marketPhase =
+            "WAIT — BEARISH TREND / TRIGGER NOT READY";
+
+    }
+
+    else if(
+        trendBias !== setupBias
+    ){
+
+        marketPhase =
+            "WAIT — HTF CONFLICT";
+
+    }
+
+    else{
+
+        marketPhase =
+            "WAIT — MARKET NOT ALIGNED";
+
+    }
+
+
+    phaseEl.textContent =
+        marketPhase;
+
+    phaseEl.className =
+        "metric-value " +
+        (
+            marketPhase.startsWith("BUY")
+            ? "green"
+            : marketPhase.startsWith("SELL")
+            ? "red"
+            : "yellow"
+        );
 
 
 /* =========================================================
-   DISPLAY
+   INDICATORS
    ========================================================= */
-
-tradeSignal.textContent =
-    finalSignal;
-
-tradeSignal.className =
-    "metric-value " +
-    (
-        finalSignal === "BUY"
-        ? "green"
-        : finalSignal === "SELL"
-        ? "red"
-        : "yellow"
-    );
-
-
-entryZone.textContent =
-    entry !== null
-    ? formatPrice(entry)
-    : "--";
-
-tradeSL.textContent =
-    sl !== null
-    ? formatPrice(sl)
-    : "--";
-
-tradeTP1.textContent =
-    tp1 !== null
-    ? formatPrice(tp1)
-    : "--";
-
-tradeTP2.textContent =
-    tp2 !== null
-    ? formatPrice(tp2)
-    : "--";
-
-tradeRR.textContent =
-    rr || "--";
-
-
-    /* INDICATORS */
 
     document.getElementById(
         "ema20"
     ).textContent =
-        formatPrice(primary.ema20);
+        formatPrice(
+            primary.ema20
+        );
+
 
     document.getElementById(
         "ema50"
     ).textContent =
-        formatPrice(primary.ema50);
+        formatPrice(
+            primary.ema50
+        );
+
 
     document.getElementById(
         "rsi"
     ).textContent =
         primary.rsi.toFixed(2);
 
+
     document.getElementById(
         "atr"
     ).textContent =
-        formatPrice(primary.atr);
+        formatPrice(
+            primary.atr
+        );
+
 
     document.getElementById(
         "volume"
@@ -2706,29 +2634,37 @@ tradeRR.textContent =
             primary.currentVolume
         );
 
+
     document.getElementById(
         "volumeState"
     ).textContent =
         primary.volumeState;
 
+
+    const uptrend =
+        primary.ema20 >
+        primary.ema50;
+
+
     document.getElementById(
         "trend"
     ).textContent =
-        primary.ema20 >
-        primary.ema50
+        uptrend
         ? "UPTREND"
         : "DOWNTREND";
+
 
     document.getElementById(
         "trendState"
     ).textContent =
-        primary.ema20 >
-        primary.ema50
+        uptrend
         ? "EMA20 > EMA50"
         : "EMA20 < EMA50";
 
 
-    /* RSI STATE */
+/* =========================================================
+   RSI STATE
+   ========================================================= */
 
     let rsiState =
         "NEUTRAL";
@@ -2745,13 +2681,16 @@ tradeRR.textContent =
     else
         rsiState = "WEAK";
 
+
     document.getElementById(
         "rsiState"
     ).textContent =
         rsiState;
 
 
-    /* EMA STATE */
+/* =========================================================
+   EMA STATE
+   ========================================================= */
 
     document.getElementById(
         "ema20State"
@@ -2760,6 +2699,7 @@ tradeRR.textContent =
         primary.ema20
         ? "Price above EMA20"
         : "Price below EMA20";
+
 
     document.getElementById(
         "ema50State"
@@ -2770,22 +2710,33 @@ tradeRR.textContent =
         : "Price below EMA50";
 
 
-    /* BOLLINGER */
+/* =========================================================
+   BOLLINGER
+   ========================================================= */
 
     document.getElementById(
         "bbUpper"
     ).textContent =
-        formatPrice(primary.upper);
+        formatPrice(
+            primary.upper
+        );
+
 
     document.getElementById(
         "bbMiddle"
     ).textContent =
-        formatPrice(primary.middle);
+        formatPrice(
+            primary.middle
+        );
+
 
     document.getElementById(
         "bbLower"
     ).textContent =
-        formatPrice(primary.lower);
+        formatPrice(
+            primary.lower
+        );
+
 
     document.getElementById(
         "bbPosition"
@@ -2793,17 +2744,25 @@ tradeRR.textContent =
         primary.bbPosition;
 
 
-    /* SUPPORT RESISTANCE */
+/* =========================================================
+   SUPPORT / RESISTANCE
+   ========================================================= */
 
     document.getElementById(
         "resistance"
     ).textContent =
-        formatPrice(primary.resistance);
+        formatPrice(
+            primary.resistance
+        );
+
 
     document.getElementById(
         "support"
     ).textContent =
-        formatPrice(primary.support);
+        formatPrice(
+            primary.support
+        );
+
 
     document.getElementById(
         "resistanceDistance"
@@ -2816,6 +2775,7 @@ tradeRR.textContent =
             primary.current *
             100
         ).toFixed(2) + "%";
+
 
     document.getElementById(
         "supportDistance"
@@ -2830,31 +2790,43 @@ tradeRR.textContent =
         ).toFixed(2) + "%";
 
 
-    /* STRUCTURE */
+/* =========================================================
+   MARKET STRUCTURE
+   ========================================================= */
 
     document.getElementById(
         "lastHigh"
     ).textContent =
-        formatPrice(primary.resistance);
+        formatPrice(
+            primary.resistance
+        );
+
 
     document.getElementById(
         "lastLow"
     ).textContent =
-        formatPrice(primary.support);
+        formatPrice(
+            primary.support
+        );
+
 
     document.getElementById(
         "structure"
     ).textContent =
         primary.structure;
-    document.getElementById(
-    "bos"
-).textContent =
-    primary.bos;
 
-document.getElementById(
-    "choch"
-).textContent =
-    primary.choch;
+
+    document.getElementById(
+        "bos"
+    ).textContent =
+        primary.bos;
+
+
+    document.getElementById(
+        "choch"
+    ).textContent =
+        primary.choch;
+
 
     document.getElementById(
         "volatility"
@@ -2866,7 +2838,9 @@ document.getElementById(
         ).toFixed(2) + "%";
 
 
-    /* TIMEFRAME CARDS */
+/* =========================================================
+   TIMEFRAME CARDS
+   ========================================================= */
 
     const tfGrid =
         document.getElementById(
@@ -2875,7 +2849,8 @@ document.getElementById(
 
     tfGrid.innerHTML = "";
 
-    TIMEFRAMES.forEach(tf=>{
+
+    TIMEFRAMES.forEach(tf => {
 
         const data =
             timeframeData[tf.label];
@@ -2883,12 +2858,16 @@ document.getElementById(
         if(!data)
             return;
 
+
         const div =
             document.createElement(
                 "div"
             );
 
-        div.className = "tf";
+
+        div.className =
+            "tf";
+
 
         const color =
             data.condition === "BULLISH"
@@ -2896,6 +2875,7 @@ document.getElementById(
             : data.condition === "BEARISH"
             ? "red"
             : "yellow";
+
 
         div.innerHTML = `
 
@@ -2913,12 +2893,17 @@ document.getElementById(
 
         `;
 
-        tfGrid.appendChild(div);
+
+        tfGrid.appendChild(
+            div
+        );
 
     });
 
 
-    /* TABLE */
+/* =========================================================
+   ANALYSIS TABLE
+   ========================================================= */
 
     const table =
         document.getElementById(
@@ -2927,13 +2912,15 @@ document.getElementById(
 
     table.innerHTML = "";
 
-    TIMEFRAMES.forEach(tf=>{
+
+    TIMEFRAMES.forEach(tf => {
 
         const data =
             timeframeData[tf.label];
 
         if(!data)
             return;
+
 
         const color =
             data.condition === "BULLISH"
@@ -2942,10 +2929,12 @@ document.getElementById(
             ? "red"
             : "yellow";
 
+
         const row =
             document.createElement(
                 "tr"
             );
+
 
         row.innerHTML = `
 
@@ -2985,7 +2974,10 @@ document.getElementById(
 
         `;
 
-        table.appendChild(row);
+
+        table.appendChild(
+            row
+        );
 
     });
 
