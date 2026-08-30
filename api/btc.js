@@ -1,174 +1,143 @@
-const BASE = "https://api.gemini.com";
-const SYMBOL = "BTCUSD";
-
-const TIMEFRAMES = {
-  D1: "1d",
-  H4: "6h",
-  H1: "1h",
-  M30: "30m",
-  M15: "15m",
-  M5: "5m"
-};
-
 export default async function handler(req, res) {
 
-  res.setHeader("Cache-Control", "no-store");
+  const KEY = process.env.COINGECKO_API_KEY;
+
+  if (!KEY) {
+    return res.status(500).json({
+      ok: false,
+      error: "COINGECKO_API_KEY missing"
+    });
+  }
 
   try {
 
-    const [
-      ticker,
-      orderbook,
-      ...candleResults
-    ] = await Promise.all([
+    const url =
+      "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart" +
+      "?vs_currency=usd" +
+      "&days=1" +
+      "&interval=5m" +
+      "&precision=full";
 
-      getTicker(),
-
-      getOrderBook(),
-
-      ...Object.values(TIMEFRAMES).map(
-        tf => getCandles(tf)
-      )
-
-    ]);
-
-    const names =
-      Object.keys(TIMEFRAMES);
-
-    const timeframes = {};
-
-    names.forEach((name, i) => {
-
-      timeframes[name] =
-        calculate(
-          candleResults[i]
-        );
-
+    const response = await fetch(url, {
+      headers: {
+        "accept": "application/json",
+        "x-cg-demo-api-key": KEY
+      }
     });
 
-    /*
-      Use Gemini ticker as the
-      freshest current BTC price.
-    */
+    if (!response.ok) {
 
-    const livePrice =
-      Number(ticker.close);
+      const text = await response.text();
 
-    /*
-      Make M15 use live ticker price
-      instead of waiting for candle close.
-    */
-
-    if (
-      timeframes.M15 &&
-      Number.isFinite(livePrice)
-    ) {
-
-      timeframes.M15.price =
-        livePrice;
+      return res.status(response.status).json({
+        ok: false,
+        error: `CoinGecko HTTP ${response.status}`,
+        detail: text
+      });
 
     }
 
-    const m15 =
-      timeframes.M15;
+    const raw = await response.json();
 
-    const signalResult =
-      calculateSignal(
-        timeframes
-      );
+    if (!raw.prices || raw.prices.length < 30) {
 
-    const trade =
-      makeTradePlan(
-        signalResult.signal,
-        m15.price,
-        m15.atr
-      );
+      return res.status(503).json({
+        ok: false,
+        error: "Insufficient BTC historical data"
+      });
 
-    const orderFlow =
-      calculateOrderFlow(
-        orderbook
-      );
+    }
 
-    return res.status(200).json({
+    const candles = buildCandles(
+      raw.prices,
+      raw.total_volumes || []
+    );
+
+    const m15 = candles.M15;
+    const m30 = candles.M30;
+    const h1  = candles.H1;
+    const h4  = candles.H4;
+    const d1  = candles.D1;
+
+    const price =
+      Number(raw.prices.at(-1)?.[1]);
+
+    const result = {
 
       ok: true,
 
-      source:
-        "Gemini Public Market Data",
+      source: "CoinGecko",
 
-      symbol:
-        SYMBOL,
+      price,
 
-      price:
-        livePrice,
+      signal: "WAIT",
 
-      signal:
-        signalResult.signal,
+      score: 0,
 
-      score:
-        signalResult.score,
+      phase: "ANALYSING",
 
-      phase:
-        m15.phase,
-
-      trade,
-
-      timeframes,
-
-      market: {
-
-        high:
-          Number(ticker.high),
-
-        low:
-          Number(ticker.low),
-
-        open:
-          Number(ticker.open),
-
-        change:
-          calculateChange(
-            ticker
-          ),
-
-        bid:
-          Number(ticker.bid),
-
-        ask:
-          Number(ticker.ask),
-
-        volume:
-          Number(
-            ticker.volume?.BTC || 0
-          )
-
+      trade: {
+        entry: null,
+        sl: null,
+        tp1: null,
+        tp2: null,
+        rr: null
       },
 
-      orderBook:
-        orderFlow,
+      timeframes: {
+
+        D1: analyse(d1),
+        H4: analyse(h4),
+        H1: analyse(h1),
+        M30: analyse(m30),
+        M15: analyse(m15),
+
+        M5: {
+          condition: "DATA SOURCE",
+          score: "--"
+        }
+
+      },
 
       updated:
         new Date().toISOString()
 
-    });
+    };
 
-  }
+    const analysis =
+      analyse(m15);
 
-  catch (error) {
+    result.timeframes.M15 =
+      analysis;
 
-    console.error(
-      "BTC API ERROR:",
-      error
-    );
+    result.signal =
+      generateSignal(
+        analysis,
+        price
+      );
+
+    result.score =
+      analysis.score;
+
+    result.phase =
+      analysis.phase;
+
+    result.trade =
+      buildTradePlan(
+        price,
+        analysis
+      );
+
+    return res.status(200).json(result);
+
+  } catch (error) {
+
+    console.error(error);
 
     return res.status(500).json({
-
       ok: false,
-
-      error:
-        error.message ||
-        "BTC candle data unavailable"
-
+      error: "BTC API failed",
+      detail: error.message
     });
 
   }
@@ -176,217 +145,243 @@ export default async function handler(req, res) {
 }
 
 
-/* =========================================================
-   GEMINI TICKER
-========================================================= */
+/* =====================================================
+   BUILD TIMEFRAME CANDLES
+===================================================== */
 
-async function getTicker() {
-
-  const response =
-    await fetch(
-      `${BASE}/v2/ticker/${SYMBOL}`,
-      {
-        cache: "no-store"
-      }
-    );
-
-  if (!response.ok) {
-
-    throw new Error(
-      `Gemini ticker HTTP ${response.status}`
-    );
-
-  }
-
-  const data =
-    await response.json();
-
-  if (
-    !data ||
-    !data.close
-  ) {
-
-    throw new Error(
-      "Gemini ticker unavailable"
-    );
-
-  }
-
-  return data;
-
-}
-
-
-/* =========================================================
-   GEMINI ORDER BOOK
-========================================================= */
-
-async function getOrderBook() {
-
-  const response =
-    await fetch(
-      `${BASE}/v1/book/${SYMBOL}?limit_bids=50&limit_asks=50`,
-      {
-        cache: "no-store"
-      }
-    );
-
-  if (!response.ok) {
-
-    throw new Error(
-      `Gemini order book HTTP ${response.status}`
-    );
-
-  }
-
-  return response.json();
-
-}
-
-
-/* =========================================================
-   GEMINI CANDLES
-========================================================= */
-
-async function getCandles(
-  timeframe
+function buildCandles(
+  prices,
+  volumes
 ) {
 
-  const url =
-    `${BASE}/v2/candles/${SYMBOL}/${timeframe}`;
+  const result = {
 
-  const response =
-    await fetch(
-      url,
-      {
-        cache: "no-store"
-      }
+    M15: [],
+    M30: [],
+    H1: [],
+    H4: [],
+    D1: []
+
+  };
+
+  const volumeMap =
+    new Map(
+      volumes.map(v => [
+        v[0],
+        Number(v[1])
+      ])
     );
 
-  if (!response.ok) {
-
-    throw new Error(
-      `Gemini ${timeframe} HTTP ${response.status}`
-    );
-
-  }
-
-  const data =
-    await response.json();
-
-  if (
-    !Array.isArray(data) ||
-    data.length < 60
+  for (
+    const p of prices
   ) {
 
-    throw new Error(
-      `Not enough Gemini ${timeframe} candles`
-    );
+    const ts =
+      Number(p[0]);
 
-  }
+    const close =
+      Number(p[1]);
 
-  /*
-    Gemini returns:
+    const volume =
+      findVolume(
+        ts,
+        volumeMap
+      );
 
-    [
-      timestamp,
-      open,
-      high,
-      low,
+    addCandle(
+      result.M15,
+      ts,
       close,
-      volume
-    ]
-
-    Newest candles are normally first,
-    so sort oldest -> newest.
-  */
-
-  return data
-
-    .map(c => ({
-
-      time:
-        Number(c[0]),
-
-      open:
-        Number(c[1]),
-
-      high:
-        Number(c[2]),
-
-      low:
-        Number(c[3]),
-
-      close:
-        Number(c[4]),
-
-      volume:
-        Number(c[5])
-
-    }))
-
-    .sort(
-      (a, b) =>
-        a.time - b.time
+      volume,
+      15
     );
+
+    addCandle(
+      result.M30,
+      ts,
+      close,
+      volume,
+      30
+    );
+
+    addCandle(
+      result.H1,
+      ts,
+      close,
+      volume,
+      60
+    );
+
+    addCandle(
+      result.H4,
+      ts,
+      close,
+      volume,
+      240
+    );
+
+    addCandle(
+      result.D1,
+      ts,
+      close,
+      volume,
+      1440
+    );
+
+  }
+
+  return result;
 
 }
 
 
-/* =========================================================
-   TECHNICAL CALCULATION
-========================================================= */
+/* =====================================================
+   AGGREGATE
+===================================================== */
 
-function calculate(
-  candles
+function addCandle(
+  array,
+  timestamp,
+  price,
+  volume,
+  minutes
 ) {
+
+  const bucket =
+    Math.floor(
+      timestamp /
+      (minutes * 60000)
+    ) *
+    (minutes * 60000);
+
+  let candle =
+    array.at(-1);
+
+  if (
+    !candle ||
+    candle.time !== bucket
+  ) {
+
+    candle = {
+
+      time: bucket,
+
+      open: price,
+      high: price,
+      low: price,
+      close: price,
+
+      volume: volume || 0
+
+    };
+
+    array.push(candle);
+
+  } else {
+
+    candle.high =
+      Math.max(
+        candle.high,
+        price
+      );
+
+    candle.low =
+      Math.min(
+        candle.low,
+        price
+      );
+
+    candle.close =
+      price;
+
+    candle.volume +=
+      volume || 0;
+
+  }
+
+}
+
+
+/* =====================================================
+   VOLUME LOOKUP
+===================================================== */
+
+function findVolume(
+  timestamp,
+  map
+) {
+
+  if (map.has(timestamp))
+    return map.get(timestamp);
+
+  let closest = null;
+
+  for (
+    const [ts, value]
+    of map
+  ) {
+
+    if (
+      Math.abs(
+        ts - timestamp
+      ) < 180000
+    ) {
+
+      closest = value;
+      break;
+
+    }
+
+  }
+
+  return closest || 0;
+
+}
+
+
+/* =====================================================
+   TECHNICAL ANALYSIS
+===================================================== */
+
+function analyse(candles) {
+
+  if (!candles ||
+      candles.length < 20) {
+
+    return {
+
+      condition: "WAIT",
+      score: 0,
+      phase: "INSUFFICIENT DATA"
+
+    };
+
+  }
 
   const closes =
     candles.map(
-      c => c.close
-    );
-
-  const highs =
-    candles.map(
-      c => c.high
-    );
-
-  const lows =
-    candles.map(
-      c => c.low
+      x => x.close
     );
 
   const volumes =
     candles.map(
-      c => c.volume
+      x => x.volume
     );
 
   const price =
     closes.at(-1);
 
   const ema20 =
-    EMA(
-      closes,
-      20
-    );
+    EMA(closes, 20);
 
   const ema50 =
-    EMA(
-      closes,
-      50
-    );
+    EMA(closes, 50);
 
   const rsi =
-    RSI(
-      closes,
-      14
-    );
+    RSI(closes, 14);
 
   const atr =
-    ATR(
-      candles,
-      14
-    );
+    ATR(candles, 14);
 
   const bb =
     Bollinger(
@@ -398,159 +393,85 @@ function calculate(
   const currentVolume =
     volumes.at(-1);
 
-  const averageVolume =
-    mean(
-      volumes.slice(
-        -21,
-        -1
-      )
+  const avgVolume =
+    average(
+      volumes.slice(-20)
     );
 
   const volumeRatio =
-    averageVolume > 0
-      ? currentVolume /
-        averageVolume
-      : 1;
+    avgVolume > 0
+      ? currentVolume / avgVolume
+      : 0;
 
-  const resistance =
+  let score = 50;
+
+  if (price > ema20)
+    score += 10;
+  else
+    score -= 10;
+
+  if (ema20 > ema50)
+    score += 15;
+  else
+    score -= 15;
+
+  if (rsi > 55)
+    score += 10;
+
+  if (rsi < 45)
+    score -= 10;
+
+  if (volumeRatio > 1.2) {
+
+    if (price > ema20)
+      score += 10;
+    else
+      score -= 10;
+
+  }
+
+  score =
     Math.max(
-      ...highs.slice(
-        -21,
-        -1
+      0,
+      Math.min(
+        100,
+        Math.round(score)
       )
     );
 
-  const support =
-    Math.min(
-      ...lows.slice(
-        -21,
-        -1
-      )
-    );
+  let condition =
+    "NEUTRAL";
 
-  let structure =
-    "RANGE";
+  if (score >= 65)
+    condition =
+      "BULLISH";
+
+  else if (score <= 35)
+    condition =
+      "BEARISH";
+
+  let phase =
+    "RANGING";
 
   if (
     price > ema20 &&
     ema20 > ema50
-  ) {
-
-    structure =
-      "BULLISH";
-
-  }
+  )
+    phase =
+      "UPTREND";
 
   else if (
     price < ema20 &&
     ema20 < ema50
-  ) {
-
-    structure =
-      "BEARISH";
-
-  }
-
-  const previous =
-    closes.at(-2);
-
-  let bos = "--";
-  let choch = "--";
-
-  if (
-    price > resistance
-  ) {
-
-    bos =
-      "BULLISH BOS";
-
-  }
-
-  else if (
-    price < support
-  ) {
-
-    bos =
-      "BEARISH BOS";
-
-  }
-
-  if (
-    previous < ema20 &&
-    price > ema20
-  ) {
-
-    choch =
-      "BULLISH CHOCH";
-
-  }
-
-  else if (
-    previous > ema20 &&
-    price < ema20
-  ) {
-
-    choch =
-      "BEARISH CHOCH";
-
-  }
-
-  let phase =
-    "RANGE";
-
-  if (
-    volumeRatio >= 1.5 &&
-    structure === "BULLISH"
-  ) {
-
+  )
     phase =
-      "BULLISH EXPANSION";
-
-  }
-
-  else if (
-    volumeRatio >= 1.5 &&
-    structure === "BEARISH"
-  ) {
-
-    phase =
-      "BEARISH EXPANSION";
-
-  }
-
-  else if (
-    volumeRatio < 0.7
-  ) {
-
-    phase =
-      "LOW VOLUME";
-
-  }
-
-  else if (
-    structure === "BULLISH"
-  ) {
-
-    phase =
-      "BULLISH TREND";
-
-  }
-
-  else if (
-    structure === "BEARISH"
-  ) {
-
-    phase =
-      "BEARISH TREND";
-
-  }
+      "DOWNTREND";
 
   return {
 
     price,
 
     ema20,
-
     ema50,
 
     rsi,
@@ -563,7 +484,7 @@ function calculate(
         currentVolume,
 
       average:
-        averageVolume,
+        avgVolume,
 
       ratio:
         volumeRatio,
@@ -571,414 +492,51 @@ function calculate(
       state:
         volumeRatio >= 1.5
           ? "HIGH"
-          : volumeRatio <= 0.7
-          ? "LOW"
-          : "NORMAL"
+          : volumeRatio >= 1
+          ? "NORMAL"
+          : "LOW"
 
     },
 
     bb,
 
-    resistance,
-
-    support,
-
-    structure,
-
-    bos,
-
-    choch,
-
-    volatility:
-      price > 0
-        ? (
-            atr /
-            price *
-            100
-          )
-        : 0,
-
-    phase,
-
-    condition:
-      structure,
-
-    score:
-      localScore(
-        price,
-        ema20,
-        ema50,
-        rsi,
-        volumeRatio
-      )
-
-  };
-
-}
-
-
-/* =========================================================
-   SIGNAL ENGINE
-========================================================= */
-
-function calculateSignal(
-  tf
-) {
-
-  const m =
-    tf.M15;
-
-  const h =
-    tf.H1;
-
-  const q =
-    tf.H4;
-
-  let score =
-    50;
-
-  if (
-    m.price >
-    m.ema20
-  ) {
-
-    score += 8;
-
-  } else {
-
-    score -= 8;
-
-  }
-
-  if (
-    m.ema20 >
-    m.ema50
-  ) {
-
-    score += 8;
-
-  } else {
-
-    score -= 8;
-
-  }
-
-  if (
-    h.price >
-    h.ema20
-  ) {
-
-    score += 8;
-
-  } else {
-
-    score -= 8;
-
-  }
-
-  if (
-    q.price >
-    q.ema20
-  ) {
-
-    score += 6;
-
-  } else {
-
-    score -= 6;
-
-  }
-
-  if (
-    m.rsi >= 50 &&
-    m.rsi < 70
-  ) {
-
-    score += 7;
-
-  }
-
-  else if (
-    m.rsi <= 50 &&
-    m.rsi > 30
-  ) {
-
-    score -= 7;
-
-  }
-
-  if (
-    m.volume.ratio >= 1.2
-  ) {
-
-    score +=
-      m.price >
-      m.ema20
-        ? 6
-        : -6;
-
-  }
-
-  score =
-    Math.round(
+    resistance:
       Math.max(
-        0,
-        Math.min(
-          100,
-          score
-        )
-      )
-    );
+        ...candles
+          .slice(-20)
+          .map(x => x.high)
+      ),
 
-  let signal =
-    "WAIT";
+    support:
+      Math.min(
+        ...candles
+          .slice(-20)
+          .map(x => x.low)
+      ),
 
-  if (
-    score >= 70 &&
-    m.price > m.ema20 &&
-    m.ema20 > m.ema50
-  ) {
+    structure:
+      condition,
 
-    signal =
-      "BUY";
+    bos:
+      "MONITOR",
 
-  }
+    choch:
+      "MONITOR",
 
-  else if (
-    score <= 30 &&
-    m.price < m.ema20 &&
-    m.ema20 < m.ema50
-  ) {
+    condition,
 
-    signal =
-      "SELL";
+    score,
 
-  }
-
-  return {
-
-    signal,
-
-    score
+    phase
 
   };
 
 }
 
 
-/* =========================================================
-   TRADE PLAN
-========================================================= */
-
-function makeTradePlan(
-  signal,
-  price,
-  atr
-) {
-
-  if (
-    signal === "WAIT" ||
-    !Number.isFinite(price) ||
-    !Number.isFinite(atr)
-  ) {
-
-    return null;
-
-  }
-
-  const risk =
-    atr * 1.25;
-
-  const tp1 =
-    risk * 1.5;
-
-  const tp2 =
-    risk * 2.5;
-
-  if (
-    signal === "BUY"
-  ) {
-
-    return {
-
-      entry:
-        price,
-
-      sl:
-        price - risk,
-
-      tp1:
-        price + tp1,
-
-      tp2:
-        price + tp2,
-
-      rr:
-        "1:1.5 / 1:2.5"
-
-    };
-
-  }
-
-  return {
-
-    entry:
-      price,
-
-    sl:
-      price + risk,
-
-    tp1:
-      price - tp1,
-
-    tp2:
-      price - tp2,
-
-    rr:
-      "1:1.5 / 1:2.5"
-
-  };
-
-}
-
-
-/* =========================================================
-   ORDER FLOW
-========================================================= */
-
-function calculateOrderFlow(
-  book
-) {
-
-  if (
-    !book ||
-    !Array.isArray(book.bids) ||
-    !Array.isArray(book.asks)
-  ) {
-
-    return {
-
-      bidVolume: 0,
-
-      askVolume: 0,
-
-      imbalance: 0,
-
-      pressure:
-        "UNAVAILABLE"
-
-    };
-
-  }
-
-  const bidVolume =
-    book.bids.reduce(
-      (sum, item) =>
-        sum +
-        Number(item.amount || 0),
-      0
-    );
-
-  const askVolume =
-    book.asks.reduce(
-      (sum, item) =>
-        sum +
-        Number(item.amount || 0),
-      0
-    );
-
-  const total =
-    bidVolume +
-    askVolume;
-
-  const imbalance =
-    total > 0
-      ? (
-          (
-            bidVolume -
-            askVolume
-          ) /
-          total
-        ) * 100
-      : 0;
-
-  let pressure =
-    "BALANCED";
-
-  if (
-    imbalance >= 10
-  ) {
-
-    pressure =
-      "BUY PRESSURE";
-
-  }
-
-  else if (
-    imbalance <= -10
-  ) {
-
-    pressure =
-      "SELL PRESSURE";
-
-  }
-
-  return {
-
-    bidVolume,
-
-    askVolume,
-
-    imbalance,
-
-    pressure
-
-  };
-
-}
-
-
-/* =========================================================
-   24H CHANGE
-========================================================= */
-
-function calculateChange(
-  ticker
-) {
-
-  const open =
-    Number(
-      ticker.open
-    );
-
-  const close =
-    Number(
-      ticker.close
-    );
-
-  if (
-    !Number.isFinite(open) ||
-    !Number.isFinite(close) ||
-    open === 0
-  ) {
-
-    return 0;
-
-  }
-
-  return (
-    (
-      close - open
-    ) /
-    open
-  ) * 100;
-
-}
-
-
-/* =========================================================
+/* =====================================================
    EMA
-========================================================= */
+===================================================== */
 
 function EMA(
   values,
@@ -986,19 +544,17 @@ function EMA(
 ) {
 
   if (
-    values.length < period
-  ) {
-
-    return NaN;
-
-  }
+    values.length <
+    period
+  )
+    return values.at(-1);
 
   const multiplier =
     2 /
     (period + 1);
 
   let ema =
-    mean(
+    average(
       values.slice(
         0,
         period
@@ -1013,16 +569,11 @@ function EMA(
 
     ema =
       (
-        values[i] *
-        multiplier
-      ) +
-      (
-        ema *
-        (
-          1 -
-          multiplier
-        )
-      );
+        values[i] -
+        ema
+      ) *
+      multiplier +
+      ema;
 
   }
 
@@ -1031,9 +582,9 @@ function EMA(
 }
 
 
-/* =========================================================
+/* =====================================================
    RSI
-========================================================= */
+===================================================== */
 
 function RSI(
   values,
@@ -1041,13 +592,9 @@ function RSI(
 ) {
 
   if (
-    values.length <
-    period + 1
-  ) {
-
-    return NaN;
-
-  }
+    values.length <= period
+  )
+    return 50;
 
   let gain = 0;
   let loss = 0;
@@ -1062,17 +609,10 @@ function RSI(
       values[i] -
       values[i - 1];
 
-    if (
-      diff >= 0
-    ) {
-
+    if (diff >= 0)
       gain += diff;
-
-    } else {
-
+    else
       loss -= diff;
-
-    }
 
   }
 
@@ -1092,61 +632,61 @@ function RSI(
       values[i] -
       values[i - 1];
 
+    const g =
+      Math.max(
+        diff,
+        0
+      );
+
+    const l =
+      Math.max(
+        -diff,
+        0
+      );
+
     avgGain =
       (
         avgGain *
         (period - 1) +
-        Math.max(
-          diff,
-          0
-        )
-      ) /
-      period;
+        g
+      ) / period;
 
     avgLoss =
       (
         avgLoss *
         (period - 1) +
-        Math.max(
-          -diff,
-          0
-        )
-      ) /
-      period;
+        l
+      ) / period;
 
   }
 
-  if (
-    avgLoss === 0
-  ) {
-
+  if (avgLoss === 0)
     return 100;
-
-  }
 
   const rs =
     avgGain /
     avgLoss;
 
-  return (
-    100 -
-    (
-      100 /
-      (1 + rs)
-    )
-  );
+  return 100 -
+    (100 / (1 + rs));
 
 }
 
 
-/* =========================================================
+/* =====================================================
    ATR
-========================================================= */
+===================================================== */
 
 function ATR(
   candles,
   period
 ) {
+
+  if (
+    candles.length <
+    period + 1
+  )
+    return 0;
 
   const trs = [];
 
@@ -1156,47 +696,43 @@ function ATR(
     i++
   ) {
 
-    const current =
+    const c =
       candles[i];
 
-    const previous =
+    const p =
       candles[i - 1];
 
     trs.push(
-
       Math.max(
 
-        current.high -
-        current.low,
+        c.high -
+        c.low,
 
         Math.abs(
-          current.high -
-          previous.close
+          c.high -
+          p.close
         ),
 
         Math.abs(
-          current.low -
-          previous.close
+          c.low -
+          p.close
         )
 
       )
-
     );
 
   }
 
-  return mean(
-    trs.slice(
-      -period
-    )
+  return average(
+    trs.slice(-period)
   );
 
 }
 
 
-/* =========================================================
-   BOLLINGER BANDS
-========================================================= */
+/* =====================================================
+   BOLLINGER
+===================================================== */
 
 function Bollinger(
   values,
@@ -1210,150 +746,175 @@ function Bollinger(
     );
 
   const middle =
-    mean(slice);
+    average(slice);
 
   const variance =
-    mean(
+    average(
       slice.map(
-        value =>
+        x =>
           Math.pow(
-            value -
-            middle,
+            x - middle,
             2
           )
       )
     );
 
-  const deviation =
+  const sd =
     Math.sqrt(
       variance
     );
 
-  const upper =
-    middle +
-    (
-      multiplier *
-      deviation
-    );
-
-  const lower =
-    middle -
-    (
-      multiplier *
-      deviation
-    );
-
-  const price =
-    values.at(-1);
-
-  let position =
-    "MIDDLE";
-
-  if (
-    price >= upper
-  ) {
-
-    position =
-      "UPPER";
-
-  }
-
-  else if (
-    price <= lower
-  ) {
-
-    position =
-      "LOWER";
-
-  }
-
   return {
 
-    upper,
+    upper:
+      middle +
+      multiplier * sd,
 
     middle,
 
-    lower,
-
-    position
+    lower:
+      middle -
+      multiplier * sd
 
   };
 
 }
 
 
-/* =========================================================
-   LOCAL SCORE
-========================================================= */
+/* =====================================================
+   SIGNAL
+===================================================== */
 
-function localScore(
-  price,
-  ema20,
-  ema50,
-  rsi,
-  volumeRatio
+function generateSignal(
+  analysis,
+  price
 ) {
 
-  let score =
-    50;
-
-  score +=
-    price > ema20
-      ? 10
-      : -10;
-
-  score +=
-    ema20 > ema50
-      ? 10
-      : -10;
-
-  score +=
-    rsi > 50
-      ? 10
-      : -10;
+  if (
+    analysis.score >= 75 &&
+    price > analysis.ema20
+  )
+    return "BUY";
 
   if (
-    volumeRatio > 1.2
-  ) {
+    analysis.score <= 25 &&
+    price < analysis.ema20
+  )
+    return "SELL";
 
-    score += 10;
-
-  }
-
-  return Math.max(
-    0,
-    Math.min(
-      100,
-      score
-    )
-  );
+  return "WAIT";
 
 }
 
 
-/* =========================================================
-   MEAN
-========================================================= */
+/* =====================================================
+   TRADE PLAN
+===================================================== */
 
-function mean(
-  values
+function buildTradePlan(
+  price,
+  analysis
 ) {
 
   if (
-    !values.length
+    analysis.score < 65 &&
+    analysis.score > 35
   ) {
 
-    return 0;
+    return {
+
+      entry: null,
+      sl: null,
+      tp1: null,
+      tp2: null,
+      rr: null
+
+    };
 
   }
 
-  return (
-    values.reduce(
-      (a, b) =>
-        a + b,
-      0
-    ) /
-    values.length
-  );
+  const atr =
+    analysis.atr;
+
+  if (
+    !Number.isFinite(atr) ||
+    atr <= 0
+  )
+    return {};
+
+  if (
+    analysis.score >= 65
+  ) {
+
+    const sl =
+      price -
+      atr * 1.5;
+
+    const tp1 =
+      price +
+      atr * 1.5;
+
+    const tp2 =
+      price +
+      atr * 3;
+
+    return {
+
+      entry: price,
+      sl,
+      tp1,
+      tp2,
+      rr: "1:1 → 1:2"
+
+    };
+
+  }
+
+  if (
+    analysis.score <= 35
+  ) {
+
+    const sl =
+      price +
+      atr * 1.5;
+
+    const tp1 =
+      price -
+      atr * 1.5;
+
+    const tp2 =
+      price -
+      atr * 3;
+
+    return {
+
+      entry: price,
+      sl,
+      tp1,
+      tp2,
+      rr: "1:1 → 1:2"
+
+    };
+
+  }
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function average(
+  arr
+) {
+
+  if (!arr.length)
+    return 0;
+
+  return arr.reduce(
+    (a,b) => a + b,
+    0
+  ) / arr.length;
 
 }
