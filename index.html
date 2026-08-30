@@ -2467,7 +2467,9 @@ function connectPriceWebSocket(){
             const data = JSON.parse(event.data);
 
             const price =
-                Number(data.c);
+    Number(data.c);
+
+liveBTCPrice = price;
 
             const change =
                 Number(data.P);
@@ -2550,7 +2552,8 @@ loadAllData();
    WebSocket handles the live price.
    Technical calculations remain on 10-second refresh.
 */
-
+let liveBTCPrice = null;
+    
 connectPriceWebSocket();
 
 setInterval(
