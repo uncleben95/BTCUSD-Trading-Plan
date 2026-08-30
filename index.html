@@ -2238,73 +2238,142 @@ finalScore =
    MARKET PHASE / SIGNAL REASON
    ========================================================= */
 
+/* =========================================================
+   MARKET PHASE / SIGNAL REASON ENGINE
+   ========================================================= */
+
 const phaseEl =
     document.getElementById("marketPhase");
 
-let marketPhase = "WAIT — MARKET NOT ALIGNED";
+let marketPhase =
+    "WAIT — MARKET NOT ALIGNED";
 
 
-if(
-    trendBias === "BULLISH" &&
-    setupBias === "BULLISH" &&
-    triggerBias === "BULLISH"
+/* =========================================================
+   SAFETY REASONS
+   ========================================================= */
+
+if(finalSignal === "BUY"){
+
+    marketPhase =
+        "BUY — FULL CONFIRMATION";
+
+}
+
+else if(finalSignal === "SELL"){
+
+    marketPhase =
+        "SELL — FULL CONFIRMATION";
+
+}
+
+else if(
+    sellBlocked &&
+    m15 &&
+    m15.rsi <= 28
 ){
 
     marketPhase =
-        "BUY — FULL MTF CONFIRMATION";
+        "WAIT — SELL BLOCKED: OVERSOLD";
+
+}
+
+else if(
+    sellBlocked &&
+    m15 &&
+    (
+        (
+            m15.current -
+            m15.support
+        ) /
+        m15.current *
+        100
+    ) <= 0.10
+){
+
+    marketPhase =
+        "WAIT — SELL BLOCKED: NEAR SUPPORT";
+
+}
+
+else if(
+    buyBlocked &&
+    m15 &&
+    m15.rsi >= 72
+){
+
+    marketPhase =
+        "WAIT — BUY BLOCKED: OVERBOUGHT";
+
+}
+
+else if(
+    buyBlocked &&
+    m15 &&
+    (
+        (
+            m15.resistance -
+            m15.current
+        ) /
+        m15.current *
+        100
+    ) <= 0.10
+){
+
+    marketPhase =
+        "WAIT — BUY BLOCKED: NEAR RESISTANCE";
+
+}
+
+else if(
+    trendBias === "BULLISH" &&
+    triggerBias !== "BULLISH"
+){
+
+    marketPhase =
+        "WAIT — BULLISH TREND / TRIGGER NOT READY";
 
 }
 
 else if(
     trendBias === "BEARISH" &&
-    setupBias === "BEARISH" &&
-    triggerBias === "BEARISH"
+    triggerBias !== "BEARISH"
 ){
 
     marketPhase =
-        "SELL — FULL MTF CONFIRMATION";
+        "WAIT — BEARISH TREND / TRIGGER NOT READY";
 
 }
 
 else if(
-    triggerBias === "BEARISH" &&
-    trendBias !== "BEARISH"
+    trendBias !== setupBias
 ){
 
     marketPhase =
-        "WAIT — SELL TRIGGER / HTF CONFLICT";
+        "WAIT — HTF CONFLICT";
 
 }
 
-else if(
-    triggerBias === "BULLISH" &&
-    trendBias !== "BULLISH"
-){
+else{
 
     marketPhase =
-        "WAIT — BUY TRIGGER / HTF CONFLICT";
+        "WAIT — MARKET NOT ALIGNED";
 
 }
 
-else if(
-    trendBias === "BULLISH" &&
-    setupBias !== "BULLISH"
-){
 
-    marketPhase =
-        "WAIT — BULLISH TREND / SETUP NOT READY";
+phaseEl.textContent =
+    marketPhase;
 
-}
-
-else if(
-    trendBias === "BEARISH" &&
-    setupBias !== "BEARISH"
-){
-
-    marketPhase =
-        "WAIT — BEARISH TREND / SETUP NOT READY";
-
-}
+phaseEl.className =
+    "metric-value " +
+    (
+        marketPhase.startsWith("BUY")
+        ? "green"
+        : marketPhase.startsWith("SELL")
+        ? "red"
+        : "yellow"
+    );
 
 
 phaseEl.textContent =
