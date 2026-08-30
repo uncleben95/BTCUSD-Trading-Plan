@@ -1,119 +1,108 @@
-// ============================================================
-// BTC MARKET DATA
-// Price / Order Book / Volume
-// ============================================================
-
-const SPOT =
-  "https://api.binance.com/api/v3";
-
-async function getJSON(url) {
-
-  const response =
-    await fetch(url, {
-      cache: "no-store"
-    });
-
-  if (!response.ok) {
-    throw new Error(
-      `HTTP ${response.status}`
-    );
-  }
-
-  return response.json();
-}
-
 export default async function handler(req, res) {
 
   try {
 
-    const [
-      ticker,
-      book
-    ] = await Promise.all([
-
-      getJSON(
-        `${SPOT}/ticker/24hr?symbol=BTCUSDT`
-      ),
-
-      getJSON(
-        `${SPOT}/depth?symbol=BTCUSDT&limit=100`
-      )
-
-    ]);
-
-    const bids =
-      book.bids.map(x => ({
-        price: Number(x[0]),
-        quantity: Number(x[1])
-      }));
-
-    const asks =
-      book.asks.map(x => ({
-        price: Number(x[0]),
-        quantity: Number(x[1])
-      }));
-
-    const bidVolume =
-      bids.reduce(
-        (sum, x) =>
-          sum + x.quantity,
-        0
+    const response =
+      await fetch(
+        "https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT",
+        {
+          headers: {
+            "Accept":
+              "application/json"
+          }
+        }
       );
 
-    const askVolume =
-      asks.reduce(
-        (sum, x) =>
-          sum + x.quantity,
-        0
+    if (!response.ok)
+      throw new Error(
+        `Binance HTTP ${response.status}`
       );
+
+    const d =
+      await response.json();
+
+    const orderbookResponse =
+      await fetch(
+        "https://api.binance.com/api/v3/depth?symbol=BTCUSDT&limit=100"
+      );
+
+    if (!orderbookResponse.ok)
+      throw new Error(
+        "Order book unavailable"
+      );
+
+    const ob =
+      await orderbookResponse.json();
+
+    let bidVolume = 0;
+    let askVolume = 0;
+
+    for (
+      const bid of ob.bids
+    ) {
+
+      bidVolume +=
+        Number(bid[1]);
+
+    }
+
+    for (
+      const ask of ob.asks
+    ) {
+
+      askVolume +=
+        Number(ask[1]);
+
+    }
 
     const total =
       bidVolume + askVolume;
 
     const imbalance =
-      total
-        ? ((bidVolume - askVolume) / total) * 100
+      total > 0
+        ? (
+            (bidVolume -
+             askVolume) /
+            total
+          ) * 100
         : 0;
 
     let pressure =
       "BALANCED";
 
-    if (imbalance >= 10) {
-      pressure = "BUY PRESSURE";
-    }
+    if (imbalance > 10)
+      pressure =
+        "BUY PRESSURE";
 
-    if (imbalance <= -10) {
-      pressure = "SELL PRESSURE";
-    }
+    else if (imbalance < -10)
+      pressure =
+        "SELL PRESSURE";
+
 
     res.setHeader(
       "Cache-Control",
-      "no-store"
+      "s-maxage=3, stale-while-revalidate=10"
     );
 
     return res.status(200).json({
 
-      ok: true,
-
-      source: "Binance",
-
       price:
-        Number(ticker.lastPrice),
+        Number(d.lastPrice),
 
       change:
-        Number(ticker.priceChangePercent),
+        Number(d.priceChangePercent),
 
       changeAmount:
-        Number(ticker.priceChange),
+        Number(d.priceChange),
 
       high:
-        Number(ticker.highPrice),
+        Number(d.highPrice),
 
       low:
-        Number(ticker.lowPrice),
+        Number(d.lowPrice),
 
       volume:
-        Number(ticker.volume),
+        Number(d.volume),
 
       orderBook: {
 
@@ -134,19 +123,17 @@ export default async function handler(req, res) {
 
   } catch (error) {
 
-    console.error(
-      "MARKET API ERROR",
-      error
-    );
+    console.error(error);
 
     return res.status(500).json({
 
-      ok: false,
+      error: true,
 
-      error:
-        error?.message ||
-        "Market data unavailable"
+      message:
+        error.message
 
     });
+
   }
+
 }
