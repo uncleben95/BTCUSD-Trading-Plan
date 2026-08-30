@@ -1281,8 +1281,10 @@ async function getJSON(url){
 async function loadTicker(){
 
     const data = await getJSON(
-        API + "/ticker/24hr?symbol=" + SYMBOL
-    );
+    API +
+    "?path=ticker/24hr&symbol=" +
+    SYMBOL
+);
 
     const price = Number(data.lastPrice);
     const change = Number(data.priceChangePercent);
