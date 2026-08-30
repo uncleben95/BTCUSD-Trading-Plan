@@ -1,95 +1,278 @@
 // =====================================================
 // BTCUSD API
-// Primary: Binance Futures
-// Fallback: Binance Spot
+// Multi-source candle fallback
+// Binance -> Bybit -> Coinbase
 // =====================================================
 
-const BINANCE_FUTURES =
-  "https://fapi.binance.com";
+const SOURCES = [
 
-const BINANCE_SPOT =
-  "https://api.binance.com";
+  {
+    name: "Binance Futures",
+    url:
+      "https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&interval=15m&limit=250"
+  },
 
-async function getJSON(url) {
+  {
+    name: "Binance Spot",
+    url:
+      "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=250"
+  },
+
+  {
+    name: "Bybit",
+    url:
+      "https://api.bybit.com/v5/market/kline?category=linear&symbol=BTCUSDT&interval=15&limit=250"
+  },
+
+  {
+    name: "Coinbase",
+    url:
+      "https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=900"
+  }
+
+];
+
+
+// =====================================================
+// FETCH
+// =====================================================
+
+async function fetchJSON(url) {
 
   const controller =
     new AbortController();
 
-  const timeout =
+  const timer =
     setTimeout(
       () => controller.abort(),
-      8000
+      7000
     );
 
   try {
 
-    const res =
+    const response =
       await fetch(
         url,
         {
-          signal: controller.signal,
+          signal:
+            controller.signal,
+
           headers: {
             "User-Agent":
-              "BTCUSD-Technical-Monitor/1.0"
+              "BTCUSD-Monitor"
           },
-          cache: "no-store"
+
+          cache:
+            "no-store"
         }
       );
 
-    if (!res.ok) {
+    if (!response.ok) {
 
       throw new Error(
-        `HTTP ${res.status}`
+        `HTTP ${response.status}`
       );
 
     }
 
-    return await res.json();
+    return await response.json();
 
   } finally {
 
-    clearTimeout(timeout);
+    clearTimeout(timer);
 
   }
 
 }
 
 
-// -----------------------------------------------------
-// GET KLINES
-// -----------------------------------------------------
+// =====================================================
+// NORMALIZE BINANCE
+// =====================================================
 
-async function getKlines() {
+function normalizeBinance(data) {
 
-  const endpoints = [
+  if (
+    !Array.isArray(data) ||
+    data.length < 60
+  )
+    return null;
 
-    `${BINANCE_FUTURES}/fapi/v1/klines?symbol=BTCUSDT&interval=15m&limit=250`,
+  return data.map(
+    c => [
 
-    `${BINANCE_SPOT}/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=250`
+      Number(c[0]),
+      Number(c[1]),
+      Number(c[2]),
+      Number(c[3]),
+      Number(c[4]),
+      Number(c[5])
 
-  ];
+    ]
+  );
 
-  for (const url of endpoints) {
+}
+
+
+// =====================================================
+// NORMALIZE BYBIT
+// =====================================================
+
+function normalizeBybit(data) {
+
+  const list =
+    data?.result?.list;
+
+  if (
+    !Array.isArray(list) ||
+    list.length < 60
+  )
+    return null;
+
+  return list
+    .reverse()
+    .map(
+      c => [
+
+        Number(c[0]),
+        Number(c[1]),
+        Number(c[2]),
+        Number(c[3]),
+        Number(c[4]),
+        Number(c[5])
+
+      ]
+    );
+
+}
+
+
+// =====================================================
+// NORMALIZE COINBASE
+// =====================================================
+
+function normalizeCoinbase(data) {
+
+  if (
+    !Array.isArray(data) ||
+    data.length < 60
+  )
+    return null;
+
+  return data
+    .sort(
+      (a, b) =>
+        Number(a[0]) -
+        Number(b[0])
+    )
+    .map(
+      c => [
+
+        Number(c[0]) * 1000,
+        Number(c[3]),
+        Number(c[2]),
+        Number(c[1]),
+        Number(c[4]),
+        Number(c[5])
+
+      ]
+    );
+
+}
+
+
+// =====================================================
+// GET CANDLES
+// =====================================================
+
+async function getCandles() {
+
+  const errors = [];
+
+  for (
+    const source of SOURCES
+  ) {
 
     try {
 
-      const data =
-        await getJSON(url);
+      console.log(
+        "Trying:",
+        source.name
+      );
+
+      const raw =
+        await fetchJSON(
+          source.url
+        );
+
+      let candles = null;
 
       if (
-        Array.isArray(data) &&
-        data.length >= 60
+        source.name
+          .startsWith("Binance")
       ) {
 
-        return data;
+        candles =
+          normalizeBinance(
+            raw
+          );
 
       }
 
-    } catch (err) {
+      else if (
+        source.name === "Bybit"
+      ) {
+
+        candles =
+          normalizeBybit(
+            raw
+          );
+
+      }
+
+      else if (
+        source.name === "Coinbase"
+      ) {
+
+        candles =
+          normalizeCoinbase(
+            raw
+          );
+
+      }
+
+      if (
+        candles &&
+        candles.length >= 60
+      ) {
+
+        console.log(
+          "SUCCESS:",
+          source.name,
+          candles.length
+        );
+
+        return {
+
+          candles,
+
+          source:
+            source.name
+
+        };
+
+      }
+
+    } catch (error) {
 
       console.warn(
-        "Kline source failed:",
-        err.message
+        source.name,
+        "FAILED:",
+        error.message
+      );
+
+      errors.push(
+        `${source.name}: ${error.message}`
       );
 
     }
@@ -97,59 +280,25 @@ async function getKlines() {
   }
 
   throw new Error(
-    "BTC candle data unavailable"
+    "All BTC candle sources failed | " +
+    errors.join(" | ")
   );
 
 }
 
 
-// -----------------------------------------------------
-// INDICATORS
-// -----------------------------------------------------
-
-function closes(candles) {
-
-  return candles.map(
-    c => Number(c[4])
-  );
-
-}
-
-function highs(candles) {
-
-  return candles.map(
-    c => Number(c[2])
-  );
-
-}
-
-function lows(candles) {
-
-  return candles.map(
-    c => Number(c[3])
-  );
-
-}
-
-function volumes(candles) {
-
-  return candles.map(
-    c => Number(c[5])
-  );
-
-}
-
-
+// =====================================================
 // EMA
+// =====================================================
 
 function EMA(values, period) {
 
   if (
-    !values ||
     values.length < period
-  ) return null;
+  )
+    return null;
 
-  const multiplier =
+  const k =
     2 / (period + 1);
 
   let ema =
@@ -169,7 +318,8 @@ function EMA(values, period) {
     ema =
       (
         values[i] - ema
-      ) * multiplier + ema;
+      ) * k +
+      ema;
 
   }
 
@@ -178,21 +328,24 @@ function EMA(values, period) {
 }
 
 
+// =====================================================
 // SMA
+// =====================================================
 
 function SMA(values, period) {
 
   if (
     values.length < period
-  ) return null;
+  )
+    return null;
 
-  const arr =
+  const slice =
     values.slice(
-      values.length - period
+      -period
     );
 
   return (
-    arr.reduce(
+    slice.reduce(
       (a, b) => a + b,
       0
     ) / period
@@ -201,16 +354,22 @@ function SMA(values, period) {
 }
 
 
+// =====================================================
 // RSI
+// =====================================================
 
-function RSI(values, period = 14) {
+function RSI(
+  values,
+  period = 14
+) {
 
   if (
     values.length <= period
-  ) return null;
+  )
+    return null;
 
-  let gains = 0;
-  let losses = 0;
+  let gain = 0;
+  let loss = 0;
 
   for (
     let i = 1;
@@ -222,18 +381,18 @@ function RSI(values, period = 14) {
       values[i] -
       values[i - 1];
 
-    if (diff >= 0)
-      gains += diff;
+    if (diff > 0)
+      gain += diff;
     else
-      losses -= diff;
+      loss -= diff;
 
   }
 
   let avgGain =
-    gains / period;
+    gain / period;
 
   let avgLoss =
-    losses / period;
+    loss / period;
 
   for (
     let i = period + 1;
@@ -245,46 +404,64 @@ function RSI(values, period = 14) {
       values[i] -
       values[i - 1];
 
-    const gain =
-      Math.max(diff, 0);
+    const g =
+      Math.max(
+        diff,
+        0
+      );
 
-    const loss =
-      Math.max(-diff, 0);
+    const l =
+      Math.max(
+        -diff,
+        0
+      );
 
     avgGain =
       (
-        avgGain * (period - 1) +
-        gain
+        avgGain *
+        (period - 1) +
+        g
       ) / period;
 
     avgLoss =
       (
-        avgLoss * (period - 1) +
-        loss
+        avgLoss *
+        (period - 1) +
+        l
       ) / period;
 
   }
 
-  if (avgLoss === 0)
+  if (
+    avgLoss === 0
+  )
     return 100;
 
   const rs =
-    avgGain / avgLoss;
+    avgGain /
+    avgLoss;
 
-  return 100 - (
+  return (
+    100 -
     100 / (1 + rs)
   );
 
 }
 
 
+// =====================================================
 // ATR
+// =====================================================
 
-function ATR(candles, period = 14) {
+function ATR(
+  candles,
+  period = 14
+) {
 
   if (
     candles.length <= period
-  ) return null;
+  )
+    return null;
 
   const tr = [];
 
@@ -295,23 +472,27 @@ function ATR(candles, period = 14) {
   ) {
 
     const high =
-      Number(candles[i][2]);
+      candles[i][2];
 
     const low =
-      Number(candles[i][3]);
+      candles[i][3];
 
-    const prevClose =
-      Number(candles[i - 1][4]);
+    const previous =
+      candles[i - 1][4];
 
     tr.push(
       Math.max(
+
         high - low,
+
         Math.abs(
-          high - prevClose
+          high - previous
         ),
+
         Math.abs(
-          low - prevClose
+          low - previous
         )
+
       )
     );
 
@@ -325,31 +506,33 @@ function ATR(candles, period = 14) {
 }
 
 
-// Bollinger Bands
+// =====================================================
+// BOLLINGER
+// =====================================================
 
-function bollinger(
+function Bollinger(
   values,
-  period = 20,
-  multiplier = 2
+  period = 20
 ) {
 
   if (
     values.length < period
-  ) return null;
+  )
+    return null;
 
-  const arr =
+  const data =
     values.slice(
-      values.length - period
+      -period
     );
 
   const middle =
-    arr.reduce(
+    data.reduce(
       (a, b) => a + b,
       0
     ) / period;
 
   const variance =
-    arr.reduce(
+    data.reduce(
       (sum, value) =>
         sum +
         Math.pow(
@@ -359,7 +542,7 @@ function bollinger(
       0
     ) / period;
 
-  const sd =
+  const deviation =
     Math.sqrt(
       variance
     );
@@ -368,47 +551,49 @@ function bollinger(
 
     upper:
       middle +
-      multiplier * sd,
+      deviation * 2,
 
     middle,
 
     lower:
       middle -
-      multiplier * sd
+      deviation * 2
 
   };
 
 }
 
 
-// -----------------------------------------------------
+// =====================================================
 // VOLUME
-// -----------------------------------------------------
+// =====================================================
 
-function volumeInfo(candles) {
+function VolumeInfo(
+  candles
+) {
 
-  const vols =
-    volumes(candles);
+  const values =
+    candles.map(
+      c => c[5]
+    );
 
   const current =
-    vols[vols.length - 1];
+    values[
+      values.length - 1
+    ];
 
   const previous =
-    vols.slice(
-      Math.max(
-        0,
-        vols.length - 21
-      ),
-      vols.length - 1
+    values.slice(
+      -21,
+      -1
     );
 
   const average =
-    previous.length
-      ? previous.reduce(
-          (a, b) => a + b,
-          0
-        ) / previous.length
-      : current;
+    previous.reduce(
+      (a, b) => a + b,
+      0
+    ) /
+    previous.length;
 
   const ratio =
     average > 0
@@ -418,14 +603,23 @@ function volumeInfo(candles) {
   let state =
     "NORMAL";
 
-  if (ratio >= 2)
-    state = "VERY HIGH";
+  if (
+    ratio >= 2
+  )
+    state =
+      "VERY HIGH";
 
-  else if (ratio >= 1.3)
-    state = "HIGH";
+  else if (
+    ratio >= 1.3
+  )
+    state =
+      "HIGH";
 
-  else if (ratio <= 0.7)
-    state = "LOW";
+  else if (
+    ratio <= 0.7
+  )
+    state =
+      "LOW";
 
   return {
 
@@ -442,54 +636,70 @@ function volumeInfo(candles) {
 }
 
 
-// -----------------------------------------------------
+// =====================================================
 // SUPPORT / RESISTANCE
-// -----------------------------------------------------
+// =====================================================
 
-function structureInfo(candles) {
+function Structure(
+  candles
+) {
 
   const recent =
-    candles.slice(-40);
-
-  const hi =
-    highs(recent);
-
-  const lo =
-    lows(recent);
+    candles.slice(
+      -40
+    );
 
   const resistance =
-    Math.max(...hi);
+    Math.max(
+      ...recent.map(
+        c => c[2]
+      )
+    );
 
   const support =
-    Math.min(...lo);
+    Math.min(
+      ...recent.map(
+        c => c[3]
+      )
+    );
 
   const lastHigh =
     Math.max(
-      ...hi.slice(-10)
+      ...recent
+        .slice(-10)
+        .map(
+          c => c[2]
+        )
     );
 
   const lastLow =
     Math.min(
-      ...lo.slice(-10)
+      ...recent
+        .slice(-10)
+        .map(
+          c => c[3]
+        )
     );
 
   const price =
-    Number(
-      candles[candles.length - 1][4]
-    );
+    candles[
+      candles.length - 1
+    ][4];
 
-  let structure =
+  let trend =
     "RANGE";
 
   if (
     price > lastHigh
   )
-    structure = "BULLISH";
+    trend =
+      "BULLISH";
 
   else if (
     price < lastLow
   )
-    structure = "BEARISH";
+    trend =
+      "BEARISH";
 
   return {
 
@@ -501,51 +711,70 @@ function structureInfo(candles) {
 
     lastLow,
 
-    structure
+    trend
 
   };
 
 }
 
 
-// -----------------------------------------------------
-// M15 ENGINE
-// -----------------------------------------------------
+// =====================================================
+// M15
+// =====================================================
 
-function calculateM15(candles) {
+function calculate(
+  candles
+) {
 
-  const price =
-    Number(
-      candles[candles.length - 1][4]
+  const closes =
+    candles.map(
+      c => c[4]
     );
 
-  const close =
-    closes(candles);
+  const price =
+    closes[
+      closes.length - 1
+    ];
 
   const ema20 =
-    EMA(close, 20);
+    EMA(
+      closes,
+      20
+    );
 
   const ema50 =
-    EMA(close, 50);
+    EMA(
+      closes,
+      50
+    );
 
   const rsi =
-    RSI(close, 14);
+    RSI(
+      closes,
+      14
+    );
 
   const atr =
-    ATR(candles, 14);
+    ATR(
+      candles,
+      14
+    );
 
   const bb =
-    bollinger(
-      close,
-      20,
-      2
+    Bollinger(
+      closes,
+      20
     );
 
   const volume =
-    volumeInfo(candles);
+    VolumeInfo(
+      candles
+    );
 
   const structure =
-    structureInfo(candles);
+    Structure(
+      candles
+    );
 
   let score = 50;
 
@@ -583,7 +812,7 @@ function calculateM15(candles) {
     score -= 8;
 
   if (
-    volume.ratio >= 1.3
+    volume.ratio > 1.3
   ) {
 
     if (
@@ -610,12 +839,14 @@ function calculateM15(candles) {
   if (
     score >= 70
   )
-    signal = "BUY";
+    signal =
+      "BUY";
 
   else if (
     score <= 30
   )
-    signal = "SELL";
+    signal =
+      "SELL";
 
   let phase =
     "RANGE";
@@ -624,13 +855,15 @@ function calculateM15(candles) {
     price > ema20 &&
     ema20 > ema50
   )
-    phase = "BULLISH TREND";
+    phase =
+      "BULLISH TREND";
 
   else if (
     price < ema20 &&
     ema20 < ema50
   )
-    phase = "BEARISH TREND";
+    phase =
+      "BEARISH TREND";
 
   let bbPosition =
     "MIDDLE";
@@ -640,12 +873,14 @@ function calculateM15(candles) {
     if (
       price >= bb.upper
     )
-      bbPosition = "UPPER";
+      bbPosition =
+        "UPPER";
 
     else if (
       price <= bb.lower
     )
-      bbPosition = "LOWER";
+      bbPosition =
+        "LOWER";
 
   }
 
@@ -685,7 +920,7 @@ function calculateM15(candles) {
       structure.lastLow,
 
     structure:
-      structure.structure,
+      structure.trend,
 
     bos:
       "MONITORING",
@@ -704,20 +939,19 @@ function calculateM15(candles) {
 }
 
 
-// -----------------------------------------------------
+// =====================================================
 // TRADE PLAN
-// -----------------------------------------------------
+// =====================================================
 
-function tradePlan(
+function TradePlan(
   price,
   atr,
   signal
 ) {
 
   if (
-    !Number.isFinite(price) ||
-    !Number.isFinite(atr) ||
-    signal === "WAIT"
+    signal === "WAIT" ||
+    !atr
   ) {
 
     return {
@@ -739,60 +973,52 @@ function tradePlan(
     signal === "BUY"
   ) {
 
-    const sl =
-      price - risk;
-
-    const tp1 =
-      price + risk * 1.5;
-
-    const tp2 =
-      price + risk * 2.5;
-
     return {
 
-      entry: price,
+      entry:
+        price,
 
-      sl,
+      sl:
+        price - risk,
 
-      tp1,
+      tp1:
+        price + risk * 1.5,
 
-      tp2,
+      tp2:
+        price + risk * 2.5,
 
-      rr: "1:1.5 / 1:2.5"
+      rr:
+        "1:1.5 / 1:2.5"
 
     };
 
   }
 
-  const sl =
-    price + risk;
-
-  const tp1 =
-    price - risk * 1.5;
-
-  const tp2 =
-    price - risk * 2.5;
-
   return {
 
-    entry: price,
+    entry:
+      price,
 
-    sl,
+    sl:
+      price + risk,
 
-    tp1,
+    tp1:
+      price - risk * 1.5,
 
-    tp2,
+    tp2:
+      price - risk * 2.5,
 
-    rr: "1:1.5 / 1:2.5"
+    rr:
+      "1:1.5 / 1:2.5"
 
   };
 
 }
 
 
-// -----------------------------------------------------
-// MAIN
-// -----------------------------------------------------
+// =====================================================
+// HANDLER
+// =====================================================
 
 export default async function handler(
   req,
@@ -801,57 +1027,43 @@ export default async function handler(
 
   try {
 
+    const result =
+      await getCandles();
+
     const candles =
-      await getKlines();
+      result.candles;
+
+    const source =
+      result.source;
 
     const m15 =
-      calculateM15(
+      calculate(
         candles
       );
 
-    const signal =
-      m15.signal;
-
     const trade =
-      tradePlan(
+      TradePlan(
         m15.price,
         m15.atr,
-        signal
+        m15.signal
       );
-
-    const timeframes = {
-
-      M15: {
-
-        ...m15,
-
-        condition:
-          signal === "BUY"
-            ? "BULLISH"
-            : signal === "SELL"
-              ? "BEARISH"
-              : "NEUTRAL"
-
-      }
-
-    };
 
     res.setHeader(
       "Cache-Control",
-      "no-store, max-age=0"
+      "no-store"
     );
 
     return res.status(200).json({
 
       ok: true,
 
-      source:
-        "Binance Futures / Spot",
+      source,
 
       price:
         m15.price,
 
-      signal,
+      signal:
+        m15.signal,
 
       score:
         m15.score,
@@ -861,7 +1073,22 @@ export default async function handler(
 
       trade,
 
-      timeframes,
+      timeframes: {
+
+        M15: {
+
+          ...m15,
+
+          condition:
+            m15.signal === "BUY"
+              ? "BULLISH"
+              : m15.signal === "SELL"
+                ? "BEARISH"
+                : "NEUTRAL"
+
+        }
+
+      },
 
       updated:
         new Date().toISOString()
@@ -871,7 +1098,6 @@ export default async function handler(
   } catch (error) {
 
     console.error(
-      "BTC API ERROR:",
       error
     );
 
@@ -880,8 +1106,7 @@ export default async function handler(
       ok: false,
 
       error:
-        error.message ||
-        "BTC data unavailable"
+        error.message
 
     });
 
