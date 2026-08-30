@@ -1,150 +1,117 @@
-// ============================================================
-// BTC FLOW / WHALE PROXY
-// Large trades + Open Interest + Funding
-//
-// NOTE:
-// This is NOT blockchain whale wallet tracking.
-// It is market-flow data.
-// ============================================================
-
-const SPOT =
-  "https://api.binance.com/api/v3";
-
-const FUTURES =
-  "https://fapi.binance.com/fapi/v1";
-
-async function getJSON(url) {
-
-  const response =
-    await fetch(url, {
-      cache: "no-store"
-    });
-
-  if (!response.ok) {
-    throw new Error(
-      `HTTP ${response.status}`
-    );
-  }
-
-  return response.json();
-}
-
 export default async function handler(req, res) {
 
   try {
 
-    const [
-      trades,
-      funding,
-      oi
-    ] = await Promise.all([
-
-      getJSON(
-        `${SPOT}/aggTrades?symbol=BTCUSDT&limit=1000`
-      ),
-
-      getJSON(
-        `${FUTURES}/premiumIndex?symbol=BTCUSDT`
-      ),
-
-      getJSON(
-        `${FUTURES}/openInterest?symbol=BTCUSDT`
-      )
-
-    ]);
-
-    const parsed =
-      trades.map(t => ({
-
-        price:
-          Number(t.p),
-
-        quantity:
-          Number(t.q),
-
-        value:
-          Number(t.p) *
-          Number(t.q),
-
-        buyerMaker:
-          Boolean(t.m)
-
-      }));
-
-    /*
-      Large trade threshold:
-      >= 1 BTC
-
-      This is a market-flow proxy,
-      NOT a wallet whale detector.
-    */
-
-    const large =
-      parsed.filter(
-        t => t.quantity >= 1
+    const tradesResponse =
+      await fetch(
+        "https://api.binance.com/api/v3/aggTrades?symbol=BTCUSDT&limit=1000"
       );
+
+    if (!tradesResponse.ok)
+      throw new Error(
+        "Trades unavailable"
+      );
+
+    const trades =
+      await tradesResponse.json();
 
     let buyValue = 0;
     let sellValue = 0;
 
-    for (const trade of large) {
+    let largeTrades = 0;
 
-      if (trade.buyerMaker) {
+    for (
+      const trade of trades
+    ) {
 
-        sellValue +=
-          trade.value;
+      const price =
+        Number(trade.p);
 
-      } else {
+      const quantity =
+        Number(trade.q);
 
-        buyValue +=
-          trade.value;
+      const value =
+        price * quantity;
+
+      /*
+        Large trade proxy:
+        >= $100k notional
+      */
+
+      if (
+        value >= 100000
+      ) {
+
+        largeTrades++;
+
+        if (
+          trade.m === false
+        )
+          buyValue += value;
+
+        else
+          sellValue += value;
+
       }
+
     }
 
-    const total =
-      buyValue + sellValue;
 
-    const flow =
-      total
-        ? ((buyValue - sellValue) / total) * 100
-        : 0;
+    let bias =
+      "BALANCED";
 
-    let bias = "BALANCED";
+    if (
+      buyValue >
+      sellValue * 1.20
+    ) {
 
-    if (flow >= 10) {
-      bias = "LARGE BUY FLOW";
+      bias =
+        "LARGE BUY FLOW";
+
     }
 
-    if (flow <= -10) {
-      bias = "LARGE SELL FLOW";
+    else if (
+      sellValue >
+      buyValue * 1.20
+    ) {
+
+      bias =
+        "LARGE SELL FLOW";
+
     }
 
-    res.setHeader(
-      "Cache-Control",
-      "no-store"
-    );
+
+    const fundingResponse =
+      await fetch(
+        "https://fapi.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT"
+      );
+
+    const funding =
+      fundingResponse.ok
+        ? await fundingResponse.json()
+        : {};
+
+
+    const oiResponse =
+      await fetch(
+        "https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT"
+      );
+
+    const oi =
+      oiResponse.ok
+        ? await oiResponse.json()
+        : {};
+
 
     return res.status(200).json({
 
-      ok: true,
-
-      source: "Binance",
-
       whaleProxy: {
 
-        status:
-          large.length
-            ? "AVAILABLE"
-            : "NO LARGE TRADES",
-
-        largeTrades:
-          large.length,
+        largeTrades,
 
         buyValue,
 
         sellValue,
-
-        flow,
 
         bias
 
@@ -176,22 +143,14 @@ export default async function handler(req, res) {
 
   } catch (error) {
 
-    console.error(
-      "WHALE API ERROR",
-      error
-    );
+    console.error(error);
 
-    return res.status(200).json({
+    return res.status(500).json({
 
-      ok: false,
+      error: true,
 
-      error:
-        error?.message ||
-        "Flow data unavailable",
-
-      whaleProxy: {
-        status: "UNAVAILABLE"
-      }
+      message:
+        error.message
 
     });
 
