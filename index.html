@@ -1855,22 +1855,159 @@ const bearPercent =
 
 /* =========================================================
    FINAL MTF SIGNAL
+   D1/H4/H1 = TREND
+   M30/M15 = SETUP
+   M5/M1 = TRIGGER
    ========================================================= */
+
+const d1  = timeframeData["D1"];
+const h4  = timeframeData["H4"];
+const h1  = timeframeData["H1"];
+const m30 = timeframeData["M30"];
+const m15 = timeframeData["M15"];
+const m5  = timeframeData["M5"];
+const m1  = timeframeData["M1"];
 
 let finalSignal = "WAIT";
 let finalScore = 50;
 
-if(bullPercent >= 65){
 
-    finalSignal = "BUY";
-    finalScore = bullPercent;
+/* =========================================================
+   TREND BIAS
+   ========================================================= */
+
+let bullishTrend = 0;
+let bearishTrend = 0;
+
+[d1, h4, h1].forEach(data => {
+
+    if(!data)
+        return;
+
+    if(data.condition === "BULLISH")
+        bullishTrend++;
+
+    if(data.condition === "BEARISH")
+        bearishTrend++;
+
+});
+
+
+let trendBias = "NEUTRAL";
+
+if(bullishTrend >= 2)
+    trendBias = "BULLISH";
+
+else if(bearishTrend >= 2)
+    trendBias = "BEARISH";
+
+
+/* =========================================================
+   SETUP
+   ========================================================= */
+
+let bullishSetup = 0;
+let bearishSetup = 0;
+
+[m30, m15].forEach(data => {
+
+    if(!data)
+        return;
+
+    if(data.condition === "BULLISH")
+        bullishSetup++;
+
+    if(data.condition === "BEARISH")
+        bearishSetup++;
+
+});
+
+
+let setupBias = "NEUTRAL";
+
+if(bullishSetup >= 2)
+    setupBias = "BULLISH";
+
+else if(bearishSetup >= 2)
+    setupBias = "BEARISH";
+
+
+/* =========================================================
+   TRIGGER
+   ========================================================= */
+
+let triggerBias = "NEUTRAL";
+
+if(
+    m5 &&
+    m1 &&
+    m5.condition === "BULLISH" &&
+    m1.condition === "BULLISH"
+){
+
+    triggerBias = "BULLISH";
 
 }
 
-else if(bearPercent >= 65){
+else if(
+    m5 &&
+    m1 &&
+    m5.condition === "BEARISH" &&
+    m1.condition === "BEARISH"
+){
+
+    triggerBias = "BEARISH";
+
+}
+
+
+/* =========================================================
+   FINAL DECISION
+   ========================================================= */
+
+if(
+    trendBias === "BULLISH" &&
+    setupBias === "BULLISH" &&
+    triggerBias === "BULLISH"
+){
+
+    finalSignal = "BUY";
+
+    finalScore = 90;
+
+}
+
+else if(
+    trendBias === "BEARISH" &&
+    setupBias === "BEARISH" &&
+    triggerBias === "BEARISH"
+){
 
     finalSignal = "SELL";
-    finalScore = bearPercent;
+
+    finalScore = 90;
+
+}
+
+else if(
+    trendBias === "BULLISH" &&
+    setupBias === "BULLISH"
+){
+
+    finalSignal = "WAIT";
+
+    finalScore = 70;
+
+}
+
+else if(
+    trendBias === "BEARISH" &&
+    setupBias === "BEARISH"
+){
+
+    finalSignal = "WAIT";
+
+    finalScore = 70;
 
 }
 
@@ -1878,15 +2015,41 @@ else{
 
     finalSignal = "WAIT";
 
-    finalScore =
-        Math.max(
-            bullPercent,
-            bearPercent
-        );
+    finalScore = 50;
 
 }
 
 
+/* =========================================================
+   EXTRA SCORE ADJUSTMENT
+   ========================================================= */
+
+if(finalSignal === "BUY"){
+
+    if(m15 && m15.rsi > 50 && m15.rsi < 70)
+        finalScore += 3;
+
+    if(m15 && m15.current > m15.ema20)
+        finalScore += 2;
+
+}
+
+else if(finalSignal === "SELL"){
+
+    if(m15 && m15.rsi < 50 && m15.rsi > 30)
+        finalScore += 3;
+
+    if(m15 && m15.current < m15.ema20)
+        finalScore += 2;
+
+}
+
+
+finalScore =
+    Math.min(
+        100,
+        finalScore
+    );
 /* =========================================================
    MAIN SIGNAL DISPLAY
    ========================================================= */
