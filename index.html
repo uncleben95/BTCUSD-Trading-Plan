@@ -2135,10 +2135,126 @@ async function loadAllData(){
 
 
 /* =========================================================
-   AUTO REFRESH
+   REAL-TIME BTC PRICE — BINANCE WEBSOCKET
+   ========================================================= */
+
+let priceSocket = null;
+
+function connectPriceWebSocket(){
+
+    if(priceSocket){
+        try{
+            priceSocket.close();
+        }catch(e){}
+    }
+
+    priceSocket = new WebSocket(
+        "wss://fstream.binance.com/ws/btcusdt@ticker"
+    );
+
+    priceSocket.onopen = function(){
+
+        console.log("BTC WebSocket connected");
+
+        setConnection(
+            "LIVE MARKET DATA",
+            "live"
+        );
+
+    };
+
+    priceSocket.onmessage = function(event){
+
+        try{
+
+            const data = JSON.parse(event.data);
+
+            const price =
+                Number(data.c);
+
+            const change =
+                Number(data.P);
+
+            document.getElementById(
+                "livePrice"
+            ).textContent =
+                formatPrice(price);
+
+            const changeEl =
+                document.getElementById(
+                    "priceChange"
+                );
+
+            changeEl.textContent =
+                (change >= 0 ? "+" : "") +
+                change.toFixed(2) +
+                "%";
+
+            changeEl.className =
+                "change " +
+                (
+                    change >= 0
+                    ? "green"
+                    : "red"
+                );
+
+        }catch(error){
+
+            console.error(
+                "WebSocket data error:",
+                error
+            );
+
+        }
+
+    };
+
+    priceSocket.onerror = function(){
+
+        console.error(
+            "BTC WebSocket error"
+        );
+
+        setConnection(
+            "WEBSOCKET ERROR",
+            "error"
+        );
+
+    };
+
+    priceSocket.onclose = function(){
+
+        console.log(
+            "BTC WebSocket disconnected"
+        );
+
+        setConnection(
+            "RECONNECTING...",
+            ""
+        );
+
+        setTimeout(
+            connectPriceWebSocket,
+            3000
+        );
+
+    };
+
+}
+
+
+/* =========================================================
+   INITIAL LOAD
    ========================================================= */
 
 loadAllData();
+
+/*
+   WebSocket handles the live price.
+   Technical calculations remain on 10-second refresh.
+*/
+
+connectPriceWebSocket();
 
 setInterval(
     loadAllData,
