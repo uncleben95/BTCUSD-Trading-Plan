@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     try {
 
         const path =
-            req.query.path || "";
+            req.query.path || "ticker/24hr";
 
         const symbol =
             req.query.symbol || "BTCUSDT";
@@ -19,14 +19,10 @@ export default async function handler(req, res) {
 
         if(path === "klines"){
 
-            const limit =
-                req.query.limit || "200";
-
             url +=
                 "&interval=" +
                 encodeURIComponent(interval) +
-                "&limit=" +
-                encodeURIComponent(limit);
+                "&limit=150";
 
         }
 
@@ -35,38 +31,28 @@ export default async function handler(req, res) {
 
         if(!response.ok){
 
-            return res
-                .status(response.status)
-                .json({
-                    error:
-                        "Binance HTTP " +
-                        response.status
-                });
+            return res.status(
+                response.status
+            ).json({
+                error:
+                    "Binance HTTP " +
+                    response.status
+            });
 
         }
 
         const data =
             await response.json();
 
-        res.setHeader(
-            "Cache-Control",
-            "s-maxage=5, stale-while-revalidate=10"
-        );
+        return res.status(200).json(data);
 
-        return res
-            .status(200)
-            .json(data);
-
-    } catch(error){
+    } catch(error) {
 
         console.error(error);
 
-        return res
-            .status(500)
-            .json({
-                error:
-                    "Proxy error"
-            });
+        return res.status(500).json({
+            error: error.message
+        });
 
     }
 
