@@ -1558,56 +1558,100 @@ function calculateATR(candles,period=14){
 
 function detectStructure(candles){
 
-    if(candles.length < 20){
+    if(!candles || candles.length < 20){
 
         return {
-            bos:"--",
-            choch:"--"
+            bos:"NONE",
+            choch:"NONE"
         };
 
     }
 
-    const recent =
-        candles.slice(-20);
+    /*
+       Swing structure
+       Compare confirmed swing highs/lows
+       instead of simply comparing the last 5 candles.
+    */
+
+    const lookback = candles.slice(-30);
+
+    const swingHighs = [];
+    const swingLows = [];
+
+    for(let i = 2; i < lookback.length - 2; i++){
+
+        const c = lookback[i];
+
+        const isSwingHigh =
+            c.high > lookback[i-1].high &&
+            c.high > lookback[i-2].high &&
+            c.high >= lookback[i+1].high &&
+            c.high >= lookback[i+2].high;
+
+        const isSwingLow =
+            c.low < lookback[i-1].low &&
+            c.low < lookback[i-2].low &&
+            c.low <= lookback[i+1].low &&
+            c.low <= lookback[i+2].low;
+
+        if(isSwingHigh)
+            swingHighs.push(c.high);
+
+        if(isSwingLow)
+            swingLows.push(c.low);
+
+    }
+
+    if(
+        swingHighs.length < 2 ||
+        swingLows.length < 2
+    ){
+
+        return {
+            bos:"NONE",
+            choch:"NONE"
+        };
+
+    }
 
     const previousHigh =
-        Math.max(
-            ...recent
-                .slice(0, -5)
-                .map(c => c.high)
-        );
+        swingHighs[swingHighs.length - 2];
+
+    const latestHigh =
+        swingHighs[swingHighs.length - 1];
 
     const previousLow =
-        Math.min(
-            ...recent
-                .slice(0, -5)
-                .map(c => c.low)
-        );
+        swingLows[swingLows.length - 2];
 
-    const currentHigh =
-        Math.max(
-            ...recent
-                .slice(-5)
-                .map(c => c.high)
-        );
+    const latestLow =
+        swingLows[swingLows.length - 1];
 
-    const currentLow =
-        Math.min(
-            ...recent
-                .slice(-5)
-                .map(c => c.low)
-        );
+    const current =
+        candles[candles.length - 1].close;
+
 
     let bos = "NONE";
     let choch = "NONE";
 
-    if(currentHigh > previousHigh){
+
+    /*
+       BULLISH BOS
+       Price closes above previous swing high
+    */
+
+    if(current > previousHigh){
 
         bos = "BULLISH";
 
     }
 
-    else if(currentLow < previousLow){
+
+    /*
+       BEARISH BOS
+       Price closes below previous swing low
+    */
+
+    else if(current < previousLow){
 
         bos = "BEARISH";
 
@@ -1615,13 +1659,30 @@ function detectStructure(candles){
 
 
     /*
-       CHOCH = opposite break
-       against the previous directional structure
+       CHOCH
+       Detect change in structural direction.
+
+       Bullish CHOCH:
+       previous structure was making lower highs/lows,
+       then price breaks the latest swing high.
+
+       Bearish CHOCH:
+       previous structure was making higher highs/lows,
+       then price breaks the latest swing low.
     */
 
+    const previousBullStructure =
+        latestHigh > previousHigh &&
+        latestLow > previousLow;
+
+    const previousBearStructure =
+        latestHigh < previousHigh &&
+        latestLow < previousLow;
+
+
     if(
-        currentHigh > previousHigh &&
-        currentLow > previousLow
+        previousBearStructure &&
+        current > latestHigh
     ){
 
         choch = "BULLISH";
@@ -1629,17 +1690,20 @@ function detectStructure(candles){
     }
 
     else if(
-        currentLow < previousLow &&
-        currentHigh < previousHigh
+        previousBullStructure &&
+        current < latestLow
     ){
 
         choch = "BEARISH";
 
     }
 
+
     return {
+
         bos,
         choch
+
     };
 
 }
