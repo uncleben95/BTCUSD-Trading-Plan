@@ -568,7 +568,7 @@ tr:last-child td{
         <div>
             <div class="signal-label">CURRENT CONDITION</div>
 
-            <div class="signal" id="overallSignal">
+            <div class="signal yellow" id="overallSignal">
                 SCANNING
             </div>
         </div>
@@ -590,6 +590,8 @@ tr:last-child td{
     </div>
 
 </section>
+
+
 <!-- TRADE PLAN -->
 
 <section class="card col-4">
@@ -603,7 +605,7 @@ tr:last-child td{
 
         <div class="metric">
             <div class="metric-name">SIGNAL</div>
-            <div class="metric-value" id="tradeSignal">WAIT</div>
+            <div class="metric-value yellow" id="tradeSignal">WAIT</div>
         </div>
 
         <div class="metric">
@@ -627,20 +629,19 @@ tr:last-child td{
         </div>
 
         <div class="metric">
-    <div class="metric-name">RISK / REWARD</div>
-    <div class="metric-value" id="tradeRR">--</div>
-</div>
+            <div class="metric-name">RISK / REWARD</div>
+            <div class="metric-value" id="tradeRR">--</div>
+        </div>
 
-<div class="metric" style="grid-column:1/-1">
-    <div class="metric-name">MARKET PHASE</div>
-    <div class="metric-value" id="marketPhase">--</div>
-</div>
-
-</div>
+        <div class="metric" style="grid-column:1/-1">
+            <div class="metric-name">MARKET PHASE</div>
+            <div class="metric-value yellow" id="marketPhase">--</div>
+        </div>
 
     </div>
 
 </section>
+
 
 <!-- MARKET INFO -->
 
@@ -654,43 +655,23 @@ tr:last-child td{
     <div class="metric-grid">
 
         <div class="metric">
-
             <div class="metric-name">24H HIGH</div>
-
-            <div class="metric-value" id="high24">
-                --
-            </div>
-
+            <div class="metric-value" id="high24">--</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">24H LOW</div>
-
-            <div class="metric-value" id="low24">
-                --
-            </div>
-
+            <div class="metric-value" id="low24">--</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">24H VOLUME</div>
-
-            <div class="metric-value" id="volume24">
-                --
-            </div>
-
+            <div class="metric-value" id="volume24">--</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">24H CHANGE</div>
-
-            <div class="metric-value" id="change24">
-                --
-            </div>
-
+            <div class="metric-value" id="change24">--</div>
         </div>
 
     </div>
@@ -709,40 +690,13 @@ tr:last-child td{
 
     <div class="tf-grid" id="timeframeGrid">
 
-        <div class="tf">
-            <div class="tf-name">D1</div>
-            <div class="tf-status muted">--</div>
-        </div>
-
-        <div class="tf">
-            <div class="tf-name">H4</div>
-            <div class="tf-status muted">--</div>
-        </div>
-
-        <div class="tf">
-            <div class="tf-name">H1</div>
-            <div class="tf-status muted">--</div>
-        </div>
-
-        <div class="tf">
-            <div class="tf-name">M30</div>
-            <div class="tf-status muted">--</div>
-        </div>
-
-        <div class="tf">
-            <div class="tf-name">M15</div>
-            <div class="tf-status muted">--</div>
-        </div>
-
-        <div class="tf">
-            <div class="tf-name">M5</div>
-            <div class="tf-status muted">--</div>
-        </div>
-
-        <div class="tf">
-            <div class="tf-name">M1</div>
-            <div class="tf-status muted">--</div>
-        </div>
+        <div class="tf"><div class="tf-name">D1</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">H4</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">H1</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">M30</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">M15</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">M5</div><div class="tf-status muted">--</div></div>
+        <div class="tf"><div class="tf-name">M1</div><div class="tf-status muted">--</div></div>
 
     </div>
 
@@ -755,93 +709,45 @@ tr:last-child td{
 
     <div class="card-title">
         <h2>Technical Indicators</h2>
-        <span id="indicatorTF">M15</span>
+        <span>M15</span>
     </div>
 
     <div class="metric-grid">
 
         <div class="metric">
-
             <div class="metric-name">EMA 20</div>
-
-            <div class="metric-value" id="ema20">
-                --
-            </div>
-
-            <div class="metric-sub" id="ema20State">
-                --
-            </div>
-
+            <div class="metric-value" id="ema20">--</div>
+            <div class="metric-sub" id="ema20State">--</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">EMA 50</div>
-
-            <div class="metric-value" id="ema50">
-                --
-            </div>
-
-            <div class="metric-sub" id="ema50State">
-                --
-            </div>
-
+            <div class="metric-value" id="ema50">--</div>
+            <div class="metric-sub" id="ema50State">--</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">RSI 14</div>
-
-            <div class="metric-value" id="rsi">
-                --
-            </div>
-
-            <div class="metric-sub" id="rsiState">
-                --
-            </div>
-
+            <div class="metric-value" id="rsi">--</div>
+            <div class="metric-sub" id="rsiState">--</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">ATR 14</div>
-
-            <div class="metric-value" id="atr">
-                --
-            </div>
-
-            <div class="metric-sub">
-                Volatility
-            </div>
-
+            <div class="metric-value" id="atr">--</div>
+            <div class="metric-sub">Volatility</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">VOLUME</div>
-
-            <div class="metric-value" id="volume">
-                --
-            </div>
-
-            <div class="metric-sub" id="volumeState">
-                --
-            </div>
-
+            <div class="metric-value" id="volume">--</div>
+            <div class="metric-sub" id="volumeState">--</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">TREND</div>
-
-            <div class="metric-value" id="trend">
-                --
-            </div>
-
-            <div class="metric-sub" id="trendState">
-                --
-            </div>
-
+            <div class="metric-value" id="trend">--</div>
+            <div class="metric-sub" id="trendState">--</div>
         </div>
 
     </div>
@@ -861,33 +767,18 @@ tr:last-child td{
     <div class="bb-box">
 
         <div class="bb-item">
-
             <div class="bb-name">UPPER</div>
-
-            <div class="bb-value" id="bbUpper">
-                --
-            </div>
-
+            <div class="bb-value" id="bbUpper">--</div>
         </div>
 
         <div class="bb-item">
-
             <div class="bb-name">MIDDLE</div>
-
-            <div class="bb-value" id="bbMiddle">
-                --
-            </div>
-
+            <div class="bb-value" id="bbMiddle">--</div>
         </div>
 
         <div class="bb-item">
-
             <div class="bb-name">LOWER</div>
-
-            <div class="bb-value" id="bbLower">
-                --
-            </div>
-
+            <div class="bb-value" id="bbLower">--</div>
         </div>
 
     </div>
@@ -912,43 +803,23 @@ tr:last-child td{
     <div class="metric-grid">
 
         <div class="metric">
-
             <div class="metric-name">RESISTANCE</div>
-
-            <div class="metric-value red" id="resistance">
-                --
-            </div>
-
+            <div class="metric-value red" id="resistance">--</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">SUPPORT</div>
-
-            <div class="metric-value green" id="support">
-                --
-            </div>
-
+            <div class="metric-value green" id="support">--</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">DIST. TO RESISTANCE</div>
-
-            <div class="metric-value" id="resistanceDistance">
-                --
-            </div>
-
+            <div class="metric-value" id="resistanceDistance">--</div>
         </div>
 
         <div class="metric">
-
             <div class="metric-name">DIST. TO SUPPORT</div>
-
-            <div class="metric-value" id="supportDistance">
-                --
-            </div>
-
+            <div class="metric-value" id="supportDistance">--</div>
         </div>
 
     </div>
@@ -968,75 +839,35 @@ tr:last-child td{
     <div class="structure">
 
         <div class="structure-box">
-
-            <span class="muted" style="font-size:9px">
-                LAST HIGH
-            </span>
-
-            <strong id="lastHigh">
-                --
-            </strong>
-
+            <span class="muted" style="font-size:9px">LAST HIGH</span>
+            <strong id="lastHigh">--</strong>
         </div>
 
         <div class="structure-box">
-
-            <span class="muted" style="font-size:9px">
-                LAST LOW
-            </span>
-
-            <strong id="lastLow">
-                --
-            </strong>
-
+            <span class="muted" style="font-size:9px">LAST LOW</span>
+            <strong id="lastLow">--</strong>
         </div>
 
         <div class="structure-box">
-
-            <span class="muted" style="font-size:9px">
-                STRUCTURE
-            </span>
-
-            <strong id="structure">
-                --
-            </strong>
-
+            <span class="muted" style="font-size:9px">STRUCTURE</span>
+            <strong id="structure">--</strong>
         </div>
 
         <div class="structure-box">
-
-            <span class="muted" style="font-size:9px">
-                VOLATILITY
-            </span>
-
-            <strong id="volatility">
-                --
-            </strong>
-
+            <span class="muted" style="font-size:9px">VOLATILITY</span>
+            <strong id="volatility">--</strong>
         </div>
+
         <div class="structure-box">
+            <span class="muted" style="font-size:9px">BOS</span>
+            <strong id="bos">--</strong>
+        </div>
 
-    <span class="muted" style="font-size:9px">
-        BOS
-    </span>
+        <div class="structure-box">
+            <span class="muted" style="font-size:9px">CHOCH</span>
+            <strong id="choch">--</strong>
+        </div>
 
-    <strong id="bos">
-        --
-    </strong>
-
-</div>
-
-<div class="structure-box">
-
-    <span class="muted" style="font-size:9px">
-        CHOCH
-    </span>
-
-    <strong id="choch">
-        --
-    </strong>
-
-</div>
     </div>
 
 </section>
@@ -1056,7 +887,6 @@ tr:last-child td{
         <table>
 
             <thead>
-
                 <tr>
                     <th>TF</th>
                     <th>Price</th>
@@ -1067,7 +897,6 @@ tr:last-child td{
                     <th>BB Position</th>
                     <th>Condition</th>
                 </tr>
-
             </thead>
 
             <tbody id="analysisTable">
@@ -1095,9 +924,7 @@ tr:last-child td{
 
         <h2>Data Connection</h2>
 
-        <span id="lastUpdate">
-            --
-        </span>
+        <span id="lastUpdate">--</span>
 
     </div>
 
@@ -1105,51 +932,23 @@ tr:last-child td{
          style="grid-template-columns:repeat(4,1fr)">
 
         <div class="metric">
-
-            <div class="metric-name">
-                MARKET DATA
-            </div>
-
-            <div class="metric-value green">
-                PUBLIC
-            </div>
-
+            <div class="metric-name">MARKET DATA</div>
+            <div class="metric-value green">PUBLIC</div>
         </div>
 
         <div class="metric">
-
-            <div class="metric-name">
-                API KEY
-            </div>
-
-            <div class="metric-value green">
-                NOT REQUIRED
-            </div>
-
+            <div class="metric-name">API KEY</div>
+            <div class="metric-value green">NOT REQUIRED</div>
         </div>
 
         <div class="metric">
-
-            <div class="metric-name">
-                SOURCE
-            </div>
-
-            <div class="metric-value">
-                Binance
-            </div>
-
+            <div class="metric-name">SOURCE</div>
+            <div class="metric-value">Binance</div>
         </div>
 
         <div class="metric">
-
-            <div class="metric-name">
-                UPDATE
-            </div>
-
-            <div class="metric-value">
-                10s
-            </div>
-
+            <div class="metric-name">UPDATE</div>
+            <div class="metric-value">10s</div>
         </div>
 
     </div>
@@ -1157,7 +956,6 @@ tr:last-child td{
 </section>
 
 </main>
-
 
 <div class="footer">
     BTCUSD Technical Monitor · Market data only · No order execution
@@ -1170,158 +968,216 @@ tr:last-child td{
 
 /* =========================================================
    BTCUSD TECHNICAL MONITOR
-   Data source: Binance public market data
-   ========================================================= */
+   STABLE VERSION
+========================================================= */
 
 const API = "https://fapi.binance.com/fapi/v1";
 const SYMBOL = "BTCUSDT";
+
 const TIMEFRAMES = [
-    {
-        label:"D1",
-        api:"1d"
-    },
-    {
-        label:"H4",
-        api:"4h"
-    },
-    {
-        label:"H1",
-        api:"1h"
-    },
-    {
-        label:"M30",
-        api:"30m"
-    },
-    {
-        label:"M15",
-        api:"15m"
-    },
-    {
-        label:"M5",
-        api:"5m"
-    },
-    {
-        label:"M1",
-        api:"1m"
-    }
+    {label:"D1",  api:"1d"},
+    {label:"H4",  api:"4h"},
+    {label:"H1",  api:"1h"},
+    {label:"M30", api:"30m"},
+    {label:"M15", api:"15m"},
+    {label:"M5",  api:"5m"},
+    {label:"M1",  api:"1m"}
 ];
 
 let timeframeData = {};
+let liveBTCPrice = null;
+let priceSocket = null;
 
 
 /* =========================================================
    HELPERS
-   ========================================================= */
+========================================================= */
 
 function formatPrice(value){
 
-    if(value === null || value === undefined)
+    if(value === null || value === undefined || !Number.isFinite(Number(value)))
         return "--";
 
-    return "$" + Number(value).toLocaleString(
-        "en-US",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
+    return "$" + Number(value).toLocaleString("en-US",{
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+    });
 }
 
 
 function formatNumber(value){
 
-    return Number(value).toLocaleString(
-        "en-US",
-        {
-            maximumFractionDigits:2
-        }
-    );
+    if(value === null || value === undefined || !Number.isFinite(Number(value)))
+        return "--";
+
+    return Number(value).toLocaleString("en-US",{
+        maximumFractionDigits:2
+    });
 }
 
 
-function setConnection(status,type){
+function setConnection(status,type=""){
 
-    document.getElementById(
-        "connectionStatus"
-    ).textContent = status;
+    const text =
+        document.getElementById("connectionStatus");
 
     const dot =
         document.getElementById("statusDot");
 
-    dot.className =
-        "dot " + type;
+    if(text)
+        text.textContent = status;
+
+    if(dot)
+        dot.className = "dot " + type;
+}
+
+
+function setText(id,value){
+
+    const el = document.getElementById(id);
+
+    if(el)
+        el.textContent = value;
+}
+
+
+function colorClass(condition){
+
+    if(condition === "BULLISH")
+        return "green";
+
+    if(condition === "BEARISH")
+        return "red";
+
+    return "yellow";
 }
 
 
 /* =========================================================
    BINANCE REQUEST
-   ========================================================= */
+========================================================= */
 
 async function getJSON(url){
 
-    const response =
-        await fetch(url);
+    const controller = new AbortController();
 
-    if(!response.ok){
-
-        throw new Error(
-            "HTTP " + response.status
+    const timeout =
+        setTimeout(
+            () => controller.abort(),
+            12000
         );
+
+    try{
+
+        const response =
+            await fetch(
+                url,
+                {
+                    cache:"no-store",
+                    signal:controller.signal
+                }
+            );
+
+        if(!response.ok)
+            throw new Error(
+                "HTTP " + response.status
+            );
+
+        return await response.json();
+
+    }finally{
+
+        clearTimeout(timeout);
 
     }
 
-    return response.json();
 }
 
 
 /* =========================================================
-   GET 24H TICKER
-   ========================================================= */
+   24H TICKER
+========================================================= */
 
 async function loadTicker(){
 
-    const data = await getJSON(
-        API + "/ticker/24hr?symbol=" + SYMBOL
+    const data =
+        await getJSON(
+            API +
+            "/ticker/24hr?symbol=" +
+            SYMBOL
+        );
+
+    const price =
+        Number(data.lastPrice);
+
+    const change =
+        Number(data.priceChangePercent);
+
+    liveBTCPrice = price;
+
+    setText(
+        "livePrice",
+        formatPrice(price)
     );
-
-    const price = Number(data.lastPrice);
-    const change = Number(data.priceChangePercent);
-
-    document.getElementById("livePrice").textContent =
-        formatPrice(price);
 
     const changeEl =
         document.getElementById("priceChange");
 
-    changeEl.textContent =
-        (change >= 0 ? "+" : "") +
-        change.toFixed(2) +
-        "% · " +
-        (change >= 0 ? "+" : "") +
-        formatPrice(Number(data.priceChange));
+    if(changeEl){
 
-    changeEl.className =
-        "change " +
-        (change >= 0 ? "green" : "red");
+        changeEl.textContent =
+            (change >= 0 ? "+" : "") +
+            change.toFixed(2) +
+            "% · " +
+            (change >= 0 ? "+" : "") +
+            formatPrice(
+                Number(data.priceChange)
+            );
 
-    document.getElementById("high24").textContent =
-        formatPrice(data.highPrice);
+        changeEl.className =
+            "change " +
+            (change >= 0 ? "green" : "red");
 
-    document.getElementById("low24").textContent =
-        formatPrice(data.lowPrice);
+    }
 
-    document.getElementById("volume24").textContent =
-        formatNumber(Number(data.volume)) + " BTC";
+    setText(
+        "high24",
+        formatPrice(data.highPrice)
+    );
 
-    document.getElementById("change24").textContent =
-        (change >= 0 ? "+" : "") +
-        change.toFixed(2) + "%";
+    setText(
+        "low24",
+        formatPrice(data.lowPrice)
+    );
+
+    setText(
+        "volume24",
+        formatNumber(data.volume) +
+        " BTC"
+    );
+
+    const change24 =
+        document.getElementById("change24");
+
+    if(change24){
+
+        change24.textContent =
+            (change >= 0 ? "+" : "") +
+            change.toFixed(2) +
+            "%";
+
+        change24.className =
+            "metric-value " +
+            (change >= 0 ? "green" : "red");
+
+    }
+
 }
 
 
 /* =========================================================
-   GET KLINES
-   ========================================================= */
+   KLINES
+========================================================= */
 
 async function loadKlines(interval){
 
@@ -1331,23 +1187,21 @@ async function loadKlines(interval){
         SYMBOL +
         "&interval=" +
         interval +
-        "&limit=150";
+        "&limit=200";
 
     const raw =
         await getJSON(url);
 
+    if(!Array.isArray(raw))
+        throw new Error("Invalid kline data");
+
     return raw.map(c => ({
 
         time:Number(c[0]),
-
         open:Number(c[1]),
-
         high:Number(c[2]),
-
         low:Number(c[3]),
-
         close:Number(c[4]),
-
         volume:Number(c[5])
 
     }));
@@ -1357,11 +1211,11 @@ async function loadKlines(interval){
 
 /* =========================================================
    EMA
-   ========================================================= */
+========================================================= */
 
 function calculateEMA(values,period){
 
-    if(values.length < period)
+    if(!values || values.length < period)
         return null;
 
     const multiplier =
@@ -1369,11 +1223,8 @@ function calculateEMA(values,period){
 
     let ema = 0;
 
-    for(let i=0;i<period;i++){
-
+    for(let i=0;i<period;i++)
         ema += values[i];
-
-    }
 
     ema /= period;
 
@@ -1389,43 +1240,41 @@ function calculateEMA(values,period){
     }
 
     return ema;
+
 }
 
 
 /* =========================================================
    SMA
-   ========================================================= */
+========================================================= */
 
 function calculateSMA(values,period){
 
-    if(values.length < period)
+    if(!values || values.length < period)
         return null;
 
     const slice =
-        values.slice(
-            values.length - period
-        );
+        values.slice(-period);
 
     return slice.reduce(
         (a,b)=>a+b,
         0
     ) / period;
+
 }
 
 
 /* =========================================================
    STANDARD DEVIATION
-   ========================================================= */
+========================================================= */
 
 function calculateStd(values,period){
 
-    if(values.length < period)
+    if(!values || values.length < period)
         return null;
 
     const slice =
-        values.slice(
-            values.length - period
-        );
+        values.slice(-period);
 
     const mean =
         slice.reduce(
@@ -1445,23 +1294,43 @@ function calculateStd(values,period){
         ) / period;
 
     return Math.sqrt(variance);
+
 }
 
 
 /* =========================================================
-   RSI
-   ========================================================= */
+   RSI — WILDER STYLE
+========================================================= */
 
 function calculateRSI(values,period=14){
 
-    if(values.length < period + 1)
+    if(!values || values.length < period + 1)
         return null;
 
-    let gains = 0;
-    let losses = 0;
+    let gain = 0;
+    let loss = 0;
+
+    for(let i=1;i<=period;i++){
+
+        const diff =
+            values[i] -
+            values[i-1];
+
+        if(diff >= 0)
+            gain += diff;
+        else
+            loss += Math.abs(diff);
+
+    }
+
+    let avgGain =
+        gain / period;
+
+    let avgLoss =
+        loss / period;
 
     for(
-        let i=values.length-period;
+        let i=period+1;
         i<values.length;
         i++
     ){
@@ -1470,18 +1339,25 @@ function calculateRSI(values,period=14){
             values[i] -
             values[i-1];
 
-        if(diff >= 0)
-            gains += diff;
-        else
-            losses += Math.abs(diff);
+        const currentGain =
+            diff > 0 ? diff : 0;
+
+        const currentLoss =
+            diff < 0 ? Math.abs(diff) : 0;
+
+        avgGain =
+            (
+                avgGain * (period - 1) +
+                currentGain
+            ) / period;
+
+        avgLoss =
+            (
+                avgLoss * (period - 1) +
+                currentLoss
+            ) / period;
 
     }
-
-    const avgGain =
-        gains / period;
-
-    const avgLoss =
-        losses / period;
 
     if(avgLoss === 0)
         return 100;
@@ -1490,18 +1366,21 @@ function calculateRSI(values,period=14){
         avgGain / avgLoss;
 
     return 100 -
-        (100 / (1 + rs));
+        (
+            100 /
+            (1 + rs)
+        );
 
 }
 
 
 /* =========================================================
    ATR
-   ========================================================= */
+========================================================= */
 
 function calculateATR(candles,period=14){
 
-    if(candles.length < period + 1)
+    if(!candles || candles.length < period + 1)
         return null;
 
     const trs = [];
@@ -1516,173 +1395,201 @@ function calculateATR(candles,period=14){
 
         const tr =
             Math.max(
-
-                current.high -
-                current.low,
-
+                current.high - current.low,
                 Math.abs(
                     current.high -
                     previous.close
                 ),
-
                 Math.abs(
                     current.low -
                     previous.close
                 )
-
             );
 
         trs.push(tr);
 
     }
 
-    const slice =
-        trs.slice(
-            trs.length-period
-        );
-
-    return slice.reduce(
-        (a,b)=>a+b,
-        0
-    ) / slice.length;
+    return calculateSMA(
+        trs,
+        period
+    );
 
 }
 
 
 /* =========================================================
-   ANALYZE
-   ========================================================= */
+   SWING POINTS
+========================================================= */
+
+function getSwingPoints(candles){
+
+    const highs = [];
+    const lows = [];
+
+    if(!candles || candles.length < 10)
+        return {highs,lows};
+
+    const start =
+        Math.max(
+            2,
+            candles.length - 60
+        );
+
+    for(
+        let i=start;
+        i<candles.length-2;
+        i++
+    ){
+
+        const c =
+            candles[i];
+
+        const swingHigh =
+            c.high > candles[i-1].high &&
+            c.high > candles[i-2].high &&
+            c.high >= candles[i+1].high &&
+            c.high >= candles[i+2].high;
+
+        const swingLow =
+            c.low < candles[i-1].low &&
+            c.low < candles[i-2].low &&
+            c.low <= candles[i+1].low &&
+            c.low <= candles[i+2].low;
+
+        if(swingHigh){
+
+            highs.push({
+                price:c.high,
+                index:i
+            });
+
+        }
+
+        if(swingLow){
+
+            lows.push({
+                price:c.low,
+                index:i
+            });
+
+        }
+
+    }
+
+    return {
+        highs,
+        lows
+    };
+
+}
+
+
 /* =========================================================
-   MARKET STRUCTURE — BOS / CHOCH
-   ========================================================= */
+   MARKET STRUCTURE
+========================================================= */
 
 function detectStructure(candles){
 
-    if(!candles || candles.length < 20){
+    const swings =
+        getSwingPoints(candles);
 
-        return {
-            bos:"NONE",
-            choch:"NONE"
-        };
+    const highs =
+        swings.highs;
 
-    }
-
-    /*
-       Swing structure
-       Compare confirmed swing highs/lows
-       instead of simply comparing the last 5 candles.
-    */
-
-    const lookback = candles.slice(-30);
-
-    const swingHighs = [];
-    const swingLows = [];
-
-    for(let i = 2; i < lookback.length - 2; i++){
-
-        const c = lookback[i];
-
-        const isSwingHigh =
-            c.high > lookback[i-1].high &&
-            c.high > lookback[i-2].high &&
-            c.high >= lookback[i+1].high &&
-            c.high >= lookback[i+2].high;
-
-        const isSwingLow =
-            c.low < lookback[i-1].low &&
-            c.low < lookback[i-2].low &&
-            c.low <= lookback[i+1].low &&
-            c.low <= lookback[i+2].low;
-
-        if(isSwingHigh)
-            swingHighs.push(c.high);
-
-        if(isSwingLow)
-            swingLows.push(c.low);
-
-    }
+    const lows =
+        swings.lows;
 
     if(
-        swingHighs.length < 2 ||
-        swingLows.length < 2
+        highs.length < 2 ||
+        lows.length < 2
     ){
 
         return {
+            structure:"NEUTRAL",
             bos:"NONE",
-            choch:"NONE"
+            choch:"NONE",
+            lastHigh:null,
+            lastLow:null
         };
 
     }
 
-    const previousHigh =
-        swingHighs[swingHighs.length - 2];
+    const prevHigh =
+        highs[highs.length-2];
 
-    const latestHigh =
-        swingHighs[swingHighs.length - 1];
+    const lastHigh =
+        highs[highs.length-1];
 
-    const previousLow =
-        swingLows[swingLows.length - 2];
+    const prevLow =
+        lows[lows.length-2];
 
-    const latestLow =
-        swingLows[swingLows.length - 1];
+    const lastLow =
+        lows[lows.length-1];
 
     const current =
-        candles[candles.length - 1].close;
+        candles[candles.length-1].close;
+
+    let structure =
+        "NEUTRAL";
+
+    if(
+        lastHigh.price > prevHigh.price &&
+        lastLow.price > prevLow.price
+    ){
+
+        structure = "HH / HL";
+
+    }
+
+    else if(
+        lastHigh.price < prevHigh.price &&
+        lastLow.price < prevLow.price
+    ){
+
+        structure = "LH / LL";
+
+    }
+
+    else if(
+        lastHigh.price > prevHigh.price
+    ){
+
+        structure = "HH";
+
+    }
+
+    else if(
+        lastLow.price < prevLow.price
+    ){
+
+        structure = "LL";
+
+    }
 
 
     let bos = "NONE";
-    let choch = "NONE";
 
-
-    /*
-       BULLISH BOS
-       Price closes above previous swing high
-    */
-
-    if(current > previousHigh){
-
+    if(current > lastHigh.price)
         bos = "BULLISH";
 
-    }
-
-
-    /*
-       BEARISH BOS
-       Price closes below previous swing low
-    */
-
-    else if(current < previousLow){
-
+    else if(current < lastLow.price)
         bos = "BEARISH";
 
-    }
 
+    let choch = "NONE";
 
-    /*
-       CHOCH
-       Detect change in structural direction.
+    const priorBull =
+        lastHigh.price > prevHigh.price &&
+        lastLow.price > prevLow.price;
 
-       Bullish CHOCH:
-       previous structure was making lower highs/lows,
-       then price breaks the latest swing high.
-
-       Bearish CHOCH:
-       previous structure was making higher highs/lows,
-       then price breaks the latest swing low.
-    */
-
-    const previousBullStructure =
-        latestHigh > previousHigh &&
-        latestLow > previousLow;
-
-    const previousBearStructure =
-        latestHigh < previousHigh &&
-        latestLow < previousLow;
-
+    const priorBear =
+        lastHigh.price < prevHigh.price &&
+        lastLow.price < prevLow.price;
 
     if(
-        previousBearStructure &&
-        current > latestHigh
+        priorBear &&
+        current > lastHigh.price
     ){
 
         choch = "BULLISH";
@@ -1690,8 +1597,8 @@ function detectStructure(candles){
     }
 
     else if(
-        previousBullStructure &&
-        current < latestLow
+        priorBull &&
+        current < lastLow.price
     ){
 
         choch = "BEARISH";
@@ -1701,13 +1608,26 @@ function detectStructure(candles){
 
     return {
 
+        structure,
         bos,
-        choch
+        choch,
+
+        lastHigh:lastHigh.price,
+        lastLow:lastLow.price
 
     };
 
 }
+
+
+/* =========================================================
+   ANALYZE TIMEFRAME
+========================================================= */
+
 function analyze(candles){
+
+    if(!candles || candles.length < 60)
+        return null;
 
     const closes =
         candles.map(c=>c.close);
@@ -1751,13 +1671,32 @@ function analyze(candles){
             20
         );
 
+    if(
+        ema20 === null ||
+        ema50 === null ||
+        rsi === null ||
+        atr === null ||
+        middle === null ||
+        std === null
+    ){
+
+        return null;
+
+    }
+
+
     const upper =
         middle +
-        (std * 2);
+        std * 2;
 
     const lower =
         middle -
-        (std * 2);
+        std * 2;
+
+
+    /* =====================================================
+       SCORE
+    ===================================================== */
 
     let score = 50;
 
@@ -1771,19 +1710,23 @@ function analyze(candles){
     else
         score -= 15;
 
-    if(rsi > 50 && rsi < 70)
+    if(rsi >= 50 && rsi < 70)
         score += 10;
 
-    if(rsi < 30)
-        score += 5;
+    else if(rsi > 30 && rsi < 50)
+        score -= 5;
 
-    if(rsi > 75)
+    if(rsi >= 70)
         score -= 10;
+
+    if(rsi <= 30)
+        score += 5;
 
     if(current > middle)
         score += 5;
     else
         score -= 5;
+
 
     score =
         Math.max(
@@ -1794,7 +1737,9 @@ function analyze(candles){
             )
         );
 
-    let condition;
+
+    let condition =
+        "NEUTRAL";
 
     if(score >= 65)
         condition = "BULLISH";
@@ -1802,84 +1747,62 @@ function analyze(candles){
     else if(score <= 35)
         condition = "BEARISH";
 
-    else
-        condition = "NEUTRAL";
 
-    let bbPosition;
+    /* =====================================================
+       BB POSITION
+    ===================================================== */
+
+    let bbPosition =
+        "MIDDLE";
 
     if(current >= upper)
         bbPosition = "UPPER BAND";
 
+    else if(current >= middle)
+        bbPosition = "ABOVE MID";
+
     else if(current <= lower)
         bbPosition = "LOWER BAND";
-
-    else if(current > middle)
-        bbPosition = "ABOVE MID";
 
     else
         bbPosition = "BELOW MID";
 
-    const highs =
-        candles
-        .slice(-30)
-        .map(c=>c.high);
 
-    const lows =
-        candles
-        .slice(-30)
-        .map(c=>c.low);
+    /* =====================================================
+       S/R — EXCLUDE CURRENT CANDLE
+       This fixes impossible breakout calculation.
+    ===================================================== */
+
+    const historical =
+        candles.slice(
+            Math.max(
+                0,
+                candles.length - 31
+            ),
+            candles.length - 1
+        );
 
     const resistance =
-        Math.max(...highs);
+        Math.max(
+            ...historical.map(c=>c.high)
+        );
 
     const support =
-        Math.min(...lows);
-
-    let structure;
-
-    const recentHigh =
-        candles
-        .slice(-10)
-        .reduce(
-            (max,c)=>
-                c.high > max ?
-                c.high :
-                max,
-            0
+        Math.min(
+            ...historical.map(c=>c.low)
         );
 
-    const recentLow =
-        candles
-        .slice(-10)
-        .reduce(
-            (min,c)=>
-                c.low < min ?
-                c.low :
-                min,
-            Infinity
-        );
 
-    if(
-        current > recentHigh * 0.998
-    )
-        structure = "HH";
+    /* =====================================================
+       VOLUME
+    ===================================================== */
 
-    else if(
-        current < recentLow * 1.002
-    )
-        structure = "LL";
-
-    else if(
-        current > ema20
-    )
-        structure = "HL";
-
-    else
-        structure = "LH";
+    const volumes =
+        candles.map(c=>c.volume);
 
     const avgVolume =
         calculateSMA(
-            candles.map(c=>c.volume),
+            volumes,
             20
         );
 
@@ -1888,39 +1811,74 @@ function analyze(candles){
             candles.length-1
         ].volume;
 
-    let volumeState;
+    let volumeState =
+        "NORMAL";
 
-    if(currentVolume > avgVolume * 1.5)
+    if(
+        avgVolume &&
+        currentVolume >= avgVolume * 1.5
+    ){
+
         volumeState = "HIGH";
 
-    else if(currentVolume > avgVolume)
+    }
+
+    else if(
+        avgVolume &&
+        currentVolume > avgVolume
+    ){
+
         volumeState = "ABOVE AVG";
 
-    else
-        volumeState = "NORMAL";
-    const structureSignal =
-    detectStructure(candles);
+    }
+
+
+    /* =====================================================
+       STRUCTURE
+    ===================================================== */
+
+    const structureData =
+        detectStructure(candles);
+
 
     return {
 
         current,
+
         ema20,
         ema50,
+
         rsi,
         atr,
+
         middle,
         upper,
         lower,
+
         score,
         condition,
         bbPosition,
+
         resistance,
         support,
-        structure,
-        bos: structureSignal.bos,
-choch: structureSignal.choch,
+
         currentVolume,
-        volumeState
+        volumeState,
+
+        structure:
+            structureData.structure,
+
+        bos:
+            structureData.bos,
+
+        choch:
+            structureData.choch,
+
+        lastHigh:
+            structureData.lastHigh,
+
+        lastLow:
+            structureData.lastLow
 
     };
 
@@ -1929,36 +1887,44 @@ choch: structureSignal.choch,
 
 /* =========================================================
    LOAD ALL TIMEFRAMES
-   ========================================================= */
+========================================================= */
 
 async function loadTechnicalData(){
 
     const results = {};
 
-    for(
-        const tf of TIMEFRAMES
-    ){
+    const requests =
+        TIMEFRAMES.map(
+            async tf => {
 
-        try{
+                try{
 
-            const candles =
-                await loadKlines(
-                    tf.api
-                );
+                    const candles =
+                        await loadKlines(
+                            tf.api
+                        );
 
-            results[tf.label] =
-                analyze(candles);
+                    const analysis =
+                        analyze(candles);
 
-        }catch(error){
+                    if(analysis)
+                        results[tf.label] =
+                            analysis;
 
-            console.error(
-                tf.label,
-                error
-            );
+                }catch(error){
 
-        }
+                    console.error(
+                        "TF ERROR:",
+                        tf.label,
+                        error
+                    );
 
-    }
+                }
+
+            }
+        );
+
+    await Promise.all(requests);
 
     timeframeData =
         results;
@@ -1969,856 +1935,442 @@ async function loadTechnicalData(){
 
 
 /* =========================================================
-   UPDATE DASHBOARD
-   ========================================================= */
+   FINAL SIGNAL ENGINE
+========================================================= */
 
-function updateDashboard(){
+function calculateSignal(){
 
-    const primary = timeframeData["M15"];
+    const d1 =
+        timeframeData.D1;
 
-    if(!primary)
-        return;
+    const h4 =
+        timeframeData.H4;
 
+    const h1 =
+        timeframeData.H1;
 
-    /* =========================================================
-       TIMEFRAME REFERENCES
-    ========================================================= */
+    const m30 =
+        timeframeData.M30;
 
-    const d1  = timeframeData["D1"];
-    const h4  = timeframeData["H4"];
-    const h1  = timeframeData["H1"];
+    const m15 =
+        timeframeData.M15;
 
-    const m30 = timeframeData["M30"];
-    const m15 = timeframeData["M15"];
+    const m5 =
+        timeframeData.M5;
 
-    const m5  = timeframeData["M5"];
-    const m1  = timeframeData["M1"];
-
-
-    /* =========================================================
-       HTF TREND
-       D1 + H4 + H1
-    ========================================================= */
-
-    let bullishTrend = 0;
-    let bearishTrend = 0;
-
-    [d1, h4, h1].forEach(data => {
-
-        if(!data)
-            return;
-
-        if(data.condition === "BULLISH")
-            bullishTrend++;
-
-        else if(data.condition === "BEARISH")
-            bearishTrend++;
-
-    });
-
-    let trendBias = "NEUTRAL";
-
-    if(bullishTrend >= 2)
-        trendBias = "BULLISH";
-
-    else if(bearishTrend >= 2)
-        trendBias = "BEARISH";
+    const m1 =
+        timeframeData.M1;
 
 
-    /* =========================================================
-       SETUP
-       M30 + M15
-    ========================================================= */
+    if(!m15){
 
-    let bullishSetup = 0;
-    let bearishSetup = 0;
-
-    [m30, m15].forEach(data => {
-
-        if(!data)
-            return;
-
-        if(data.condition === "BULLISH")
-            bullishSetup++;
-
-        else if(data.condition === "BEARISH")
-            bearishSetup++;
-
-    });
-
-    let setupBias = "NEUTRAL";
-
-    if(bullishSetup >= 2)
-        setupBias = "BULLISH";
-
-    else if(bearishSetup >= 2)
-        setupBias = "BEARISH";
-
-
-    /* =========================================================
-       TRIGGER
-       M5 + M1
-    ========================================================= */
-
-    let triggerBias = "NEUTRAL";
-
-    if(
-        m5 &&
-        m1 &&
-        (
-            m5.condition === "BULLISH" ||
-            m1.condition === "BULLISH"
-        ) &&
-        (
-            m5.bos === "BULLISH" ||
-            m5.choch === "BULLISH" ||
-            m1.bos === "BULLISH" ||
-            m1.choch === "BULLISH"
-        )
-    ){
-
-        triggerBias = "BULLISH";
-
-    }
-
-    else if(
-        m5 &&
-        m1 &&
-        (
-            m5.condition === "BEARISH" ||
-            m1.condition === "BEARISH"
-        ) &&
-        (
-            m5.bos === "BEARISH" ||
-            m5.choch === "BEARISH" ||
-            m1.bos === "BEARISH" ||
-            m1.choch === "BEARISH"
-        )
-    ){
-
-        triggerBias = "BEARISH";
+        return {
+            signal:"WAIT",
+            score:50,
+            phase:"WAIT — DATA SCANNING"
+        };
 
     }
 
 
-    /* =========================================================
-       HIERARCHY SCORE
-    ========================================================= */
+    /* =====================================================
+       SCORE
+    ===================================================== */
 
-    let bullPoints = 0;
-    let bearPoints = 0;
+    let bull = 0;
+    let bear = 0;
 
-    if(trendBias === "BULLISH")
-        bullPoints += 40;
 
-    else if(trendBias === "BEARISH")
-        bearPoints += 40;
+    if(d1?.condition === "BULLISH")
+        bull += 20;
 
+    if(d1?.condition === "BEARISH")
+        bear += 20;
 
-    if(setupBias === "BULLISH")
-        bullPoints += 30;
 
-    else if(setupBias === "BEARISH")
-        bearPoints += 30;
+    if(h4?.condition === "BULLISH")
+        bull += 10;
 
+    if(h4?.condition === "BEARISH")
+        bear += 10;
 
-    if(triggerBias === "BULLISH")
-        bullPoints += 30;
 
-    else if(triggerBias === "BEARISH")
-        bearPoints += 30;
+    if(h1?.condition === "BULLISH")
+        bull += 10;
 
+    if(h1?.condition === "BEARISH")
+        bear += 10;
 
-    const bullPercent = bullPoints;
-    const bearPercent = bearPoints;
 
+    if(m30?.condition === "BULLISH")
+        bull += 15;
 
-    /* =========================================================
-       ENTRY SAFETY FILTER
-    ========================================================= */
+    if(m30?.condition === "BEARISH")
+        bear += 15;
 
-    let buyBlocked = false;
-    let sellBlocked = false;
 
-    const currentPrice = m15.current;
+    if(m15?.condition === "BULLISH")
+        bull += 20;
 
+    if(m15?.condition === "BEARISH")
+        bear += 20;
 
-    /* BUY FILTER */
 
-    const resistanceDistance =
-        (
-            m15.resistance -
-            currentPrice
-        ) /
-        currentPrice *
-        100;
+    if(m5?.condition === "BULLISH")
+        bull += 10;
 
-    if(
-        m15.rsi >= 72 ||
-        resistanceDistance <= 0.10
-    ){
+    if(m5?.condition === "BEARISH")
+        bear += 10;
 
-        buyBlocked = true;
 
-    }
+    if(m1?.condition === "BULLISH")
+        bull += 5;
 
+    if(m1?.condition === "BEARISH")
+        bear += 5;
 
-    /* SELL FILTER */
 
-    const supportDistance =
-        (
-            currentPrice -
-            m15.support
-        ) /
-        currentPrice *
-        100;
-
-    if(
-        m15.rsi <= 28 ||
-        supportDistance <= 0.10
-    ){
-
-        sellBlocked = true;
-
-    }
-
-
-    /* =========================================================
-   FINAL DECISION — V2 SIGNAL ENGINE
-========================================================= */
-
-/*
-   NEW HIERARCHY
-
-   D1       = MAIN BIAS
-   H4 / H1  = FILTER
-   M30      = SETUP
-   M15      = ENTRY CONFIRMATION
-   M5       = TRIGGER
-   M1       = PRECISION
-
-   H4/H1 NEUTRAL DOES NOT CANCEL THE TRADE.
-   BOS / CHOCH + S/R BREAK ARE required for confirmation.
-*/
-
-
-let finalSignal = "WAIT";
-let finalScore = 50;
-
-
-/* =========================================================
-   BIAS
-========================================================= */
-
-const d1Bull =
-    d1 &&
-    d1.condition === "BULLISH";
-
-const d1Bear =
-    d1 &&
-    d1.condition === "BEARISH";
-
-
-const h4Bull =
-    h4 &&
-    h4.condition === "BULLISH";
-
-const h4Bear =
-    h4 &&
-    h4.condition === "BEARISH";
-
-
-const h1Bull =
-    h1 &&
-    h1.condition === "BULLISH";
-
-const h1Bear =
-    h1 &&
-    h1.condition === "BEARISH";
-
-
-/* =========================================================
-   SETUP
-========================================================= */
-
-const m30Bull =
-    m30 &&
-    m30.condition === "BULLISH";
-
-const m30Bear =
-    m30 &&
-    m30.condition === "BEARISH";
-
-
-const m15Bull =
-    m15 &&
-    m15.condition === "BULLISH";
-
-const m15Bear =
-    m15 &&
-    m15.condition === "BEARISH";
-
-
-/* =========================================================
-   TRIGGER
-========================================================= */
-
-const m5Bull =
-    m5 &&
-    m5.condition === "BULLISH";
-
-const m5Bear =
-    m5 &&
-    m5.condition === "BEARISH";
-
-
-const m1Bull =
-    m1 &&
-    m1.condition === "BULLISH";
-
-const m1Bear =
-    m1 &&
-    m1.condition === "BEARISH";
-
-
-/* =========================================================
-   BULLISH SCORE
-========================================================= */
-
-let bullScore = 0;
-
-if(d1Bull)
-    bullScore += 20;
-
-if(h4Bull)
-    bullScore += 5;
-
-if(h1Bull)
-    bullScore += 5;
-
-if(m30Bull)
-    bullScore += 20;
-
-if(m15Bull)
-    bullScore += 20;
-
-if(m5Bull)
-    bullScore += 15;
-
-if(m1Bull)
-    bullScore += 5;
-
-
-/* =========================================================
-   BEARISH SCORE
-========================================================= */
-
-let bearScore = 0;
-
-if(d1Bear)
-    bearScore += 20;
-
-if(h4Bear)
-    bearScore += 5;
-
-if(h1Bear)
-    bearScore += 5;
-
-if(m30Bear)
-    bearScore += 20;
-
-if(m15Bear)
-    bearScore += 20;
-
-if(m5Bear)
-    bearScore += 15;
-
-if(m1Bear)
-    bearScore += 5;
-
-
-/* =========================================================
-   M15 MOMENTUM
-========================================================= */
-
-if(m15){
+    /* =====================================================
+       M15 MOMENTUM
+    ===================================================== */
 
     if(
         m15.rsi >= 50 &&
         m15.rsi < 70
     ){
 
-        bullScore += 5;
+        bull += 5;
 
     }
 
-    else if(
+    if(
         m15.rsi > 30 &&
         m15.rsi < 50
     ){
 
-        bearScore += 5;
+        bear += 5;
 
     }
 
-}
 
-
-/* =========================================================
-   EMA CONFIRMATION
-========================================================= */
-
-if(m15){
+    /* =====================================================
+       EMA
+    ===================================================== */
 
     if(
-        m15.current > m15.ema20 &&
-        m15.ema20 > m15.ema50
+        m15.current >
+        m15.ema20 &&
+        m15.ema20 >
+        m15.ema50
     ){
 
-        bullScore += 5;
+        bull += 5;
 
     }
-
-    else if(
-        m15.current < m15.ema20 &&
-        m15.ema20 < m15.ema50
-    ){
-
-        bearScore += 5;
-
-    }
-
-}
-
-
-/* =========================================================
-   STRUCTURE CONFIRMATION
-========================================================= */
-
-let bullishStructure = false;
-let bearishStructure = false;
-
-
-/*
-   M15 BOS / CHOCH
-*/
-
-if(m15){
 
     if(
+        m15.current <
+        m15.ema20 &&
+        m15.ema20 <
+        m15.ema50
+    ){
+
+        bear += 5;
+
+    }
+
+
+    /* =====================================================
+       DISTANCE
+    ===================================================== */
+
+    const resistanceDistance =
+        (
+            m15.resistance -
+            m15.current
+        ) /
+        m15.current *
+        100;
+
+    const supportDistance =
+        (
+            m15.current -
+            m15.support
+        ) /
+        m15.current *
+        100;
+
+
+    /* =====================================================
+       STRUCTURE
+    ===================================================== */
+
+    const bullishStructure =
         m15.bos === "BULLISH" ||
-        m15.choch === "BULLISH"
-    ){
+        m15.choch === "BULLISH" ||
+        m5?.bos === "BULLISH" ||
+        m5?.choch === "BULLISH";
 
-        bullishStructure = true;
-
-    }
-
-    if(
+    const bearishStructure =
         m15.bos === "BEARISH" ||
-        m15.choch === "BEARISH"
-    ){
-
-        bearishStructure = true;
-
-    }
-
-}
+        m15.choch === "BEARISH" ||
+        m5?.bos === "BEARISH" ||
+        m5?.choch === "BEARISH";
 
 
-/*
-   M5 BOS / CHOCH
-*/
+    /* =====================================================
+       BREAKOUT
+    ===================================================== */
 
-if(m5){
+    const resistanceBroken =
+        m15.current >
+        m15.resistance;
 
-    if(
-        m5.bos === "BULLISH" ||
-        m5.choch === "BULLISH"
-    ){
-
-        bullishStructure = true;
-
-    }
-
-    if(
-        m5.bos === "BEARISH" ||
-        m5.choch === "BEARISH"
-    ){
-
-        bearishStructure = true;
-
-    }
-
-}
+    const supportBroken =
+        m15.current <
+        m15.support;
 
 
-/* =========================================================
-   RESISTANCE / SUPPORT BREAK
-========================================================= */
+    /* =====================================================
+       OVERBOUGHT / OVERSOLD
+    ===================================================== */
 
-const resistanceBroken =
-    m15 &&
-    m15.current > m15.resistance;
+    const overbought =
+        m15.rsi >= 72;
 
-const supportBroken =
-    m15 &&
-    m15.current < m15.support;
+    const oversold =
+        m15.rsi <= 28;
 
 
-/* =========================================================
-   SAFETY FILTER — V3 BREAKOUT + RETEST
-========================================================= */
+    /* =====================================================
+       BUY CONFIRMATION
+    ===================================================== */
 
-/*
-   OVERBOUGHT / OVERSOLD
-*/
+    const buyConfirmed =
 
-const buyOverbought =
-    m15 &&
-    m15.rsi >= 72;
+        d1?.condition === "BULLISH" &&
 
-const sellOversold =
-    m15 &&
-    m15.rsi <= 28;
+        m30?.condition === "BULLISH" &&
 
+        m15?.condition === "BULLISH" &&
 
-/*
-   BULLISH BREAKOUT
-*/
+        m5?.condition === "BULLISH" &&
 
-const bullishBreakout =
-    m15 &&
-    (
-        m15.bos === "BULLISH" ||
-        m15.choch === "BULLISH"
-    ) &&
-    m15.current > m15.resistance;
+        bullishStructure &&
 
+        (
+            resistanceBroken ||
+            m15.bos === "BULLISH" ||
+            m15.choch === "BULLISH"
+        ) &&
 
-/*
-   BEARISH BREAKDOWN
-*/
+        !overbought &&
 
-const bearishBreakout =
-    m15 &&
-    (
-        m15.bos === "BEARISH" ||
-        m15.choch === "BEARISH"
-    ) &&
-    m15.current < m15.support;
+        resistanceDistance > 0.10 &&
+
+        bull > bear;
 
 
-/*
-   BULLISH RETEST ZONE
-*/
+    /* =====================================================
+       SELL CONFIRMATION
+    ===================================================== */
 
-const buyRetestLow =
-    m15
-    ? m15.resistance - (m15.atr * 0.35)
-    : null;
+    const sellConfirmed =
 
-const buyRetestHigh =
-    m15
-    ? m15.resistance + (m15.atr * 0.15)
-    : null;
+        d1?.condition === "BEARISH" &&
 
+        m30?.condition === "BEARISH" &&
 
-const bullishRetest =
-    m15 &&
-    m15.current >= buyRetestLow &&
-    m15.current <= buyRetestHigh;
+        m15?.condition === "BEARISH" &&
 
+        m5?.condition === "BEARISH" &&
 
-/*
-   BEARISH RETEST ZONE
-*/
+        bearishStructure &&
 
-const sellRetestLow =
-    m15
-    ? m15.support - (m15.atr * 0.15)
-    : null;
+        (
+            supportBroken ||
+            m15.bos === "BEARISH" ||
+            m15.choch === "BEARISH"
+        ) &&
 
-const sellRetestHigh =
-    m15
-    ? m15.support + (m15.atr * 0.35)
-    : null;
+        !oversold &&
+
+        supportDistance > 0.10 &&
+
+        bear > bull;
 
 
-const bearishRetest =
-    m15 &&
-    m15.current >= sellRetestLow &&
-    m15.current <= sellRetestHigh;
+    /* =====================================================
+       FINAL
+    ===================================================== */
 
+    let signal =
+        "WAIT";
 
-/*
-   NOTE:
-   buyBlocked and sellBlocked
-   are already defined in the
-   FINAL DECISION section.
-
-   Do NOT redeclare them here.
-*/
-
-
-/* =========================================================
-   FULL BUY CONFIRMATION
-========================================================= */
-
-const buyConfirmed =
-    d1Bull &&
-    m30Bull &&
-    m15Bull &&
-    m5Bull &&
-    m1Bull &&
-    bullishStructure &&
-    resistanceBroken &&
-    !buyBlocked &&
-    bullScore > bearScore;
-
-
-/* =========================================================
-   FULL SELL CONFIRMATION
-========================================================= */
-
-const sellConfirmed =
-    d1Bear &&
-    m30Bear &&
-    m15Bear &&
-    m5Bear &&
-    m1Bear &&
-    bearishStructure &&
-    supportBroken &&
-    !sellBlocked &&
-    bearScore > bullScore;
-
-
-/* =========================================================
-   FINAL SIGNAL
-========================================================= */
-
-if(buyConfirmed){
-
-    finalSignal = "BUY";
-
-    finalScore =
-        Math.min(
-            100,
-            Math.max(
-                80,
-                bullScore
-            )
-        );
-
-}
-
-else if(sellConfirmed){
-
-    finalSignal = "SELL";
-
-    finalScore =
-        Math.min(
-            100,
-            Math.max(
-                80,
-                bearScore
-            )
-        );
-
-}
-
-else{
-
-    finalSignal = "WAIT";
-
-    /*
-       WAIT score represents market alignment,
-       not entry confirmation.
-    */
-
-    finalScore =
+    let score =
         Math.max(
             50,
             Math.min(
                 79,
                 Math.max(
-                    bullScore,
-                    bearScore
+                    bull,
+                    bear
                 )
             )
         );
+
+    let phase =
+        "WAIT — MARKET NOT ALIGNED";
+
+
+    if(buyConfirmed){
+
+        signal =
+            "BUY";
+
+        score =
+            Math.max(
+                80,
+                Math.min(
+                    100,
+                    bull
+                )
+            );
+
+        phase =
+            "BUY — FULL CONFIRMATION";
+
+    }
+
+    else if(sellConfirmed){
+
+        signal =
+            "SELL";
+
+        score =
+            Math.max(
+                80,
+                Math.min(
+                    100,
+                    bear
+                )
+            );
+
+        phase =
+            "SELL — FULL CONFIRMATION";
+
+    }
+
+    else if(
+        m15.rsi >= 72
+    ){
+
+        phase =
+            "WAIT — BUY BLOCKED: OVERBOUGHT";
+
+    }
+
+    else if(
+        m15.rsi <= 28
+    ){
+
+        phase =
+            "WAIT — SELL BLOCKED: OVERSOLD";
+
+    }
+
+    else if(
+        d1?.condition === "BULLISH" &&
+        m30?.condition === "BULLISH" &&
+        m15?.condition === "BULLISH"
+    ){
+
+        phase =
+            "WAIT — BULLISH SETUP / TRIGGER NOT READY";
+
+    }
+
+    else if(
+        d1?.condition === "BEARISH" &&
+        m30?.condition === "BEARISH" &&
+        m15?.condition === "BEARISH"
+    ){
+
+        phase =
+            "WAIT — BEARISH SETUP / TRIGGER NOT READY";
+
+    }
+
+    else if(
+        resistanceDistance <= 0.10
+    ){
+
+        phase =
+            "WAIT — NEAR RESISTANCE";
+
+    }
+
+    else if(
+        supportDistance <= 0.10
+    ){
+
+        phase =
+            "WAIT — NEAR SUPPORT";
+
+    }
+
+
+    return {
+        signal,
+        score,
+        phase,
+        resistanceDistance,
+        supportDistance,
+        bull,
+        bear
+    };
 
 }
 
 
 /* =========================================================
-   MAIN SIGNAL DISPLAY
+   TRADE PLAN
 ========================================================= */
 
-const signalEl =
-    document.getElementById("overallSignal");
+function updateTradePlan(signalData){
 
-if(signalEl){
+    const m15 =
+        timeframeData.M15;
 
-    signalEl.textContent =
-        finalSignal;
-
-    signalEl.className =
-        "signal " +
-        (
-            finalSignal === "BUY"
-            ? "green"
-            : finalSignal === "SELL"
-            ? "red"
-            : "yellow"
-        );
-
-}
+    if(!m15)
+        return;
 
 
-const scoreEl =
-    document.getElementById("overallScore");
-
-if(scoreEl){
-
-    scoreEl.textContent =
-        finalScore + "/100";
-
-}
-
-
-const scoreBar =
-    document.getElementById("scoreBar");
-
-if(scoreBar){
-
-    scoreBar.style.width =
-        finalScore + "%";
-
-}
-
-
-    /* =========================================================
-       SCORE ADJUSTMENT
-    ========================================================= */
-
-    if(finalSignal === "BUY"){
-
-        if(m15.rsi > 50 && m15.rsi < 70)
-            finalScore += 3;
-
-        if(m15.current > m15.ema20)
-            finalScore += 2;
-
-    }
-
-    else if(finalSignal === "SELL"){
-
-        if(m15.rsi < 50 && m15.rsi > 30)
-            finalScore += 3;
-
-        if(m15.current < m15.ema20)
-            finalScore += 2;
-
-    }
-
-
-    finalScore =
-        Math.min(
-            100,
-            finalScore
-        );
-
-
-    /* =========================================================
-       MAIN SIGNAL
-    ========================================================= */
-
-    const signalEl =
-        document.getElementById("overallSignal");
-
-    if(signalEl){
-
-        signalEl.textContent = finalSignal;
-
-        signalEl.className =
-            "signal " +
-            (
-                finalSignal === "BUY"
-                ? "green"
-                : finalSignal === "SELL"
-                ? "red"
-                : "yellow"
-            );
-
-    }
-
-
-    const scoreEl =
-        document.getElementById("overallScore");
-
-    if(scoreEl)
-        scoreEl.textContent =
-            finalScore + "/100";
-
-
-    const scoreBar =
-        document.getElementById("scoreBar");
-
-    if(scoreBar)
-        scoreBar.style.width =
-            finalScore + "%";
-
-
-    /* =========================================================
-       TRADE PLAN
-    ========================================================= */
-
-    const tradeSignal =
-        document.getElementById("tradeSignal");
-
-    const entryZone =
-        document.getElementById("entryZone");
-
-    const tradeSL =
-        document.getElementById("tradeSL");
-
-    const tradeTP1 =
-        document.getElementById("tradeTP1");
-
-    const tradeTP2 =
-        document.getElementById("tradeTP2");
-
-    const tradeRR =
-        document.getElementById("tradeRR");
-
+    const signal =
+        signalData.signal;
 
     const price =
-        typeof liveBTCPrice !== "undefined" &&
-        liveBTCPrice
-        ? liveBTCPrice
-        : primary.current;
+        liveBTCPrice ||
+        m15.current;
 
     const atr =
-        primary.atr;
+        m15.atr;
 
 
     let entry = null;
     let sl = null;
     let tp1 = null;
     let tp2 = null;
-    let rr = null;
 
 
-    /* BUY */
+    if(signal === "BUY"){
 
-    if(finalSignal === "BUY"){
-
-        entry = price;
+        entry =
+            price;
 
         sl =
             Math.min(
-                primary.support,
+                m15.support,
                 entry - atr * 1.2
             );
 
@@ -2826,25 +2378,24 @@ if(scoreBar){
             entry - sl;
 
         tp1 =
-            entry + risk * 1.5;
+            entry +
+            risk * 1.5;
 
         tp2 =
-            entry + risk * 2.5;
-
-        rr = "1 : 2.5";
+            entry +
+            risk * 2.5;
 
     }
 
 
-    /* SELL */
+    else if(signal === "SELL"){
 
-    else if(finalSignal === "SELL"){
-
-        entry = price;
+        entry =
+            price;
 
         sl =
             Math.max(
-                primary.resistance,
+                m15.resistance,
                 entry + atr * 1.2
             );
 
@@ -2852,426 +2403,377 @@ if(scoreBar){
             sl - entry;
 
         tp1 =
-            entry - risk * 1.5;
+            entry -
+            risk * 1.5;
 
         tp2 =
-            entry - risk * 2.5;
-
-        rr = "1 : 2.5";
+            entry -
+            risk * 2.5;
 
     }
 
 
-    if(tradeSignal){
+    setText(
+        "tradeSignal",
+        signal
+    );
 
-        tradeSignal.textContent =
-            finalSignal;
 
-        tradeSignal.className =
+    const signalEl =
+        document.getElementById("tradeSignal");
+
+    if(signalEl){
+
+        signalEl.className =
+            "metric-value " +
+            colorClass(signal);
+
+    }
+
+
+    setText(
+        "entryZone",
+        entry !== null
+        ? formatPrice(entry)
+        : "--"
+    );
+
+    setText(
+        "tradeSL",
+        sl !== null
+        ? formatPrice(sl)
+        : "--"
+    );
+
+    setText(
+        "tradeTP1",
+        tp1 !== null
+        ? formatPrice(tp1)
+        : "--"
+    );
+
+    setText(
+        "tradeTP2",
+        tp2 !== null
+        ? formatPrice(tp2)
+        : "--"
+    );
+
+    setText(
+        "tradeRR",
+        signal !== "WAIT"
+        ? "1 : 2.5"
+        : "--"
+    );
+
+
+    setText(
+        "marketPhase",
+        signalData.phase
+    );
+
+
+    const phaseEl =
+        document.getElementById("marketPhase");
+
+    if(phaseEl){
+
+        phaseEl.className =
             "metric-value " +
             (
-                finalSignal === "BUY"
+                signal === "BUY"
                 ? "green"
-                : finalSignal === "SELL"
+                : signal === "SELL"
                 ? "red"
                 : "yellow"
             );
 
     }
 
-
-    if(entryZone)
-        entryZone.textContent =
-            entry !== null
-            ? formatPrice(entry)
-            : "--";
-
-
-    if(tradeSL)
-        tradeSL.textContent =
-            sl !== null
-            ? formatPrice(sl)
-            : "--";
-
-
-    if(tradeTP1)
-        tradeTP1.textContent =
-            tp1 !== null
-            ? formatPrice(tp1)
-            : "--";
-
-
-    if(tradeTP2)
-        tradeTP2.textContent =
-            tp2 !== null
-            ? formatPrice(tp2)
-            : "--";
-
-
-    if(tradeRR)
-        tradeRR.textContent =
-            rr || "--";
-
-
-    /* =========================================================
-   MARKET PHASE — UPGRADED
-========================================================= */
-
-const phaseEl =
-    document.getElementById("marketPhase");
-
-let marketPhase = "WAIT — MARKET NOT ALIGNED";
-
-
-/* =========================================================
-   MARKET PHASE LOGIC
-========================================================= */
-
-
-/*
-   FULL BUY CONFIRMATION
-*/
-
-if(finalSignal === "BUY"){
-
-    marketPhase =
-        "BUY — FULL CONFIRMATION";
-
-}
-
-
-/*
-   FULL SELL CONFIRMATION
-*/
-
-else if(finalSignal === "SELL"){
-
-    marketPhase =
-        "SELL — FULL CONFIRMATION";
-
-}
-
-
-/*
-   BULLISH SETUP
-   D1 + M30 + M15 bullish
-   but trigger not ready
-*/
-
-else if(
-    d1 &&
-    m30 &&
-    m15 &&
-    d1.condition === "BULLISH" &&
-    m30.condition === "BULLISH" &&
-    m15.condition === "BULLISH"
-){
-
-    if(
-        m5 &&
-        (
-            m5.condition === "NEUTRAL" ||
-            m5.condition === "BEARISH"
-        )
-    ){
-
-        marketPhase =
-            "WAIT — BULLISH SETUP / TRIGGER NOT READY";
-
-    }
-
-    else{
-
-        marketPhase =
-            "WAIT — BULLISH SETUP";
-
-    }
-
-}
-
-
-/*
-   BEARISH SETUP
-*/
-
-else if(
-    d1 &&
-    m30 &&
-    m15 &&
-    d1.condition === "BEARISH" &&
-    m30.condition === "BEARISH" &&
-    m15.condition === "BEARISH"
-){
-
-    if(
-        m5 &&
-        (
-            m5.condition === "NEUTRAL" ||
-            m5.condition === "BULLISH"
-        )
-    ){
-
-        marketPhase =
-            "WAIT — BEARISH SETUP / TRIGGER NOT READY";
-
-    }
-
-    else{
-
-        marketPhase =
-            "WAIT — BEARISH SETUP";
-
-    }
-
-}
-
-
-/*
-   PRICE TOO CLOSE TO RESISTANCE
-*/
-
-else if(
-    buyBlocked &&
-    resistanceDistance <= 0.10
-){
-
-    marketPhase =
-        "WAIT — NEAR RESISTANCE";
-
-}
-
-
-/*
-   PRICE TOO CLOSE TO SUPPORT
-*/
-
-else if(
-    sellBlocked &&
-    supportDistance <= 0.10
-){
-
-    marketPhase =
-        "WAIT — NEAR SUPPORT";
-
-}
-
-
-/*
-   RSI EXTREMES
-*/
-
-else if(
-    m15.rsi >= 72
-){
-
-    marketPhase =
-        "WAIT — OVERBOUGHT";
-
-}
-
-else if(
-    m15.rsi <= 28
-){
-
-    marketPhase =
-        "WAIT — OVERSOLD";
-
-}
-
-
-/*
-   HTF CONFLICT
-*/
-
-else if(
-    trendBias !== "NEUTRAL" &&
-    setupBias !== "NEUTRAL" &&
-    trendBias !== setupBias
-){
-    marketPhase =
-        "WAIT — HTF CONFLICT";
-}
-
-
-/*
-   DEFAULT
-*/
-
-else{
-
-    marketPhase =
-        "WAIT — MARKET NOT ALIGNED";
-
 }
 
 
 /* =========================================================
-   DISPLAY
+   UPDATE DASHBOARD
 ========================================================= */
 
-if(phaseEl){
+function updateDashboard(){
 
-    phaseEl.textContent =
-        marketPhase;
+    const m15 =
+        timeframeData.M15;
 
-    phaseEl.className =
-        "metric-value " +
-        (
-            marketPhase.startsWith("BUY")
-            ? "green"
-            : marketPhase.startsWith("SELL")
-            ? "red"
-            : "yellow"
+    if(!m15){
+
+        setConnection(
+            "DATA ERROR",
+            "error"
         );
 
-}
+        return;
+
+    }
 
 
-    /* =========================================================
+    const signalData =
+        calculateSignal();
+
+
+    /* =====================================================
+       MAIN SIGNAL
+    ===================================================== */
+
+    setText(
+        "overallSignal",
+        signalData.signal
+    );
+
+    setText(
+        "overallScore",
+        signalData.score +
+        "/100"
+    );
+
+
+    const signalEl =
+        document.getElementById("overallSignal");
+
+    if(signalEl){
+
+        signalEl.className =
+            "signal " +
+            colorClass(
+                signalData.signal
+            );
+
+    }
+
+
+    const bar =
+        document.getElementById("scoreBar");
+
+    if(bar){
+
+        bar.style.width =
+            signalData.score + "%";
+
+    }
+
+
+    /* =====================================================
+       TRADE PLAN
+    ===================================================== */
+
+    updateTradePlan(
+        signalData
+    );
+
+
+    /* =====================================================
        INDICATORS
-    ========================================================= */
+    ===================================================== */
 
-    document.getElementById("ema20").textContent =
-        formatPrice(primary.ema20);
+    setText(
+        "ema20",
+        formatPrice(m15.ema20)
+    );
 
-    document.getElementById("ema50").textContent =
-        formatPrice(primary.ema50);
+    setText(
+        "ema50",
+        formatPrice(m15.ema50)
+    );
 
-    document.getElementById("rsi").textContent =
-        primary.rsi.toFixed(2);
+    setText(
+        "rsi",
+        m15.rsi.toFixed(2)
+    );
 
-    document.getElementById("atr").textContent =
-        formatPrice(primary.atr);
+    setText(
+        "atr",
+        formatPrice(m15.atr)
+    );
 
-    document.getElementById("volume").textContent =
-        formatNumber(primary.currentVolume);
+    setText(
+        "volume",
+        formatNumber(m15.currentVolume)
+    );
 
-    document.getElementById("volumeState").textContent =
-        primary.volumeState;
+    setText(
+        "volumeState",
+        m15.volumeState
+    );
 
 
     const uptrend =
-        primary.ema20 >
-        primary.ema50;
+        m15.ema20 >
+        m15.ema50;
 
-    document.getElementById("trend").textContent =
+
+    setText(
+        "trend",
         uptrend
         ? "UPTREND"
-        : "DOWNTREND";
+        : "DOWNTREND"
+    );
 
-    document.getElementById("trendState").textContent =
+    setText(
+        "trendState",
         uptrend
         ? "EMA20 > EMA50"
-        : "EMA20 < EMA50";
+        : "EMA20 < EMA50"
+    );
 
 
-    /* =========================================================
-       RSI STATE
-    ========================================================= */
+    /* =====================================================
+       RSI
+    ===================================================== */
 
-    let rsiState = "NEUTRAL";
+    let rsiState =
+        "NEUTRAL";
 
-    if(primary.rsi >= 70)
+    if(m15.rsi >= 70)
         rsiState = "OVERBOUGHT";
 
-    else if(primary.rsi <= 30)
+    else if(m15.rsi <= 30)
         rsiState = "OVERSOLD";
 
-    else if(primary.rsi > 50)
+    else if(m15.rsi >= 50)
         rsiState = "POSITIVE";
 
     else
         rsiState = "WEAK";
 
 
-    document.getElementById("rsiState").textContent =
-        rsiState;
+    setText(
+        "rsiState",
+        rsiState
+    );
 
 
-    /* =========================================================
-       EMA STATE
-    ========================================================= */
+    /* =====================================================
+       EMA STATES
+    ===================================================== */
 
-    document.getElementById("ema20State").textContent =
-        primary.current > primary.ema20
+    setText(
+        "ema20State",
+        m15.current > m15.ema20
         ? "Price above EMA20"
-        : "Price below EMA20";
+        : "Price below EMA20"
+    );
 
-    document.getElementById("ema50State").textContent =
-        primary.current > primary.ema50
+    setText(
+        "ema50State",
+        m15.current > m15.ema50
         ? "Price above EMA50"
-        : "Price below EMA50";
+        : "Price below EMA50"
+    );
 
 
-    /* =========================================================
-       BOLLINGER BANDS
-    ========================================================= */
+    /* =====================================================
+       BOLLINGER
+    ===================================================== */
 
-    document.getElementById("bbUpper").textContent =
-        formatPrice(primary.upper);
+    setText(
+        "bbUpper",
+        formatPrice(m15.upper)
+    );
 
-    document.getElementById("bbMiddle").textContent =
-        formatPrice(primary.middle);
+    setText(
+        "bbMiddle",
+        formatPrice(m15.middle)
+    );
 
-    document.getElementById("bbLower").textContent =
-        formatPrice(primary.lower);
+    setText(
+        "bbLower",
+        formatPrice(m15.lower)
+    );
 
-    document.getElementById("bbPosition").textContent =
-        primary.bbPosition;
-
-
-    /* =========================================================
-       SUPPORT / RESISTANCE
-    ========================================================= */
-
-    document.getElementById("resistance").textContent =
-        formatPrice(primary.resistance);
-
-    document.getElementById("support").textContent =
-        formatPrice(primary.support);
+    setText(
+        "bbPosition",
+        m15.bbPosition
+    );
 
 
-    document.getElementById("resistanceDistance").textContent =
-        resistanceDistance.toFixed(2) + "%";
+    /* =====================================================
+       S/R
+    ===================================================== */
 
-    document.getElementById("supportDistance").textContent =
-        supportDistance.toFixed(2) + "%";
+    setText(
+        "resistance",
+        formatPrice(m15.resistance)
+    );
+
+    setText(
+        "support",
+        formatPrice(m15.support)
+    );
+
+    setText(
+        "resistanceDistance",
+        signalData.resistanceDistance.toFixed(2) +
+        "%"
+    );
+
+    setText(
+        "supportDistance",
+        signalData.supportDistance.toFixed(2) +
+        "%"
+    );
 
 
-    /* =========================================================
-       MARKET STRUCTURE
-    ========================================================= */
+    /* =====================================================
+       STRUCTURE
+    ===================================================== */
 
-    document.getElementById("lastHigh").textContent =
-        formatPrice(primary.resistance);
+    setText(
+        "lastHigh",
+        formatPrice(
+            m15.lastHigh ||
+            m15.resistance
+        )
+    );
 
-    document.getElementById("lastLow").textContent =
-        formatPrice(primary.support);
+    setText(
+        "lastLow",
+        formatPrice(
+            m15.lastLow ||
+            m15.support
+        )
+    );
 
-    document.getElementById("structure").textContent =
-        primary.structure;
+    setText(
+        "structure",
+        m15.structure
+    );
 
-    document.getElementById("bos").textContent =
-        primary.bos;
+    setText(
+        "bos",
+        m15.bos
+    );
 
-    document.getElementById("choch").textContent =
-        primary.choch;
+    setText(
+        "choch",
+        m15.choch
+    );
 
-
-    document.getElementById("volatility").textContent =
+    setText(
+        "volatility",
         (
-            primary.atr /
-            primary.current *
+            m15.atr /
+            m15.current *
             100
-        ).toFixed(2) + "%";
+        ).toFixed(2) +
+        "%"
+    );
 
 
-    /* =========================================================
+    /* =====================================================
        TIMEFRAME CARDS
-    ========================================================= */
+    ===================================================== */
 
     const tfGrid =
-        document.getElementById("timeframeGrid");
+        document.getElementById(
+            "timeframeGrid"
+        );
 
     if(tfGrid){
 
@@ -3282,37 +2784,47 @@ if(phaseEl){
             const data =
                 timeframeData[tf.label];
 
-            if(!data)
-                return;
-
-            const color =
-                data.condition === "BULLISH"
-                ? "green"
-                : data.condition === "BEARISH"
-                ? "red"
-                : "yellow";
-
-
             const div =
                 document.createElement("div");
 
-            div.className = "tf";
+            div.className =
+                "tf";
 
-            div.innerHTML = `
+            if(!data){
 
-                <div class="tf-name">
-                    ${tf.label}
-                </div>
+                div.innerHTML = `
+                    <div class="tf-name">
+                        ${tf.label}
+                    </div>
 
-                <div class="tf-status ${color}">
-                    ${data.condition}
-                </div>
+                    <div class="tf-status muted">
+                        --
+                    </div>
 
-                <div class="tf-value">
-                    ${data.score}/100
-                </div>
+                    <div class="tf-value">
+                        --
+                    </div>
+                `;
 
-            `;
+            }
+
+            else{
+
+                div.innerHTML = `
+                    <div class="tf-name">
+                        ${tf.label}
+                    </div>
+
+                    <div class="tf-status ${colorClass(data.condition)}">
+                        ${data.condition}
+                    </div>
+
+                    <div class="tf-value">
+                        ${data.score}/100
+                    </div>
+                `;
+
+            }
 
             tfGrid.appendChild(div);
 
@@ -3321,12 +2833,14 @@ if(phaseEl){
     }
 
 
-    /* =========================================================
-       ANALYSIS TABLE
-    ========================================================= */
+    /* =====================================================
+       TABLE
+    ===================================================== */
 
     const table =
-        document.getElementById("analysisTable");
+        document.getElementById(
+            "analysisTable"
+        );
 
     if(table){
 
@@ -3340,23 +2854,15 @@ if(phaseEl){
             if(!data)
                 return;
 
-
-            const color =
-                data.condition === "BULLISH"
-                ? "green"
-                : data.condition === "BEARISH"
-                ? "red"
-                : "yellow";
-
-
             const row =
                 document.createElement("tr");
-
 
             row.innerHTML = `
 
                 <td>
-                    <strong>${tf.label}</strong>
+                    <strong>
+                        ${tf.label}
+                    </strong>
                 </td>
 
                 <td>
@@ -3383,7 +2889,7 @@ if(phaseEl){
                     ${data.bbPosition}
                 </td>
 
-                <td class="${color}">
+                <td class="${colorClass(data.condition)}">
                     <strong>
                         ${data.condition}
                     </strong>
@@ -3402,7 +2908,7 @@ if(phaseEl){
 
 /* =========================================================
    LOAD EVERYTHING
-   ========================================================= */
+========================================================= */
 
 async function loadAllData(){
 
@@ -3422,25 +2928,30 @@ async function loadAllData(){
             "live"
         );
 
-        document.getElementById(
-            "lastUpdate"
-        ).textContent =
+        setText(
+            "lastUpdate",
             "Updated: " +
-            new Date().toLocaleTimeString();
+            new Date().toLocaleTimeString()
+        );
 
-    }catch(error){
+    }
 
-        console.error(error);
+    catch(error){
+
+        console.error(
+            "LOAD ERROR:",
+            error
+        );
 
         setConnection(
             "CONNECTION ERROR",
             "error"
         );
 
-        document.getElementById(
-            "lastUpdate"
-        ).textContent =
-            "Unable to load data";
+        setText(
+            "lastUpdate",
+            "Unable to load Binance data"
+        );
 
     }
 
@@ -3448,129 +2959,146 @@ async function loadAllData(){
 
 
 /* =========================================================
-   REAL-TIME BTC PRICE — BINANCE WEBSOCKET
-   ========================================================= */
-
-let priceSocket = null;
+   LIVE PRICE WEBSOCKET
+========================================================= */
 
 function connectPriceWebSocket(){
 
-    if(priceSocket){
-        try{
+    try{
+
+        if(priceSocket){
+
             priceSocket.close();
-        }catch(e){}
-    }
-
-    priceSocket = new WebSocket(
-        "wss://fstream.binance.com/ws/btcusdt@ticker"
-    );
-
-    priceSocket.onopen = function(){
-
-        console.log("BTC WebSocket connected");
-
-        setConnection(
-            "LIVE MARKET DATA",
-            "live"
-        );
-
-    };
-
-    priceSocket.onmessage = function(event){
-
-        try{
-
-            const data = JSON.parse(event.data);
-
-            const price =
-    Number(data.c);
-
-liveBTCPrice = price;
-
-            const change =
-                Number(data.P);
-
-            document.getElementById(
-                "livePrice"
-            ).textContent =
-                formatPrice(price);
-
-            const changeEl =
-                document.getElementById(
-                    "priceChange"
-                );
-
-            changeEl.textContent =
-                (change >= 0 ? "+" : "") +
-                change.toFixed(2) +
-                "%";
-
-            changeEl.className =
-                "change " +
-                (
-                    change >= 0
-                    ? "green"
-                    : "red"
-                );
-
-        }catch(error){
-
-            console.error(
-                "WebSocket data error:",
-                error
-            );
 
         }
 
-    };
+    }catch(e){}
 
-    priceSocket.onerror = function(){
 
-        console.error(
-            "BTC WebSocket error"
+    priceSocket =
+        new WebSocket(
+            "wss://fstream.binance.com/ws/btcusdt@ticker"
         );
 
-        setConnection(
-            "WEBSOCKET ERROR",
-            "error"
-        );
 
-    };
+    priceSocket.onopen =
+        function(){
 
-    priceSocket.onclose = function(){
+            setConnection(
+                "LIVE MARKET DATA",
+                "live"
+            );
 
-        console.log(
-            "BTC WebSocket disconnected"
-        );
+        };
 
-        setConnection(
-            "RECONNECTING...",
-            ""
-        );
 
-        setTimeout(
-            connectPriceWebSocket,
-            3000
-        );
+    priceSocket.onmessage =
+        function(event){
 
-    };
+            try{
+
+                const data =
+                    JSON.parse(
+                        event.data
+                    );
+
+                const price =
+                    Number(data.c);
+
+                if(!Number.isFinite(price))
+                    return;
+
+                liveBTCPrice =
+                    price;
+
+
+                setText(
+                    "livePrice",
+                    formatPrice(price)
+                );
+
+
+                const change =
+                    Number(data.P);
+
+
+                const changeEl =
+                    document.getElementById(
+                        "priceChange"
+                    );
+
+
+                if(changeEl){
+
+                    changeEl.textContent =
+                        (change >= 0 ? "+" : "") +
+                        change.toFixed(2) +
+                        "%";
+
+                    changeEl.className =
+                        "change " +
+                        (
+                            change >= 0
+                            ? "green"
+                            : "red"
+                        );
+
+                }
+
+
+            }catch(error){
+
+                console.error(
+                    "WebSocket parse error",
+                    error
+                );
+
+            }
+
+        };
+
+
+    priceSocket.onerror =
+        function(){
+
+            setConnection(
+                "WEBSOCKET ERROR",
+                "error"
+            );
+
+        };
+
+
+    priceSocket.onclose =
+        function(){
+
+            setConnection(
+                "RECONNECTING...",
+                ""
+            );
+
+            setTimeout(
+                connectPriceWebSocket,
+                3000
+            );
+
+        };
 
 }
 
 
 /* =========================================================
-   INITIAL LOAD
-   ========================================================= */
+   START
+========================================================= */
 
 loadAllData();
 
-/*
-   WebSocket handles the live price.
-   Technical calculations remain on 10-second refresh.
-*/
-let liveBTCPrice = null;
-    
 connectPriceWebSocket();
+
+
+/* =========================================================
+   REFRESH TECHNICAL DATA EVERY 10 SECONDS
+========================================================= */
 
 setInterval(
     loadAllData,
