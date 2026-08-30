@@ -2087,7 +2087,58 @@ else if(
 /* =========================================================
    FINAL DECISION
    ========================================================= */
+/* =========================================================
+   ENTRY SAFETY FILTER
+   ========================================================= */
 
+let buyBlocked = false;
+let sellBlocked = false;
+
+if(m15){
+
+    const currentPrice =
+        m15.current;
+
+    const atrValue =
+        m15.atr;
+
+    /* BUY FILTER */
+
+    const resistanceDistance =
+        (
+            m15.resistance -
+            currentPrice
+        ) / currentPrice * 100;
+
+    if(
+        m15.rsi >= 72 ||
+        resistanceDistance <= 0.10
+    ){
+
+        buyBlocked = true;
+
+    }
+
+
+    /* SELL FILTER */
+
+    const supportDistance =
+        (
+            currentPrice -
+            m15.support
+        ) / currentPrice * 100;
+
+    if(
+        m15.rsi <= 28 ||
+        supportDistance <= 0.10
+    ){
+
+        sellBlocked = true;
+
+    }
+
+}
+    
 if(
     trendBias === "BULLISH" &&
     setupBias === "BULLISH" &&
@@ -2096,7 +2147,7 @@ if(
     (
         m15.bos === "BULLISH" ||
         m15.choch === "BULLISH"
-    )
+    ) && !buyBlocked
 ){
 
     finalSignal = "BUY";
@@ -2113,7 +2164,7 @@ else if(
     (
         m15.bos === "BEARISH" ||
         m15.choch === "BEARISH"
-    )
+    ) && !sellBlocked
 ){
 
     finalSignal = "SELL";
