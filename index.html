@@ -3289,11 +3289,6 @@ async function loadAllData(){
 
     try{
 
-        setConnection(
-            "LOADING DATA...",
-            ""
-        );
-
         await loadTicker();
 
         await loadTechnicalData();
@@ -3303,25 +3298,30 @@ async function loadAllData(){
             "live"
         );
 
-        document.getElementById(
-            "lastUpdate"
-        ).textContent =
+        setText(
+            "lastUpdate",
             "Updated: " +
-            new Date().toLocaleTimeString();
+            new Date().toLocaleTimeString()
+        );
 
-    }catch(error){
+    }
 
-        console.error(error);
+    catch(error){
+
+        console.error(
+            "BINANCE LOAD ERROR:",
+            error
+        );
 
         setConnection(
-            "CONNECTION ERROR",
+            "BINANCE CONNECTION ERROR",
             "error"
         );
 
-        document.getElementById(
-            "lastUpdate"
-        ).textContent =
-            "Unable to load data";
+        setText(
+            "lastUpdate",
+            "Unable to load Binance data"
+        );
 
     }
 
@@ -3457,16 +3457,10 @@ function connectPriceWebSocket(){
 
 loadAllData();
 
-/*
-   WebSocket handles the live price.
-   Technical calculations remain on 10-second refresh.
-*/
-let liveBTCPrice = null;
-    
 connectPriceWebSocket();
 
 setInterval(
-    loadTechnicalData,
+    loadAllData,
     10000
 );
 
