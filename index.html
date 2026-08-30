@@ -2057,6 +2057,91 @@ finalScore =
         100,
         finalScore
     );
+    /* =========================================================
+   MARKET PHASE / SIGNAL REASON
+   ========================================================= */
+
+const phaseEl =
+    document.getElementById("marketPhase");
+
+let marketPhase = "WAIT — MARKET NOT ALIGNED";
+
+
+if(
+    trendBias === "BULLISH" &&
+    setupBias === "BULLISH" &&
+    triggerBias === "BULLISH"
+){
+
+    marketPhase =
+        "BUY — FULL MTF CONFIRMATION";
+
+}
+
+else if(
+    trendBias === "BEARISH" &&
+    setupBias === "BEARISH" &&
+    triggerBias === "BEARISH"
+){
+
+    marketPhase =
+        "SELL — FULL MTF CONFIRMATION";
+
+}
+
+else if(
+    triggerBias === "BEARISH" &&
+    trendBias !== "BEARISH"
+){
+
+    marketPhase =
+        "WAIT — SELL TRIGGER / HTF CONFLICT";
+
+}
+
+else if(
+    triggerBias === "BULLISH" &&
+    trendBias !== "BULLISH"
+){
+
+    marketPhase =
+        "WAIT — BUY TRIGGER / HTF CONFLICT";
+
+}
+
+else if(
+    trendBias === "BULLISH" &&
+    setupBias !== "BULLISH"
+){
+
+    marketPhase =
+        "WAIT — BULLISH TREND / SETUP NOT READY";
+
+}
+
+else if(
+    trendBias === "BEARISH" &&
+    setupBias !== "BEARISH"
+){
+
+    marketPhase =
+        "WAIT — BEARISH TREND / SETUP NOT READY";
+
+}
+
+
+phaseEl.textContent =
+    marketPhase;
+
+phaseEl.className =
+    "metric-value " +
+    (
+        marketPhase.startsWith("BUY")
+        ? "green"
+        : marketPhase.startsWith("SELL")
+        ? "red"
+        : "yellow"
+    );
 /* =========================================================
    MAIN SIGNAL DISPLAY
    ========================================================= */
