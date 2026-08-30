@@ -2467,23 +2467,125 @@ const supportBroken =
 
 
 /* =========================================================
-   SAFETY FILTER
+   SAFETY FILTER — V3 BREAKOUT + RETEST
 ========================================================= */
+
+const buyOverbought =
+    m15 &&
+    m15.rsi >= 72;
+
+const sellOversold =
+    m15 &&
+    m15.rsi <= 28;
+
+
+/*
+   Breakout detection
+*/
+
+const bullishBreakout =
+    m15 &&
+    (
+        m15.bos === "BULLISH" ||
+        m15.choch === "BULLISH"
+    ) &&
+    m15.current > m15.resistance;
+
+
+/*
+   Bearish breakout
+*/
+
+const bearishBreakout =
+    m15 &&
+    (
+        m15.bos === "BEARISH" ||
+        m15.choch === "BEARISH"
+    ) &&
+    m15.current < m15.support;
+
+
+/*
+   Retest zones
+
+   ATR is used so the zone adapts
+   to current BTC volatility.
+*/
+
+const buyRetestLow =
+    m15
+    ? m15.resistance - (m15.atr * 0.35)
+    : null;
+
+const buyRetestHigh =
+    m15
+    ? m15.resistance + (m15.atr * 0.15)
+    : null;
+
+
+const sellRetestLow =
+    m15
+    ? m15.support - (m15.atr * 0.15)
+    : null;
+
+const sellRetestHigh =
+    m15
+    ? m15.support + (m15.atr * 0.35)
+    : null;
+
+
+/*
+   Price inside bullish retest zone
+*/
+
+const bullishRetest =
+    m15 &&
+    m15.current >= buyRetestLow &&
+    m15.current <= buyRetestHigh;
+
+
+/*
+   Price inside bearish retest zone
+*/
+
+const bearishRetest =
+    m15 &&
+    m15.current >= sellRetestLow &&
+    m15.current <= sellRetestHigh;
+
+
+/*
+   BUY BLOCK
+
+   Do not chase an overextended breakout.
+
+   Allow BUY again when:
+   - RSI cools below 72
+   OR
+   - price returns to breakout retest zone
+*/
 
 const buyBlocked =
     m15 &&
-    (
-        m15.rsi >= 72 ||
-        resistanceDistance <= 0.10
-    );
+    buyOverbought &&
+    !bullishRetest;
 
+
+/*
+   SELL BLOCK
+
+   Do not chase an oversold breakdown.
+
+   Allow SELL again when:
+   - RSI rises above 28
+   OR
+   - price returns to breakdown retest zone
+*/
 
 const sellBlocked =
     m15 &&
-    (
-        m15.rsi <= 28 ||
-        supportDistance <= 0.10
-    );
+    sellOversold &&
+    !bearishRetest;
 
 
 /* =========================================================
