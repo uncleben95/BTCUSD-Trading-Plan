@@ -1882,34 +1882,7 @@ document.getElementById(
         return;
 
 
-    /* MAIN SCORE */
 
-    document.getElementById(
-        "overallSignal"
-    ).textContent =
-        primary.condition;
-
-    document.getElementById(
-        "overallSignal"
-    ).className =
-        "signal " +
-        (
-            primary.condition === "BULLISH"
-            ? "green"
-            : primary.condition === "BEARISH"
-            ? "red"
-            : "yellow"
-        );
-
-    document.getElementById(
-        "overallScore"
-    ).textContent =
-        primary.score + "/100";
-
-    document.getElementById(
-        "scoreBar"
-    ).style.width =
-        primary.score + "%";
 
 
     /* INDICATORS */
