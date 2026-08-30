@@ -1,829 +1,1019 @@
+// =========================================================
+// BTCUSD TECHNICAL MONITOR
+// CoinGecko based
+// No Binance dependency
+// =========================================================
+
 export default async function handler(req, res) {
+
+  res.setHeader(
+    "Cache-Control",
+    "s-maxage=10, stale-while-revalidate=30"
+  );
 
   try {
 
-    const TF = {
-      D1: "1d",
-      H4: "4h",
-      H1: "1h",
-      M30: "30m",
-      M15: "15m",
-      M5: "5m"
-    };
+    // -----------------------------------------------------
+    // COINGECKO
+    // 2 days gives recent intraday data
+    // -----------------------------------------------------
 
-    const results = {};
+    const url =
+      "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart" +
+      "?vs_currency=usd" +
+      "&days=2" +
+      "&interval=5m";
 
-    for (const [name, interval] of Object.entries(TF)) {
+    const response = await fetch(url, {
+      headers: {
+        "Accept": "application/json"
+      }
+    });
 
-      const url =
-        `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=${interval}&limit=150`;
+    if (!response.ok) {
+      throw new Error(
+        "CoinGecko HTTP " + response.status
+      );
+    }
 
-      const response = await fetch(url);
+    const raw = await response.json();
 
-      if (!response.ok)
-        throw new Error(`Binance ${name} HTTP ${response.status}`);
+    if (
+      !raw ||
+      !Array.isArray(raw.prices) ||
+      raw.prices.length < 50
+    ) {
+      throw new Error("BTC historical data unavailable");
+    }
 
-      const raw = await response.json();
+    // -----------------------------------------------------
+    // CONVERT COINGECKO DATA
+    // -----------------------------------------------------
 
-      const candles = raw.map(x => ({
-        time: Number(x[0]),
-        open: Number(x[1]),
-        high: Number(x[2]),
-        low: Number(x[3]),
-        close: Number(x[4]),
-        volume: Number(x[5])
-      }));
+    const candles5m = [];
 
-      results[name] = analyze(candles);
+    for (let i = 0; i < raw.prices.length; i++) {
+
+      const priceRow = raw.prices[i];
+      const volumeRow = raw.total_volumes?.[i];
+
+      if (!priceRow) continue;
+
+      const timestamp = Number(priceRow[0]);
+      const close = Number(priceRow[1]);
+
+      if (!Number.isFinite(close)) continue;
+
+      candles5m.push({
+        time: timestamp,
+        open: close,
+        high: close,
+        low: close,
+        close: close,
+        volume:
+          Number(volumeRow?.[1]) || 0
+      });
 
     }
 
-    const price =
-      results.M15?.price ||
-      results.M5?.price;
+    // -----------------------------------------------------
+    // BUILD OHLC FROM PRICE STREAM
+    // -----------------------------------------------------
 
-    const signal =
-      calculateSignal(results);
+    const grouped5m = {};
 
-    const trade =
-      makeTradePlan(
-        results.M15,
-        signal
+    for (const c of candles5m) {
+
+      const bucket =
+        Math.floor(c.time / 300000) * 300000;
+
+      if (!grouped5m[bucket]) {
+
+        grouped5m[bucket] = {
+          time: bucket,
+          open: c.close,
+          high: c.close,
+          low: c.close,
+          close: c.close,
+          volume: 0
+        };
+
+      }
+
+      const x = grouped5m[bucket];
+
+      x.high =
+        Math.max(x.high, c.close);
+
+      x.low =
+        Math.min(x.low, c.close);
+
+      x.close =
+        c.close;
+
+      x.volume += c.volume;
+
+    }
+
+    const m5 =
+      Object.values(grouped5m)
+        .sort((a,b) => a.time - b.time);
+
+    // -----------------------------------------------------
+    // AGGREGATE TIMEFRAMES
+    // -----------------------------------------------------
+
+    function aggregate(
+      source,
+      minutes
+    ) {
+
+      const size =
+        minutes * 60 * 1000;
+
+      const groups = {};
+
+      for (const c of source) {
+
+        const bucket =
+          Math.floor(c.time / size) * size;
+
+        if (!groups[bucket]) {
+
+          groups[bucket] = {
+            time: bucket,
+            open: c.open,
+            high: c.high,
+            low: c.low,
+            close: c.close,
+            volume: 0
+          };
+
+        }
+
+        const x =
+          groups[bucket];
+
+        x.high =
+          Math.max(x.high, c.high);
+
+        x.low =
+          Math.min(x.low, c.low);
+
+        x.close =
+          c.close;
+
+        x.volume +=
+          Number(c.volume) || 0;
+
+      }
+
+      return Object.values(groups)
+        .sort((a,b) => a.time - b.time);
+
+    }
+
+    const m15 =
+      aggregate(m5, 15);
+
+    const m30 =
+      aggregate(m5, 30);
+
+    const h1 =
+      aggregate(m5, 60);
+
+    const h4 =
+      aggregate(m5, 240);
+
+    const d1 =
+      aggregate(m5, 1440);
+
+    // -----------------------------------------------------
+    // INDICATORS
+    // -----------------------------------------------------
+
+    function ema(
+      candles,
+      period
+    ) {
+
+      if (candles.length < period)
+        return null;
+
+      const closes =
+        candles.map(x => x.close);
+
+      let value = 0;
+
+      for (
+        let i = 0;
+        i < period;
+        i++
+      ) {
+
+        value +=
+          closes[i];
+
+      }
+
+      value /= period;
+
+      const multiplier =
+        2 / (period + 1);
+
+      for (
+        let i = period;
+        i < closes.length;
+        i++
+      ) {
+
+        value =
+          (
+            closes[i] - value
+          ) *
+          multiplier +
+          value;
+
+      }
+
+      return value;
+
+    }
+
+    function sma(
+      values,
+      period
+    ) {
+
+      if (
+        values.length < period
+      )
+        return null;
+
+      let total = 0;
+
+      for (
+        let i =
+          values.length - period;
+        i < values.length;
+        i++
+      ) {
+
+        total +=
+          values[i];
+
+      }
+
+      return total / period;
+
+    }
+
+    function rsi(
+      candles,
+      period = 14
+    ) {
+
+      if (
+        candles.length <
+        period + 1
+      )
+        return null;
+
+      let gains = 0;
+      let losses = 0;
+
+      for (
+        let i =
+          candles.length - period;
+        i < candles.length;
+        i++
+      ) {
+
+        const diff =
+          candles[i].close -
+          candles[i - 1].close;
+
+        if (diff >= 0)
+          gains += diff;
+
+        else
+          losses += Math.abs(diff);
+
+      }
+
+      if (losses === 0)
+        return 100;
+
+      const rs =
+        gains / losses;
+
+      return 100 -
+        (
+          100 /
+          (1 + rs)
+        );
+
+    }
+
+    function atr(
+      candles,
+      period = 14
+    ) {
+
+      if (
+        candles.length <
+        period + 1
+      )
+        return null;
+
+      const tr = [];
+
+      for (
+        let i = 1;
+        i < candles.length;
+        i++
+      ) {
+
+        const high =
+          candles[i].high;
+
+        const low =
+          candles[i].low;
+
+        const prev =
+          candles[i - 1].close;
+
+        tr.push(
+          Math.max(
+            high - low,
+            Math.abs(high - prev),
+            Math.abs(low - prev)
+          )
+        );
+
+      }
+
+      return sma(
+        tr,
+        period
       );
 
-    res.setHeader(
-      "Cache-Control",
-      "s-maxage=5, stale-while-revalidate=15"
-    );
+    }
+
+    function bollinger(
+      candles,
+      period = 20,
+      multiplier = 2
+    ) {
+
+      if (
+        candles.length < period
+      )
+        return null;
+
+      const closes =
+        candles
+          .slice(-period)
+          .map(x => x.close);
+
+      const middle =
+        closes.reduce(
+          (a,b) => a + b,
+          0
+        ) / period;
+
+      let variance = 0;
+
+      for (const c of closes) {
+
+        variance +=
+          Math.pow(
+            c - middle,
+            2
+          );
+
+      }
+
+      const sd =
+        Math.sqrt(
+          variance / period
+        );
+
+      const upper =
+        middle +
+        multiplier * sd;
+
+      const lower =
+        middle -
+        multiplier * sd;
+
+      const price =
+        closes[closes.length - 1];
+
+      let position =
+        "MIDDLE";
+
+      if (price >= upper)
+        position = "UPPER";
+
+      else if (price <= lower)
+        position = "LOWER";
+
+      else if (
+        price >
+        middle
+      )
+        position = "ABOVE MIDDLE";
+
+      else
+        position = "BELOW MIDDLE";
+
+      return {
+        upper,
+        middle,
+        lower,
+        position
+      };
+
+    }
+
+    // -----------------------------------------------------
+    // SUPPORT / RESISTANCE
+    // -----------------------------------------------------
+
+    function structure(
+      candles
+    ) {
+
+      if (
+        candles.length < 30
+      ) {
+
+        return {
+          resistance: null,
+          support: null,
+          structure: "WAIT",
+          bos: "--",
+          choch: "--"
+        };
+
+      }
+
+      const recent =
+        candles.slice(-30);
+
+      const highs =
+        recent.map(x => x.high);
+
+      const lows =
+        recent.map(x => x.low);
+
+      const resistance =
+        Math.max(...highs);
+
+      const support =
+        Math.min(...lows);
+
+      const last =
+        candles[candles.length - 1];
+
+      const previous =
+        candles[candles.length - 6];
+
+      let trend =
+        "RANGE";
+
+      if (
+        last.close >
+        previous.close
+      )
+        trend = "BULLISH";
+
+      else if (
+        last.close <
+        previous.close
+      )
+        trend = "BEARISH";
+
+      let bos = "--";
+      let choch = "--";
+
+      if (
+        last.close >
+        resistance
+      )
+        bos = "BULLISH";
+
+      if (
+        last.close <
+        support
+      )
+        bos = "BEARISH";
+
+      return {
+        resistance,
+        support,
+        structure: trend,
+        bos,
+        choch
+      };
+
+    }
+
+    // -----------------------------------------------------
+    // VOLUME
+    // -----------------------------------------------------
+
+    function volumeInfo(
+      candles
+    ) {
+
+      if (
+        candles.length < 21
+      ) {
+
+        return {
+          current: null,
+          ratio: null,
+          state: "--"
+        };
+
+      }
+
+      const current =
+        candles[
+          candles.length - 1
+        ].volume;
+
+      const previous =
+        candles
+          .slice(-21, -1)
+          .map(x => x.volume);
+
+      const average =
+        previous.reduce(
+          (a,b) => a + b,
+          0
+        ) / previous.length;
+
+      const ratio =
+        average > 0
+        ? current / average
+        : null;
+
+      let state =
+        "NORMAL";
+
+      if (ratio >= 2)
+        state = "VERY HIGH";
+
+      else if (ratio >= 1.3)
+        state = "HIGH";
+
+      else if (ratio <= 0.7)
+        state = "LOW";
+
+      return {
+        current,
+        average,
+        ratio,
+        state
+      };
+
+    }
+
+    // -----------------------------------------------------
+    // ANALYSE TIMEFRAME
+    // -----------------------------------------------------
+
+    function analyse(
+      candles
+    ) {
+
+      if (
+        !candles ||
+        candles.length < 20
+      ) {
+
+        return {
+          condition: "WAIT",
+          score: 0
+        };
+
+      }
+
+      const price =
+        candles[
+          candles.length - 1
+        ].close;
+
+      const ema20 =
+        ema(candles, 20);
+
+      const ema50 =
+        ema(candles, 50);
+
+      const r =
+        rsi(candles);
+
+      const a =
+        atr(candles);
+
+      const bb =
+        bollinger(candles);
+
+      const vol =
+        volumeInfo(candles);
+
+      const s =
+        structure(candles);
+
+      let score = 50;
+
+      if (
+        ema20 &&
+        price > ema20
+      )
+        score += 12;
+
+      else
+        score -= 12;
+
+      if (
+        ema50 &&
+        price > ema50
+      )
+        score += 12;
+
+      else
+        score -= 12;
+
+      if (
+        r !== null &&
+        r > 50 &&
+        r < 70
+      )
+        score += 10;
+
+      else if (
+        r !== null &&
+        r < 45
+      )
+        score -= 10;
+
+      if (
+        vol.ratio &&
+        vol.ratio > 1.3
+      ) {
+
+        if (
+          candles[
+            candles.length - 1
+          ].close >
+          candles[
+            candles.length - 2
+          ].close
+        )
+          score += 8;
+
+        else
+          score -= 8;
+
+      }
+
+      score =
+        Math.max(
+          0,
+          Math.min(
+            100,
+            Math.round(score)
+          )
+        );
+
+      let condition =
+        "NEUTRAL";
+
+      if (score >= 68)
+        condition = "BULLISH";
+
+      else if (score <= 32)
+        condition = "BEARISH";
+
+      return {
+
+        condition,
+        score,
+
+        price,
+
+        ema20,
+        ema50,
+
+        rsi: r,
+
+        atr: a,
+
+        bb,
+
+        volume: vol,
+
+        resistance:
+          s.resistance,
+
+        support:
+          s.support,
+
+        structure:
+          s.structure,
+
+        bos:
+          s.bos,
+
+        choch:
+          s.choch
+
+      };
+
+    }
+
+    // -----------------------------------------------------
+    // ANALYSE ALL TF
+    // -----------------------------------------------------
+
+    const timeframes = {
+
+      D1:
+        analyse(d1),
+
+      H4:
+        analyse(h4),
+
+      H1:
+        analyse(h1),
+
+      M30:
+        analyse(m30),
+
+      M15:
+        analyse(m15),
+
+      M5:
+        analyse(m5)
+
+    };
+
+    // -----------------------------------------------------
+    // CURRENT PRICE
+    // -----------------------------------------------------
+
+    const price =
+      m5[m5.length - 1].close;
+
+    const previous =
+      m5[m5.length - 2]?.close ||
+      price;
+
+    const change =
+      previous !== 0
+        ? (
+          (price - previous) /
+          previous
+        ) * 100
+        : 0;
+
+    // -----------------------------------------------------
+    // SIGNAL
+    // -----------------------------------------------------
+
+    const m15data =
+      timeframes.M15;
+
+    const h1data =
+      timeframes.H1;
+
+    let signal =
+      "WAIT";
+
+    let score =
+      m15data.score;
+
+    if (
+      m15data.score >= 70 &&
+      h1data.score >= 55
+    )
+      signal = "BUY";
+
+    else if (
+      m15data.score <= 30 &&
+      h1data.score <= 45
+    )
+      signal = "SELL";
+
+    // -----------------------------------------------------
+    // TRADE PLAN
+    // -----------------------------------------------------
+
+    let entry = null;
+    let sl = null;
+    let tp1 = null;
+    let tp2 = null;
+    let rr = null;
+
+    const atrValue =
+      m15data.atr;
+
+    if (
+      signal !== "WAIT" &&
+      Number.isFinite(atrValue)
+    ) {
+
+      entry =
+        price;
+
+      if (signal === "BUY") {
+
+        sl =
+          price -
+          atrValue * 1.5;
+
+        tp1 =
+          price +
+          atrValue * 1.5;
+
+        tp2 =
+          price +
+          atrValue * 3;
+
+      }
+
+      else {
+
+        sl =
+          price +
+          atrValue * 1.5;
+
+        tp1 =
+          price -
+          atrValue * 1.5;
+
+        tp2 =
+          price -
+          atrValue * 3;
+
+      }
+
+      rr = "1:2";
+
+    }
+
+    // -----------------------------------------------------
+    // MARKET PHASE
+    // -----------------------------------------------------
+
+    let phase =
+      "RANGE";
+
+    if (
+      m15data.condition ===
+      "BULLISH"
+    )
+      phase = "BULLISH TREND";
+
+    else if (
+      m15data.condition ===
+      "BEARISH"
+    )
+      phase = "BEARISH TREND";
+
+    // -----------------------------------------------------
+    // RESPONSE
+    // -----------------------------------------------------
 
     return res.status(200).json({
 
-      price,
+      ok: true,
 
-      signal: signal.signal,
+      source:
+        "CoinGecko",
 
-      score: signal.score,
+      updated:
+        new Date().toISOString(),
 
-      phase: signal.phase,
+      btc: {
 
-      trade,
+        signal,
 
-      timeframes: results,
+        score,
 
-      updated: new Date().toISOString()
+        price,
+
+        phase,
+
+        trade: {
+
+          entry,
+          sl,
+          tp1,
+          tp2,
+          rr
+
+        },
+
+        timeframes
+
+      },
+
+      market: {
+
+        price,
+
+        change,
+
+        changeAmount:
+          price - previous,
+
+        high:
+          Math.max(
+            ...m5.slice(-288)
+              .map(x => x.high)
+          ),
+
+        low:
+          Math.min(
+            ...m5.slice(-288)
+              .map(x => x.low)
+          ),
+
+        volume:
+          m5.slice(-288)
+            .reduce(
+              (a,b) =>
+                a + b.volume,
+              0
+            ),
+
+        orderBook: {
+
+          bidVolume: null,
+
+          askVolume: null,
+
+          imbalance: null,
+
+          pressure:
+            "Order book unavailable from CoinGecko"
+
+        }
+
+      },
+
+      whale: {
+
+        whaleProxy: {
+
+          largeTrades: null,
+
+          buyValue: null,
+
+          sellValue: null,
+
+          bias:
+            "Whale data unavailable"
+
+        },
+
+        futures: {
+
+          fundingRate: null,
+
+          openInterest: null,
+
+          markPrice: null
+
+        }
+
+      }
 
     });
 
-  } catch (error) {
+  }
 
-    console.error(error);
+  catch (error) {
+
+    console.error(
+      "BTC API ERROR:",
+      error
+    );
 
     return res.status(500).json({
-      error: true,
-      message: error.message
+
+      ok: false,
+
+      error:
+        error.message ||
+        "BTC data unavailable"
+
     });
-
-  }
-
-}
-
-
-/* =====================================================
-   ANALYSIS
-===================================================== */
-
-function analyze(candles) {
-
-  const closes =
-    candles.map(c => c.close);
-
-  const price =
-    closes[closes.length - 1];
-
-  const ema20 =
-    ema(closes, 20);
-
-  const ema50 =
-    ema(closes, 50);
-
-  const rsi =
-    RSI(closes, 14);
-
-  const atr =
-    ATR(candles, 14);
-
-  const middle =
-    sma(closes, 20);
-
-  const std =
-    STD(closes, 20);
-
-  const upper =
-    middle + std * 2;
-
-  const lower =
-    middle - std * 2;
-
-  const volumes =
-    candles.map(c => c.volume);
-
-  const currentVolume =
-    volumes[volumes.length - 1];
-
-  const averageVolume =
-    sma(volumes, 20);
-
-  const volumeRatio =
-    averageVolume
-      ? currentVolume / averageVolume
-      : 1;
-
-  let volumeState =
-    "NORMAL";
-
-  if (volumeRatio >= 1.5)
-    volumeState = "HIGH";
-
-  else if (volumeRatio >= 1)
-    volumeState = "ABOVE AVG";
-
-  let score = 50;
-
-  if (price > ema20)
-    score += 10;
-  else
-    score -= 10;
-
-  if (ema20 > ema50)
-    score += 15;
-  else
-    score -= 15;
-
-  if (rsi > 50 && rsi < 70)
-    score += 10;
-
-  else if (rsi < 50 && rsi > 30)
-    score -= 5;
-
-  if (rsi >= 70)
-    score -= 5;
-
-  if (price > middle)
-    score += 5;
-  else
-    score -= 5;
-
-  score =
-    Math.max(
-      0,
-      Math.min(100, score)
-    );
-
-  let condition =
-    "NEUTRAL";
-
-  if (score >= 65)
-    condition = "BULLISH";
-
-  else if (score <= 35)
-    condition = "BEARISH";
-
-
-  let bbPosition =
-    "BELOW MID";
-
-  if (price >= upper)
-    bbPosition = "UPPER BAND";
-
-  else if (price <= lower)
-    bbPosition = "LOWER BAND";
-
-  else if (price > middle)
-    bbPosition = "ABOVE MID";
-
-
-  const recent =
-    candles.slice(-40);
-
-  const resistance =
-    Math.max(
-      ...recent.map(c => c.high)
-    );
-
-  const support =
-    Math.min(
-      ...recent.map(c => c.low)
-    );
-
-
-  const structure =
-    detectStructure(candles);
-
-  return {
-
-    price,
-
-    ema20,
-
-    ema50,
-
-    rsi,
-
-    atr,
-
-    condition,
-
-    score,
-
-    bb: {
-
-      upper,
-
-      middle,
-
-      lower,
-
-      position:
-        bbPosition
-
-    },
-
-    volume: {
-
-      current:
-        currentVolume,
-
-      average:
-        averageVolume,
-
-      ratio:
-        volumeRatio,
-
-      state:
-        volumeState
-
-    },
-
-    resistance,
-
-    support,
-
-    structure:
-      structure.structure,
-
-    bos:
-      structure.bos,
-
-    choch:
-      structure.choch
-
-  };
-
-}
-
-
-/* =====================================================
-   EMA
-===================================================== */
-
-function ema(values, period) {
-
-  if (values.length < period)
-    return null;
-
-  let result = 0;
-
-  for (let i = 0; i < period; i++)
-    result += values[i];
-
-  result /= period;
-
-  const multiplier =
-    2 / (period + 1);
-
-  for (
-    let i = period;
-    i < values.length;
-    i++
-  ) {
-
-    result =
-      (values[i] - result) *
-      multiplier +
-      result;
-
-  }
-
-  return result;
-
-}
-
-
-/* =====================================================
-   SMA
-===================================================== */
-
-function sma(values, period) {
-
-  if (values.length < period)
-    return null;
-
-  const slice =
-    values.slice(-period);
-
-  return (
-    slice.reduce(
-      (a, b) => a + b,
-      0
-    ) / period
-  );
-
-}
-
-
-/* =====================================================
-   STD
-===================================================== */
-
-function STD(values, period) {
-
-  if (values.length < period)
-    return null;
-
-  const slice =
-    values.slice(-period);
-
-  const mean =
-    sma(slice, period);
-
-  const variance =
-    slice.reduce(
-      (sum, value) =>
-        sum +
-        Math.pow(
-          value - mean,
-          2
-        ),
-      0
-    ) / period;
-
-  return Math.sqrt(variance);
-
-}
-
-
-/* =====================================================
-   RSI
-===================================================== */
-
-function RSI(values, period) {
-
-  if (values.length < period + 1)
-    return null;
-
-  let gain = 0;
-  let loss = 0;
-
-  const start =
-    values.length - period;
-
-  for (
-    let i = start;
-    i < values.length;
-    i++
-  ) {
-
-    const difference =
-      values[i] -
-      values[i - 1];
-
-    if (difference > 0)
-      gain += difference;
-
-    else
-      loss += Math.abs(
-        difference
-      );
-
-  }
-
-  const avgGain =
-    gain / period;
-
-  const avgLoss =
-    loss / period;
-
-  if (avgLoss === 0)
-    return 100;
-
-  const rs =
-    avgGain / avgLoss;
-
-  return (
-    100 -
-    100 / (1 + rs)
-  );
-
-}
-
-
-/* =====================================================
-   ATR
-===================================================== */
-
-function ATR(candles, period) {
-
-  if (candles.length < period + 1)
-    return null;
-
-  const trs = [];
-
-  for (
-    let i = 1;
-    i < candles.length;
-    i++
-  ) {
-
-    const current =
-      candles[i];
-
-    const previous =
-      candles[i - 1];
-
-    const tr =
-      Math.max(
-
-        current.high -
-        current.low,
-
-        Math.abs(
-          current.high -
-          previous.close
-        ),
-
-        Math.abs(
-          current.low -
-          previous.close
-        )
-
-      );
-
-    trs.push(tr);
-
-  }
-
-  return sma(
-    trs,
-    period
-  );
-
-}
-
-
-/* =====================================================
-   STRUCTURE
-===================================================== */
-
-function detectStructure(candles) {
-
-  const recent =
-    candles.slice(-30);
-
-  const highs =
-    recent.map(
-      c => c.high
-    );
-
-  const lows =
-    recent.map(
-      c => c.low
-    );
-
-  const current =
-    candles[candles.length - 1]
-      .close;
-
-  const previousHigh =
-    Math.max(
-      ...highs.slice(0, -5)
-    );
-
-  const previousLow =
-    Math.min(
-      ...lows.slice(0, -5)
-    );
-
-  const latestHigh =
-    Math.max(
-      ...highs.slice(-5)
-    );
-
-  const latestLow =
-    Math.min(
-      ...lows.slice(-5)
-    );
-
-  let bos = "NONE";
-  let choch = "NONE";
-  let structure = "RANGE";
-
-  if (
-    latestHigh >
-    previousHigh &&
-    latestLow >
-    previousLow
-  ) {
-
-    structure = "HH / HL";
-
-  }
-
-  else if (
-    latestHigh <
-    previousHigh &&
-    latestLow <
-    previousLow
-  ) {
-
-    structure = "LH / LL";
-
-  }
-
-  else if (
-    current > latestHigh
-  ) {
-
-    bos = "BULLISH";
-
-  }
-
-  else if (
-    current < latestLow
-  ) {
-
-    bos = "BEARISH";
-
-  }
-
-  return {
-    structure,
-    bos,
-    choch
-  };
-
-}
-
-
-/* =====================================================
-   FINAL SIGNAL
-===================================================== */
-
-function calculateSignal(data) {
-
-  const d1 = data.D1;
-  const h4 = data.H4;
-  const h1 = data.H1;
-  const m30 = data.M30;
-  const m15 = data.M15;
-  const m5 = data.M5;
-
-  let bull = 0;
-  let bear = 0;
-
-  const list = [
-    [d1, 25],
-    [h4, 15],
-    [h1, 15],
-    [m30, 20],
-    [m15, 15],
-    [m5, 10]
-  ];
-
-  for (
-    const [d, weight]
-    of list
-  ) {
-
-    if (!d)
-      continue;
-
-    if (
-      d.condition ===
-      "BULLISH"
-    )
-      bull += weight;
-
-    if (
-      d.condition ===
-      "BEARISH"
-    )
-      bear += weight;
-
-  }
-
-  let signal =
-    "WAIT";
-
-  let score =
-    Math.max(
-      50,
-      Math.min(
-        79,
-        Math.max(
-          bull,
-          bear
-        )
-      )
-    );
-
-  const bullish =
-    bull > bear &&
-    d1?.condition === "BULLISH" &&
-    h4?.condition === "BULLISH" &&
-    h1?.condition === "BULLISH" &&
-    m30?.condition === "BULLISH" &&
-    m15?.condition === "BULLISH" &&
-    m5?.condition === "BULLISH";
-
-  const bearish =
-    bear > bull &&
-    d1?.condition === "BEARISH" &&
-    h4?.condition === "BEARISH" &&
-    h1?.condition === "BEARISH" &&
-    m30?.condition === "BEARISH" &&
-    m15?.condition === "BEARISH" &&
-    m5?.condition === "BEARISH";
-
-
-  if (bullish) {
-
-    signal = "BUY";
-    score = Math.max(
-      80,
-      bull
-    );
-
-  }
-
-  else if (bearish) {
-
-    signal = "SELL";
-    score = Math.max(
-      80,
-      bear
-    );
-
-  }
-
-
-  let phase =
-    "WAIT — MARKET NOT ALIGNED";
-
-  if (
-    m15?.rsi >= 70 &&
-    signal === "WAIT"
-  ) {
-
-    phase =
-      "WAIT — OVERBOUGHT";
-
-  }
-
-  else if (
-    m15?.rsi <= 30 &&
-    signal === "WAIT"
-  ) {
-
-    phase =
-      "WAIT — OVERSOLD";
-
-  }
-
-  else if (
-    d1?.condition === "BULLISH" &&
-    m30?.condition === "BULLISH" &&
-    m15?.condition === "BULLISH"
-  ) {
-
-    phase =
-      "WAIT — BULLISH SETUP / TRIGGER NOT READY";
-
-  }
-
-  else if (
-    d1?.condition === "BEARISH" &&
-    m30?.condition === "BEARISH" &&
-    m15?.condition === "BEARISH"
-  ) {
-
-    phase =
-      "WAIT — BEARISH SETUP / TRIGGER NOT READY";
-
-  }
-
-  return {
-    signal,
-    score,
-    phase
-  };
-
-}
-
-
-/* =====================================================
-   TRADE PLAN
-===================================================== */
-
-function makeTradePlan(
-  m15,
-  signal
-) {
-
-  if (
-    !m15 ||
-    signal.signal === "WAIT"
-  ) {
-
-    return {
-      entry: null,
-      sl: null,
-      tp1: null,
-      tp2: null,
-      rr: null
-    };
-
-  }
-
-  const entry =
-    m15.price;
-
-  const atr =
-    m15.atr;
-
-  if (!atr)
-    return {};
-
-  if (
-    signal.signal === "BUY"
-  ) {
-
-    const sl =
-      Math.min(
-        m15.support,
-        entry - atr * 1.2
-      );
-
-    const risk =
-      entry - sl;
-
-    return {
-
-      entry,
-
-      sl,
-
-      tp1:
-        entry + risk * 1.5,
-
-      tp2:
-        entry + risk * 2.5,
-
-      rr:
-        "1 : 2.5"
-
-    };
-
-  }
-
-  if (
-    signal.signal === "SELL"
-  ) {
-
-    const sl =
-      Math.max(
-        m15.resistance,
-        entry + atr * 1.2
-      );
-
-    const risk =
-      sl - entry;
-
-    return {
-
-      entry,
-
-      sl,
-
-      tp1:
-        entry - risk * 1.5,
-
-      tp2:
-        entry - risk * 2.5,
-
-      rr:
-        "1 : 2.5"
-
-    };
 
   }
 
