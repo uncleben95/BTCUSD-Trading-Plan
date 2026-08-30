@@ -2941,69 +2941,92 @@ if(scoreBar){
 
 
     /* =========================================================
-   MARKET PHASE — UPGRADED
+   MARKET PHASE — V3 BREAKOUT + RETEST
 ========================================================= */
 
 const phaseEl =
     document.getElementById("marketPhase");
 
-let marketPhase = "WAIT — MARKET NOT ALIGNED";
+let marketPhase =
+    "WAIT — MARKET NOT ALIGNED";
 
 
 /* =========================================================
-   MARKET PHASE LOGIC
+   CONFIRMED SIGNAL
 ========================================================= */
-
-
-/*
-   FULL BUY CONFIRMATION
-*/
 
 if(finalSignal === "BUY"){
 
     marketPhase =
-        "BUY — FULL CONFIRMATION";
+        "BUY — CONFIRMED";
 
 }
-
-
-/*
-   FULL SELL CONFIRMATION
-*/
 
 else if(finalSignal === "SELL"){
 
     marketPhase =
-        "SELL — FULL CONFIRMATION";
+        "SELL — CONFIRMED";
 
 }
 
 
-/*
-   BULLISH SETUP
-   D1 + M30 + M15 bullish
-   but trigger not ready
-*/
+/* =========================================================
+   BULLISH BREAKOUT
+========================================================= */
 
 else if(
-    d1 &&
-    m30 &&
-    m15 &&
-    d1.condition === "BULLISH" &&
-    m30.condition === "BULLISH" &&
-    m15.condition === "BULLISH"
+    bullishBreakout &&
+    buyOverbought &&
+    !bullishRetest
+){
+
+    marketPhase =
+        "WAIT — BREAKOUT EXTENDED / WAIT FOR RETEST";
+
+}
+
+
+/* =========================================================
+   BULLISH RETEST
+========================================================= */
+
+else if(
+    bullishBreakout &&
+    bullishRetest
+){
+
+    marketPhase =
+        "BUY SETUP — RETEST ZONE";
+
+}
+
+
+/* =========================================================
+   BULLISH SETUP
+========================================================= */
+
+else if(
+    d1Bull &&
+    m30Bull &&
+    m15Bull &&
+    m5Bull
 ){
 
     if(
-        m5 &&
-        (
-            m5.condition === "NEUTRAL" ||
-            m5.condition === "BEARISH"
-        )
+        m15.rsi >= 72
     ){
 
         marketPhase =
-            "WAIT — BULLISH SETUP / TRIGGER NOT READY";
+            "WAIT — BULLISH SETUP / OVERBOUGHT";
+
+    }
+
+    else if(
+        !bullishStructure
+    ){
+
+        marketPhase =
+            "WAIT — BULLISH SETUP / STRUCTURE NOT CONFIRMED";
 
     }
 
@@ -3017,29 +3040,63 @@ else if(
 }
 
 
-/*
-   BEARISH SETUP
-*/
+/* =========================================================
+   BEARISH BREAKDOWN
+========================================================= */
 
 else if(
-    d1 &&
-    m30 &&
-    m15 &&
-    d1.condition === "BEARISH" &&
-    m30.condition === "BEARISH" &&
-    m15.condition === "BEARISH"
+    bearishBreakout &&
+    sellOversold &&
+    !bearishRetest
+){
+
+    marketPhase =
+        "WAIT — BREAKDOWN EXTENDED / WAIT FOR RETEST";
+
+}
+
+
+/* =========================================================
+   BEARISH RETEST
+========================================================= */
+
+else if(
+    bearishBreakout &&
+    bearishRetest
+){
+
+    marketPhase =
+        "SELL SETUP — RETEST ZONE";
+
+}
+
+
+/* =========================================================
+   BEARISH SETUP
+========================================================= */
+
+else if(
+    d1Bear &&
+    m30Bear &&
+    m15Bear &&
+    m5Bear
 ){
 
     if(
-        m5 &&
-        (
-            m5.condition === "NEUTRAL" ||
-            m5.condition === "BULLISH"
-        )
+        m15.rsi <= 28
     ){
 
         marketPhase =
-            "WAIT — BEARISH SETUP / TRIGGER NOT READY";
+            "WAIT — BEARISH SETUP / OVERSOLD";
+
+    }
+
+    else if(
+        !bearishStructure
+    ){
+
+        marketPhase =
+            "WAIT — BEARISH SETUP / STRUCTURE NOT CONFIRMED";
 
     }
 
@@ -3053,12 +3110,11 @@ else if(
 }
 
 
-/*
-   PRICE TOO CLOSE TO RESISTANCE
-*/
+/* =========================================================
+   NEAR RESISTANCE
+========================================================= */
 
 else if(
-    buyBlocked &&
     resistanceDistance <= 0.10
 ){
 
@@ -3068,12 +3124,11 @@ else if(
 }
 
 
-/*
-   PRICE TOO CLOSE TO SUPPORT
-*/
+/* =========================================================
+   NEAR SUPPORT
+========================================================= */
 
 else if(
-    sellBlocked &&
     supportDistance <= 0.10
 ){
 
@@ -3083,9 +3138,9 @@ else if(
 }
 
 
-/*
-   RSI EXTREMES
-*/
+/* =========================================================
+   RSI EXTREME
+========================================================= */
 
 else if(
     m15.rsi >= 72
@@ -3106,23 +3161,34 @@ else if(
 }
 
 
-/*
+/* =========================================================
    HTF CONFLICT
-*/
+========================================================= */
 
 else if(
-    trendBias !== "NEUTRAL" &&
-    setupBias !== "NEUTRAL" &&
-    trendBias !== setupBias
+    d1Bull &&
+    m30Bear
 ){
+
     marketPhase =
         "WAIT — HTF CONFLICT";
+
+}
+
+else if(
+    d1Bear &&
+    m30Bull
+){
+
+    marketPhase =
+        "WAIT — HTF CONFLICT";
+
 }
 
 
-/*
+/* =========================================================
    DEFAULT
-*/
+========================================================= */
 
 else{
 
