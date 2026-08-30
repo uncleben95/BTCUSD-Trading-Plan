@@ -2184,71 +2184,362 @@ function updateDashboard(){
 
 
     /* =========================================================
-       FINAL DECISION
-    ========================================================= */
+   FINAL DECISION — UPGRADED SIGNAL ENGINE
+========================================================= */
 
-    let finalSignal = "WAIT";
-    let finalScore = 50;
+let finalSignal = "WAIT";
+let finalScore = 50;
 
+
+/* =========================================================
+   CONFIRMATION SCORE
+========================================================= */
+
+let buyScore = 0;
+let sellScore = 0;
+
+
+/*
+   HTF BIAS
+   D1 carries the strongest weight.
+*/
+
+if(d1){
+
+    if(d1.condition === "BULLISH")
+        buyScore += 20;
+
+    else if(d1.condition === "BEARISH")
+        sellScore += 20;
+
+}
+
+
+/*
+   H4
+*/
+
+if(h4){
+
+    if(h4.condition === "BULLISH")
+        buyScore += 10;
+
+    else if(h4.condition === "BEARISH")
+        sellScore += 10;
+
+}
+
+
+/*
+   H1
+*/
+
+if(h1){
+
+    if(h1.condition === "BULLISH")
+        buyScore += 10;
+
+    else if(h1.condition === "BEARISH")
+        sellScore += 10;
+
+}
+
+
+/* =========================================================
+   SETUP
+   M30 + M15
+========================================================= */
+
+if(m30){
+
+    if(m30.condition === "BULLISH")
+        buyScore += 15;
+
+    else if(m30.condition === "BEARISH")
+        sellScore += 15;
+
+}
+
+
+if(m15){
+
+    if(m15.condition === "BULLISH")
+        buyScore += 15;
+
+    else if(m15.condition === "BEARISH")
+        sellScore += 15;
+
+}
+
+
+/* =========================================================
+   TRIGGER
+   M5
+========================================================= */
+
+if(m5){
+
+    if(m5.condition === "BULLISH")
+        buyScore += 10;
+
+    else if(m5.condition === "BEARISH")
+        sellScore += 10;
+
+
+    if(m5.bos === "BULLISH")
+        buyScore += 5;
+
+    else if(m5.bos === "BEARISH")
+        sellScore += 5;
+
+
+    if(m5.choch === "BULLISH")
+        buyScore += 5;
+
+    else if(m5.choch === "BEARISH")
+        sellScore += 5;
+
+}
+
+
+/* =========================================================
+   M1 PRECISION
+========================================================= */
+
+if(m1){
+
+    if(m1.condition === "BULLISH")
+        buyScore += 5;
+
+    else if(m1.condition === "BEARISH")
+        sellScore += 5;
+
+}
+
+
+/* =========================================================
+   M15 STRUCTURE CONFIRMATION
+========================================================= */
+
+if(m15){
+
+    if(m15.bos === "BULLISH")
+        buyScore += 5;
+
+    else if(m15.bos === "BEARISH")
+        sellScore += 5;
+
+
+    if(m15.choch === "BULLISH")
+        buyScore += 5;
+
+    else if(m15.choch === "BEARISH")
+        sellScore += 5;
+
+}
+
+
+/* =========================================================
+   RSI FILTER
+========================================================= */
+
+if(m15){
 
     if(
-        trendBias === "BULLISH" &&
-        setupBias === "BULLISH" &&
-        triggerBias === "BULLISH" &&
+        m15.rsi >= 50 &&
+        m15.rsi < 70
+    ){
+
+        buyScore += 5;
+
+    }
+
+    else if(
+        m15.rsi <= 50 &&
+        m15.rsi > 30
+    ){
+
+        sellScore += 5;
+
+    }
+
+}
+
+
+/* =========================================================
+   EMA CONFIRMATION
+========================================================= */
+
+if(m15){
+
+    if(
+        m15.current > m15.ema20 &&
+        m15.ema20 > m15.ema50
+    ){
+
+        buyScore += 5;
+
+    }
+
+    else if(
+        m15.current < m15.ema20 &&
+        m15.ema20 < m15.ema50
+    ){
+
+        sellScore += 5;
+
+    }
+
+}
+
+
+/* =========================================================
+   SAFETY FILTER
+========================================================= */
+
+const buyBlocked =
+    m15.rsi >= 72 ||
+    resistanceDistance <= 0.10;
+
+
+const sellBlocked =
+    m15.rsi <= 28 ||
+    supportDistance <= 0.10;
+
+
+/* =========================================================
+   FINAL SIGNAL
+========================================================= */
+
+
+/*
+   BUY requires:
+
+   1. Strong overall bullish score
+   2. M30 + M15 bullish
+   3. M5 bullish
+   4. No major safety block
+*/
+
+if(
+    buyScore >= 75 &&
+    setupBias === "BULLISH" &&
+    m15.condition === "BULLISH" &&
+    m5 &&
+    m5.condition === "BULLISH" &&
+    !buyBlocked &&
+    buyScore > sellScore
+){
+
+    finalSignal = "BUY";
+
+    finalScore =
+        Math.min(
+            100,
+            buyScore
+        );
+
+}
+
+
+/*
+   SELL
+*/
+
+else if(
+    sellScore >= 75 &&
+    setupBias === "BEARISH" &&
+    m15.condition === "BEARISH" &&
+    m5 &&
+    m5.condition === "BEARISH" &&
+    !sellBlocked &&
+    sellScore > buyScore
+){
+
+    finalSignal = "SELL";
+
+    finalScore =
+        Math.min(
+            100,
+            sellScore
+        );
+
+}
+
+
+/*
+   WAIT
+*/
+
+else{
+
+    finalSignal = "WAIT";
+
+    /*
+       Show the stronger side's score,
+       but never below 50.
+    */
+
+    finalScore =
+        Math.max(
+            50,
+            Math.min(
+                100,
+                Math.max(
+                    buyScore,
+                    sellScore
+                )
+            )
+        );
+
+}
+
+
+/* =========================================================
+   FINAL SIGNAL DISPLAY
+========================================================= */
+
+const signalEl =
+    document.getElementById("overallSignal");
+
+if(signalEl){
+
+    signalEl.textContent =
+        finalSignal;
+
+    signalEl.className =
+        "signal " +
         (
-            m15.bos === "BULLISH" ||
-            m15.choch === "BULLISH"
-        ) &&
-        !buyBlocked
-    ){
+            finalSignal === "BUY"
+            ? "green"
+            : finalSignal === "SELL"
+            ? "red"
+            : "yellow"
+        );
 
-        finalSignal = "BUY";
-        finalScore = 90;
+}
 
-    }
 
-    else if(
-        trendBias === "BEARISH" &&
-        setupBias === "BEARISH" &&
-        triggerBias === "BEARISH" &&
-        (
-            m15.bos === "BEARISH" ||
-            m15.choch === "BEARISH"
-        ) &&
-        !sellBlocked
-    ){
+const scoreEl =
+    document.getElementById("overallScore");
 
-        finalSignal = "SELL";
-        finalScore = 90;
+if(scoreEl){
 
-    }
+    scoreEl.textContent =
+        finalScore + "/100";
 
-    else if(
-        trendBias === "BULLISH" &&
-        setupBias === "BULLISH"
-    ){
+}
 
-        finalSignal = "WAIT";
-        finalScore = 70;
 
-    }
+const scoreBar =
+    document.getElementById("scoreBar");
 
-    else if(
-        trendBias === "BEARISH" &&
-        setupBias === "BEARISH"
-    ){
+if(scoreBar){
 
-        finalSignal = "WAIT";
-        finalScore = 70;
+    scoreBar.style.width =
+        finalScore + "%";
 
-    }
-
-    else{
-
-        finalSignal = "WAIT";
-        finalScore = 50;
-
-    }
+}
 
 
     /* =========================================================
