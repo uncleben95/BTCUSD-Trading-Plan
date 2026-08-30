@@ -1,6 +1,4 @@
 export default async function handler(req, res) {
-  res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=60");
-
   try {
     const API_KEY = process.env.TWELVE_DATA_API_KEY;
 
@@ -11,10 +9,16 @@ export default async function handler(req, res) {
       });
     }
 
-    // =====================================================
-    // ONLY ONE TWELVE DATA REQUEST
-    // M15 BTC/USD candles
-    // =====================================================
+    /*
+      IMPORTANT:
+      Vercel cache response for 5 minutes.
+      Browser refresh will normally receive
+      cached result instead of hitting Twelve Data.
+    */
+    res.setHeader(
+      "Cache-Control",
+      "s-maxage=300, stale-while-revalidate=600"
+    );
 
     const url =
       "https://api.twelvedata.com/time_series" +
@@ -36,25 +40,16 @@ export default async function handler(req, res) {
       });
     }
 
-    if (data.status === "error") {
-      return res.status(400).json({
+    if (
+      data.status === "error" ||
+      !Array.isArray(data.values)
+    ) {
+      return res.status(429).json({
         ok: false,
-        error: "Twelve Data error",
+        error: "Twelve Data unavailable",
         detail: data
       });
     }
-
-    if (!Array.isArray(data.values) || data.values.length < 50) {
-      return res.status(400).json({
-        ok: false,
-        error: "BTC candle data unavailable",
-        detail: data
-      });
-    }
-
-    // =====================================================
-    // NORMALISE CANDLES
-    // =====================================================
 
     const candles = data.values
       .map(c => ({
@@ -76,164 +71,173 @@ export default async function handler(req, res) {
     if (candles.length < 50) {
       return res.status(400).json({
         ok: false,
-        error: "Not enough valid BTC candles"
+        error: "Not enough BTC candles"
       });
     }
 
-    // =====================================================
-    // HELPERS
-    // =====================================================
-
-    const closes = candles.map(c => c.close);
-
-    function sma(values, period) {
-      if (values.length < period) return null;
-
-      const slice = values.slice(-period);
-
-      return slice.reduce((a, b) => a + b, 0) / period;
-    }
+    const closes =
+      candles.map(c => c.close);
 
     function ema(values, period) {
-      if (values.length < period) return null;
 
-      const k = 2 / (period + 1);
+      if (values.length < period)
+        return null;
 
-      let result =
+      const k =
+        2 / (period + 1);
+
+      let value =
         values
           .slice(0, period)
-          .reduce((a, b) => a + b, 0) / period;
+          .reduce((a, b) => a + b, 0)
+        / period;
 
-      for (let i = period; i < values.length; i++) {
-        result =
+      for (
+        let i = period;
+        i < values.length;
+        i++
+      ) {
+        value =
           values[i] * k +
-          result * (1 - k);
+          value * (1 - k);
       }
 
-      return result;
+      return value;
     }
 
     function rsi(values, period = 14) {
-      if (values.length <= period) return null;
+
+      if (values.length <= period)
+        return null;
 
       let gain = 0;
       let loss = 0;
 
       for (let i = 1; i <= period; i++) {
+
         const diff =
           values[i] - values[i - 1];
 
-        if (diff >= 0) {
+        if (diff >= 0)
           gain += diff;
-        } else {
+        else
           loss += Math.abs(diff);
-        }
       }
 
-      let avgGain = gain / period;
-      let avgLoss = loss / period;
+      let avgGain =
+        gain / period;
 
-      for (let i = period + 1; i < values.length; i++) {
+      let avgLoss =
+        loss / period;
+
+      for (
+        let i = period + 1;
+        i < values.length;
+        i++
+      ) {
+
         const diff =
           values[i] - values[i - 1];
-
-        const currentGain =
-          diff > 0 ? diff : 0;
-
-        const currentLoss =
-          diff < 0 ? Math.abs(diff) : 0;
 
         avgGain =
-          ((avgGain * (period - 1)) +
-            currentGain) / period;
+          (
+            avgGain * (period - 1) +
+            Math.max(diff, 0)
+          ) / period;
 
         avgLoss =
-          ((avgLoss * (period - 1)) +
-            currentLoss) / period;
+          (
+            avgLoss * (period - 1) +
+            Math.max(-diff, 0)
+          ) / period;
       }
 
-      if (avgLoss === 0) return 100;
+      if (avgLoss === 0)
+        return 100;
 
       const rs =
         avgGain / avgLoss;
 
-      return 100 - (100 / (1 + rs));
+      return 100 -
+        (100 / (1 + rs));
     }
 
     function atr(candles, period = 14) {
-      if (candles.length <= period) return null;
+
+      if (candles.length <= period)
+        return null;
 
       const trs = [];
 
       for (let i = 1; i < candles.length; i++) {
 
-        const current = candles[i];
-        const previous = candles[i - 1];
+        const c = candles[i];
+        const p = candles[i - 1];
 
-        const tr = Math.max(
-          current.high - current.low,
-          Math.abs(
-            current.high - previous.close
-          ),
-          Math.abs(
-            current.low - previous.close
+        trs.push(
+          Math.max(
+            c.high - c.low,
+            Math.abs(c.high - p.close),
+            Math.abs(c.low - p.close)
           )
         );
-
-        trs.push(tr);
       }
 
-      if (trs.length < period) return null;
-
-      let result =
+      let value =
         trs
           .slice(0, period)
-          .reduce((a, b) => a + b, 0) /
-        period;
+          .reduce((a, b) => a + b, 0)
+        / period;
 
-      for (let i = period; i < trs.length; i++) {
-        result =
-          ((result * (period - 1)) +
-            trs[i]) / period;
+      for (
+        let i = period;
+        i < trs.length;
+        i++
+      ) {
+
+        value =
+          (
+            value * (period - 1) +
+            trs[i]
+          ) / period;
       }
 
-      return result;
+      return value;
     }
 
-    function bollinger(values, period = 20, multiplier = 2) {
+    function bollinger(values) {
 
-      if (values.length < period) {
+      const period = 20;
+
+      if (values.length < period)
         return null;
-      }
 
       const slice =
         values.slice(-period);
 
       const middle =
-        slice.reduce(
-          (a, b) => a + b,
-          0
-        ) / period;
+        slice.reduce((a, b) => a + b, 0)
+        / period;
 
       const variance =
         slice.reduce(
-          (sum, value) =>
+          (sum, v) =>
             sum +
-            Math.pow(value - middle, 2),
+            Math.pow(v - middle, 2),
           0
         ) / period;
 
-      const std =
+      const deviation =
         Math.sqrt(variance);
 
       return {
         upper:
-          middle + multiplier * std,
+          middle + deviation * 2,
 
         middle,
 
         lower:
-          middle - multiplier * std
+          middle - deviation * 2
       };
     }
 
@@ -247,20 +251,13 @@ export default async function handler(req, res) {
           .slice(-21, -1)
           .map(c => c.volume || 0);
 
-      if (!previous.length) {
-        return {
-          current,
-          average: 0,
-          ratio: 0,
-          state: "UNKNOWN"
-        };
-      }
-
       const average =
-        previous.reduce(
-          (a, b) => a + b,
-          0
-        ) / previous.length;
+        previous.length
+          ? previous.reduce(
+              (a, b) => a + b,
+              0
+            ) / previous.length
+          : 0;
 
       const ratio =
         average > 0
@@ -269,13 +266,12 @@ export default async function handler(req, res) {
 
       let state = "NORMAL";
 
-      if (ratio >= 2) {
+      if (ratio >= 2)
         state = "VERY HIGH";
-      } else if (ratio >= 1.3) {
+      else if (ratio >= 1.3)
         state = "HIGH";
-      } else if (ratio < 0.7) {
+      else if (ratio < 0.7)
         state = "LOW";
-      }
 
       return {
         current,
@@ -284,10 +280,6 @@ export default async function handler(req, res) {
         state
       };
     }
-
-    // =====================================================
-    // CURRENT M15 DATA
-    // =====================================================
 
     const price =
       candles[candles.length - 1].close;
@@ -305,14 +297,10 @@ export default async function handler(req, res) {
       atr(candles, 14);
 
     const bb =
-      bollinger(closes, 20, 2);
+      bollinger(closes);
 
     const volume =
       volumeStats(candles);
-
-    // =====================================================
-    // SUPPORT / RESISTANCE
-    // =====================================================
 
     const recent =
       candles.slice(-50);
@@ -327,92 +315,33 @@ export default async function handler(req, res) {
         ...recent.map(c => c.low)
       );
 
-    // =====================================================
-    // STRUCTURE
-    // =====================================================
-
-    const previousHighs =
-      candles
-        .slice(-20, -5)
-        .map(c => c.high);
-
-    const previousLows =
-      candles
-        .slice(-20, -5)
-        .map(c => c.low);
-
-    const lastHigh =
-      Math.max(...previousHighs);
-
-    const lastLow =
-      Math.min(...previousLows);
-
-    let structure = "RANGE";
-    let bos = "NONE";
-    let choch = "NONE";
-
-    if (price > lastHigh) {
-      structure = "BULLISH";
-      bos = "BULLISH BOS";
-    }
-
-    else if (price < lastLow) {
-      structure = "BEARISH";
-      bos = "BEARISH BOS";
-    }
-
-    else if (
-      ema20 &&
-      ema50 &&
-      ema20 > ema50
-    ) {
-      structure = "BULLISH";
-    }
-
-    else if (
-      ema20 &&
-      ema50 &&
-      ema20 < ema50
-    ) {
-      structure = "BEARISH";
-    }
-
-    // =====================================================
-    // TECHNICAL SCORE
-    // =====================================================
-
     let score = 50;
 
-    if (price > ema20) score += 10;
-    else score -= 10;
-
-    if (price > ema50) score += 10;
-    else score -= 10;
-
-    if (rsi14 > 50 && rsi14 < 70) {
+    if (price > ema20)
       score += 10;
-    }
-
-    if (rsi14 < 50 && rsi14 > 30) {
+    else
       score -= 10;
-    }
+
+    if (price > ema50)
+      score += 10;
+    else
+      score -= 10;
+
+    if (rsi14 > 50 && rsi14 < 70)
+      score += 10;
+
+    if (rsi14 < 50 && rsi14 > 30)
+      score -= 10;
 
     if (volume.ratio >= 1.3) {
 
-      if (price > candles[candles.length - 2].close) {
+      const previousClose =
+        candles[candles.length - 2].close;
+
+      if (price > previousClose)
         score += 5;
-      } else {
+      else
         score -= 5;
-      }
-
-    }
-
-    if (structure === "BULLISH") {
-      score += 5;
-    }
-
-    if (structure === "BEARISH") {
-      score -= 5;
     }
 
     score =
@@ -423,80 +352,15 @@ export default async function handler(req, res) {
 
     let signal = "WAIT";
 
-    if (score >= 70) {
+    if (score >= 70)
       signal = "BUY";
-    }
 
-    else if (score <= 30) {
+    else if (score <= 30)
       signal = "SELL";
-    }
-
-    // =====================================================
-    // TRADE PLAN
-    // =====================================================
-
-    let entry = null;
-    let sl = null;
-    let tp1 = null;
-    let tp2 = null;
-    let rr = null;
-
-    if (
-      signal === "BUY" &&
-      atr14
-    ) {
-
-      entry = price;
-
-      sl =
-        price - atr14 * 1.2;
-
-      tp1 =
-        price + atr14 * 1.5;
-
-      tp2 =
-        price + atr14 * 2.5;
-
-      rr =
-        (
-          (tp1 - entry) /
-          (entry - sl)
-        ).toFixed(2);
-
-    }
-
-    else if (
-      signal === "SELL" &&
-      atr14
-    ) {
-
-      entry = price;
-
-      sl =
-        price + atr14 * 1.2;
-
-      tp1 =
-        price - atr14 * 1.5;
-
-      tp2 =
-        price - atr14 * 2.5;
-
-      rr =
-        (
-          (entry - tp1) /
-          (sl - entry)
-        ).toFixed(2);
-    }
-
-    // =====================================================
-    // MARKET PHASE
-    // =====================================================
 
     let phase = "RANGING";
 
     if (
-      ema20 &&
-      ema50 &&
       price > ema20 &&
       ema20 > ema50
     ) {
@@ -504,17 +368,11 @@ export default async function handler(req, res) {
     }
 
     else if (
-      ema20 &&
-      ema50 &&
       price < ema20 &&
       ema20 < ema50
     ) {
       phase = "BEARISH TREND";
     }
-
-    // =====================================================
-    // RETURN
-    // =====================================================
 
     return res.status(200).json({
 
@@ -534,14 +392,6 @@ export default async function handler(req, res) {
 
       phase,
 
-      trade: {
-        entry,
-        sl,
-        tp1,
-        tp2,
-        rr
-      },
-
       timeframes: {
 
         M15: {
@@ -549,9 +399,9 @@ export default async function handler(req, res) {
           price,
 
           condition:
-            structure === "BULLISH"
+            signal === "BUY"
               ? "BULLISH"
-              : structure === "BEARISH"
+              : signal === "SELL"
                 ? "BEARISH"
                 : "NEUTRAL",
 
@@ -567,27 +417,34 @@ export default async function handler(req, res) {
 
           volume,
 
-          bb: {
-            ...bb,
-            position:
-              bb
-                ? price >= bb.upper
-                  ? "ABOVE UPPER"
-                  : price <= bb.lower
-                    ? "BELOW LOWER"
-                    : "INSIDE"
-                : "--"
-          },
+          bb: bb
+            ? {
+                ...bb,
+                position:
+                  price >= bb.upper
+                    ? "ABOVE UPPER"
+                    : price <= bb.lower
+                      ? "BELOW LOWER"
+                      : "INSIDE"
+              }
+            : null,
 
           resistance,
 
           support,
 
-          structure,
+          structure:
+            price > ema20 &&
+            ema20 > ema50
+              ? "BULLISH"
+              : price < ema20 &&
+                ema20 < ema50
+                ? "BEARISH"
+                : "RANGE",
 
-          bos,
+          bos: "AUTO",
 
-          choch
+          choch: "AUTO"
         }
 
       },
@@ -607,11 +464,9 @@ export default async function handler(req, res) {
 
       ok: false,
 
-      error:
-        "BTC candle data unavailable",
+      error: "BTC candle data unavailable",
 
-      detail:
-        error.message
+      detail: error.message
 
     });
 
