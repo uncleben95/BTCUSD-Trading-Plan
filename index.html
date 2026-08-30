@@ -1745,7 +1745,138 @@ async function loadTechnicalData(){
 function updateDashboard(){
 
     const primary =
-        timeframeData["M15"];
+    timeframeData["M15"];
+
+if(!primary)
+    return;
+
+
+/* =========================================================
+   MULTI-TIMEFRAME CONFIRMATION
+   ========================================================= */
+
+const tfWeights = {
+    D1: 2,
+    H4: 3,
+    H1: 3,
+    M30: 2,
+    M15: 3,
+    M5: 2,
+    M1: 1
+};
+
+let bullPoints = 0;
+let bearPoints = 0;
+let totalPoints = 0;
+
+TIMEFRAMES.forEach(tf => {
+
+    const data =
+        timeframeData[tf.label];
+
+    if(!data)
+        return;
+
+    const weight =
+        tfWeights[tf.label] || 1;
+
+    totalPoints += weight;
+
+    if(data.condition === "BULLISH")
+        bullPoints += weight;
+
+    else if(data.condition === "BEARISH")
+        bearPoints += weight;
+
+});
+
+
+const bullPercent =
+    totalPoints
+    ? Math.round(
+        bullPoints /
+        totalPoints *
+        100
+    )
+    : 0;
+
+const bearPercent =
+    totalPoints
+    ? Math.round(
+        bearPoints /
+        totalPoints *
+        100
+    )
+    : 0;
+
+
+/* =========================================================
+   FINAL MTF SIGNAL
+   ========================================================= */
+
+let finalSignal = "WAIT";
+let finalScore = 50;
+
+if(bullPercent >= 65){
+
+    finalSignal = "BUY";
+    finalScore = bullPercent;
+
+}
+
+else if(bearPercent >= 65){
+
+    finalSignal = "SELL";
+    finalScore = bearPercent;
+
+}
+
+else{
+
+    finalSignal = "WAIT";
+
+    finalScore =
+        Math.max(
+            bullPercent,
+            bearPercent
+        );
+
+}
+
+
+/* =========================================================
+   MAIN SIGNAL DISPLAY
+   ========================================================= */
+
+const signalEl =
+    document.getElementById(
+        "overallSignal"
+    );
+
+signalEl.textContent =
+    finalSignal;
+
+signalEl.className =
+    "signal " +
+    (
+        finalSignal === "BUY"
+        ? "green"
+        : finalSignal === "SELL"
+        ? "red"
+        : "yellow"
+    );
+
+
+document.getElementById(
+    "overallScore"
+).textContent =
+    finalScore + "/100";
+
+
+document.getElementById(
+    "scoreBar"
+).style.width =
+    finalScore + "%";
 
     if(!primary)
         return;
