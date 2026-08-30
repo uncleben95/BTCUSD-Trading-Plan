@@ -1,0 +1,10 @@
+{
+  "name": "BTCUSD Technical Monitor",
+  "short_name": "BTC Monitor",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f3f6fa",
+  "theme_color": "#f7931a",
+  "description": "BTCUSD technical market monitor",
+  "icons": []
+}
