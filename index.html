@@ -129,12 +129,6 @@ font-size:12px;
 font-weight:700
 }
 
-.green{color:var(--green)}
-.red{color:var(--red)}
-.yellow{color:var(--yellow)}
-.blue{color:var(--blue)}
-.muted{color:var(--muted)}
-
 .btn{
 border:1px solid var(--border);
 background:#f8fafc;
@@ -258,7 +252,7 @@ margin-top:3px
 
 .tf-grid{
 display:grid;
-grid-template-columns:repeat(6,1fr);
+grid-template-columns:repeat(5,1fr);
 gap:7px
 }
 
@@ -367,7 +361,7 @@ margin-top:18px
 <div>
 <div class="symbol">BTC/USD · Twelve Data · LIVE M5</div>
 <div class="price" id="price">--</div>
-<div class="change muted" id="change">Loading market data...</div>
+<div class="change" id="change">Loading market data...</div>
 </div>
 
 <button class="btn" id="refreshBtn" onclick="refresh(true)">
@@ -472,12 +466,12 @@ Waiting for analysis...
 </div>
 
 <div class="metric">
-<div class="metric-name">CANDLE HIGH</div>
+<div class="metric-name">M5 HIGH</div>
 <div class="metric-value" id="high">--</div>
 </div>
 
 <div class="metric">
-<div class="metric-name">CANDLE LOW</div>
+<div class="metric-name">M5 LOW</div>
 <div class="metric-value" id="low">--</div>
 </div>
 
@@ -512,8 +506,8 @@ Waiting for analysis...
 
 <section class="card col-6">
 <div class="card-title">
-<h2>H1 / M15 / M5 Engine</h2>
-<span>Core Direction</span>
+<h2>Core Engine</h2>
+<span>Actual API Conditions</span>
 </div>
 
 <div class="metric-grid">
@@ -803,7 +797,7 @@ Updated:
 </main>
 
 <div class="footer">
-BTCUSD Pro Trading Monitor · Twelve Data · M5 Multi-Timeframe Engine
+BTCUSD Pro Trading Monitor · Twelve Data · XAU-Style Multi-Timeframe Engine
 </div>
 
 </div>
@@ -813,72 +807,63 @@ BTCUSD Pro Trading Monitor · Twelve Data · M5 Multi-Timeframe Engine
 
 let busy=false;
 
-const $ = id =>
-document.getElementById(id);
+const $=id=>document.getElementById(id);
 
 
-function fmt(v, decimals=2){
+function fmt(v,decimals=2){
 
 if(
-v===null ||
-v===undefined ||
+v===null||
+v===undefined||
 !Number.isFinite(Number(v))
-)
-return "--";
+)return "--";
 
 return Number(v).toLocaleString(
 "en-US",
 {
 minimumFractionDigits:decimals,
 maximumFractionDigits:decimals
-}
-);
+});
 }
 
 
 function price(v){
 
 if(
-v===null ||
-v===undefined ||
+v===null||
+v===undefined||
 !Number.isFinite(Number(v))
-)
-return "--";
+)return "--";
 
-return "$" + Number(v).toLocaleString(
+return "$"+Number(v).toLocaleString(
 "en-US",
 {
 minimumFractionDigits:2,
 maximumFractionDigits:2
-}
-);
+});
 }
 
 
 function pct(v){
 
 if(
-v===null ||
-v===undefined ||
+v===null||
+v===undefined||
 !Number.isFinite(Number(v))
-)
-return "--";
+)return "--";
 
-return Number(v).toFixed(2) + "%";
+return Number(v).toFixed(2)+"%";
 }
 
 
 function yesNo(v){
-
-return v
-? "YES"
-: "NO";
+return v?"YES":"NO";
 }
 
 
 function setClass(el,value){
 
-if(!el) return;
+if(!el)return;
 
 el.classList.remove(
 "green",
@@ -888,26 +873,25 @@ el.classList.remove(
 "muted"
 );
 
-const s =
-String(value || "")
-.toUpperCase();
+const s=String(value||"").toUpperCase();
 
 if(
-s.includes("BUY") ||
+s.includes("BUY")||
 s.includes("BULL")
 )
 el.classList.add("green");
 
 else if(
-s.includes("SELL") ||
+s.includes("SELL")||
 s.includes("BEAR")
 )
 el.classList.add("red");
 
 else if(
-s.includes("WAIT") ||
-s.includes("NEUTRAL") ||
-s.includes("NO")
+s.includes("WAIT")||
+s.includes("NEUTRAL")||
+s.includes("NO")||
+s==="NONE"
 )
 el.classList.add("yellow");
 
@@ -916,12 +900,10 @@ el.classList.add("blue");
 }
 
 
-function tfCard(
-name,
-obj
-){
+function tfCard(name,obj){
 
-if(!obj)
+if(!obj){
+
 return `
 <div class="tf">
 <div class="tf-name">${name}</div>
@@ -929,12 +911,9 @@ return `
 <div class="tf-value">--</div>
 </div>
 `;
+}
 
-const condition =
-obj.condition || "NEUTRAL";
-
-const score =
-obj.score ?? "--";
+const condition=obj.condition||"NEUTRAL";
 
 return `
 <div class="tf">
@@ -948,40 +927,32 @@ condition==="BEARISH"
 }">
 ${condition}
 </div>
-<div class="tf-value">${score}/100</div>
+<div class="tf-value">${obj.score??"--"}/100</div>
 </div>
 `;
 }
 
 
-function distancePct(
-a,
-b
-){
+function distancePct(a,b){
 
 if(
-!Number.isFinite(Number(a)) ||
-!Number.isFinite(Number(b)) ||
+!Number.isFinite(Number(a))||
+!Number.isFinite(Number(b))||
 Number(b)===0
-)
-return "--";
+)return "--";
 
 return Math.abs(
-(Number(a)-Number(b)) /
-Number(b) * 100
-).toFixed(2) + "%";
+(Number(a)-Number(b))/
+Number(b)*100
+).toFixed(2)+"%";
 }
 
 
-function check(
-id,
-value
-){
+function check(id,value){
 
 const el=$(id);
 
-if(!el)
-return;
+if(!el)return;
 
 el.textContent=value;
 
@@ -989,34 +960,79 @@ setClass(el,value);
 }
 
 
+/*
+=========================================================
+DIRECTION HELPERS
+=========================================================
+Use actual timeframe condition from API.
+Do NOT use d.trend for H1/M15 display because that
+can conflict with the calculated timeframe score.
+=========================================================
+*/
+
+function actualCondition(tf){
+
+return tf?.condition||"NEUTRAL";
+}
+
+
+function triggerCondition(d){
+
+const c=d.confirmation||{};
+
+if(c.bullishBreak)
+return "BULLISH TRIGGER";
+
+if(c.bearishBreak)
+return "BEARISH TRIGGER";
+
+return "WAIT";
+}
+
+
 function reasonText(d){
 
-const buy =
-d.scores?.buy ?? 0;
-
-const sell =
-d.scores?.sell ?? 0;
+const buy=d.scores?.buy??0;
+const sell=d.scores?.sell??0;
 
 if(d.signal==="BUY")
-return `BUY confirmed · Buy score ${buy}/100`;
+return `BUY confirmed · ${buy}/100`;
 
 if(d.signal==="SELL")
-return `SELL confirmed · Sell score ${sell}/100`;
+return `SELL confirmed · ${sell}/100`;
 
-if(buy>sell)
+const h1=actualCondition(d.timeframes?.H1);
+const m15=actualCondition(d.timeframes?.M15);
+
+if(
+h1==="BEARISH"&&
+m15==="BULLISH"
+)
+return `WAIT · H1 bearish but M15 bullish. Waiting for alignment`;
+
+if(
+h1==="BULLISH"&&
+m15==="BEARISH"
+)
+return `WAIT · H1 bullish but M15 bearish. Waiting for alignment`;
+
+if(
+buy>sell
+)
 return `WAIT · BUY pressure ${buy}/100 but full confirmation not complete`;
 
-if(sell>buy)
+if(
+sell>buy
+)
 return `WAIT · SELL pressure ${sell}/100 but full confirmation not complete`;
 
 return "WAIT · No dominant direction";
 }
 
 
-async function refresh(manual=false){
+async function refresh(){
 
-if(busy)
-return;
+if(busy)return;
 
 busy=true;
 
@@ -1025,42 +1041,31 @@ const btn=$("refreshBtn");
 if(btn)
 btn.disabled=true;
 
-$("statusText").textContent=
-"LOADING";
-
-$("statusDot").className=
-"dot";
+$("statusText").textContent="LOADING";
+$("statusDot").className="dot";
 
 
 try{
 
-const r =
-await fetch(
+const r=await fetch(
 "/api/btc?t="+Date.now(),
 {
 cache:"no-store"
 }
 );
 
-const d =
-await r.json();
+const d=await r.json();
 
-if(!r.ok || !d.ok)
+if(!r.ok||!d.ok)
 throw new Error(
-d.error ||
+d.error||
 "API request failed"
 );
 
-
 render(d);
 
-
-$("statusText").textContent=
-"LIVE";
-
-$("statusDot").className=
-"dot live";
-
+$("statusText").textContent="LIVE";
+$("statusDot").className="dot live";
 
 }
 
@@ -1068,14 +1073,11 @@ catch(err){
 
 console.error(err);
 
-$("statusText").textContent=
-"ERROR";
-
-$("statusDot").className=
-"dot error";
+$("statusText").textContent="ERROR";
+$("statusDot").className="dot error";
 
 $("system").textContent=
-err.message ||
+err.message||
 "Unable to load BTC data";
 
 }
@@ -1093,48 +1095,40 @@ btn.disabled=false;
 
 function render(d){
 
-const p =
-d.price ??
-d.lastPrice;
+const p=d.price??d.lastPrice;
 
-$("price").textContent=
-price(p);
+const t=d.timeframes||{};
+const h1=t.H1||{};
+const m15=t.M15||{};
+const m5=t.M5||{};
 
-$("marketPrice").textContent=
-price(p);
+const indicators=d.indicators||{};
+const h1i=indicators.h1||{};
+const m15i=indicators.m15||{};
+const m5i=indicators.m5||{};
 
-$("high").textContent=
-price(d.high);
-
-$("low").textContent=
-price(d.low);
-
-$("change24").textContent=
-pct(d.change24);
-
-$("high24").textContent=
-price(d.high24);
-
-$("low24").textContent=
-price(d.low24);
+const levels=d.levels||{};
+const conf=d.confirmation||{};
 
 
-const signal =
-d.signal ||
-"WAIT";
+$("price").textContent=price(p);
+$("marketPrice").textContent=price(p);
 
-const score =
-d.score ?? 0;
+$("high").textContent=price(d.high);
+$("low").textContent=price(d.low);
+
+$("change24").textContent=pct(d.change24);
+$("high24").textContent=price(d.high24);
+$("low24").textContent=price(d.low24);
 
 
-$("signal").textContent=
-signal;
+const signal=d.signal||"WAIT";
+const score=d.score??0;
 
-$("tradeSignal").textContent=
-signal;
+$("signal").textContent=signal;
+$("tradeSignal").textContent=signal;
 
-$("score").textContent=
-score + "/100";
+$("score").textContent=score+"/100";
 
 $("scoreBar").style.width=
 Math.max(
@@ -1145,50 +1139,40 @@ Number(score)
 )
 )+"%";
 
-
-setClass(
-$("signal"),
-signal
-);
-
-setClass(
-$("tradeSignal"),
-signal
-);
-
+setClass($("signal"),signal);
+setClass($("tradeSignal"),signal);
 
 $("reason").textContent=
 reasonText(d);
 
 
-const trade =
-d.trade || {};
+/*
+=========================================================
+TRADE
+=========================================================
+*/
 
+const trade=d.trade||{};
 
 $("entry").textContent=
 price(trade.entry);
 
-
 if(
-trade.entryLow !== null &&
-trade.entryLow !== undefined &&
-trade.entryHigh !== null &&
-trade.entryHigh !== undefined
+trade.entryLow!==null&&
+trade.entryLow!==undefined&&
+trade.entryHigh!==null&&
+trade.entryHigh!==undefined
 ){
 
 $("entryZone").textContent=
-price(trade.entryLow)
-+
-" – "
-+
+price(trade.entryLow)+
+" – "+
 price(trade.entryHigh);
 
 }else{
 
-$("entryZone").textContent=
-"--";
+$("entryZone").textContent="--";
 }
-
 
 $("sl").textContent=
 price(trade.sl);
@@ -1204,319 +1188,328 @@ price(trade.tp3);
 
 $("rr").textContent=
 trade.rr
-? "1:" + fmt(trade.rr,1)
-: "--";
+?"1:"+fmt(trade.rr,1)
+:"--";
 
 
-$("phase").textContent=
-d.phase || "--";
-
-
-const t =
-d.timeframes || {};
+/*
+=========================================================
+MULTI TIMEFRAME
+=========================================================
+*/
 
 $("tfGrid").innerHTML=
-tfCard("D1",t.D1) +
-tfCard("H4",t.H4) +
-tfCard("H1",t.H1) +
-tfCard("M15",t.M15) +
+tfCard("D1",t.D1)+
+tfCard("H4",t.H4)+
+tfCard("H1",t.H1)+
+tfCard("M15",t.M15)+
 tfCard("M5",t.M5);
 
 
-const h1 =
-d.indicators?.h1 || {};
+/*
+=========================================================
+CORE ENGINE
+=========================================================
+*/
 
-const m15 =
-d.indicators?.m15 || {};
+const h1Condition=
+actualCondition(h1);
 
-const m5 =
-d.indicators?.m5 || {};
+const m15Condition=
+actualCondition(m15);
 
+const m5Condition=
+actualCondition(m5);
 
 $("h1Bias").textContent=
-d.trend?.h1 || "--";
+h1Condition;
 
 $("h1Detail").textContent=
-"H1 EMA50 / EMA200";
+`Score ${h1.score??"--"}/100 · EMA50 / EMA200`;
 
 $("m15Confirm").textContent=
-d.trend?.m15 || "--";
+m15Condition;
 
 $("m15Detail").textContent=
-"M15 EMA + RSI + MACD";
+`Score ${m15.score??"--"}/100 · EMA20 / EMA50 / RSI`;
 
 $("m5Trigger").textContent=
-d.trend?.m5 || "--";
+triggerCondition(d);
 
 $("m5Detail").textContent=
-d.confirmation?.bullishBreak
-? "Bullish break"
-: d.confirmation?.bearishBreak
-? "Bearish break"
-: "No break";
+conf.bullishBreak
+?"Bullish M5 break":
+conf.bearishBreak
+?"Bearish M5 break":
+"Waiting for M5 break";
 
 
-setClass(
-$("h1Bias"),
-d.trend?.h1
-);
+$("phase").textContent=
+d.phase||"--";
 
-setClass(
-$("m15Confirm"),
-d.trend?.m15
-);
+setClass($("h1Bias"),h1Condition);
+setClass($("m15Confirm"),m15Condition);
+setClass($("m5Trigger"),triggerCondition(d));
 
-setClass(
-$("m5Trigger"),
-d.trend?.m5
-);
 
+/*
+=========================================================
+INDICATORS
+=========================================================
+*/
 
 $("m15ema20").textContent=
-price(m15.ema20);
+price(m15i.ema20);
 
 $("m15ema50").textContent=
-price(m15.ema50);
+price(m15i.ema50);
 
 $("m15rsi").textContent=
-fmt(m15.rsi);
+fmt(m15i.rsi);
 
 $("atr").textContent=
-price(m5.atr);
+price(m5i.atr);
 
 
 $("macd").textContent=
-m15.macd
-? m15.macd.bullish
-? "BULLISH"
-: "BEARISH"
-: "--";
+m15i.macd
+?m15i.macd.bullish
+?"BULLISH"
+:m15i.macd.bearish
+?"BEARISH"
+:"NEUTRAL"
+:"--";
 
 $("adx").textContent=
-m15.adx
-? fmt(m15.adx.value)
-: "--";
-
+m15i.adx
+?fmt(m15i.adx.value)
+:"--";
 
 setClass(
 $("macd"),
-m15.macd?.bullish
-? "BULLISH"
-: m15.macd?.bearish
-? "BEARISH"
-: "NEUTRAL"
+m15i.macd?.bullish
+?"BULLISH"
+:m15i.macd?.bearish
+?"BEARISH"
+:"NEUTRAL"
 );
 
 
+/*
+=========================================================
+LIQUIDITY
+=========================================================
+*/
+
 $("buyLiquidity").textContent=
-price(d.levels?.buySideLiquidity);
+price(levels.buySideLiquidity);
 
 $("sellLiquidity").textContent=
-price(d.levels?.sellSideLiquidity);
+price(levels.sellSideLiquidity);
 
 $("asianHigh").textContent=
-price(d.levels?.asianHigh);
+price(levels.asianHigh);
 
 $("asianLow").textContent=
-price(d.levels?.asianLow);
-
+price(levels.asianLow);
 
 $("bullSweep").textContent=
-yesNo(d.confirmation?.bullishSweep);
+yesNo(conf.bullishSweep);
 
 $("bearSweep").textContent=
-yesNo(d.confirmation?.bearishSweep);
+yesNo(conf.bearishSweep);
 
+
+/*
+=========================================================
+FVG / VWAP
+=========================================================
+*/
 
 $("bullFVG").textContent=
-yesNo(d.confirmation?.bullishFVG);
+yesNo(conf.bullishFVG);
 
 $("bearFVG").textContent=
-yesNo(d.confirmation?.bearishFVG);
-
+yesNo(conf.bearishFVG);
 
 $("vwap").textContent=
-price(d.levels?.vwap);
+price(levels.vwap);
 
 
-let vwapState=
-"NEUTRAL";
+let vwapState="NEUTRAL";
 
-if(d.confirmation?.aboveVWAP)
+if(conf.aboveVWAP)
 vwapState="ABOVE VWAP";
 
-if(d.confirmation?.belowVWAP)
+if(conf.belowVWAP)
 vwapState="BELOW VWAP";
-
 
 $("vwapState").textContent=
 vwapState;
 
-setClass(
-$("vwapState"),
-vwapState
-);
+setClass($("vwapState"),vwapState);
 
+
+/*
+=========================================================
+SUPPORT / RESISTANCE
+=========================================================
+*/
 
 $("support").textContent=
-price(d.levels?.support);
+price(levels.support);
 
 $("resistance").textContent=
-price(d.levels?.resistance);
-
+price(levels.resistance);
 
 $("supDistance").textContent=
 distancePct(
 p,
-d.levels?.support
+levels.support
 );
 
 $("resDistance").textContent=
 distancePct(
 p,
-d.levels?.resistance
+levels.resistance
 );
 
+
+/*
+=========================================================
+STRUCTURE
+=========================================================
+*/
 
 $("structure").textContent=
-d.structure || "--";
+d.structure||"--";
 
 $("bos").textContent=
-d.bos || "--";
+d.bos||"--";
 
 $("choch").textContent=
-d.choch || "--";
+d.choch||"--";
 
-
-if(m5.atr && p)
 $("volatility").textContent=
-pct(
-m5.atr /
-p * 100
+m5i.atr&&p
+?pct(
+m5i.atr/p*100
+)
+:"--";
+
+
+/*
+=========================================================
+CHECKLIST
+=========================================================
+*/
+
+check(
+"checkH1",
+h1Condition
 );
-else
-$("volatility").textContent=
-"--";
+
+check(
+"checkEMA",
+m15i.ema20&&m15i.ema50
+?m15i.ema20>m15i.ema50
+?"BULLISH"
+:"BEARISH"
+:"N/A"
+);
+
+check(
+"checkRSI",
+m15i.rsi>=50
+?"BULLISH"
+:"BEARISH"
+);
+
+check(
+"checkMACD",
+m15i.macd?.bullish
+?"BULLISH"
+:m15i.macd?.bearish
+?"BEARISH"
+:"NEUTRAL"
+);
+
+check(
+"checkBreak",
+conf.bullishBreak
+?"BULLISH BREAK"
+:conf.bearishBreak
+?"BEARISH BREAK"
+:"NO BREAK"
+);
+
+check(
+"checkLiquidity",
+conf.bullishSweep
+?"BULL SWEEP"
+:conf.bearishSweep
+?"BEAR SWEEP"
+:"NO SWEEP"
+);
+
+check(
+"checkFVG",
+conf.bullishFVG
+?"BULLISH FVG"
+:conf.bearishFVG
+?"BEARISH FVG"
+:"NONE"
+);
+
+check(
+"checkVWAP",
+conf.aboveVWAP
+?"ABOVE VWAP"
+:conf.belowVWAP
+?"BELOW VWAP"
+:"NEUTRAL"
+);
+
+check(
+"checkADX",
+m15i.adx
+?m15i.adx.value>=20
+?m15i.adx.bullish
+?"BULL TREND"
+:"BEAR TREND"
+:"WEAK TREND"
+:"N/A"
+);
 
 
-const volume =
-d.volume;
-
-const volumeRatio =
-d.volumeRatio;
+/*
+=========================================================
+SYSTEM
+=========================================================
+*/
 
 $("system").textContent=
 reasonText(d);
 
-
 $("updated").textContent=
 d.updated
-? new Date(d.updated)
+?new Date(d.updated)
 .toLocaleTimeString()
-: "--";
-
-
-/* CHECKLIST */
-
-check(
-"checkH1",
-d.trend?.h1 === "BULLISH"
-? "BULLISH"
-: d.trend?.h1 === "BEARISH"
-? "BEARISH"
-: "NEUTRAL"
-);
-
-
-check(
-"checkEMA",
-m15.ema20 &&
-m15.ema50
-? m15.ema20 > m15.ema50
-? "BULLISH"
-: "BEARISH"
-: "N/A"
-);
-
-
-check(
-"checkRSI",
-m15.rsi >= 50
-? "BULLISH"
-: "BEARISH"
-);
-
-
-check(
-"checkMACD",
-m15.macd?.bullish
-? "BULLISH"
-: m15.macd?.bearish
-? "BEARISH"
-: "NEUTRAL"
-);
-
-
-check(
-"checkBreak",
-d.confirmation?.bullishBreak
-? "BULLISH BREAK"
-: d.confirmation?.bearishBreak
-? "BEARISH BREAK"
-: "NO BREAK"
-);
-
-
-check(
-"checkLiquidity",
-d.confirmation?.bullishSweep
-? "BULL SWEEP"
-: d.confirmation?.bearishSweep
-? "BEAR SWEEP"
-: "NO SWEEP"
-);
-
-
-check(
-"checkFVG",
-d.confirmation?.bullishFVG
-? "BULLISH FVG"
-: d.confirmation?.bearishFVG
-? "BEARISH FVG"
-: "NONE"
-);
-
-
-check(
-"checkVWAP",
-d.confirmation?.aboveVWAP
-? "ABOVE VWAP"
-: d.confirmation?.belowVWAP
-? "BELOW VWAP"
-: "NEUTRAL"
-);
-
-
-check(
-"checkADX",
-m15.adx
-? m15.adx.value >= 20
-? m15.adx.bullish
-? "BULL TREND"
-: "BEAR TREND"
-: "WEAK TREND"
-: "N/A"
-);
+:"--";
 
 }
 
 
-/* AUTO REFRESH */
+/*
+=========================================================
+START
+=========================================================
+*/
 
-refresh(false);
+refresh();
 
 setInterval(
-() => refresh(false),
+refresh,
 60000
 );
 
