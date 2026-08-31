@@ -69,6 +69,7 @@ color:#111
 }
 
 .brand h1{font-size:21px}
+
 .brand p{
 font-size:11px;
 color:var(--muted);
@@ -177,6 +178,7 @@ margin-bottom:14px
 }
 
 .card-title h2{font-size:13px}
+
 .card-title span{
 font-size:9px;
 color:var(--muted)
@@ -288,31 +290,6 @@ color:var(--muted);
 margin-top:3px
 }
 
-.flow-box{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:9px
-}
-
-.flow{
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:10px;
-padding:11px
-}
-
-.flow small{
-display:block;
-font-size:8px;
-color:var(--muted)
-}
-
-.flow strong{
-display:block;
-font-size:14px;
-margin-top:5px
-}
-
 .system-note{
 font-size:10px;
 color:var(--muted);
@@ -333,27 +310,41 @@ margin-top:18px
 }
 
 @media(max-width:650px){
+
 .container{
 width:94%;
 padding-top:11px
 }
 
-.header{align-items:flex-start}
+.header{
+align-items:flex-start
+}
 
-.brand h1{font-size:17px}
+.brand h1{
+font-size:17px
+}
 
-.price{font-size:29px}
+.price{
+font-size:29px
+}
 
 .price-top{
 flex-direction:column;
 gap:10px
 }
 
-.col-3,.col-4,.col-6,.col-8,.col-12{
+.col-3,
+.col-4,
+.col-6,
+.col-8,
+.col-12{
 grid-column:span 12
 }
 
-.tf-grid{grid-template-columns:repeat(3,1fr)}
+.tf-grid{
+grid-template-columns:repeat(3,1fr)
+}
+
 }
 </style>
 </head>
@@ -370,7 +361,7 @@ grid-column:span 12
 
 <div>
 <h1>BTCUSD Technical Monitor</h1>
-<p>Twelve Data · Cached Market Intelligence</p>
+<p>Twelve Data · Smart Market Intelligence</p>
 </div>
 
 </div>
@@ -423,7 +414,7 @@ onclick="refresh(true)"
 
 <div class="card-title">
 <h2>Technical Condition</h2>
-<span>Calculated</span>
+<span>Smart Filter</span>
 </div>
 
 <div class="signal-box">
@@ -470,7 +461,9 @@ WAIT
 
 <div class="metric">
 <div class="metric-name">SIGNAL</div>
-<div class="metric-value yellow" id="tradeSignal">WAIT</div>
+<div class="metric-value yellow" id="tradeSignal">
+WAIT
+</div>
 </div>
 
 <div class="metric">
@@ -499,8 +492,15 @@ WAIT
 </div>
 
 <div class="metric" style="grid-column:1/-1">
-<div class="metric-name">MARKET PHASE</div>
-<div class="metric-value yellow" id="phase">--</div>
+
+<div class="metric-name">
+MARKET PHASE
+</div>
+
+<div class="metric-value yellow" id="phase">
+--
+</div>
+
 </div>
 
 </div>
@@ -513,8 +513,11 @@ WAIT
 <section class="card col-4">
 
 <div class="card-title">
+
 <h2>Market Information</h2>
+
 <span>From M15 candles</span>
+
 </div>
 
 <div class="metric-grid">
@@ -536,7 +539,9 @@ WAIT
 
 <div class="metric">
 <div class="metric-name">24H DATA</div>
-<div class="metric-value muted">Not requested</div>
+<div class="metric-value muted">
+Not requested
+</div>
 </div>
 
 </div>
@@ -549,8 +554,11 @@ WAIT
 <section class="card col-4">
 
 <div class="card-title">
+
 <h2>Multi-Timeframe</h2>
+
 <span>M15 engine</span>
+
 </div>
 
 <div class="tf-grid" id="tfGrid"></div>
@@ -563,46 +571,114 @@ WAIT
 <section class="card col-8">
 
 <div class="card-title">
+
 <h2>Technical Indicators</h2>
+
 <span>M15</span>
+
 </div>
 
 <div class="metric-grid">
 
 <div class="metric">
-<div class="metric-name">EMA 20</div>
-<div class="metric-value" id="ema20">--</div>
-<div class="metric-sub" id="ema20State">--</div>
+
+<div class="metric-name">
+EMA 20
 </div>
 
-<div class="metric">
-<div class="metric-name">EMA 50</div>
-<div class="metric-value" id="ema50">--</div>
-<div class="metric-sub" id="ema50State">--</div>
+<div class="metric-value" id="ema20">
+--
 </div>
 
-<div class="metric">
-<div class="metric-name">RSI 14</div>
-<div class="metric-value" id="rsi">--</div>
-<div class="metric-sub" id="rsiState">--</div>
+<div class="metric-sub" id="ema20State">
+--
 </div>
 
-<div class="metric">
-<div class="metric-name">ATR 14</div>
-<div class="metric-value" id="atr">--</div>
-<div class="metric-sub">Volatility</div>
 </div>
 
-<div class="metric">
-<div class="metric-name">VOLUME</div>
-<div class="metric-value" id="volume">--</div>
-<div class="metric-sub" id="volumeState">--</div>
-</div>
 
 <div class="metric">
-<div class="metric-name">VOLUME RATIO</div>
-<div class="metric-value" id="volumeRatio">--</div>
-<div class="metric-sub">vs 20 candle average</div>
+
+<div class="metric-name">
+EMA 50
+</div>
+
+<div class="metric-value" id="ema50">
+--
+</div>
+
+<div class="metric-sub" id="ema50State">
+--
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-name">
+RSI 14
+</div>
+
+<div class="metric-value" id="rsi">
+--
+</div>
+
+<div class="metric-sub" id="rsiState">
+--
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-name">
+ATR 14
+</div>
+
+<div class="metric-value" id="atr">
+--
+</div>
+
+<div class="metric-sub">
+Volatility
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-name">
+VOLUME
+</div>
+
+<div class="metric-value" id="volume">
+--
+</div>
+
+<div class="metric-sub" id="volumeState">
+--
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-name">
+VOLUME RATIO
+</div>
+
+<div class="metric-value" id="volumeRatio">
+--
+</div>
+
+<div class="metric-sub">
+vs 20 candle average
+</div>
+
 </div>
 
 </div>
@@ -615,30 +691,61 @@ WAIT
 <section class="card col-4">
 
 <div class="card-title">
+
 <h2>Bollinger Bands</h2>
+
 <span>20 / 2</span>
+
 </div>
 
 <div class="metric-grid">
 
 <div class="metric">
-<div class="metric-name">UPPER</div>
-<div class="metric-value" id="bbUpper">--</div>
+
+<div class="metric-name">
+UPPER
+</div>
+
+<div class="metric-value" id="bbUpper">
+--
+</div>
+
 </div>
 
 <div class="metric">
-<div class="metric-name">MIDDLE</div>
-<div class="metric-value" id="bbMiddle">--</div>
+
+<div class="metric-name">
+MIDDLE
+</div>
+
+<div class="metric-value" id="bbMiddle">
+--
+</div>
+
 </div>
 
 <div class="metric">
-<div class="metric-name">LOWER</div>
-<div class="metric-value" id="bbLower">--</div>
+
+<div class="metric-name">
+LOWER
+</div>
+
+<div class="metric-value" id="bbLower">
+--
+</div>
+
 </div>
 
 <div class="metric">
-<div class="metric-name">POSITION</div>
-<div class="metric-value" id="bbPosition">--</div>
+
+<div class="metric-name">
+POSITION
+</div>
+
+<div class="metric-value" id="bbPosition">
+--
+</div>
+
 </div>
 
 </div>
@@ -651,30 +758,61 @@ WAIT
 <section class="card col-4">
 
 <div class="card-title">
+
 <h2>Support / Resistance</h2>
+
 <span>50 M15 candles</span>
+
 </div>
 
 <div class="metric-grid">
 
 <div class="metric">
-<div class="metric-name">RESISTANCE</div>
-<div class="metric-value red" id="resistance">--</div>
+
+<div class="metric-name">
+RESISTANCE
+</div>
+
+<div class="metric-value red" id="resistance">
+--
+</div>
+
 </div>
 
 <div class="metric">
-<div class="metric-name">SUPPORT</div>
-<div class="metric-value green" id="support">--</div>
+
+<div class="metric-name">
+SUPPORT
+</div>
+
+<div class="metric-value green" id="support">
+--
+</div>
+
 </div>
 
 <div class="metric">
-<div class="metric-name">DIST. RESISTANCE</div>
-<div class="metric-value" id="resistanceDistance">--</div>
+
+<div class="metric-name">
+DIST. RESISTANCE
+</div>
+
+<div class="metric-value" id="resistanceDistance">
+--
+</div>
+
 </div>
 
 <div class="metric">
-<div class="metric-name">DIST. SUPPORT</div>
-<div class="metric-value" id="supportDistance">--</div>
+
+<div class="metric-name">
+DIST. SUPPORT
+</div>
+
+<div class="metric-value" id="supportDistance">
+--
+</div>
+
 </div>
 
 </div>
@@ -687,30 +825,61 @@ WAIT
 <section class="card col-4">
 
 <div class="card-title">
+
 <h2>Market Structure</h2>
+
 <span>Price Action</span>
+
 </div>
 
 <div class="metric-grid">
 
 <div class="metric">
-<div class="metric-name">STRUCTURE</div>
-<div class="metric-value" id="structure">--</div>
+
+<div class="metric-name">
+STRUCTURE
+</div>
+
+<div class="metric-value" id="structure">
+--
+</div>
+
 </div>
 
 <div class="metric">
-<div class="metric-name">BOS</div>
-<div class="metric-value" id="bos">--</div>
+
+<div class="metric-name">
+BOS
+</div>
+
+<div class="metric-value" id="bos">
+--
+</div>
+
 </div>
 
 <div class="metric">
-<div class="metric-name">CHOCH</div>
-<div class="metric-value" id="choch">--</div>
+
+<div class="metric-name">
+CHOCH
+</div>
+
+<div class="metric-value" id="choch">
+--
+</div>
+
 </div>
 
 <div class="metric">
-<div class="metric-name">VOLATILITY</div>
-<div class="metric-value" id="volatility">--</div>
+
+<div class="metric-name">
+VOLATILITY
+</div>
+
+<div class="metric-value" id="volatility">
+--
+</div>
+
 </div>
 
 </div>
@@ -740,7 +909,9 @@ Loading cached data...
 
 
 <div class="footer">
+
 BTCUSD Technical Monitor · Market data only · No order execution
+
 </div>
 
 </div>
@@ -750,14 +921,17 @@ BTCUSD Technical Monitor · Market data only · No order execution
 
 /* =========================================================
    BTCUSD MONITOR
-   Twelve Data + 5 MINUTE CLIENT CACHE
+   Twelve Data + SMART SIGNAL FILTER
+   5 MINUTE CLIENT CACHE
 ========================================================= */
 
 const API = "/api/btc";
 
-const CACHE_KEY = "BTC_TWELVE_DATA_CACHE_V1";
+const CACHE_KEY =
+"BTC_TWELVE_DATA_CACHE_V2";
 
-const CACHE_TIME = 5 * 60 * 1000;
+const CACHE_TIME =
+5 * 60 * 1000;
 
 let refreshing = false;
 
@@ -780,7 +954,8 @@ value ?? "--";
 
 function money(value){
 
-const n = Number(value);
+const n =
+Number(value);
 
 if(!Number.isFinite(n))
 return "--";
@@ -799,7 +974,8 @@ maximumFractionDigits:2
 
 function number(value){
 
-const n = Number(value);
+const n =
+Number(value);
 
 if(!Number.isFinite(n))
 return "--";
@@ -898,6 +1074,288 @@ return null;
 
 
 /* =========================================================
+   SMART SIGNAL ENGINE
+========================================================= */
+
+function calculateSmartSignal(data){
+
+const rawSignal =
+data.signal || "WAIT";
+
+const score =
+Number(data.score);
+
+const price =
+Number(data.price);
+
+const m15 =
+data.timeframes?.M15 || {};
+
+const rsi =
+Number(m15.rsi);
+
+const support =
+Number(m15.support);
+
+const resistance =
+Number(m15.resistance);
+
+const volume =
+m15.volume || {};
+
+const volumeCurrent =
+Number(volume.current);
+
+const volumeRatio =
+Number(volume.ratio);
+
+
+/* -------------------------
+   CONDITIONS
+------------------------- */
+
+const nearSupport =
+Number.isFinite(price) &&
+Number.isFinite(support) &&
+price > support &&
+(
+(price - support) /
+price
+) <= 0.006;
+
+
+const nearResistance =
+Number.isFinite(price) &&
+Number.isFinite(resistance) &&
+price < resistance &&
+(
+(resistance - price) /
+price
+) <= 0.006;
+
+
+const oversold =
+Number.isFinite(rsi) &&
+rsi <= 25;
+
+
+const overbought =
+Number.isFinite(rsi) &&
+rsi >= 75;
+
+
+const volumeInvalid =
+!Number.isFinite(volumeCurrent) ||
+volumeCurrent <= 0;
+
+
+const lowVolume =
+Number.isFinite(volumeRatio) &&
+volumeRatio < 0.70;
+
+
+/* -------------------------
+   FINAL SIGNAL
+------------------------- */
+
+let finalSignal =
+rawSignal;
+
+let reasons = [];
+
+
+/*
+   SELL FILTER
+*/
+
+if(
+rawSignal === "SELL"
+){
+
+if(oversold)
+reasons.push(
+"RSI OVERSOLD"
+);
+
+if(nearSupport)
+reasons.push(
+"NEAR SUPPORT"
+);
+
+if(volumeInvalid)
+reasons.push(
+"VOLUME INVALID"
+);
+
+}
+
+
+/*
+   BUY FILTER
+*/
+
+if(
+rawSignal === "BUY"
+){
+
+if(overbought)
+reasons.push(
+"RSI OVERBOUGHT"
+);
+
+if(nearResistance)
+reasons.push(
+"NEAR RESISTANCE"
+);
+
+if(volumeInvalid)
+reasons.push(
+"VOLUME INVALID"
+);
+
+}
+
+
+/*
+   LOW SCORE
+*/
+
+if(
+Number.isFinite(score) &&
+score < 75
+){
+
+reasons.push(
+"SCORE BELOW 75"
+);
+
+}
+
+
+/*
+   BLOCK SIGNAL
+*/
+
+if(
+rawSignal === "SELL" &&
+reasons.length > 0
+){
+
+finalSignal =
+"WAIT";
+
+}
+
+else if(
+rawSignal === "BUY" &&
+reasons.length > 0
+){
+
+finalSignal =
+"WAIT";
+
+}
+
+
+/*
+   WAIT REASON
+*/
+
+let reasonText;
+
+if(
+finalSignal === "WAIT" &&
+reasons.length
+){
+
+reasonText =
+rawSignal +
+" blocked: " +
+reasons.join(" + ");
+
+}
+
+else if(
+finalSignal === "WAIT"
+){
+
+reasonText =
+"No valid high-confidence setup.";
+
+}
+
+else{
+
+reasonText =
+"Signal passed smart filter.";
+
+}
+
+
+/* -------------------------
+   TRADE VALIDATION
+------------------------- */
+
+const rawTrade =
+data.trade || {};
+
+let trade =
+{...rawTrade};
+
+
+/*
+   If signal is blocked,
+   don't present executable
+   trade levels as an active
+   trade.
+*/
+
+if(
+finalSignal === "WAIT"
+){
+
+trade = {};
+
+}
+
+
+return{
+
+signal:finalSignal,
+
+score:
+Number.isFinite(score)
+? score
+: 0,
+
+trade:trade,
+
+reason:reasonText,
+
+rawSignal:rawSignal,
+
+filters:{
+
+oversold,
+
+overbought,
+
+nearSupport,
+
+nearResistance,
+
+volumeInvalid,
+
+lowVolume
+
+}
+
+};
+
+}
+
+
+/* =========================================================
    RENDER
 ========================================================= */
 
@@ -907,7 +1365,20 @@ if(!data)
 return;
 
 
-/* PRICE */
+/* -------------------------
+   SMART SIGNAL
+------------------------- */
+
+const smart =
+calculateSmartSignal(data);
+
+const signal =
+smart.signal;
+
+
+/* -------------------------
+   PRICE
+------------------------- */
 
 if(data.price){
 
@@ -924,10 +1395,9 @@ money(data.price)
 }
 
 
-/* SIGNAL */
-
-const signal =
-data.signal || "WAIT";
+/* -------------------------
+   SIGNAL
+------------------------- */
 
 set(
 "signal",
@@ -950,33 +1420,86 @@ signal
 );
 
 
-/* SCORE */
+/* -------------------------
+   SCORE
+------------------------- */
 
-if(data.score !== undefined){
+if(
+data.score !== undefined
+){
+
+const rawScore =
+Number(data.score);
 
 set(
 "score",
-data.score + "/100"
+Number.isFinite(rawScore)
+? rawScore + "/100"
+: "--"
 );
 
+const bar =
 document.getElementById(
 "scoreBar"
-).style.width =
+);
+
+if(bar){
+
+bar.style.width =
 Math.max(
 0,
 Math.min(
 100,
-Number(data.score)
+Number.isFinite(rawScore)
+? rawScore
+: 0
 )
 ) + "%";
 
 }
 
+}
 
-/* TRADE */
+
+/* -------------------------
+   TRADE
+------------------------- */
 
 const trade =
-data.trade || {};
+smart.trade;
+
+if(
+smart.signal === "WAIT"
+){
+
+set(
+"entry",
+"--"
+);
+
+set(
+"sl",
+"--"
+);
+
+set(
+"tp1",
+"--"
+);
+
+set(
+"tp2",
+"--"
+);
+
+set(
+"rr",
+"--"
+);
+
+}
+
+else{
 
 set(
 "entry",
@@ -1013,13 +1536,28 @@ trade.rr
 : "--"
 );
 
+}
+
+
 set(
 "phase",
 data.phase || "--"
 );
 
 
-/* M15 */
+/* -------------------------
+   SYSTEM REASON
+------------------------- */
+
+set(
+"systemNote",
+smart.reason
+);
+
+
+/* -------------------------
+   M15
+------------------------- */
 
 const m15 =
 data.timeframes?.M15;
@@ -1028,7 +1566,9 @@ if(!m15)
 return;
 
 
-/* EMA */
+/* -------------------------
+   EMA
+------------------------- */
 
 set(
 "ema20",
@@ -1040,7 +1580,11 @@ set(
 money(m15.ema50)
 );
 
-if(Number.isFinite(Number(m15.price))){
+if(
+Number.isFinite(
+Number(m15.price)
+)
+){
 
 set(
 "ema20State",
@@ -1061,9 +1605,15 @@ Number(m15.ema50)
 }
 
 
-/* RSI */
+/* -------------------------
+   RSI
+------------------------- */
 
-if(Number.isFinite(Number(m15.rsi))){
+if(
+Number.isFinite(
+Number(m15.rsi)
+)
+){
 
 const r =
 Number(m15.rsi);
@@ -1077,16 +1627,20 @@ let state =
 "NEUTRAL";
 
 if(r >= 70)
-state = "OVERBOUGHT";
+state =
+"OVERBOUGHT";
 
 else if(r <= 30)
-state = "OVERSOLD";
+state =
+"OVERSOLD";
 
 else if(r > 50)
-state = "POSITIVE";
+state =
+"POSITIVE";
 
 else
-state = "WEAK";
+state =
+"WEAK";
 
 set(
 "rsiState",
@@ -1096,7 +1650,9 @@ state
 }
 
 
-/* ATR */
+/* -------------------------
+   ATR
+------------------------- */
 
 set(
 "atr",
@@ -1104,7 +1660,9 @@ money(m15.atr)
 );
 
 
-/* VOLUME */
+/* -------------------------
+   VOLUME
+------------------------- */
 
 const v =
 m15.volume || {};
@@ -1129,7 +1687,9 @@ v.state || "--"
 );
 
 
-/* BOLLINGER */
+/* -------------------------
+   BOLLINGER
+------------------------- */
 
 const bb =
 m15.bb || {};
@@ -1155,7 +1715,9 @@ bb.position || "--"
 );
 
 
-/* SUPPORT RESISTANCE */
+/* -------------------------
+   SUPPORT / RESISTANCE
+------------------------- */
 
 set(
 "resistance",
@@ -1176,6 +1738,7 @@ Number(m15.resistance);
 const support =
 Number(m15.support);
 
+
 if(
 Number.isFinite(price) &&
 Number.isFinite(resistance)
@@ -1184,11 +1747,14 @@ Number.isFinite(resistance)
 set(
 "resistanceDistance",
 (
-((resistance-price)/price)*100
-).toFixed(2)+"%"
+((resistance-price) /
+price) *
+100
+).toFixed(2) + "%"
 );
 
 }
+
 
 if(
 Number.isFinite(price) &&
@@ -1198,14 +1764,18 @@ Number.isFinite(support)
 set(
 "supportDistance",
 (
-((price-support)/price)*100
-).toFixed(2)+"%"
+((price-support) /
+price) *
+100
+).toFixed(2) + "%"
 );
 
 }
 
 
-/* STRUCTURE */
+/* -------------------------
+   STRUCTURE
+------------------------- */
 
 set(
 "structure",
@@ -1229,12 +1799,14 @@ m15.atr && price
 Number(m15.atr) /
 price *
 100
-).toFixed(2)+"%"
+).toFixed(2) + "%"
 : "--"
 );
 
 
-/* TIMEFRAME DISPLAY */
+/* -------------------------
+   TIMEFRAMES
+------------------------- */
 
 const grid =
 document.getElementById(
@@ -1249,24 +1821,36 @@ const tfData =
 data.timeframes || {};
 
 const list =
-["D1","H4","H1","M30","M15","M5"];
+[
+"D1",
+"H4",
+"H1",
+"M30",
+"M15",
+"M5"
+];
 
-list.forEach(tf => {
+list.forEach(
+tf => {
 
 const d =
 tfData[tf];
 
 const condition =
 d?.condition ||
-(tf === "M15"
+(
+tf === "M15"
 ? m15.condition
-: "N/A");
+: "N/A"
+);
 
 const score =
 d?.score ??
-(tf === "M15"
+(
+tf === "M15"
 ? m15.score
-: "--");
+: "--"
+);
 
 const colour =
 condition === "BULLISH"
@@ -1280,7 +1864,8 @@ document.createElement(
 "div"
 );
 
-div.className = "tf";
+div.className =
+"tf";
 
 div.innerHTML = `
 
@@ -1308,7 +1893,7 @@ grid.appendChild(div);
 
 
 /* =========================================================
-   FETCH
+   FETCH API
 ========================================================= */
 
 async function fetchAPI(){
@@ -1328,7 +1913,10 @@ headers:{
 const data =
 await response.json();
 
-if(!response.ok || data.ok === false){
+if(
+!response.ok ||
+data.ok === false
+){
 
 throw new Error(
 data.detail ||
@@ -1347,7 +1935,9 @@ return data;
    REFRESH
 ========================================================= */
 
-async function refresh(manual=false){
+async function refresh(
+manual=false
+){
 
 if(refreshing)
 return;
@@ -1373,7 +1963,9 @@ if(button)
 button.disabled = true;
 
 
-/* CHECK CACHE */
+/* -------------------------
+   CACHE CHECK
+------------------------- */
 
 const cached =
 loadCache();
@@ -1384,11 +1976,14 @@ Date.now();
 if(
 cached &&
 cached.timestamp &&
-(now - cached.timestamp) <
-CACHE_TIME
+(
+now - cached.timestamp
+) < CACHE_TIME
 ){
 
-render(cached.data);
+render(
+cached.data
+);
 
 if(status)
 status.textContent =
@@ -1406,11 +2001,6 @@ cached.timestamp
 ).toLocaleTimeString()
 );
 
-set(
-"systemNote",
-"Cached data displayed. API will be checked after the 5-minute cache expires."
-);
-
 refreshing = false;
 
 if(button)
@@ -1421,7 +2011,9 @@ return;
 }
 
 
-/* API */
+/* -------------------------
+   API REQUEST
+------------------------- */
 
 if(status)
 status.textContent =
@@ -1458,10 +2050,11 @@ Date.now()
 ).toLocaleTimeString()
 );
 
-set(
-"systemNote",
-"Twelve Data connected. Data cached locally for 5 minutes."
-);
+
+/*
+   System message already
+   contains smart filter reason.
+*/
 
 }catch(error){
 
@@ -1472,7 +2065,9 @@ loadCache();
 
 if(fallback){
 
-render(fallback.data);
+render(
+fallback.data
+);
 
 if(status)
 status.textContent =
@@ -1495,7 +2090,9 @@ set(
 "Live API unavailable/rate limited. Showing last successful data."
 );
 
-}else{
+}
+
+else{
 
 if(status)
 status.textContent =
@@ -1528,18 +2125,14 @@ button.disabled = false;
    START
 ========================================================= */
 
-/*
-  IMPORTANT:
-  This runs only once when page opens.
-  No 15-second polling.
-*/
-
 const initial =
 loadCache();
 
 if(initial){
 
-render(initial.data);
+render(
+initial.data
+);
 
 document.getElementById(
 "statusText"
@@ -1563,16 +2156,17 @@ initial.timestamp
 
 
 /*
-  Only call API if cache expired.
+   API call only when cache
+   has expired.
 */
 
 refresh(false);
 
 
 /*
-  Check every 60 seconds.
-  Client cache prevents actual API call
-  until 5 minutes have passed.
+   Check every 60 seconds.
+   5-minute cache prevents
+   excessive API calls.
 */
 
 setInterval(
@@ -1581,7 +2175,9 @@ setInterval(
 );
 
 
-/* PWA */
+/* =========================================================
+   PWA
+========================================================= */
 
 if(
 "serviceWorker" in navigator
