@@ -4,1990 +4,3179 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#f3f6fa">
+
 <title>BTCUSD Pro Trading Monitor</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
 :root{
---bg:#f3f6fa;
---card:#fff;
---soft:#f8fafc;
---border:#e2e8f0;
---text:#172033;
---muted:#718096;
---green:#10a968;
---green-bg:#ecfdf5;
---red:#e5485d;
---red-bg:#fff1f2;
---yellow:#d89b00;
---yellow-bg:#fffbeb;
---blue:#287fd4;
---blue-bg:#eff6ff;
---orange:#f7931a
+  --bg:#f3f6fa;
+  --card:#ffffff;
+  --soft:#f8fafc;
+  --border:#e2e8f0;
+  --text:#172033;
+  --muted:#718096;
+
+  --green:#10a968;
+  --green-bg:#e9f9f1;
+
+  --red:#e5485d;
+  --red-bg:#fff0f2;
+
+  --yellow:#d89b00;
+  --yellow-bg:#fff8df;
+
+  --blue:#287fd4;
+  --blue-bg:#edf6ff;
+
+  --orange:#f7931a;
 }
+
 body{
-background:
-radial-gradient(circle at 10% 0%,rgba(77,163,255,.08),transparent 25%),
-radial-gradient(circle at 90% 10%,rgba(247,147,26,.06),transparent 25%),
-var(--bg);
-color:var(--text);
-font-family:Inter,Arial,sans-serif;
-min-height:100vh
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(77,163,255,.08),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(247,147,26,.06),
+      transparent 25%
+    ),
+    var(--bg);
+
+  color:var(--text);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  min-height:100vh;
 }
+
 .container{
-width:min(1450px,94%);
-margin:auto;
-padding:18px 0 40px
+  width:min(1450px,94%);
+  margin:auto;
+  padding:18px 0 40px;
 }
+
+/* =====================================================
+   HEADER
+===================================================== */
+
 .header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
-gap:15px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+  gap:15px;
 }
+
 .brand{
-display:flex;
-align-items:center;
-gap:12px
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
+
 .logo{
-width:46px;
-height:46px;
-border-radius:13px;
-display:grid;
-place-items:center;
-font-size:21px;
-font-weight:900;
-background:linear-gradient(135deg,#f7931a,#ffb347);
-color:#111
+  width:46px;
+  height:46px;
+  border-radius:13px;
+
+  display:grid;
+  place-items:center;
+
+  font-size:21px;
+  font-weight:900;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f7931a,
+      #ffb347
+    );
+
+  color:#111;
+
+  box-shadow:
+    0 5px 15px rgba(247,147,26,.18);
 }
-.brand h1{font-size:21px}
-.brand p{
-font-size:11px;
-color:var(--muted);
-margin-top:3px
-}
-.status{
-background:#fff;
-border:1px solid var(--border);
-border-radius:10px;
-padding:8px 11px;
-display:flex;
-align-items:center;
-gap:7px;
-font-size:10px;
-color:var(--muted)
-}
-.dot{
-width:7px;
-height:7px;
-border-radius:50%;
-background:var(--yellow)
-}
-.dot.live{
-background:var(--green);
-box-shadow:0 0 8px rgba(16,169,104,.5)
-}
-.dot.error{
-background:var(--red);
-box-shadow:0 0 8px rgba(229,72,93,.4)
-}
-.price-card{
-background:#fff;
-border:1px solid var(--border);
-border-radius:17px;
-padding:20px;
-margin-bottom:15px
-}
-.price-top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start
-}
-.symbol{
-font-size:11px;
-color:var(--muted)
-}
-.price{
-font-size:40px;
-font-weight:900;
-margin:4px 0
-}
-.change{
-font-size:12px;
-font-weight:700
-}
-.btn{
-border:1px solid var(--border);
-background:#f8fafc;
-padding:9px 12px;
-border-radius:9px;
-font-size:10px;
-cursor:pointer;
-transition:.2s
-}
-.btn:hover{
-background:#eef2f7
-}
-.btn:disabled{
-opacity:.5;
-cursor:not-allowed
-}
-.grid{
-display:grid;
-grid-template-columns:repeat(12,1fr);
-gap:14px
-}
-.card{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:15px;
-padding:16px;
-transition:.2s
-}
-.card:hover{
-box-shadow:0 5px 18px rgba(15,23,42,.05)
-}
-.col-3{grid-column:span 3}
-.col-4{grid-column:span 4}
-.col-6{grid-column:span 6}
-.col-8{grid-column:span 8}
-.col-12{grid-column:span 12}
-.card-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:14px
-}
-.card-title h2{font-size:13px}
-.card-title span{
-font-size:9px;
-color:var(--muted)
-}
-.signal-box{
-display:flex;
-justify-content:space-between;
-align-items:center
-}
-.signal-label{
-font-size:9px;
-color:var(--muted)
-}
-.signal{
-font-size:31px;
-font-weight:900;
-margin-top:4px;
-padding:4px 10px;
-border-radius:9px;
-display:inline-block
-}
-.confidence{text-align:right}
-.confidence span{
-font-size:9px;
-color:var(--muted)
-}
-.confidence strong{
-display:block;
-font-size:24px
-}
-.progress{
-height:7px;
-background:#e8edf3;
-border-radius:10px;
-overflow:hidden;
-margin-top:13px
-}
-.progress span{
-display:block;
-height:100%;
-width:0;
-background:var(--blue);
-transition:.4s
-}
-.metric-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:9px
-}
-.metric{
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:10px;
-padding:11px
-}
-.metric-name{
-font-size:8px;
-color:var(--muted);
-margin-bottom:5px
-}
-.metric-value{
-font-size:14px;
-font-weight:800
-}
-.metric-sub{
-font-size:8px;
-color:var(--muted);
-margin-top:3px
-}
-.tf-grid{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:7px
-}
-.tf{
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:9px;
-padding:10px 5px;
-text-align:center
-}
-.tf-name{
-font-size:9px;
-color:var(--muted)
-}
-.tf-status{
-font-size:10px;
-font-weight:800;
-margin-top:5px;
-padding:3px 5px;
-border-radius:6px;
-display:inline-block
-}
-.tf-value{
-font-size:8px;
-color:var(--muted);
-margin-top:3px
-}
-.check-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px
-}
-.check{
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:10px;
-padding:10px
-}
-.check-name{
-font-size:8px;
-color:var(--muted)
-}
-.check-value{
-font-size:11px;
-font-weight:800;
-margin-top:4px
-}
-.system-note{
-font-size:10px;
-color:var(--muted);
-line-height:1.6
-}
-.footer{
-text-align:center;
-font-size:9px;
-color:#94a3b8;
-margin-top:18px
-}
-/* =====================================================
-   SIGNAL COLORS
-===================================================== */
-.green{
-color:var(--green)!important;
-background:var(--green-bg)
-}
-.red{
-color:var(--red)!important;
-background:var(--red-bg)
-}
-.yellow{
-color:var(--yellow)!important;
-background:var(--yellow-bg)
-}
-.blue{
-color:var(--blue)!important;
-background:var(--blue-bg)
-}
-.muted{
-color:var(--muted)!important
-}
-/* Main signal */
-.signal.green,
-.signal.red,
-.signal.yellow{
-padding:5px 12px
-}
-/* =====================================================
-   ALERT / STATUS EMPHASIS
-===================================================== */
-.alert-box{
-border-radius:10px;
-padding:9px 11px;
-margin-top:10px;
-font-size:10px;
-font-weight:700;
-display:none
-}
-.alert-box.show{
-display:block
-}
-.alert-box.buy{
-color:var(--green);
-background:var(--green-bg);
-border:1px solid rgba(16,169,104,.25)
-}
-.alert-box.sell{
-color:var(--red);
-background:var(--red-bg);
-border:1px solid rgba(229,72,93,.25)
-}
-.alert-box.wait{
-color:var(--yellow);
-background:var(--yellow-bg);
-border:1px solid rgba(216,155,0,.25)
-}
-.alert-box.info{
-color:var(--blue);
-background:var(--blue-bg);
-border:1px solid rgba(40,127,212,.2)
-}
-/* =====================================================
-   MOBILE
-===================================================== */
-@media(max-width:1000px){
-.col-3,
-.col-4,
-.col-6,
-.col-8{
-grid-column:span 6
-}
-.col-12{
-grid-column:span 12
-}
-.tf-grid{
-grid-template-columns:repeat(3,1fr)
-}
-}
-@media(max-width:650px){
-.container{
-width:94%;
-padding-top:11px
-}
-.header{
-align-items:flex-start
-}
+
 .brand h1{
-font-size:17px
+  font-size:21px;
 }
+
 .brand p{
-font-size:9px
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px;
 }
-.logo{
-width:40px;
-height:40px;
-font-size:18px
+
+.status{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:8px 11px;
+
+  display:flex;
+  align-items:center;
+  gap:7px;
+
+  font-size:10px;
+  color:var(--muted);
 }
-.price{
-font-size:29px
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--yellow);
 }
+
+.dot.live{
+  background:var(--green);
+  box-shadow:0 0 8px rgba(16,169,104,.5);
+}
+
+.dot.error{
+  background:var(--red);
+  box-shadow:0 0 8px rgba(229,72,93,.4);
+}
+
+/* =====================================================
+   PRICE
+===================================================== */
+
+.price-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:17px;
+
+  padding:20px;
+  margin-bottom:15px;
+
+  box-shadow:
+    0 5px 18px rgba(15,23,42,.03);
+}
+
 .price-top{
-flex-direction:column;
-gap:10px
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
 }
+
+.symbol{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.price{
+  font-size:40px;
+  font-weight:900;
+  margin:4px 0;
+  letter-spacing:-1px;
+}
+
+.change{
+  font-size:12px;
+  font-weight:700;
+}
+
 .btn{
-width:100%
+  border:1px solid var(--border);
+  background:#f8fafc;
+
+  padding:9px 12px;
+  border-radius:9px;
+
+  font-size:10px;
+  cursor:pointer;
+
+  transition:.2s;
 }
-.col-3,
-.col-4,
-.col-6,
-.col-8,
+
+.btn:hover{
+  background:#eef2f7;
+}
+
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+/* =====================================================
+   GRID
+===================================================== */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:14px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+
+  padding:16px;
+
+  box-shadow:
+    0 4px 15px rgba(15,23,42,.025);
+}
+
+.col-3{
+  grid-column:span 3;
+}
+
+.col-4{
+  grid-column:span 4;
+}
+
+.col-6{
+  grid-column:span 6;
+}
+
+.col-8{
+  grid-column:span 8;
+}
+
 .col-12{
-grid-column:span 12
+  grid-column:span 12;
 }
-.tf-grid{
-grid-template-columns:repeat(3,1fr)
+
+/* =====================================================
+   CARD TITLE
+===================================================== */
+
+.card-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  margin-bottom:14px;
 }
-.check-grid{
-grid-template-columns:repeat(2,1fr)
+
+.card-title h2{
+  font-size:13px;
 }
-.metric-value{
-font-size:13px
+
+.card-title span{
+  font-size:9px;
+  color:var(--muted);
 }
+
+/* =====================================================
+   SIGNAL
+===================================================== */
+
+.signal-box{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.signal-label{
+  font-size:9px;
+  color:var(--muted);
+}
+
 .signal{
-font-size:27px
+  font-size:31px;
+  font-weight:900;
+  margin-top:4px;
+
+  transition:.25s;
 }
+
+.confidence{
+  text-align:right;
+}
+
+.confidence span{
+  font-size:9px;
+  color:var(--muted);
+}
+
+.confidence strong{
+  display:block;
+  font-size:24px;
+}
+
+.progress{
+  height:7px;
+  background:#e8edf3;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:13px;
+}
+
+.progress span{
+  display:block;
+  height:100%;
+  width:0;
+
+  background:var(--yellow);
+
+  transition:
+    width .35s,
+    background .25s;
+}
+
+/* =====================================================
+   METRICS
+===================================================== */
+
+.metric-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+}
+
+.metric{
+  background:#f8fafc;
+  border:1px solid var(--border);
+
+  border-radius:10px;
+  padding:11px;
+
+  transition:
+    background .2s,
+    border .2s,
+    transform .2s;
+}
+
+.metric:hover{
+  transform:translateY(-1px);
+}
+
+.metric-name{
+  font-size:8px;
+  color:var(--muted);
+  margin-bottom:5px;
+  letter-spacing:.2px;
+}
+
+.metric-value{
+  font-size:14px;
+  font-weight:800;
+
+  transition:.2s;
+}
+
+.metric-sub{
+  font-size:8px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+/* =====================================================
+   COLOUR SYSTEM
+===================================================== */
+
+.green{
+  color:var(--green)!important;
+}
+
+.red{
+  color:var(--red)!important;
+}
+
+.yellow{
+  color:var(--yellow)!important;
+}
+
+.blue{
+  color:var(--blue)!important;
+}
+
+.muted{
+  color:var(--muted)!important;
+}
+
+/* =====================================================
+   COLOUR BACKGROUND STATES
+===================================================== */
+
+.state-green{
+  background:var(--green-bg)!important;
+  border-color:#bcebd2!important;
+}
+
+.state-red{
+  background:var(--red-bg)!important;
+  border-color:#f4c3cb!important;
+}
+
+.state-yellow{
+  background:var(--yellow-bg)!important;
+  border-color:#f0d98d!important;
+}
+
+.state-blue{
+  background:var(--blue-bg)!important;
+  border-color:#c7e0f8!important;
+}
+
+/* =====================================================
+   TIMEFRAME
+===================================================== */
+
+.tf-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+}
+
+.tf{
+  background:#f8fafc;
+  border:1px solid var(--border);
+
+  border-radius:9px;
+  padding:10px 5px;
+
+  text-align:center;
+
+  transition:.2s;
+}
+
+.tf:hover{
+  transform:translateY(-1px);
+}
+
+.tf-name{
+  font-size:9px;
+  color:var(--muted);
+}
+
+.tf-status{
+  font-size:10px;
+  font-weight:800;
+  margin-top:5px;
+}
+
+.tf-value{
+  font-size:8px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+/* =====================================================
+   CHECKLIST
+===================================================== */
+
+.check-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.check{
+  background:#f8fafc;
+  border:1px solid var(--border);
+
+  border-radius:10px;
+  padding:10px;
+
+  transition:.2s;
+}
+
+.check:hover{
+  transform:translateY(-1px);
+}
+
+.check-name{
+  font-size:8px;
+  color:var(--muted);
+}
+
+.check-value{
+  font-size:11px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+/* =====================================================
+   ALERT BOX
+===================================================== */
+
+.alert-box{
+  display:none;
+
+  margin-top:12px;
+  padding:11px 12px;
+
+  border-radius:10px;
+
+  font-size:10px;
+  font-weight:800;
+
+  border:1px solid transparent;
+}
+
+.alert-box.show{
+  display:block;
+}
+
+.alert-buy{
+  background:var(--green-bg);
+  color:var(--green);
+  border-color:#bcebd2;
+}
+
+.alert-sell{
+  background:var(--red-bg);
+  color:var(--red);
+  border-color:#f4c3cb;
+}
+
+.alert-wait{
+  background:var(--yellow-bg);
+  color:var(--yellow);
+  border-color:#f0d98d;
+}
+
+/* =====================================================
+   SYSTEM
+===================================================== */
+
+.system-note{
+  font-size:10px;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.footer{
+  text-align:center;
+  font-size:9px;
+  color:#94a3b8;
+  margin-top:18px;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1000px){
+
+  .col-3,
+  .col-4,
+  .col-6,
+  .col-8{
+    grid-column:span 6;
+  }
+
+  .col-12{
+    grid-column:span 12;
+  }
+
+  .tf-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+@media(max-width:650px){
+
+  .container{
+    width:94%;
+    padding-top:11px;
+  }
+
+  .header{
+    align-items:flex-start;
+  }
+
+  .brand h1{
+    font-size:17px;
+  }
+
+  .price{
+    font-size:29px;
+  }
+
+  .price-top{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .col-3,
+  .col-4,
+  .col-6,
+  .col-8,
+  .col-12{
+    grid-column:span 12;
+  }
+
+  .tf-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .check-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 </style>
 </head>
+
 <body>
+
 <div class="container">
+
+<!-- ===================================================
+     HEADER
+=================================================== -->
+
 <header class="header">
-<div class="brand">
-<div class="logo">₿</div>
-<div>
-<h1>BTCUSD Pro Trading Monitor</h1>
-<p>
-Twelve Data · M5 / M15 / H1 Multi-Timeframe Engine
-</p>
-</div>
-</div>
-<div class="status">
-<span id="statusText">
-STARTING
-</span>
-</div>
+
+  <div class="brand">
+
+    <div class="logo">₿</div>
+
+    <div>
+      <h1>BTCUSD Pro Trading Monitor</h1>
+      <p>
+        Twelve Data · M5 / M15 / H1 Multi-Timeframe Engine
+      </p>
+    </div>
+
+  </div>
+
+  <div class="status">
+
+    <span
+      class="dot"
+      id="statusDot">
+    </span>
+
+    <span id="statusText">
+      STARTING
+    </span>
+
+  </div>
+
 </header>
-<!-- =====================================================
-PRICE
-===================================================== -->
+
+
+<!-- ===================================================
+     PRICE
+=================================================== -->
+
 <section class="price-card">
-<div class="price-top">
-<div>
-<div class="symbol">
-BTC/USD · Twelve Data · LIVE M5
-</div>
-<div class="price" id="price">
---
-</div>
-<div class="change" id="change">
-Loading market data...
-</div>
-</div>
 
-<button
-class=“btn”
-id=“refreshBtn”
-onclick=“refresh(true)”
+  <div class="price-top">
 
-↻ Refresh
-</div>
+    <div>
+
+      <div class="symbol">
+        BTC/USD · Twelve Data · LIVE M5
+      </div>
+
+      <div
+        class="price"
+        id="price">
+        --
+      </div>
+
+      <div
+        class="change"
+        id="change">
+        Loading market data...
+      </div>
+
+    </div>
+
+    <button
+      class="btn"
+      id="refreshBtn"
+      onclick="refresh(true)">
+
+      ↻ Refresh
+
+    </button>
+
+  </div>
+
 </section>
+
+
 <main class="grid">
-<!-- =====================================================
-TECHNICAL CONDITION
-===================================================== -->
-<section class="card col-4">
-<div class="card-title">
-<h2>
-Technical Condition
-</h2>
-<span>
-Smart Confluence Engine
-</span>
-</div>
-<div class="signal-box">
-<div>
-<div class="signal-label">
-CURRENT CONDITION
-</div>
-<div
-class="signal yellow"
-id="signal"
->
-WAIT
-</div>
-</div>
-<div class="confidence">
-<span>
-SCORE
-</span>
-<strong id="score">
---
-</strong>
-</div>
-</div>
-<div class="progress">
-<span id="scoreBar"></span>
-</div>
-<div
-class="alert-box"
-id="mainAlert"
->
-</div>
-<div
-class="system-note"
-id="reason"
-style="margin-top:12px"
->
-Waiting for analysis...
-</div>
-</section>
-<!-- =====================================================
-TRADE PLAN
-===================================================== -->
-<section class="card col-4">
-<div class="card-title">
-<h2>
-Trade Plan
-</h2>
-<span>
-M5 ATR Engine
-</span>
-</div>
-<div class="metric-grid">
-<div class="metric">
-<div class="metric-name">
-SIGNAL
-</div>
-<div
-class="metric-value yellow"
-id="tradeSignal"
->
-WAIT
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-ENTRY
-</div>
-<div
-class="metric-value"
-id="entry"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-ENTRY ZONE
-</div>
-<div
-class="metric-value"
-id="entryZone"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-STOP LOSS
-</div>
-<div
-class="metric-value red"
-id="sl"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-TP1
-</div>
-<div
-class="metric-value green"
-id="tp1"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-TP2
-</div>
-<div
-class="metric-value green"
-id="tp2"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-TP3
-</div>
-<div
-class="metric-value green"
-id="tp3"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-R:R
-</div>
-<div
-class="metric-value blue"
-id="rr"
->
---
-</div>
-</div>
-</div>
-</section>
-<!-- =====================================================
-MARKET INFORMATION
-===================================================== -->
-<section class="card col-4">
-<div class="card-title">
-<h2>
-Market Information
-</h2>
-<span>
-Live BTC/USD
-</span>
-</div>
-<div class="metric-grid">
-<div class="metric">
-<div class="metric-name">
-CURRENT
-</div>
-<div
-class="metric-value"
-id="marketPrice"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-M5 HIGH
-</div>
-<div
-class="metric-value"
-id="high"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-M5 LOW
-</div>
-<div
-class="metric-value"
-id="low"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-24H CHANGE
-</div>
-<div
-class="metric-value"
-id="change24"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-24H HIGH
-</div>
-<div
-class="metric-value"
-id="high24"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-24H LOW
-</div>
-<div
-class="metric-value"
-id="low24"
->
---
-</div>
-</div>
-</div>
-</section>
-<!-- =====================================================
-MULTI TIMEFRAME
-===================================================== -->
-<section class="card col-12">
-<div class="card-title">
-<h2>
-Multi-Timeframe Direction
-</h2>
-<span>
-H1 Bias → M15 Confirmation → M5 Trigger
-</span>
-</div>
-<div
-class="tf-grid"
-id="tfGrid"
->
-</div>
-</section>
-<!-- =====================================================
-CORE ENGINE
-===================================================== -->
-<section class="card col-6">
-<div class="card-title">
-<h2>
-Core Engine
-</h2>
-<span>
-Actual API Conditions
-</span>
-</div>
-<div class="metric-grid">
-<div class="metric">
-<div class="metric-name">
-H1 BIAS
-</div>
-<div
-class="metric-value"
-id="h1Bias"
->
---
-</div>
-<div
-class="metric-sub"
-id="h1Detail"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-M15 CONFIRMATION
-</div>
-<div
-class="metric-value"
-id="m15Confirm"
->
---
-</div>
-<div
-class="metric-sub"
-id="m15Detail"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-M5 TRIGGER
-</div>
-<div
-class="metric-value"
-id="m5Trigger"
->
---
-</div>
-<div
-class="metric-sub"
-id="m5Detail"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-MARKET PHASE
-</div>
-<div
-class="metric-value yellow"
-id="phase"
->
---
-</div>
-</div>
-</div>
-</section>
-<!-- =====================================================
-TECHNICAL INDICATORS
-===================================================== -->
-<section class="card col-6">
-<div class="card-title">
-<h2>
-Technical Indicators
-</h2>
-<span>
-M15 + M5
-</span>
-</div>
-<div class="metric-grid">
-<div class="metric">
-<div class="metric-name">
-M15 EMA 20
-</div>
-<div
-class="metric-value"
-id="m15ema20"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-M15 EMA 50
-</div>
-<div
-class="metric-value"
-id="m15ema50"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-M15 RSI 14
-</div>
-<div
-class="metric-value"
-id="m15rsi"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-M15 MACD
-</div>
-<div
-class="metric-value"
-id="macd"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-M15 ADX
-</div>
-<div
-class="metric-value"
-id="adx"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-M5 ATR 14
-</div>
-<div
-class="metric-value"
-id="atr"
->
---
-</div>
-</div>
-</div>
-</section>
-<!-- =====================================================
-LIQUIDITY
-===================================================== -->
-<section class="card col-4">
-<div class="card-title">
-<h2>
-Liquidity
-</h2>
-<span>
-Sweep Detection
-</span>
-</div>
-<div class="metric-grid">
-<div class="metric">
-<div class="metric-name">
-BUY-SIDE LIQUIDITY
-</div>
-<div
-class="metric-value red"
-id="buyLiquidity"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-SELL-SIDE LIQUIDITY
-</div>
-<div
-class="metric-value green"
-id="sellLiquidity"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-ASIAN HIGH
-</div>
-<div
-class="metric-value"
-id="asianHigh"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-ASIAN LOW
-</div>
-<div
-class="metric-value"
-id="asianLow"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-BULLISH SWEEP
-</div>
-<div
-class="metric-value"
-id="bullSweep"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-BEARISH SWEEP
-</div>
-<div
-class="metric-value"
-id="bearSweep"
->
---
-</div>
-</div>
-</div>
-</section>
-<!-- =====================================================
-FVG / VWAP
-===================================================== -->
-<section class="card col-4">
-<div class="card-title">
-<h2>
-FVG / VWAP
-</h2>
-<span>
-Execution Filters
-</span>
-</div>
-<div class="metric-grid">
-<div class="metric">
-<div class="metric-name">
-BULLISH FVG
-</div>
-<div
-class="metric-value"
-id="bullFVG"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-BEARISH FVG
-</div>
-<div
-class="metric-value"
-id="bearFVG"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-VWAP
-</div>
-<div
-class="metric-value"
-id="vwap"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-PRICE VS VWAP
-</div>
-<div
-class="metric-value"
-id="vwapState"
->
---
-</div>
-</div>
-</div>
-</section>
-<!-- =====================================================
-SUPPORT RESISTANCE
-===================================================== -->
-<section class="card col-4">
-<div class="card-title">
-<h2>
-Support / Resistance
-</h2>
-<span>
-M15 Structure
-</span>
-</div>
-<div class="metric-grid">
-<div class="metric">
-<div class="metric-name">
-RESISTANCE
-</div>
-<div
-class="metric-value red"
-id="resistance"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-SUPPORT
-</div>
-<div
-class="metric-value green"
-id="support"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-DIST. RESISTANCE
-</div>
-<div
-class="metric-value"
-id="resDistance"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-DIST. SUPPORT
-</div>
-<div
-class="metric-value"
-id="supDistance"
->
---
-</div>
-</div>
-</div>
-</section>
-<!-- =====================================================
-MARKET STRUCTURE
-===================================================== -->
-<section class="card col-6">
-<div class="card-title">
-<h2>
-Market Structure
-</h2>
-<span>
-Price Action
-</span>
-</div>
-<div class="metric-grid">
-<div class="metric">
-<div class="metric-name">
-STRUCTURE
-</div>
-<div
-class="metric-value"
-id="structure"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-BOS
-</div>
-<div
-class="metric-value"
-id="bos"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-CHOCH
-</div>
-<div
-class="metric-value"
-id="choch"
->
---
-</div>
-</div>
-<div class="metric">
-<div class="metric-name">
-VOLATILITY
-</div>
-<div
-class="metric-value"
-id="volatility"
->
---
-</div>
-</div>
-</div>
-</section>
-<!-- =====================================================
-CHECKLIST
-===================================================== -->
-<section class="card col-6">
-<div class="card-title">
-<h2>
-Confluence Checklist
-</h2>
-<span>
-Final Decision
-</span>
-</div>
-<div class="check-grid">
-<div class="check">
-<div class="check-name">
-H1 BIAS
-</div>
-<div
-class="check-value"
-id="checkH1"
->
---
-</div>
-</div>
-<div class="check">
-<div class="check-name">
-M15 EMA
-</div>
-<div
-class="check-value"
-id="checkEMA"
->
---
-</div>
-</div>
-<div class="check">
-<div class="check-name">
-M15 RSI
-</div>
-<div
-class="check-value"
-id="checkRSI"
->
---
-</div>
-</div>
-<div class="check">
-<div class="check-name">
-MACD
-</div>
-<div
-class="check-value"
-id="checkMACD"
->
---
-</div>
-</div>
-<div class="check">
-<div class="check-name">
-M5 BREAK
-</div>
-<div
-class="check-value"
-id="checkBreak"
->
---
-</div>
-</div>
-<div class="check">
-<div class="check-name">
-LIQUIDITY
-</div>
-<div
-class="check-value"
-id="checkLiquidity"
->
---
-</div>
-</div>
-<div class="check">
-<div class="check-name">
-FVG
-</div>
-<div
-class="check-value"
-id="checkFVG"
->
---
-</div>
-</div>
-<div class="check">
-<div class="check-name">
-VWAP
-</div>
-<div
-class="check-value"
-id="checkVWAP"
->
---
-</div>
-</div>
-<div class="check">
-<div class="check-name">
-ADX
-</div>
-<div
-class="check-value"
-id="checkADX"
->
---
-</div>
-</div>
-</div>
-</section>
-<!-- =====================================================
-SYSTEM
-===================================================== -->
-<section class="card col-12">
-<div class="card-title">
-<h2>
-System
-</h2>
-<span>
-Live Engine
-</span>
-</div>
-<div class="system-note">
-<div id="system">
-Waiting for live BTC/USD analysis...
-</div>
-<div style="margin-top:5px">
 
-Updated:
 
-<strong id="updated">
---
-</strong>
-</div>
-</div>
+<!-- ===================================================
+     TECHNICAL CONDITION
+=================================================== -->
+
+<section class="card col-4">
+
+  <div class="card-title">
+
+    <h2>
+      Technical Condition
+    </h2>
+
+    <span>
+      Smart Confluence Engine
+    </span>
+
+  </div>
+
+
+  <div class="signal-box">
+
+    <div>
+
+      <div class="signal-label">
+        CURRENT CONDITION
+      </div>
+
+      <div
+        class="signal yellow"
+        id="signal">
+        WAIT
+      </div>
+
+    </div>
+
+
+    <div class="confidence">
+
+      <span>
+        SCORE
+      </span>
+
+      <strong id="score">
+        --
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <div class="progress">
+    <span id="scoreBar"></span>
+  </div>
+
+
+  <div
+    class="system-note"
+    id="reason"
+    style="margin-top:12px">
+
+    Waiting for analysis...
+
+  </div>
+
+
+  <div
+    id="mainAlert"
+    class="alert-box">
+
+  </div>
+
 </section>
+
+
+<!-- ===================================================
+     TRADE PLAN
+=================================================== -->
+
+<section class="card col-4">
+
+  <div class="card-title">
+
+    <h2>
+      Trade Plan
+    </h2>
+
+    <span>
+      M5 ATR Engine
+    </span>
+
+  </div>
+
+
+  <div class="metric-grid">
+
+    <div class="metric">
+      <div class="metric-name">
+        SIGNAL
+      </div>
+
+      <div
+        class="metric-value yellow"
+        id="tradeSignal">
+        WAIT
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        ENTRY
+      </div>
+
+      <div
+        class="metric-value"
+        id="entry">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        ENTRY ZONE
+      </div>
+
+      <div
+        class="metric-value"
+        id="entryZone">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        STOP LOSS
+      </div>
+
+      <div
+        class="metric-value red"
+        id="sl">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        TP1
+      </div>
+
+      <div
+        class="metric-value green"
+        id="tp1">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        TP2
+      </div>
+
+      <div
+        class="metric-value green"
+        id="tp2">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        TP3
+      </div>
+
+      <div
+        class="metric-value green"
+        id="tp3">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        R:R
+      </div>
+
+      <div
+        class="metric-value"
+        id="rr">
+        --
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     MARKET INFORMATION
+=================================================== -->
+
+<section class="card col-4">
+
+  <div class="card-title">
+
+    <h2>
+      Market Information
+    </h2>
+
+    <span>
+      Live BTC/USD
+    </span>
+
+  </div>
+
+
+  <div class="metric-grid">
+
+    <div class="metric">
+      <div class="metric-name">
+        CURRENT
+      </div>
+
+      <div
+        class="metric-value"
+        id="marketPrice">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        M5 HIGH
+      </div>
+
+      <div
+        class="metric-value"
+        id="high">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        M5 LOW
+      </div>
+
+      <div
+        class="metric-value"
+        id="low">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        24H CHANGE
+      </div>
+
+      <div
+        class="metric-value"
+        id="change24">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        24H HIGH
+      </div>
+
+      <div
+        class="metric-value"
+        id="high24">
+        --
+      </div>
+    </div>
+
+
+    <div class="metric">
+      <div class="metric-name">
+        24H LOW
+      </div>
+
+      <div
+        class="metric-value"
+        id="low24">
+        --
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     MULTI TIMEFRAME
+=================================================== -->
+
+<section class="card col-12">
+
+  <div class="card-title">
+
+    <h2>
+      Multi-Timeframe Direction
+    </h2>
+
+    <span>
+      H1 Bias → M15 Confirmation → M5 Trigger
+    </span>
+
+  </div>
+
+
+  <div
+    class="tf-grid"
+    id="tfGrid">
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     CORE ENGINE
+=================================================== -->
+
+<section class="card col-6">
+
+  <div class="card-title">
+
+    <h2>
+      Core Engine
+    </h2>
+
+    <span>
+      Actual API Conditions
+    </span>
+
+  </div>
+
+
+  <div class="metric-grid">
+
+    <div class="metric">
+
+      <div class="metric-name">
+        H1 BIAS
+      </div>
+
+      <div
+        class="metric-value"
+        id="h1Bias">
+        --
+      </div>
+
+      <div
+        class="metric-sub"
+        id="h1Detail">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        M15 CONFIRMATION
+      </div>
+
+      <div
+        class="metric-value"
+        id="m15Confirm">
+        --
+      </div>
+
+      <div
+        class="metric-sub"
+        id="m15Detail">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        M5 TRIGGER
+      </div>
+
+      <div
+        class="metric-value"
+        id="m5Trigger">
+        --
+      </div>
+
+      <div
+        class="metric-sub"
+        id="m5Detail">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        MARKET PHASE
+      </div>
+
+      <div
+        class="metric-value yellow"
+        id="phase">
+        --
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     TECHNICAL INDICATORS
+=================================================== -->
+
+<section class="card col-6">
+
+  <div class="card-title">
+
+    <h2>
+      Technical Indicators
+    </h2>
+
+    <span>
+      M15 + M5
+    </span>
+
+  </div>
+
+
+  <div class="metric-grid">
+
+    <div class="metric">
+
+      <div class="metric-name">
+        M15 EMA 20
+      </div>
+
+      <div
+        class="metric-value"
+        id="m15ema20">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        M15 EMA 50
+      </div>
+
+      <div
+        class="metric-value"
+        id="m15ema50">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        M15 RSI 14
+      </div>
+
+      <div
+        class="metric-value"
+        id="m15rsi">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        M15 MACD
+      </div>
+
+      <div
+        class="metric-value"
+        id="macd">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        M15 ADX
+      </div>
+
+      <div
+        class="metric-value"
+        id="adx">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        M5 ATR 14
+      </div>
+
+      <div
+        class="metric-value"
+        id="atr">
+        --
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     LIQUIDITY
+=================================================== -->
+
+<section class="card col-4">
+
+  <div class="card-title">
+
+    <h2>
+      Liquidity
+    </h2>
+
+    <span>
+      Sweep Detection
+    </span>
+
+  </div>
+
+
+  <div class="metric-grid">
+
+    <div class="metric">
+
+      <div class="metric-name">
+        BUY-SIDE LIQUIDITY
+      </div>
+
+      <div
+        class="metric-value red"
+        id="buyLiquidity">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        SELL-SIDE LIQUIDITY
+      </div>
+
+      <div
+        class="metric-value green"
+        id="sellLiquidity">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        ASIAN HIGH
+      </div>
+
+      <div
+        class="metric-value"
+        id="asianHigh">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        ASIAN LOW
+      </div>
+
+      <div
+        class="metric-value"
+        id="asianLow">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        BULLISH SWEEP
+      </div>
+
+      <div
+        class="metric-value"
+        id="bullSweep">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        BEARISH SWEEP
+      </div>
+
+      <div
+        class="metric-value"
+        id="bearSweep">
+        --
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     FVG VWAP
+=================================================== -->
+
+<section class="card col-4">
+
+  <div class="card-title">
+
+    <h2>
+      FVG / VWAP
+    </h2>
+
+    <span>
+      Execution Filters
+    </span>
+
+  </div>
+
+
+  <div class="metric-grid">
+
+    <div class="metric">
+
+      <div class="metric-name">
+        BULLISH FVG
+      </div>
+
+      <div
+        class="metric-value"
+        id="bullFVG">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        BEARISH FVG
+      </div>
+
+      <div
+        class="metric-value"
+        id="bearFVG">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        VWAP
+      </div>
+
+      <div
+        class="metric-value"
+        id="vwap">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        PRICE VS VWAP
+      </div>
+
+      <div
+        class="metric-value"
+        id="vwapState">
+        --
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     SUPPORT RESISTANCE
+=================================================== -->
+
+<section class="card col-4">
+
+  <div class="card-title">
+
+    <h2>
+      Support / Resistance
+    </h2>
+
+    <span>
+      M15 Structure
+    </span>
+
+  </div>
+
+
+  <div class="metric-grid">
+
+    <div class="metric">
+
+      <div class="metric-name">
+        RESISTANCE
+      </div>
+
+      <div
+        class="metric-value red"
+        id="resistance">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        SUPPORT
+      </div>
+
+      <div
+        class="metric-value green"
+        id="support">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        DIST. RESISTANCE
+      </div>
+
+      <div
+        class="metric-value"
+        id="resDistance">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        DIST. SUPPORT
+      </div>
+
+      <div
+        class="metric-value"
+        id="supDistance">
+        --
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     MARKET STRUCTURE
+=================================================== -->
+
+<section class="card col-6">
+
+  <div class="card-title">
+
+    <h2>
+      Market Structure
+    </h2>
+
+    <span>
+      Price Action
+    </span>
+
+  </div>
+
+
+  <div class="metric-grid">
+
+    <div class="metric">
+
+      <div class="metric-name">
+        STRUCTURE
+      </div>
+
+      <div
+        class="metric-value"
+        id="structure">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        BOS
+      </div>
+
+      <div
+        class="metric-value"
+        id="bos">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        CHOCH
+      </div>
+
+      <div
+        class="metric-value"
+        id="choch">
+        --
+      </div>
+
+    </div>
+
+
+    <div class="metric">
+
+      <div class="metric-name">
+        VOLATILITY
+      </div>
+
+      <div
+        class="metric-value"
+        id="volatility">
+        --
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     CHECKLIST
+=================================================== -->
+
+<section class="card col-6">
+
+  <div class="card-title">
+
+    <h2>
+      Confluence Checklist
+    </h2>
+
+    <span>
+      Final Decision
+    </span>
+
+  </div>
+
+
+  <div class="check-grid">
+
+    <div class="check">
+      <div class="check-name">
+        H1 BIAS
+      </div>
+
+      <div
+        class="check-value"
+        id="checkH1">
+        --
+      </div>
+    </div>
+
+
+    <div class="check">
+      <div class="check-name">
+        M15 EMA
+      </div>
+
+      <div
+        class="check-value"
+        id="checkEMA">
+        --
+      </div>
+    </div>
+
+
+    <div class="check">
+      <div class="check-name">
+        M15 RSI
+      </div>
+
+      <div
+        class="check-value"
+        id="checkRSI">
+        --
+      </div>
+    </div>
+
+
+    <div class="check">
+      <div class="check-name">
+        MACD
+      </div>
+
+      <div
+        class="check-value"
+        id="checkMACD">
+        --
+      </div>
+    </div>
+
+
+    <div class="check">
+      <div class="check-name">
+        M5 BREAK
+      </div>
+
+      <div
+        class="check-value"
+        id="checkBreak">
+        --
+      </div>
+    </div>
+
+
+    <div class="check">
+      <div class="check-name">
+        LIQUIDITY
+      </div>
+
+      <div
+        class="check-value"
+        id="checkLiquidity">
+        --
+      </div>
+    </div>
+
+
+    <div class="check">
+      <div class="check-name">
+        FVG
+      </div>
+
+      <div
+        class="check-value"
+        id="checkFVG">
+        --
+      </div>
+    </div>
+
+
+    <div class="check">
+      <div class="check-name">
+        VWAP
+      </div>
+
+      <div
+        class="check-value"
+        id="checkVWAP">
+        --
+      </div>
+    </div>
+
+
+    <div class="check">
+      <div class="check-name">
+        ADX
+      </div>
+
+      <div
+        class="check-value"
+        id="checkADX">
+        --
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================
+     SYSTEM
+=================================================== -->
+
+<section class="card col-12">
+
+  <div class="card-title">
+
+    <h2>
+      System
+    </h2>
+
+    <span>
+      Live Engine
+    </span>
+
+  </div>
+
+
+  <div class="system-note">
+
+    <div id="system">
+      Waiting for live BTC/USD analysis...
+    </div>
+
+    <div style="margin-top:5px">
+
+      Updated:
+
+      <strong id="updated">
+        --
+      </strong>
+
+    </div>
+
+  </div>
+
+</section>
+
 </main>
+
+
 <div class="footer">
 
-BTCUSD Pro Trading Monitor · Twelve Data ·
-Multi-Timeframe Confluence Engine
+  BTCUSD Pro Trading Monitor · Twelve Data ·
+  Multi-Timeframe Confluence Engine
 
 </div>
+
 </div>
+
+
 <script>
+
 let busy=false;
+
+
 /* =====================================================
-HELPERS
+   HELPER
 ===================================================== */
-const $=id=>document.getElementById(id);
-function fmt(v,decimals=2){
-if(
-v===null||
-v===undefined||
-!Number.isFinite(Number(v))
-)return "--";
-return Number(v).toLocaleString(
-"en-US",
-{
-minimumFractionDigits:decimals,
-maximumFractionDigits:decimals
+
+const $ = id =>
+  document.getElementById(id);
+
+
+function fmt(
+  v,
+  decimals=2
+){
+
+  if(
+    v===null ||
+    v===undefined ||
+    !Number.isFinite(Number(v))
+  ){
+    return "--";
+  }
+
+  return Number(v).toLocaleString(
+    "en-US",
+    {
+      minimumFractionDigits:decimals,
+      maximumFractionDigits:decimals
+    }
+  );
 }
-);
-}
+
+
 function price(v){
-if(
-v===null||
-v===undefined||
-!Number.isFinite(Number(v))
-)return "--";
-return "$"+Number(v).toLocaleString(
-"en-US",
-{
-minimumFractionDigits:2,
-maximumFractionDigits:2
+
+  if(
+    v===null ||
+    v===undefined ||
+    !Number.isFinite(Number(v))
+  ){
+    return "--";
+  }
+
+  return "$" +
+    Number(v).toLocaleString(
+      "en-US",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
 }
-);
-}
+
+
 function pct(v){
-if(
-v===null||
-v===undefined||
-!Number.isFinite(Number(v))
-)return "--";
-return Number(v).toFixed(2)+"%";
+
+  if(
+    v===null ||
+    v===undefined ||
+    !Number.isFinite(Number(v))
+  ){
+    return "--";
+  }
+
+  return Number(v).toFixed(2)+"%";
 }
+
+
 function yesNo(v){
-return v?"YES":"NO";
+
+  return v ? "YES" : "NO";
 }
+
+
 /* =====================================================
-COLOR ENGINE
+   COLOUR CLASS
 ===================================================== */
-function setClass(el,value){
-if(!el)return;
-el.classList.remove(
-"green",
-"red",
-"yellow",
-"blue",
-"muted"
-);
-const s=String(value||"").toUpperCase();
-if(
-s.includes("BUY")||
-s.includes("BULL")
+
+function setClass(
+  el,
+  value
 ){
-el.classList.add("green");
+
+  if(!el)return;
+
+  el.classList.remove(
+    "green",
+    "red",
+    "yellow",
+    "blue",
+    "muted"
+  );
+
+  const s =
+    String(value||"")
+      .toUpperCase();
+
+  if(
+    s.includes("BUY") ||
+    s.includes("BULL")
+  ){
+
+    el.classList.add("green");
+
+  }
+
+  else if(
+    s.includes("SELL") ||
+    s.includes("BEAR")
+  ){
+
+    el.classList.add("red");
+
+  }
+
+  else if(
+    s.includes("WAIT") ||
+    s.includes("NEUTRAL") ||
+    s.includes("NO") ||
+    s==="NONE" ||
+    s==="RANGE"
+  ){
+
+    el.classList.add("yellow");
+
+  }
+
+  else{
+
+    el.classList.add("blue");
+
+  }
 }
-else if(
-s.includes("SELL")||
-s.includes("BEAR")
+
+
+/* =====================================================
+   BACKGROUND STATE
+===================================================== */
+
+function setStateBackground(
+  el,
+  value
 ){
-el.classList.add("red");
+
+  if(!el)return;
+
+  el.classList.remove(
+    "state-green",
+    "state-red",
+    "state-yellow",
+    "state-blue"
+  );
+
+  const s =
+    String(value||"")
+      .toUpperCase();
+
+  if(
+    s.includes("BUY") ||
+    s.includes("BULL")
+  ){
+
+    el.classList.add(
+      "state-green"
+    );
+
+  }
+
+  else if(
+    s.includes("SELL") ||
+    s.includes("BEAR")
+  ){
+
+    el.classList.add(
+      "state-red"
+    );
+
+  }
+
+  else if(
+    s.includes("WAIT") ||
+    s.includes("NEUTRAL") ||
+    s.includes("NO") ||
+    s==="NONE"
+  ){
+
+    el.classList.add(
+      "state-yellow"
+    );
+
+  }
+
+  else{
+
+    el.classList.add(
+      "state-blue"
+    );
+
+  }
 }
-else if(
-s.includes("WAIT")||
-s.includes("NEUTRAL")||
-s.includes("NO")||
-s==="NONE"||
-s==="RANGE"
+
+
+/* =====================================================
+   TIMEFRAME
+===================================================== */
+
+function tfCard(
+  name,
+  obj
 ){
-el.classList.add("yellow");
+
+  if(!obj){
+
+    return `
+      <div class="tf">
+
+        <div class="tf-name">
+          ${name}
+        </div>
+
+        <div class="tf-status yellow">
+          N/A
+        </div>
+
+        <div class="tf-value">
+          --/100
+        </div>
+
+      </div>
+    `;
+  }
+
+
+  const condition =
+    obj.condition ||
+    "NEUTRAL";
+
+
+  let cls="yellow";
+
+
+  if(condition==="BULLISH")
+    cls="green";
+
+  else if(condition==="BEARISH")
+    cls="red";
+
+
+  return `
+    <div class="tf">
+
+      <div class="tf-name">
+        ${name}
+      </div>
+
+      <div class="tf-status ${cls}">
+        ${condition}
+      </div>
+
+      <div class="tf-value">
+        ${obj.score??"--"}/100
+      </div>
+
+    </div>
+  `;
 }
-else{
-el.classList.add("blue");
-}
-}
+
+
 /* =====================================================
-ALERT
+   DISTANCE
 ===================================================== */
-function showAlert(signal,reason){
-const el=$("mainAlert");
-if(!el)return;
-el.className="alert-box";
-if(signal==="BUY"){
-el.classList.add("show","buy");
-el.textContent=
-"🟢 BUY ALERT · Trade conditions confirmed";
+
+function distancePct(
+  a,
+  b
+){
+
+  if(
+    !Number.isFinite(Number(a)) ||
+    !Number.isFinite(Number(b)) ||
+    Number(b)===0
+  ){
+
+    return "--";
+
+  }
+
+  return Math.abs(
+    (
+      Number(a)-Number(b)
+    ) /
+    Number(b) *
+    100
+  ).toFixed(2)+"%";
 }
-else if(signal==="SELL"){
-el.classList.add("show","sell");
-el.textContent=
-"🔴 SELL ALERT · Trade conditions confirmed";
-}
-else{
-el.classList.add("show","wait");
-el.textContent=
-"🟡 WAIT · "+reason;
-}
-}
+
+
 /* =====================================================
-TIMEFRAME CARD
+   CHECK
 ===================================================== */
-function tfCard(name,obj){
-if(!obj){
-return `
-<div class="tf">
-<div class="tf-name">
-${name}
-</div>
-<div class="tf-status yellow">
-N/A
-</div>
-<div class="tf-value">
---/100
-</div>
-</div>
-`;
+
+function check(
+  id,
+  value
+){
+
+  const el=$(id);
+
+  if(!el)return;
+
+  el.textContent=value;
+
+  setClass(
+    el,
+    value
+  );
 }
-const condition=
-obj.condition||"NEUTRAL";
-const cls=
-condition==="BULLISH"
-?"green":
-condition==="BEARISH"
-?"red":
-"yellow";
-return `
-<div class="tf">
-<div class="tf-name">
-${name}
-</div>
-<div class="tf-status ${cls}">
-${condition}
-</div>
-<div class="tf-value">
-${obj.score??"--"}/100
-</div>
-</div>
-`;
-}
+
+
 /* =====================================================
-DISTANCE
+   ACTUAL CONDITION
 ===================================================== */
-function distancePct(a,b){
-if(
-!Number.isFinite(Number(a))||
-!Number.isFinite(Number(b))||
-Number(b)===0
-)return "--";
-return Math.abs(
-(Number(a)-Number(b))/
-Number(b)*100
-).toFixed(2)+"%";
-}
-/* =====================================================
-CHECK
-===================================================== */
-function check(id,value){
-const el=$(id);
-if(!el)return;
-el.textContent=value;
-setClass(el,value);
-}
-/* =====================================================
-ACTUAL TIMEFRAME CONDITION
-===================================================== */
+
 function actualCondition(tf){
-return tf?.condition||"NEUTRAL";
+
+  return tf?.condition ||
+    "NEUTRAL";
 }
+
+
 /* =====================================================
-M5 TRIGGER
+   M5 TRIGGER
 ===================================================== */
+
 function triggerCondition(d){
-const c=d.confirmation||{};
-if(c.bullishBreak)
-return "BULLISH TRIGGER";
-if(c.bearishBreak)
-return "BEARISH TRIGGER";
-return "WAIT";
+
+  const c =
+    d.confirmation ||
+    {};
+
+  if(c.bullishBreak)
+    return "BULLISH TRIGGER";
+
+  if(c.bearishBreak)
+    return "BEARISH TRIGGER";
+
+  return "WAIT";
 }
+
+
 /* =====================================================
-REASON ENGINE
+   REASON
 ===================================================== */
+
 function reasonText(d){
-const buy=d.scores?.buy??0;
-const sell=d.scores?.sell??0;
-if(d.signal==="BUY"){
-return `BUY confirmed · ${buy}/100`;
+
+  const buy =
+    d.scores?.buy ?? 0;
+
+  const sell =
+    d.scores?.sell ?? 0;
+
+
+  if(d.signal==="BUY"){
+
+    return `
+      BUY confirmed ·
+      ${buy}/100
+    `;
+
+  }
+
+
+  if(d.signal==="SELL"){
+
+    return `
+      SELL confirmed ·
+      ${sell}/100
+    `;
+
+  }
+
+
+  const h1 =
+    actualCondition(
+      d.timeframes?.H1
+    );
+
+  const m15 =
+    actualCondition(
+      d.timeframes?.M15
+    );
+
+
+  if(
+    h1==="BEARISH" &&
+    m15==="BULLISH"
+  ){
+
+    return `
+      WAIT · H1 bearish but M15 bullish.
+      Waiting for alignment
+    `;
+
+  }
+
+
+  if(
+    h1==="BULLISH" &&
+    m15==="BEARISH"
+  ){
+
+    return `
+      WAIT · H1 bullish but M15 bearish.
+      Waiting for alignment
+    `;
+
+  }
+
+
+  if(buy>sell){
+
+    return `
+      WAIT · BUY pressure
+      ${buy}/100 but full confirmation
+      not complete
+    `;
+
+  }
+
+
+  if(sell>buy){
+
+    return `
+      WAIT · SELL pressure
+      ${sell}/100 but full confirmation
+      not complete
+    `;
+
+  }
+
+
+  return `
+    WAIT · No dominant direction
+  `;
 }
-if(d.signal==="SELL"){
-return `SELL confirmed · ${sell}/100`;
-}
-const h1=
-actualCondition(
-d.timeframes?.H1
-);
-const m15=
-actualCondition(
-d.timeframes?.M15
-);
-if(
-h1==="BEARISH"&&
-m15==="BULLISH"
-){
-return "WAIT · H1 bearish but M15 bullish. Waiting for alignment";
-}
-if(
-h1==="BULLISH"&&
-m15==="BEARISH"
-){
-return "WAIT · H1 bullish but M15 bearish. Waiting for alignment";
-}
-if(buy>sell){
-return `WAIT · BUY pressure ${buy}/100 but full confirmation not complete`;
-}
-if(sell>buy){
-return `WAIT · SELL pressure ${sell}/100 but full confirmation not complete`;
-}
-return "WAIT · No dominant direction";
-}
+
+
 /* =====================================================
-REFRESH
+   MAIN ALERT
 ===================================================== */
+
+function updateMainAlert(d){
+
+  const box =
+    $("mainAlert");
+
+  if(!box)return;
+
+
+  const signal =
+    String(
+      d.signal ||
+      "WAIT"
+    ).toUpperCase();
+
+
+  box.className =
+    "alert-box show";
+
+
+  if(signal==="BUY"){
+
+    box.classList.add(
+      "alert-buy"
+    );
+
+    box.innerHTML =
+      "🟢 BUY SIGNAL · Full confirmation detected";
+
+  }
+
+  else if(signal==="SELL"){
+
+    box.classList.add(
+      "alert-sell"
+    );
+
+    box.innerHTML =
+      "🔴 SELL SIGNAL · Full confirmation detected";
+
+  }
+
+  else{
+
+    box.classList.add(
+      "alert-wait"
+    );
+
+    box.innerHTML =
+      "🟡 WAIT · Confirmation not complete";
+
+  }
+}
+
+
+/* =====================================================
+   REFRESH
+===================================================== */
+
 async function refresh(){
-if(busy)return;
-busy=true;
-const btn=$("refreshBtn");
-if(btn)
-btn.disabled=true;
-$("statusText").textContent="LOADING";
-$("statusDot").className="dot";
-try{
-const r=await fetch(
-"/api/btc?t="+Date.now(),
-{
-cache:"no-store"
+
+  if(busy)return;
+
+  busy=true;
+
+
+  const btn =
+    $("refreshBtn");
+
+
+  if(btn)
+    btn.disabled=true;
+
+
+  $("statusText")
+    .textContent="LOADING";
+
+
+  $("statusDot")
+    .className="dot";
+
+
+  try{
+
+    const r =
+      await fetch(
+        "/api/btc?t="+Date.now(),
+        {
+          cache:"no-store"
+        }
+      );
+
+
+    const d =
+      await r.json();
+
+
+    if(
+      !r.ok ||
+      !d.ok
+    ){
+
+      throw new Error(
+        d.error ||
+        "API request failed"
+      );
+
+    }
+
+
+    render(d);
+
+
+    $("statusText")
+      .textContent="LIVE";
+
+
+    $("statusDot")
+      .className="dot live";
+
+  }
+
+
+  catch(err){
+
+    console.error(err);
+
+
+    $("statusText")
+      .textContent="ERROR";
+
+
+    $("statusDot")
+      .className="dot error";
+
+
+    $("system")
+      .textContent =
+      err.message ||
+      "Unable to load BTC data";
+
+  }
+
+
+  finally{
+
+    busy=false;
+
+
+    if(btn)
+      btn.disabled=false;
+
+  }
 }
-);
-const d=await r.json();
-if(!r.ok||!d.ok){
-throw new Error(
-d.error||
-"API request failed"
-);
-}
-render(d);
-$("statusText").textContent="LIVE";
-$("statusDot").className="dot live";
-}
-catch(err){
-console.error(err);
-$("statusText").textContent="ERROR";
-$("statusDot").className="dot error";
-$("system").textContent=
-err.message||
-"Unable to load BTC data";
-const alert=$("mainAlert");
-if(alert){
-alert.className=
-"alert-box show sell";
-alert.textContent=
-"🔴 API ERROR · "+(
-err.message||
-"Unable to load BTC data"
-);
-}
-}
-finally{
-busy=false;
-if(btn)
-btn.disabled=false;
-}
-}
+
+
 /* =====================================================
-RENDER
+   RENDER
 ===================================================== */
+
 function render(d){
-const p=
-d.price??
-d.lastPrice;
-const t=
-d.timeframes||{};
-const h1=
-t.H1||{};
-const m15=
-t.M15||{};
-const m5=
-t.M5||{};
-const indicators=
-d.indicators||{};
-const h1i=
-indicators.h1||{};
-const m15i=
-indicators.m15||{};
-const m5i=
-indicators.m5||{};
-const levels=
-d.levels||{};
-const conf=
-d.confirmation||{};
-/* =====================================================
-PRICE
-===================================================== */
-$("price").textContent=
-price(p);
-$("marketPrice").textContent=
-price(p);
-$("high").textContent=
-price(d.high);
-$("low").textContent=
-price(d.low);
-$("change24").textContent=
-pct(d.change24);
-$("high24").textContent=
-price(d.high24);
-$("low24").textContent=
-price(d.low24);
-$("change").textContent=
-d.change24!==null&&
-d.change24!==undefined
-?"24H "+pct(d.change24)
-:"Live market data";
-setClass(
-$("change"),
-d.change24>=0
-?"BUY"
-:"SELL"
-);
-/* =====================================================
-MAIN SIGNAL
-===================================================== */
-const signal=
-d.signal||"WAIT";
-const score=
-d.score??0;
-$("signal").textContent=
-signal;
-$("tradeSignal").textContent=
-signal;
-$("score").textContent=
-score+"/100";
-$("scoreBar").style.width=
-Math.max(
-0,
-Math.min(
-100,
-Number(score)
-)
-)+"%";
-setClass(
-$("signal"),
-signal
-);
-setClass(
-$("tradeSignal"),
-signal
-);
-$("reason").textContent=
-reasonText(d);
-showAlert(
-signal,
-reasonText(d)
-);
-/* =====================================================
-TRADE
-===================================================== */
-const trade=
-d.trade||{};
-$("entry").textContent=
-price(trade.entry);
-if(
-trade.entryLow!==null&&
-trade.entryLow!==undefined&&
-trade.entryHigh!==null&&
-trade.entryHigh!==undefined
-){
-$("entryZone").textContent=
-price(trade.entryLow)+
-" – "+
-price(trade.entryHigh);
+
+  const p =
+    d.price ??
+    d.lastPrice;
+
+
+  const t =
+    d.timeframes ||
+    {};
+
+
+  const h1 =
+    t.H1 ||
+    {};
+
+  const m15 =
+    t.M15 ||
+    {};
+
+  const m5 =
+    t.M5 ||
+    {};
+
+
+  const indicators =
+    d.indicators ||
+    {};
+
+
+  const h1i =
+    indicators.h1 ||
+    {};
+
+  const m15i =
+    indicators.m15 ||
+    {};
+
+  const m5i =
+    indicators.m5 ||
+    {};
+
+
+  const levels =
+    d.levels ||
+    {};
+
+
+  const conf =
+    d.confirmation ||
+    {};
+
+
+  /* ===================================================
+     PRICE
+  =================================================== */
+
+  $("price")
+    .textContent =
+    price(p);
+
+
+  $("marketPrice")
+    .textContent =
+    price(p);
+
+
+  $("high")
+    .textContent =
+    price(d.high);
+
+
+  $("low")
+    .textContent =
+    price(d.low);
+
+
+  $("change24")
+    .textContent =
+    pct(d.change24);
+
+
+  $("high24")
+    .textContent =
+    price(d.high24);
+
+
+  $("low24")
+    .textContent =
+    price(d.low24);
+
+
+  $("change")
+    .textContent =
+    `${pct(d.change24)} · Live market data`;
+
+
+  setClass(
+    $("change24"),
+    Number(d.change24)>=0
+      ? "BULLISH"
+      : "BEARISH"
+  );
+
+
+  /* ===================================================
+     SIGNAL
+  =================================================== */
+
+  const signal =
+    d.signal ||
+    "WAIT";
+
+
+  const score =
+    d.score ??
+    0;
+
+
+  $("signal")
+    .textContent =
+    signal;
+
+
+  $("tradeSignal")
+    .textContent =
+    signal;
+
+
+  $("score")
+    .textContent =
+    score+"/100";
+
+
+  $("scoreBar")
+    .style.width =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        Number(score)
+      )
+    )+"%";
+
+
+  setClass(
+    $("signal"),
+    signal
+  );
+
+
+  setClass(
+    $("tradeSignal"),
+    signal
+  );
+
+
+  setClass(
+    $("scoreBar"),
+    signal
+  );
+
+
+  $("reason")
+    .textContent =
+    reasonText(d);
+
+
+  updateMainAlert(d);
+
+
+  /* ===================================================
+     TRADE
+  =================================================== */
+
+  const trade =
+    d.trade ||
+    {};
+
+
+  $("entry")
+    .textContent =
+    price(trade.entry);
+
+
+  if(
+    trade.entryLow!==null &&
+    trade.entryLow!==undefined &&
+    trade.entryHigh!==null &&
+    trade.entryHigh!==undefined
+  ){
+
+    $("entryZone")
+      .textContent =
+      price(trade.entryLow)+
+      " – "+
+      price(trade.entryHigh);
+
+  }
+
+  else{
+
+    $("entryZone")
+      .textContent="--";
+
+  }
+
+
+  $("sl")
+    .textContent =
+    price(trade.sl);
+
+
+  $("tp1")
+    .textContent =
+    price(trade.tp1);
+
+
+  $("tp2")
+    .textContent =
+    price(trade.tp2);
+
+
+  $("tp3")
+    .textContent =
+    price(trade.tp3);
+
+
+  $("rr")
+    .textContent =
+    trade.rr
+      ? "1:"+fmt(trade.rr,1)
+      : "--";
+
+
+  setClass(
+    $("sl"),
+    "SELL"
+  );
+
+
+  setClass(
+    $("tp1"),
+    "BUY"
+  );
+
+  setClass(
+    $("tp2"),
+    "BUY"
+  );
+
+  setClass(
+    $("tp3"),
+    "BUY"
+  );
+
+
+  /* ===================================================
+     TIMEFRAME
+  =================================================== */
+
+  $("tfGrid").innerHTML =
+    tfCard("D1",t.D1)+
+    tfCard("H4",t.H4)+
+    tfCard("H1",t.H1)+
+    tfCard("M15",t.M15)+
+    tfCard("M5",t.M5);
+
+
+  /* ===================================================
+     CORE ENGINE
+  =================================================== */
+
+  const h1Condition =
+    actualCondition(h1);
+
+
+  const m15Condition =
+    actualCondition(m15);
+
+
+  const m5Condition =
+    triggerCondition(d);
+
+
+  $("h1Bias")
+    .textContent =
+    h1Condition;
+
+
+  $("h1Detail")
+    .textContent =
+    `Score ${h1.score??"--"}/100 · EMA50 / EMA200`;
+
+
+  $("m15Confirm")
+    .textContent =
+    m15Condition;
+
+
+  $("m15Detail")
+    .textContent =
+    `Score ${m15.score??"--"}/100 · EMA20 / EMA50 / RSI`;
+
+
+  $("m5Trigger")
+    .textContent =
+    m5Condition;
+
+
+  $("m5Detail")
+    .textContent =
+    conf.bullishBreak
+      ? "Bullish M5 break"
+      : conf.bearishBreak
+        ? "Bearish M5 break"
+        : "Waiting for M5 break";
+
+
+  $("phase")
+    .textContent =
+    d.phase ||
+    "--";
+
+
+  setClass(
+    $("h1Bias"),
+    h1Condition
+  );
+
+
+  setClass(
+    $("m15Confirm"),
+    m15Condition
+  );
+
+
+  setClass(
+    $("m5Trigger"),
+    m5Condition
+  );
+
+
+  setClass(
+    $("phase"),
+    d.phase
+  );
+
+
+  /* ===================================================
+     INDICATORS
+  =================================================== */
+
+  $("m15ema20")
+    .textContent =
+    price(m15i.ema20);
+
+
+  $("m15ema50")
+    .textContent =
+    price(m15i.ema50);
+
+
+  $("m15rsi")
+    .textContent =
+    fmt(m15i.rsi);
+
+
+  $("atr")
+    .textContent =
+    price(m5i.atr);
+
+
+  const macdState =
+    m15i.macd
+      ? m15i.macd.bullish
+        ? "BULLISH"
+        : m15i.macd.bearish
+          ? "BEARISH"
+          : "NEUTRAL"
+      : "--";
+
+
+  $("macd")
+    .textContent =
+    macdState;
+
+
+  $("adx")
+    .textContent =
+    m15i.adx
+      ? fmt(m15i.adx.value)
+      : "--";
+
+
+  setClass(
+    $("macd"),
+    macdState
+  );
+
+
+  setClass(
+    $("adx"),
+    m15i.adx
+      ? m15i.adx.bullish
+        ? "BULL TREND"
+        : m15i.adx.bearish
+          ? "BEAR TREND"
+          : "WEAK TREND"
+      : "--"
+  );
+
+
+  /* ===================================================
+     LIQUIDITY
+  =================================================== */
+
+  $("buyLiquidity")
+    .textContent =
+    price(
+      levels.buySideLiquidity
+    );
+
+
+  $("sellLiquidity")
+    .textContent =
+    price(
+      levels.sellSideLiquidity
+    );
+
+
+  $("asianHigh")
+    .textContent =
+    price(
+      levels.asianHigh
+    );
+
+
+  $("asianLow")
+    .textContent =
+    price(
+      levels.asianLow
+    );
+
+
+  $("bullSweep")
+    .textContent =
+    yesNo(
+      conf.bullishSweep
+    );
+
+
+  $("bearSweep")
+    .textContent =
+    yesNo(
+      conf.bearishSweep
+    );
+
+
+  setClass(
+    $("bullSweep"),
+    conf.bullishSweep
+      ? "BULLISH SWEEP"
+      : "NO"
+  );
+
+
+  setClass(
+    $("bearSweep"),
+    conf.bearishSweep
+      ? "BEARISH SWEEP"
+      : "NO"
+  );
+
+
+  /* ===================================================
+     FVG / VWAP
+  =================================================== */
+
+  $("bullFVG")
+    .textContent =
+    yesNo(
+      conf.bullishFVG
+    );
+
+
+  $("bearFVG")
+    .textContent =
+    yesNo(
+      conf.bearishFVG
+    );
+
+
+  $("vwap")
+    .textContent =
+    price(
+      levels.vwap
+    );
+
+
+  let vwapState =
+    "NEUTRAL";
+
+
+  if(conf.aboveVWAP)
+    vwapState =
+      "ABOVE VWAP";
+
+
+  if(conf.belowVWAP)
+    vwapState =
+      "BELOW VWAP";
+
+
+  $("vwapState")
+    .textContent =
+    vwapState;
+
+
+  setClass(
+    $("vwapState"),
+    vwapState
+  );
+
+
+  /* ===================================================
+     SUPPORT / RESISTANCE
+  =================================================== */
+
+  $("support")
+    .textContent =
+    price(
+      levels.support
+    );
+
+
+  $("resistance")
+    .textContent =
+    price(
+      levels.resistance
+    );
+
+
+  $("supDistance")
+    .textContent =
+    distancePct(
+      p,
+      levels.support
+    );
+
+
+  $("resDistance")
+    .textContent =
+    distancePct(
+      p,
+      levels.resistance
+    );
+
+
+  /* ===================================================
+     MARKET STRUCTURE
+  =================================================== */
+
+  $("structure")
+    .textContent =
+    d.structure ||
+    "--";
+
+
+  $("bos")
+    .textContent =
+    d.bos ||
+    "--";
+
+
+  $("choch")
+    .textContent =
+    d.choch ||
+    "--";
+
+
+  $("volatility")
+    .textContent =
+    m5i.atr &&
+    p
+      ? pct(
+          m5i.atr/p*100
+        )
+      : "--";
+
+
+  setClass(
+    $("structure"),
+    d.structure
+  );
+
+
+  setClass(
+    $("bos"),
+    d.bos
+  );
+
+
+  setClass(
+    $("choch"),
+    d.choch
+  );
+
+
+  /* ===================================================
+     CHECKLIST
+  =================================================== */
+
+  check(
+    "checkH1",
+    h1Condition
+  );
+
+
+  check(
+    "checkEMA",
+    m15i.ema20 &&
+    m15i.ema50
+      ? m15i.ema20 >
+        m15i.ema50
+        ? "BULLISH"
+        : "BEARISH"
+      : "N/A"
+  );
+
+
+  check(
+    "checkRSI",
+    m15i.rsi >= 50
+      ? "BULLISH"
+      : "BEARISH"
+  );
+
+
+  check(
+    "checkMACD",
+    m15i.macd?.bullish
+      ? "BULLISH"
+      : m15i.macd?.bearish
+        ? "BEARISH"
+        : "NEUTRAL"
+  );
+
+
+  check(
+    "checkBreak",
+    conf.bullishBreak
+      ? "BULLISH BREAK"
+      : conf.bearishBreak
+        ? "BEARISH BREAK"
+        : "NO BREAK"
+  );
+
+
+  check(
+    "checkLiquidity",
+    conf.bullishSweep
+      ? "BULL SWEEP"
+      : conf.bearishSweep
+        ? "BEAR SWEEP"
+        : "NO SWEEP"
+  );
+
+
+  check(
+    "checkFVG",
+    conf.bullishFVG
+      ? "BULLISH FVG"
+      : conf.bearishFVG
+        ? "BEARISH FVG"
+        : "NONE"
+  );
+
+
+  check(
+    "checkVWAP",
+    conf.aboveVWAP
+      ? "ABOVE VWAP"
+      : conf.belowVWAP
+        ? "BELOW VWAP"
+        : "NEUTRAL"
+  );
+
+
+  check(
+    "checkADX",
+    m15i.adx
+      ? m15i.adx.value >= 20
+        ? m15i.adx.bullish
+          ? "BULL TREND"
+          : "BEAR TREND"
+        : "WEAK TREND"
+      : "N/A"
+  );
+
+
+  /* ===================================================
+     SYSTEM
+  =================================================== */
+
+  $("system")
+    .textContent =
+    reasonText(d);
+
+
+  $("updated")
+    .textContent =
+    d.updated
+      ? new Date(
+          d.updated
+        ).toLocaleTimeString()
+      : "--";
 }
-else{
-$("entryZone").textContent=
-"--";
-}
-$("sl").textContent=
-price(trade.sl);
-$("tp1").textContent=
-price(trade.tp1);
-$("tp2").textContent=
-price(trade.tp2);
-$("tp3").textContent=
-price(trade.tp3);
-$("rr").textContent=
-trade.rr
-?"1:"+fmt(trade.rr,1)
-:"--";
+
+
 /* =====================================================
-TRADE COLORS
+   START
 ===================================================== */
-if(signal==="BUY"){
-setClass($("entry"),"BUY");
-setClass($("entryZone"),"BUY");
-}
-else if(signal==="SELL"){
-setClass($("entry"),"SELL");
-setClass($("entryZone"),"SELL");
-}
-/* =====================================================
-MULTI TIMEFRAME
-===================================================== */
-$("tfGrid").innerHTML=
-tfCard("D1",t.D1)+
-tfCard("H4",t.H4)+
-tfCard("H1",t.H1)+
-tfCard("M15",t.M15)+
-tfCard("M5",t.M5);
-/* =====================================================
-CORE ENGINE
-===================================================== */
-const h1Condition=
-actualCondition(h1);
-const m15Condition=
-actualCondition(m15);
-const m5Condition=
-actualCondition(m5);
-$("h1Bias").textContent=
-h1Condition;
-$("h1Detail").textContent=
-`Score ${h1.score??"--"}/100 · EMA50 / EMA200`;
-$("m15Confirm").textContent=
-m15Condition;
-$("m15Detail").textContent=
-`Score ${m15.score??"--"}/100 · EMA20 / EMA50 / RSI`;
-$("m5Trigger").textContent=
-triggerCondition(d);
-$("m5Detail").textContent=
-conf.bullishBreak
-?"Bullish M5 break"
-:conf.bearishBreak
-?"Bearish M5 break"
-:"Waiting for M5 break";
-$("phase").textContent=
-d.phase||"--";
-setClass(
-$("h1Bias"),
-h1Condition
-);
-setClass(
-$("m15Confirm"),
-m15Condition
-);
-setClass(
-$("m5Trigger"),
-triggerCondition(d)
-);
-setClass(
-$("phase"),
-d.phase||""
-);
-/* =====================================================
-INDICATORS
-===================================================== */
-$("m15ema20").textContent=
-price(m15i.ema20);
-$("m15ema50").textContent=
-price(m15i.ema50);
-$("m15rsi").textContent=
-fmt(m15i.rsi);
-$("atr").textContent=
-price(m5i.atr);
-$("macd").textContent=
-m15i.macd
-?m15i.macd.bullish
-?"BULLISH"
-:m15i.macd.bearish
-?"BEARISH"
-:"NEUTRAL"
-:"--";
-$("adx").textContent=
-m15i.adx
-?fmt(m15i.adx.value)
-:"--";
-setClass(
-$("macd"),
-m15i.macd?.bullish
-?"BULLISH"
-:m15i.macd?.bearish
-?"BEARISH"
-:"NEUTRAL"
-);
-setClass(
-$("m15rsi"),
-m15i.rsi>=50
-?"BULLISH"
-:"BEARISH"
-);
-setClass(
-$("adx"),
-m15i.adx
-?m15i.adx.value>=20
-?m15i.adx.bullish
-?"BULL TREND"
-:"BEAR TREND"
-:"WEAK TREND"
-:"N/A"
-);
-/* =====================================================
-LIQUIDITY
-===================================================== */
-$("buyLiquidity").textContent=
-price(levels.buySideLiquidity);
-$("sellLiquidity").textContent=
-price(levels.sellSideLiquidity);
-$("asianHigh").textContent=
-price(levels.asianHigh);
-$("asianLow").textContent=
-price(levels.asianLow);
-$("bullSweep").textContent=
-yesNo(conf.bullishSweep);
-$("bearSweep").textContent=
-yesNo(conf.bearishSweep);
-setClass(
-$("bullSweep"),
-conf.bullishSweep
-?"BULLISH SWEEP"
-:"NO"
-);
-setClass(
-$("bearSweep"),
-conf.bearishSweep
-?"BEARISH SWEEP"
-:"NO"
-);
-/* =====================================================
-FVG / VWAP
-===================================================== */
-$("bullFVG").textContent=
-yesNo(conf.bullishFVG);
-$("bearFVG").textContent=
-yesNo(conf.bearishFVG);
-$("vwap").textContent=
-price(levels.vwap);
-let vwapState=
-"NEUTRAL";
-if(conf.aboveVWAP)
-vwapState=
-"ABOVE VWAP";
-if(conf.belowVWAP)
-vwapState=
-"BELOW VWAP";
-$("vwapState").textContent=
-vwapState;
-setClass(
-$("vwapState"),
-vwapState
-);
-setClass(
-$("bullFVG"),
-conf.bullishFVG
-?"BULLISH FVG"
-:"NO"
-);
-setClass(
-$("bearFVG"),
-conf.bearishFVG
-?"BEARISH FVG"
-:"NO"
-);
-/* =====================================================
-SUPPORT / RESISTANCE
-===================================================== */
-$("support").textContent=
-price(levels.support);
-$("resistance").textContent=
-price(levels.resistance);
-$("supDistance").textContent=
-distancePct(
-p,
-levels.support
-);
-$("resDistance").textContent=
-distancePct(
-p,
-levels.resistance
-);
-/* =====================================================
-STRUCTURE
-===================================================== */
-$("structure").textContent=
-d.structure||"--";
-$("bos").textContent=
-d.bos||"--";
-$("choch").textContent=
-d.choch||"--";
-$("volatility").textContent=
-m5i.atr&&p
-?pct(
-m5i.atr/p*100
-)
-:"--";
-setClass(
-$("structure"),
-d.structure
-);
-setClass(
-$("bos"),
-d.bos
-);
-setClass(
-$("choch"),
-d.choch
-);
-/* =====================================================
-CHECKLIST
-===================================================== */
-check(
-"checkH1",
-h1Condition
-);
-check(
-"checkEMA",
-m15i.ema20&&m15i.ema50
-?m15i.ema20>m15i.ema50
-?"BULLISH"
-:"BEARISH"
-:"N/A"
-);
-check(
-"checkRSI",
-m15i.rsi>=50
-?"BULLISH"
-:"BEARISH"
-);
-check(
-"checkMACD",
-m15i.macd?.bullish
-?"BULLISH"
-:m15i.macd?.bearish
-?"BEARISH"
-:"NEUTRAL"
-);
-check(
-"checkBreak",
-conf.bullishBreak
-?"BULLISH BREAK"
-:conf.bearishBreak
-?"BEARISH BREAK"
-:"NO BREAK"
-);
-check(
-"checkLiquidity",
-conf.bullishSweep
-?"BULL SWEEP"
-:conf.bearishSweep
-?"BEAR SWEEP"
-:"NO SWEEP"
-);
-check(
-"checkFVG",
-conf.bullishFVG
-?"BULLISH FVG"
-:conf.bearishFVG
-?"BEARISH FVG"
-:"NONE"
-);
-check(
-"checkVWAP",
-conf.aboveVWAP
-?"ABOVE VWAP"
-:conf.belowVWAP
-?"BELOW VWAP"
-:"NEUTRAL"
-);
-check(
-"checkADX",
-m15i.adx
-?m15i.adx.value>=20
-?m15i.adx.bullish
-?"BULL TREND"
-:"BEAR TREND"
-:"WEAK TREND"
-:"N/A"
-);
-/* =====================================================
-SYSTEM
-===================================================== */
-$("system").textContent=
-reasonText(d);
-$("updated").textContent=
-d.updated
-?new Date(d.updated)
-.toLocaleTimeString()
-:"--";
-}
-/* =====================================================
-START
-===================================================== */
+
 refresh();
+
+
+/*
+  Auto refresh every 60 seconds
+*/
 setInterval(
-refresh,
-60000
+  refresh,
+  60000
 );
+
 </script>
+
 </body>
 </html>
