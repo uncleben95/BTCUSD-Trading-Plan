@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#f3f6fa">
-
-<link rel="manifest" href="/manifest.json">
-
-<title>BTCUSD Technical Monitor</title>
+<title>BTCUSD Pro Trading Monitor</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -290,6 +287,30 @@ color:var(--muted);
 margin-top:3px
 }
 
+.check-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px
+}
+
+.check{
+background:#f8fafc;
+border:1px solid var(--border);
+border-radius:10px;
+padding:10px
+}
+
+.check-name{
+font-size:8px;
+color:var(--muted)
+}
+
+.check-value{
+font-size:11px;
+font-weight:800;
+margin-top:4px
+}
+
 .system-note{
 font-size:10px;
 color:var(--muted);
@@ -310,41 +331,14 @@ margin-top:18px
 }
 
 @media(max-width:650px){
-
-.container{
-width:94%;
-padding-top:11px
-}
-
-.header{
-align-items:flex-start
-}
-
-.brand h1{
-font-size:17px
-}
-
-.price{
-font-size:29px
-}
-
-.price-top{
-flex-direction:column;
-gap:10px
-}
-
-.col-3,
-.col-4,
-.col-6,
-.col-8,
-.col-12{
-grid-column:span 12
-}
-
-.tf-grid{
-grid-template-columns:repeat(3,1fr)
-}
-
+.container{width:94%;padding-top:11px}
+.header{align-items:flex-start}
+.brand h1{font-size:17px}
+.price{font-size:29px}
+.price-top{flex-direction:column;gap:10px}
+.col-3,.col-4,.col-6,.col-8,.col-12{grid-column:span 12}
+.tf-grid{grid-template-columns:repeat(3,1fr)}
+.check-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -354,121 +348,85 @@ grid-template-columns:repeat(3,1fr)
 <div class="container">
 
 <header class="header">
-
 <div class="brand">
-
 <div class="logo">₿</div>
-
 <div>
-<h1>BTCUSD Technical Monitor</h1>
-<p>Twelve Data · Smart Market Intelligence</p>
+<h1>BTCUSD Pro Trading Monitor</h1>
+<p>Twelve Data · M5 / M15 / H1 Multi-Timeframe Engine</p>
 </div>
-
 </div>
 
 <div class="status">
 <span class="dot" id="statusDot"></span>
 <span id="statusText">STARTING</span>
 </div>
-
 </header>
 
-
 <section class="price-card">
-
 <div class="price-top">
-
 <div>
-
-<div class="symbol">
-BTC/USD · Twelve Data · M15
-</div>
-
+<div class="symbol">BTC/USD · Twelve Data · LIVE M5</div>
 <div class="price" id="price">--</div>
-
-<div class="change muted" id="change">
-Live candle data
+<div class="change muted" id="change">Loading market data...</div>
 </div>
 
-</div>
-
-<button
-class="btn"
-id="refreshBtn"
-onclick="refresh(true)"
->
+<button class="btn" id="refreshBtn" onclick="refresh(true)">
 ↻ Refresh
 </button>
-
 </div>
-
 </section>
-
 
 <main class="grid">
 
-
-<!-- SIGNAL -->
-
 <section class="card col-4">
-
 <div class="card-title">
 <h2>Technical Condition</h2>
-<span>Smart Filter</span>
+<span>Smart Confluence Engine</span>
 </div>
 
 <div class="signal-box">
-
 <div>
-
-<div class="signal-label">
-CURRENT CONDITION
-</div>
-
-<div class="signal yellow" id="signal">
-WAIT
-</div>
-
+<div class="signal-label">CURRENT CONDITION</div>
+<div class="signal yellow" id="signal">WAIT</div>
 </div>
 
 <div class="confidence">
-
 <span>SCORE</span>
-
 <strong id="score">--</strong>
-
 </div>
-
 </div>
 
 <div class="progress">
 <span id="scoreBar"></span>
 </div>
 
+<div class="system-note" id="reason" style="margin-top:12px">
+Waiting for analysis...
+</div>
 </section>
 
 
-<!-- TRADE -->
-
 <section class="card col-4">
-
 <div class="card-title">
 <h2>Trade Plan</h2>
-<span>M15 + ATR</span>
+<span>M5 ATR Engine</span>
 </div>
 
 <div class="metric-grid">
 
 <div class="metric">
 <div class="metric-name">SIGNAL</div>
-<div class="metric-value yellow" id="tradeSignal">
-WAIT
-</div>
+<div class="metric-value yellow" id="tradeSignal">WAIT</div>
 </div>
 
 <div class="metric">
 <div class="metric-name">ENTRY</div>
 <div class="metric-value" id="entry">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">ENTRY ZONE</div>
+<div class="metric-value" id="entryZone">--</div>
 </div>
 
 <div class="metric">
@@ -487,37 +445,23 @@ WAIT
 </div>
 
 <div class="metric">
+<div class="metric-name">TP3</div>
+<div class="metric-value green" id="tp3">--</div>
+</div>
+
+<div class="metric">
 <div class="metric-name">R:R</div>
 <div class="metric-value" id="rr">--</div>
 </div>
 
-<div class="metric" style="grid-column:1/-1">
-
-<div class="metric-name">
-MARKET PHASE
 </div>
-
-<div class="metric-value yellow" id="phase">
---
-</div>
-
-</div>
-
-</div>
-
 </section>
 
 
-<!-- MARKET -->
-
 <section class="card col-4">
-
 <div class="card-title">
-
 <h2>Market Information</h2>
-
-<span>From M15 candles</span>
-
+<span>Live BTC/USD</span>
 </div>
 
 <div class="metric-grid">
@@ -538,380 +482,328 @@ MARKET PHASE
 </div>
 
 <div class="metric">
-<div class="metric-name">24H DATA</div>
-<div class="metric-value muted">
-Not requested
+<div class="metric-name">24H CHANGE</div>
+<div class="metric-value" id="change24">--</div>
 </div>
+
+<div class="metric">
+<div class="metric-name">24H HIGH</div>
+<div class="metric-value" id="high24">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">24H LOW</div>
+<div class="metric-value" id="low24">--</div>
 </div>
 
 </div>
-
 </section>
 
 
-<!-- TIMEFRAMES -->
-
-<section class="card col-4">
-
+<section class="card col-12">
 <div class="card-title">
-
-<h2>Multi-Timeframe</h2>
-
-<span>M15 engine</span>
-
+<h2>Multi-Timeframe Direction</h2>
+<span>H1 Bias → M15 Confirmation → M5 Trigger</span>
 </div>
 
 <div class="tf-grid" id="tfGrid"></div>
-
 </section>
 
 
-<!-- INDICATORS -->
-
-<section class="card col-8">
-
+<section class="card col-6">
 <div class="card-title">
+<h2>H1 / M15 / M5 Engine</h2>
+<span>Core Direction</span>
+</div>
 
+<div class="metric-grid">
+
+<div class="metric">
+<div class="metric-name">H1 BIAS</div>
+<div class="metric-value" id="h1Bias">--</div>
+<div class="metric-sub" id="h1Detail">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">M15 CONFIRMATION</div>
+<div class="metric-value" id="m15Confirm">--</div>
+<div class="metric-sub" id="m15Detail">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">M5 TRIGGER</div>
+<div class="metric-value" id="m5Trigger">--</div>
+<div class="metric-sub" id="m5Detail">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">MARKET PHASE</div>
+<div class="metric-value yellow" id="phase">--</div>
+</div>
+
+</div>
+</section>
+
+
+<section class="card col-6">
+<div class="card-title">
 <h2>Technical Indicators</h2>
-
-<span>M15</span>
-
+<span>M15 + M5</span>
 </div>
 
 <div class="metric-grid">
 
 <div class="metric">
-
-<div class="metric-name">
-EMA 20
+<div class="metric-name">M15 EMA 20</div>
+<div class="metric-value" id="m15ema20">--</div>
 </div>
-
-<div class="metric-value" id="ema20">
---
-</div>
-
-<div class="metric-sub" id="ema20State">
---
-</div>
-
-</div>
-
 
 <div class="metric">
-
-<div class="metric-name">
-EMA 50
+<div class="metric-name">M15 EMA 50</div>
+<div class="metric-value" id="m15ema50">--</div>
 </div>
-
-<div class="metric-value" id="ema50">
---
-</div>
-
-<div class="metric-sub" id="ema50State">
---
-</div>
-
-</div>
-
 
 <div class="metric">
-
-<div class="metric-name">
-RSI 14
+<div class="metric-name">M15 RSI 14</div>
+<div class="metric-value" id="m15rsi">--</div>
 </div>
-
-<div class="metric-value" id="rsi">
---
-</div>
-
-<div class="metric-sub" id="rsiState">
---
-</div>
-
-</div>
-
 
 <div class="metric">
-
-<div class="metric-name">
-ATR 14
+<div class="metric-name">M15 MACD</div>
+<div class="metric-value" id="macd">--</div>
 </div>
-
-<div class="metric-value" id="atr">
---
-</div>
-
-<div class="metric-sub">
-Volatility
-</div>
-
-</div>
-
 
 <div class="metric">
-
-<div class="metric-name">
-VOLUME
+<div class="metric-name">M15 ADX</div>
+<div class="metric-value" id="adx">--</div>
 </div>
-
-<div class="metric-value" id="volume">
---
-</div>
-
-<div class="metric-sub" id="volumeState">
---
-</div>
-
-</div>
-
 
 <div class="metric">
-
-<div class="metric-name">
-VOLUME RATIO
-</div>
-
-<div class="metric-value" id="volumeRatio">
---
-</div>
-
-<div class="metric-sub">
-vs 20 candle average
+<div class="metric-name">M5 ATR 14</div>
+<div class="metric-value" id="atr">--</div>
 </div>
 
 </div>
-
-</div>
-
 </section>
 
 
-<!-- BB -->
-
 <section class="card col-4">
-
 <div class="card-title">
-
-<h2>Bollinger Bands</h2>
-
-<span>20 / 2</span>
-
+<h2>Liquidity</h2>
+<span>Sweep Detection</span>
 </div>
 
 <div class="metric-grid">
 
 <div class="metric">
-
-<div class="metric-name">
-UPPER
-</div>
-
-<div class="metric-value" id="bbUpper">
---
-</div>
-
+<div class="metric-name">BUY-SIDE LIQUIDITY</div>
+<div class="metric-value red" id="buyLiquidity">--</div>
 </div>
 
 <div class="metric">
-
-<div class="metric-name">
-MIDDLE
-</div>
-
-<div class="metric-value" id="bbMiddle">
---
-</div>
-
+<div class="metric-name">SELL-SIDE LIQUIDITY</div>
+<div class="metric-value green" id="sellLiquidity">--</div>
 </div>
 
 <div class="metric">
-
-<div class="metric-name">
-LOWER
-</div>
-
-<div class="metric-value" id="bbLower">
---
-</div>
-
+<div class="metric-name">ASIAN HIGH</div>
+<div class="metric-value" id="asianHigh">--</div>
 </div>
 
 <div class="metric">
-
-<div class="metric-name">
-POSITION
+<div class="metric-name">ASIAN LOW</div>
+<div class="metric-value" id="asianLow">--</div>
 </div>
 
-<div class="metric-value" id="bbPosition">
---
+<div class="metric">
+<div class="metric-name">BULLISH SWEEP</div>
+<div class="metric-value" id="bullSweep">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">BEARISH SWEEP</div>
+<div class="metric-value" id="bearSweep">--</div>
 </div>
 
 </div>
-
-</div>
-
 </section>
 
 
-<!-- SR -->
+<section class="card col-4">
+<div class="card-title">
+<h2>FVG / VWAP</h2>
+<span>Execution Filters</span>
+</div>
+
+<div class="metric-grid">
+
+<div class="metric">
+<div class="metric-name">BULLISH FVG</div>
+<div class="metric-value" id="bullFVG">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">BEARISH FVG</div>
+<div class="metric-value" id="bearFVG">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">VWAP</div>
+<div class="metric-value" id="vwap">--</div>
+</div>
+
+<div class="metric">
+<div class="metric-name">PRICE VS VWAP</div>
+<div class="metric-value" id="vwapState">--</div>
+</div>
+
+</div>
+</section>
+
 
 <section class="card col-4">
-
 <div class="card-title">
-
 <h2>Support / Resistance</h2>
-
-<span>50 M15 candles</span>
-
+<span>M15 Structure</span>
 </div>
 
 <div class="metric-grid">
 
 <div class="metric">
-
-<div class="metric-name">
-RESISTANCE
-</div>
-
-<div class="metric-value red" id="resistance">
---
-</div>
-
+<div class="metric-name">RESISTANCE</div>
+<div class="metric-value red" id="resistance">--</div>
 </div>
 
 <div class="metric">
-
-<div class="metric-name">
-SUPPORT
-</div>
-
-<div class="metric-value green" id="support">
---
-</div>
-
+<div class="metric-name">SUPPORT</div>
+<div class="metric-value green" id="support">--</div>
 </div>
 
 <div class="metric">
-
-<div class="metric-name">
-DIST. RESISTANCE
-</div>
-
-<div class="metric-value" id="resistanceDistance">
---
-</div>
-
+<div class="metric-name">DIST. RESISTANCE</div>
+<div class="metric-value" id="resDistance">--</div>
 </div>
 
 <div class="metric">
-
-<div class="metric-name">
-DIST. SUPPORT
-</div>
-
-<div class="metric-value" id="supportDistance">
---
+<div class="metric-name">DIST. SUPPORT</div>
+<div class="metric-value" id="supDistance">--</div>
 </div>
 
 </div>
-
-</div>
-
 </section>
 
 
-<!-- STRUCTURE -->
-
-<section class="card col-4">
-
+<section class="card col-6">
 <div class="card-title">
-
 <h2>Market Structure</h2>
-
 <span>Price Action</span>
-
 </div>
 
 <div class="metric-grid">
 
 <div class="metric">
-
-<div class="metric-name">
-STRUCTURE
-</div>
-
-<div class="metric-value" id="structure">
---
-</div>
-
+<div class="metric-name">STRUCTURE</div>
+<div class="metric-value" id="structure">--</div>
 </div>
 
 <div class="metric">
-
-<div class="metric-name">
-BOS
-</div>
-
-<div class="metric-value" id="bos">
---
-</div>
-
+<div class="metric-name">BOS</div>
+<div class="metric-value" id="bos">--</div>
 </div>
 
 <div class="metric">
-
-<div class="metric-name">
-CHOCH
-</div>
-
-<div class="metric-value" id="choch">
---
-</div>
-
+<div class="metric-name">CHOCH</div>
+<div class="metric-value" id="choch">--</div>
 </div>
 
 <div class="metric">
-
-<div class="metric-name">
-VOLATILITY
-</div>
-
-<div class="metric-value" id="volatility">
---
+<div class="metric-name">VOLATILITY</div>
+<div class="metric-value" id="volatility">--</div>
 </div>
 
 </div>
-
-</div>
-
 </section>
 
 
-<!-- SYSTEM -->
+<section class="card col-6">
+<div class="card-title">
+<h2>Confluence Checklist</h2>
+<span>Final Decision</span>
+</div>
+
+<div class="check-grid">
+
+<div class="check">
+<div class="check-name">H1 BIAS</div>
+<div class="check-value" id="checkH1">--</div>
+</div>
+
+<div class="check">
+<div class="check-name">M15 EMA</div>
+<div class="check-value" id="checkEMA">--</div>
+</div>
+
+<div class="check">
+<div class="check-name">M15 RSI</div>
+<div class="check-value" id="checkRSI">--</div>
+</div>
+
+<div class="check">
+<div class="check-name">MACD</div>
+<div class="check-value" id="checkMACD">--</div>
+</div>
+
+<div class="check">
+<div class="check-name">M5 BREAK</div>
+<div class="check-value" id="checkBreak">--</div>
+</div>
+
+<div class="check">
+<div class="check-name">LIQUIDITY</div>
+<div class="check-value" id="checkLiquidity">--</div>
+</div>
+
+<div class="check">
+<div class="check-name">FVG</div>
+<div class="check-value" id="checkFVG">--</div>
+</div>
+
+<div class="check">
+<div class="check-name">VWAP</div>
+<div class="check-value" id="checkVWAP">--</div>
+</div>
+
+<div class="check">
+<div class="check-name">ADX</div>
+<div class="check-value" id="checkADX">--</div>
+</div>
+
+</div>
+</section>
+
 
 <section class="card col-12">
-
 <div class="card-title">
-
 <h2>System</h2>
-
-<span id="updated">--</span>
-
+<span>Live Engine</span>
 </div>
 
-<div class="system-note" id="systemNote">
-Loading cached data...
+<div class="system-note">
+<div id="system">
+Waiting for live BTC/USD analysis...
 </div>
 
+<div style="margin-top:5px">
+Updated:
+<strong id="updated">--</strong>
+</div>
+</div>
 </section>
 
 </main>
 
-
 <div class="footer">
-
-BTCUSD Technical Monitor · Market data only · No order execution
-
+BTCUSD Pro Trading Monitor · Twelve Data · M5 Multi-Timeframe Engine
 </div>
 
 </div>
@@ -919,1287 +811,714 @@ BTCUSD Technical Monitor · Market data only · No order execution
 
 <script>
 
-/* =========================================================
-   BTCUSD MONITOR
-   Twelve Data + SMART SIGNAL FILTER
-   5 MINUTE CLIENT CACHE
-========================================================= */
+let busy=false;
 
-const API = "/api/btc";
-
-const CACHE_KEY =
-"BTC_TWELVE_DATA_CACHE_V2";
-
-const CACHE_TIME =
-5 * 60 * 1000;
-
-let refreshing = false;
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function set(id,value){
-
-const el =
+const $ = id =>
 document.getElementById(id);
 
-if(el)
-el.textContent =
-value ?? "--";
 
+function fmt(v, decimals=2){
+
+if(
+v===null ||
+v===undefined ||
+!Number.isFinite(Number(v))
+)
+return "--";
+
+return Number(v).toLocaleString(
+"en-US",
+{
+minimumFractionDigits:decimals,
+maximumFractionDigits:decimals
+}
+);
 }
 
 
-function money(value){
+function price(v){
 
-const n =
-Number(value);
-
-if(!Number.isFinite(n))
+if(
+v===null ||
+v===undefined ||
+!Number.isFinite(Number(v))
+)
 return "--";
 
-return "$" +
-n.toLocaleString(
+return "$" + Number(v).toLocaleString(
 "en-US",
 {
 minimumFractionDigits:2,
 maximumFractionDigits:2
 }
 );
-
 }
 
 
-function number(value){
+function pct(v){
 
-const n =
-Number(value);
-
-if(!Number.isFinite(n))
+if(
+v===null ||
+v===undefined ||
+!Number.isFinite(Number(v))
+)
 return "--";
 
-return n.toLocaleString(
-"en-US",
-{
-maximumFractionDigits:2
-}
-);
-
+return Number(v).toFixed(2) + "%";
 }
 
 
-function signalColour(el,value){
+function yesNo(v){
 
-if(!el)
-return;
+return v
+? "YES"
+: "NO";
+}
+
+
+function setClass(el,value){
+
+if(!el) return;
 
 el.classList.remove(
 "green",
 "red",
-"yellow"
+"yellow",
+"blue",
+"muted"
 );
 
-if(value === "BUY")
+const s =
+String(value || "")
+.toUpperCase();
+
+if(
+s.includes("BUY") ||
+s.includes("BULL")
+)
 el.classList.add("green");
 
-else if(value === "SELL")
+else if(
+s.includes("SELL") ||
+s.includes("BEAR")
+)
 el.classList.add("red");
 
-else
+else if(
+s.includes("WAIT") ||
+s.includes("NEUTRAL") ||
+s.includes("NO")
+)
 el.classList.add("yellow");
 
-}
-
-
-/* =========================================================
-   CACHE
-========================================================= */
-
-function saveCache(data){
-
-try{
-
-localStorage.setItem(
-CACHE_KEY,
-JSON.stringify({
-
-timestamp:Date.now(),
-
-data:data
-
-})
-);
-
-}catch(e){
-
-console.warn(
-"Cache save error",
-e
-);
-
-}
-
-}
-
-
-function loadCache(){
-
-try{
-
-const raw =
-localStorage.getItem(
-CACHE_KEY
-);
-
-if(!raw)
-return null;
-
-const parsed =
-JSON.parse(raw);
-
-if(!parsed.data)
-return null;
-
-return parsed;
-
-}catch(e){
-
-return null;
-
-}
-
-}
-
-
-/* =========================================================
-   SMART SIGNAL ENGINE
-========================================================= */
-
-function calculateSmartSignal(data){
-
-const rawSignal =
-data.signal || "WAIT";
-
-const score =
-Number(data.score);
-
-const price =
-Number(data.price);
-
-const m15 =
-data.timeframes?.M15 || {};
-
-const rsi =
-Number(m15.rsi);
-
-const support =
-Number(m15.support);
-
-const resistance =
-Number(m15.resistance);
-
-const volume =
-m15.volume || {};
-
-const volumeCurrent =
-Number(volume.current);
-
-const volumeRatio =
-Number(volume.ratio);
-
-
-/* -------------------------
-   CONDITIONS
-------------------------- */
-
-const nearSupport =
-Number.isFinite(price) &&
-Number.isFinite(support) &&
-price > support &&
-(
-(price - support) /
-price
-) <= 0.006;
-
-
-const nearResistance =
-Number.isFinite(price) &&
-Number.isFinite(resistance) &&
-price < resistance &&
-(
-(resistance - price) /
-price
-) <= 0.006;
-
-
-const oversold =
-Number.isFinite(rsi) &&
-rsi <= 25;
-
-
-const overbought =
-Number.isFinite(rsi) &&
-rsi >= 75;
-
-
-const volumeInvalid =
-!Number.isFinite(volumeCurrent) ||
-volumeCurrent <= 0;
-
-
-const lowVolume =
-Number.isFinite(volumeRatio) &&
-volumeRatio < 0.70;
-
-
-/* -------------------------
-   FINAL SIGNAL
-------------------------- */
-
-let finalSignal =
-rawSignal;
-
-let reasons = [];
-
-
-/*
-   SELL FILTER
-*/
-
-if(
-rawSignal === "SELL"
-){
-
-if(oversold)
-reasons.push(
-"RSI OVERSOLD"
-);
-
-if(nearSupport)
-reasons.push(
-"NEAR SUPPORT"
-);
-
-if(volumeInvalid)
-reasons.push(
-"VOLUME INVALID"
-);
-
-}
-
-
-/*
-   BUY FILTER
-*/
-
-if(
-rawSignal === "BUY"
-){
-
-if(overbought)
-reasons.push(
-"RSI OVERBOUGHT"
-);
-
-if(nearResistance)
-reasons.push(
-"NEAR RESISTANCE"
-);
-
-if(volumeInvalid)
-reasons.push(
-"VOLUME INVALID"
-);
-
-}
-
-
-/*
-   LOW SCORE
-*/
-
-if(
-Number.isFinite(score) &&
-score < 75
-){
-
-reasons.push(
-"SCORE BELOW 75"
-);
-
-}
-
-
-/*
-   BLOCK SIGNAL
-*/
-
-if(
-rawSignal === "SELL" &&
-reasons.length > 0
-){
-
-finalSignal =
-"WAIT";
-
-}
-
-else if(
-rawSignal === "BUY" &&
-reasons.length > 0
-){
-
-finalSignal =
-"WAIT";
-
-}
-
-
-/*
-   WAIT REASON
-*/
-
-let reasonText;
-
-if(
-finalSignal === "WAIT" &&
-reasons.length
-){
-
-reasonText =
-rawSignal +
-" blocked: " +
-reasons.join(" + ");
-
-}
-
-else if(
-finalSignal === "WAIT"
-){
-
-reasonText =
-"No valid high-confidence setup.";
-
-}
-
-else{
-
-reasonText =
-"Signal passed smart filter.";
-
-}
-
-
-/* -------------------------
-   TRADE VALIDATION
-------------------------- */
-
-const rawTrade =
-data.trade || {};
-
-let trade =
-{...rawTrade};
-
-
-/*
-   If signal is blocked,
-   don't present executable
-   trade levels as an active
-   trade.
-*/
-
-if(
-finalSignal === "WAIT"
-){
-
-trade = {};
-
-}
-
-
-return{
-
-signal:finalSignal,
-
-score:
-Number.isFinite(score)
-? score
-: 0,
-
-trade:trade,
-
-reason:reasonText,
-
-rawSignal:rawSignal,
-
-filters:{
-
-oversold,
-
-overbought,
-
-nearSupport,
-
-nearResistance,
-
-volumeInvalid,
-
-lowVolume
-
-}
-
-};
-
-}
-
-
-/* =========================================================
-   RENDER
-========================================================= */
-
-function render(data){
-
-if(!data)
-return;
-
-
-/* -------------------------
-   SMART SIGNAL
-------------------------- */
-
-const smart =
-calculateSmartSignal(data);
-
-const signal =
-smart.signal;
-
-
-/* -------------------------
-   PRICE
-------------------------- */
-
-if(data.price){
-
-set(
-"price",
-money(data.price)
-);
-
-set(
-"marketPrice",
-money(data.price)
-);
-
-}
-
-
-/* -------------------------
-   SIGNAL
-------------------------- */
-
-set(
-"signal",
-signal
-);
-
-set(
-"tradeSignal",
-signal
-);
-
-signalColour(
-document.getElementById("signal"),
-signal
-);
-
-signalColour(
-document.getElementById("tradeSignal"),
-signal
-);
-
-
-/* -------------------------
-   SCORE
-------------------------- */
-
-if(
-data.score !== undefined
-){
-
-const rawScore =
-Number(data.score);
-
-set(
-"score",
-Number.isFinite(rawScore)
-? rawScore + "/100"
-: "--"
-);
-
-const bar =
-document.getElementById(
-"scoreBar"
-);
-
-if(bar){
-
-bar.style.width =
-Math.max(
-0,
-Math.min(
-100,
-Number.isFinite(rawScore)
-? rawScore
-: 0
-)
-) + "%";
-
-}
-
-}
-
-
-/* -------------------------
-   TRADE
-------------------------- */
-
-const trade =
-smart.trade;
-
-if(
-smart.signal === "WAIT"
-){
-
-set(
-"entry",
-"--"
-);
-
-set(
-"sl",
-"--"
-);
-
-set(
-"tp1",
-"--"
-);
-
-set(
-"tp2",
-"--"
-);
-
-set(
-"rr",
-"--"
-);
-
-}
-
-else{
-
-set(
-"entry",
-trade.entry
-? money(trade.entry)
-: "--"
-);
-
-set(
-"sl",
-trade.sl
-? money(trade.sl)
-: "--"
-);
-
-set(
-"tp1",
-trade.tp1
-? money(trade.tp1)
-: "--"
-);
-
-set(
-"tp2",
-trade.tp2
-? money(trade.tp2)
-: "--"
-);
-
-set(
-"rr",
-trade.rr
-? trade.rr
-: "--"
-);
-
-}
-
-
-set(
-"phase",
-data.phase || "--"
-);
-
-
-/* -------------------------
-   SYSTEM REASON
-------------------------- */
-
-set(
-"systemNote",
-smart.reason
-);
-
-
-/* -------------------------
-   M15
-------------------------- */
-
-const m15 =
-data.timeframes?.M15;
-
-if(!m15)
-return;
-
-
-/* -------------------------
-   EMA
-------------------------- */
-
-set(
-"ema20",
-money(m15.ema20)
-);
-
-set(
-"ema50",
-money(m15.ema50)
-);
-
-if(
-Number.isFinite(
-Number(m15.price)
-)
-){
-
-set(
-"ema20State",
-Number(m15.price) >
-Number(m15.ema20)
-? "Price above EMA20"
-: "Price below EMA20"
-);
-
-set(
-"ema50State",
-Number(m15.price) >
-Number(m15.ema50)
-? "Price above EMA50"
-: "Price below EMA50"
-);
-
-}
-
-
-/* -------------------------
-   RSI
-------------------------- */
-
-if(
-Number.isFinite(
-Number(m15.rsi)
-)
-){
-
-const r =
-Number(m15.rsi);
-
-set(
-"rsi",
-r.toFixed(2)
-);
-
-let state =
-"NEUTRAL";
-
-if(r >= 70)
-state =
-"OVERBOUGHT";
-
-else if(r <= 30)
-state =
-"OVERSOLD";
-
-else if(r > 50)
-state =
-"POSITIVE";
-
 else
-state =
-"WEAK";
-
-set(
-"rsiState",
-state
-);
-
+el.classList.add("blue");
 }
 
 
-/* -------------------------
-   ATR
-------------------------- */
-
-set(
-"atr",
-money(m15.atr)
-);
-
-
-/* -------------------------
-   VOLUME
-------------------------- */
-
-const v =
-m15.volume || {};
-
-set(
-"volume",
-number(v.current)
-);
-
-set(
-"volumeRatio",
-Number.isFinite(
-Number(v.ratio)
-)
-? Number(v.ratio).toFixed(2) + "x"
-: "--"
-);
-
-set(
-"volumeState",
-v.state || "--"
-);
-
-
-/* -------------------------
-   BOLLINGER
-------------------------- */
-
-const bb =
-m15.bb || {};
-
-set(
-"bbUpper",
-money(bb.upper)
-);
-
-set(
-"bbMiddle",
-money(bb.middle)
-);
-
-set(
-"bbLower",
-money(bb.lower)
-);
-
-set(
-"bbPosition",
-bb.position || "--"
-);
-
-
-/* -------------------------
-   SUPPORT / RESISTANCE
-------------------------- */
-
-set(
-"resistance",
-money(m15.resistance)
-);
-
-set(
-"support",
-money(m15.support)
-);
-
-const price =
-Number(data.price);
-
-const resistance =
-Number(m15.resistance);
-
-const support =
-Number(m15.support);
-
-
-if(
-Number.isFinite(price) &&
-Number.isFinite(resistance)
+function tfCard(
+name,
+obj
 ){
 
-set(
-"resistanceDistance",
-(
-((resistance-price) /
-price) *
-100
-).toFixed(2) + "%"
-);
-
-}
-
-
-if(
-Number.isFinite(price) &&
-Number.isFinite(support)
-){
-
-set(
-"supportDistance",
-(
-((price-support) /
-price) *
-100
-).toFixed(2) + "%"
-);
-
-}
-
-
-/* -------------------------
-   STRUCTURE
-------------------------- */
-
-set(
-"structure",
-m15.structure || "--"
-);
-
-set(
-"bos",
-m15.bos || "--"
-);
-
-set(
-"choch",
-m15.choch || "--"
-);
-
-set(
-"volatility",
-m15.atr && price
-? (
-Number(m15.atr) /
-price *
-100
-).toFixed(2) + "%"
-: "--"
-);
-
-
-/* -------------------------
-   TIMEFRAMES
-------------------------- */
-
-const grid =
-document.getElementById(
-"tfGrid"
-);
-
-if(grid){
-
-grid.innerHTML = "";
-
-const tfData =
-data.timeframes || {};
-
-const list =
-[
-"D1",
-"H4",
-"H1",
-"M30",
-"M15",
-"M5"
-];
-
-list.forEach(
-tf => {
-
-const d =
-tfData[tf];
-
-const condition =
-d?.condition ||
-(
-tf === "M15"
-? m15.condition
-: "N/A"
-);
-
-const score =
-d?.score ??
-(
-tf === "M15"
-? m15.score
-: "--"
-);
-
-const colour =
-condition === "BULLISH"
-? "green"
-: condition === "BEARISH"
-? "red"
-: "yellow";
-
-const div =
-document.createElement(
-"div"
-);
-
-div.className =
-"tf";
-
-div.innerHTML = `
-
-<div class="tf-name">
-${tf}
+if(!obj)
+return `
+<div class="tf">
+<div class="tf-name">${name}</div>
+<div class="tf-status yellow">N/A</div>
+<div class="tf-value">--</div>
 </div>
-
-<div class="tf-status ${colour}">
-${condition}
-</div>
-
-<div class="tf-value">
-${score ?? "--"}
-</div>
-
 `;
 
-grid.appendChild(div);
+const condition =
+obj.condition || "NEUTRAL";
 
-});
+const score =
+obj.score ?? "--";
 
+return `
+<div class="tf">
+<div class="tf-name">${name}</div>
+<div class="tf-status ${
+condition==="BULLISH"
+?"green":
+condition==="BEARISH"
+?"red":
+"yellow"
+}">
+${condition}
+</div>
+<div class="tf-value">${score}/100</div>
+</div>
+`;
 }
 
-}
 
-
-/* =========================================================
-   FETCH API
-========================================================= */
-
-async function fetchAPI(){
-
-const response =
-await fetch(
-API,
-{
-method:"GET",
-cache:"no-store",
-headers:{
-"Accept":"application/json"
-}
-}
-);
-
-const data =
-await response.json();
+function distancePct(
+a,
+b
+){
 
 if(
-!response.ok ||
-data.ok === false
-){
+!Number.isFinite(Number(a)) ||
+!Number.isFinite(Number(b)) ||
+Number(b)===0
+)
+return "--";
 
-throw new Error(
-data.detail ||
-data.error ||
-"API unavailable"
-);
-
-}
-
-return data;
-
+return Math.abs(
+(Number(a)-Number(b)) /
+Number(b) * 100
+).toFixed(2) + "%";
 }
 
 
-/* =========================================================
-   REFRESH
-========================================================= */
-
-async function refresh(
-manual=false
+function check(
+id,
+value
 ){
 
-if(refreshing)
+const el=$(id);
+
+if(!el)
 return;
 
-refreshing = true;
+el.textContent=value;
 
-const button =
-document.getElementById(
-"refreshBtn"
-);
-
-const dot =
-document.getElementById(
-"statusDot"
-);
-
-const status =
-document.getElementById(
-"statusText"
-);
-
-if(button)
-button.disabled = true;
-
-
-/* -------------------------
-   CACHE CHECK
-------------------------- */
-
-const cached =
-loadCache();
-
-const now =
-Date.now();
-
-if(
-cached &&
-cached.timestamp &&
-(
-now - cached.timestamp
-) < CACHE_TIME
-){
-
-render(
-cached.data
-);
-
-if(status)
-status.textContent =
-"CACHED";
-
-if(dot)
-dot.className =
-"dot live";
-
-set(
-"updated",
-"Cached " +
-new Date(
-cached.timestamp
-).toLocaleTimeString()
-);
-
-refreshing = false;
-
-if(button)
-button.disabled = false;
-
-return;
-
+setClass(el,value);
 }
 
 
-/* -------------------------
-   API REQUEST
-------------------------- */
+function reasonText(d){
 
-if(status)
-status.textContent =
-"UPDATING";
+const buy =
+d.scores?.buy ?? 0;
 
-if(dot)
-dot.className =
+const sell =
+d.scores?.sell ?? 0;
+
+if(d.signal==="BUY")
+return `BUY confirmed · Buy score ${buy}/100`;
+
+if(d.signal==="SELL")
+return `SELL confirmed · Sell score ${sell}/100`;
+
+if(buy>sell)
+return `WAIT · BUY pressure ${buy}/100 but full confirmation not complete`;
+
+if(sell>buy)
+return `WAIT · SELL pressure ${sell}/100 but full confirmation not complete`;
+
+return "WAIT · No dominant direction";
+}
+
+
+async function refresh(manual=false){
+
+if(busy)
+return;
+
+busy=true;
+
+const btn=$("refreshBtn");
+
+if(btn)
+btn.disabled=true;
+
+$("statusText").textContent=
+"LOADING";
+
+$("statusDot").className=
 "dot";
 
 
 try{
 
-const data =
-await fetchAPI();
+const r =
+await fetch(
+"/api/btc?t="+Date.now(),
+{
+cache:"no-store"
+}
+);
 
-render(data);
+const d =
+await r.json();
 
-saveCache(data);
+if(!r.ok || !d.ok)
+throw new Error(
+d.error ||
+"API request failed"
+);
 
-if(status)
-status.textContent =
+
+render(d);
+
+
+$("statusText").textContent=
 "LIVE";
 
-if(dot)
-dot.className =
+$("statusDot").className=
 "dot live";
 
-set(
-"updated",
-"Updated " +
-new Date(
-data.updated ||
-Date.now()
-).toLocaleTimeString()
-);
 
+}
 
-/*
-   System message already
-   contains smart filter reason.
-*/
+catch(err){
 
-}catch(error){
+console.error(err);
 
-console.error(error);
+$("statusText").textContent=
+"ERROR";
 
-const fallback =
-loadCache();
-
-if(fallback){
-
-render(
-fallback.data
-);
-
-if(status)
-status.textContent =
-"CACHED";
-
-if(dot)
-dot.className =
+$("statusDot").className=
 "dot error";
 
-set(
-"updated",
-"Last successful update " +
-new Date(
-fallback.timestamp
-).toLocaleTimeString()
-);
-
-set(
-"systemNote",
-"Live API unavailable/rate limited. Showing last successful data."
-);
+$("system").textContent=
+err.message ||
+"Unable to load BTC data";
 
 }
 
-else{
+finally{
 
-if(status)
-status.textContent =
-"OFFLINE";
+busy=false;
 
-if(dot)
-dot.className =
-"dot error";
-
-set(
-"systemNote",
-"Live data unavailable. Waiting for Twelve Data quota/API."
-);
-
-}
-
-}finally{
-
-refreshing = false;
-
-if(button)
-button.disabled = false;
-
+if(btn)
+btn.disabled=false;
 }
 
 }
 
 
-/* =========================================================
-   START
-========================================================= */
+function render(d){
 
-const initial =
-loadCache();
+const p =
+d.price ??
+d.lastPrice;
 
-if(initial){
+$("price").textContent=
+price(p);
 
-render(
-initial.data
+$("marketPrice").textContent=
+price(p);
+
+$("high").textContent=
+price(d.high);
+
+$("low").textContent=
+price(d.low);
+
+$("change24").textContent=
+pct(d.change24);
+
+$("high24").textContent=
+price(d.high24);
+
+$("low24").textContent=
+price(d.low24);
+
+
+const signal =
+d.signal ||
+"WAIT";
+
+const score =
+d.score ?? 0;
+
+
+$("signal").textContent=
+signal;
+
+$("tradeSignal").textContent=
+signal;
+
+$("score").textContent=
+score + "/100";
+
+$("scoreBar").style.width=
+Math.max(
+0,
+Math.min(
+100,
+Number(score)
+)
+)+"%";
+
+
+setClass(
+$("signal"),
+signal
 );
 
-document.getElementById(
-"statusText"
-).textContent =
-"CACHED";
+setClass(
+$("tradeSignal"),
+signal
+);
 
-document.getElementById(
-"statusDot"
-).className =
-"dot live";
 
-set(
-"updated",
-"Cached " +
-new Date(
-initial.timestamp
-).toLocaleTimeString()
+$("reason").textContent=
+reasonText(d);
+
+
+const trade =
+d.trade || {};
+
+
+$("entry").textContent=
+price(trade.entry);
+
+
+if(
+trade.entryLow !== null &&
+trade.entryLow !== undefined &&
+trade.entryHigh !== null &&
+trade.entryHigh !== undefined
+){
+
+$("entryZone").textContent=
+price(trade.entryLow)
++
+" – "
++
+price(trade.entryHigh);
+
+}else{
+
+$("entryZone").textContent=
+"--";
+}
+
+
+$("sl").textContent=
+price(trade.sl);
+
+$("tp1").textContent=
+price(trade.tp1);
+
+$("tp2").textContent=
+price(trade.tp2);
+
+$("tp3").textContent=
+price(trade.tp3);
+
+$("rr").textContent=
+trade.rr
+? "1:" + fmt(trade.rr,1)
+: "--";
+
+
+$("phase").textContent=
+d.phase || "--";
+
+
+const t =
+d.timeframes || {};
+
+$("tfGrid").innerHTML=
+tfCard("D1",t.D1) +
+tfCard("H4",t.H4) +
+tfCard("H1",t.H1) +
+tfCard("M15",t.M15) +
+tfCard("M5",t.M5);
+
+
+const h1 =
+d.indicators?.h1 || {};
+
+const m15 =
+d.indicators?.m15 || {};
+
+const m5 =
+d.indicators?.m5 || {};
+
+
+$("h1Bias").textContent=
+d.trend?.h1 || "--";
+
+$("h1Detail").textContent=
+"H1 EMA50 / EMA200";
+
+$("m15Confirm").textContent=
+d.trend?.m15 || "--";
+
+$("m15Detail").textContent=
+"M15 EMA + RSI + MACD";
+
+$("m5Trigger").textContent=
+d.trend?.m5 || "--";
+
+$("m5Detail").textContent=
+d.confirmation?.bullishBreak
+? "Bullish break"
+: d.confirmation?.bearishBreak
+? "Bearish break"
+: "No break";
+
+
+setClass(
+$("h1Bias"),
+d.trend?.h1
+);
+
+setClass(
+$("m15Confirm"),
+d.trend?.m15
+);
+
+setClass(
+$("m5Trigger"),
+d.trend?.m5
+);
+
+
+$("m15ema20").textContent=
+price(m15.ema20);
+
+$("m15ema50").textContent=
+price(m15.ema50);
+
+$("m15rsi").textContent=
+fmt(m15.rsi);
+
+$("atr").textContent=
+price(m5.atr);
+
+
+$("macd").textContent=
+m15.macd
+? m15.macd.bullish
+? "BULLISH"
+: "BEARISH"
+: "--";
+
+$("adx").textContent=
+m15.adx
+? fmt(m15.adx.value)
+: "--";
+
+
+setClass(
+$("macd"),
+m15.macd?.bullish
+? "BULLISH"
+: m15.macd?.bearish
+? "BEARISH"
+: "NEUTRAL"
+);
+
+
+$("buyLiquidity").textContent=
+price(d.levels?.buySideLiquidity);
+
+$("sellLiquidity").textContent=
+price(d.levels?.sellSideLiquidity);
+
+$("asianHigh").textContent=
+price(d.levels?.asianHigh);
+
+$("asianLow").textContent=
+price(d.levels?.asianLow);
+
+
+$("bullSweep").textContent=
+yesNo(d.confirmation?.bullishSweep);
+
+$("bearSweep").textContent=
+yesNo(d.confirmation?.bearishSweep);
+
+
+$("bullFVG").textContent=
+yesNo(d.confirmation?.bullishFVG);
+
+$("bearFVG").textContent=
+yesNo(d.confirmation?.bearishFVG);
+
+
+$("vwap").textContent=
+price(d.levels?.vwap);
+
+
+let vwapState=
+"NEUTRAL";
+
+if(d.confirmation?.aboveVWAP)
+vwapState="ABOVE VWAP";
+
+if(d.confirmation?.belowVWAP)
+vwapState="BELOW VWAP";
+
+
+$("vwapState").textContent=
+vwapState;
+
+setClass(
+$("vwapState"),
+vwapState
+);
+
+
+$("support").textContent=
+price(d.levels?.support);
+
+$("resistance").textContent=
+price(d.levels?.resistance);
+
+
+$("supDistance").textContent=
+distancePct(
+p,
+d.levels?.support
+);
+
+$("resDistance").textContent=
+distancePct(
+p,
+d.levels?.resistance
+);
+
+
+$("structure").textContent=
+d.structure || "--";
+
+$("bos").textContent=
+d.bos || "--";
+
+$("choch").textContent=
+d.choch || "--";
+
+
+if(m5.atr && p)
+$("volatility").textContent=
+pct(
+m5.atr /
+p * 100
+);
+else
+$("volatility").textContent=
+"--";
+
+
+const volume =
+d.volume;
+
+const volumeRatio =
+d.volumeRatio;
+
+$("system").textContent=
+reasonText(d);
+
+
+$("updated").textContent=
+d.updated
+? new Date(d.updated)
+.toLocaleTimeString()
+: "--";
+
+
+/* CHECKLIST */
+
+check(
+"checkH1",
+d.trend?.h1 === "BULLISH"
+? "BULLISH"
+: d.trend?.h1 === "BEARISH"
+? "BEARISH"
+: "NEUTRAL"
+);
+
+
+check(
+"checkEMA",
+m15.ema20 &&
+m15.ema50
+? m15.ema20 > m15.ema50
+? "BULLISH"
+: "BEARISH"
+: "N/A"
+);
+
+
+check(
+"checkRSI",
+m15.rsi >= 50
+? "BULLISH"
+: "BEARISH"
+);
+
+
+check(
+"checkMACD",
+m15.macd?.bullish
+? "BULLISH"
+: m15.macd?.bearish
+? "BEARISH"
+: "NEUTRAL"
+);
+
+
+check(
+"checkBreak",
+d.confirmation?.bullishBreak
+? "BULLISH BREAK"
+: d.confirmation?.bearishBreak
+? "BEARISH BREAK"
+: "NO BREAK"
+);
+
+
+check(
+"checkLiquidity",
+d.confirmation?.bullishSweep
+? "BULL SWEEP"
+: d.confirmation?.bearishSweep
+? "BEAR SWEEP"
+: "NO SWEEP"
+);
+
+
+check(
+"checkFVG",
+d.confirmation?.bullishFVG
+? "BULLISH FVG"
+: d.confirmation?.bearishFVG
+? "BEARISH FVG"
+: "NONE"
+);
+
+
+check(
+"checkVWAP",
+d.confirmation?.aboveVWAP
+? "ABOVE VWAP"
+: d.confirmation?.belowVWAP
+? "BELOW VWAP"
+: "NEUTRAL"
+);
+
+
+check(
+"checkADX",
+m15.adx
+? m15.adx.value >= 20
+? m15.adx.bullish
+? "BULL TREND"
+: "BEAR TREND"
+: "WEAK TREND"
+: "N/A"
 );
 
 }
 
 
-/*
-   API call only when cache
-   has expired.
-*/
+/* AUTO REFRESH */
 
 refresh(false);
-
-
-/*
-   Check every 60 seconds.
-   5-minute cache prevents
-   excessive API calls.
-*/
 
 setInterval(
 () => refresh(false),
 60000
 );
-
-
-/* =========================================================
-   PWA
-========================================================= */
-
-if(
-"serviceWorker" in navigator
-){
-
-window.addEventListener(
-"load",
-() => {
-
-navigator.serviceWorker
-.register("/sw.js")
-.catch(
-err =>
-console.warn(
-"SW error",
-err
-)
-);
-
-});
-
-}
 
 </script>
 
