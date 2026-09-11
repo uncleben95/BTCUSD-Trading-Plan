@@ -12,4 +12,4 @@ jobs:
       - name: Ping BTC API
         run: |
           curl -fsS --retry 2 --max-time 30 \
-            https://YOUR-VERCEL-DOMAIN.vercel.app/api/btc
+            https://btcusd-trading-plan.vercel.app/api/btc
