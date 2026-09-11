@@ -2,5 +2,10 @@
   "name": "btcusd-trading-plan",
   "version": "3.0.0",
   "private": true,
-  "scripts": { "start": "vercel dev" }
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "web-push": "^3.8.0"
+  }
 }
