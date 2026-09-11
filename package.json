@@ -4,8 +4,5 @@
   "private": true,
   "scripts": {
     "start": "vercel dev"
-  },
-  "dependencies": {
-    "web-push": "^3.8.0"
   }
 }
